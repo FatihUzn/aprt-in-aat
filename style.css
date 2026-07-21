@@ -445,6 +445,7 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
   font-weight: 800;
   color: var(--line);
 }
+.feature-diagram { width: 78%; height: auto; max-height: 78%; }
 
 @media (max-width: 800px) {
   .feature-block, .feature-block.reverse { grid-template-columns: 1fr; direction: ltr; }
