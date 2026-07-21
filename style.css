@@ -1,15 +1,15 @@
 :root {
-  --bg: #F8F4E9;
-  --bg-panel: #FCFAF3;
-  --bg-panel-alt: #F1EAD6;
-  --line: #DED0AC;
-  --line-soft: #E9E0C8;
-  --accent: #B7912F;
-  --accent-bright: #D4AF37;
-  --signal: #0F3D2E;
-  --text: #16281F;
-  --text-dim: #4C5C51;
-  --text-faint: #8A9186;
+  --bg: #F6F2E7;
+  --bg-panel: #FBF8F0;
+  --bg-panel-alt: #EFE8D6;
+  --line: #D6CFB8;
+  --line-soft: #E5DFCB;
+  --accent: #C3A56B;
+  --accent-bright: #DCC08A;
+  --signal: #16223D;
+  --text: #1A2333;
+  --text-dim: #545E76;
+  --text-faint: #8991A5;
 
   --font-display: 'Cormorant Garamond', 'Playfair Display', serif;
   --font-body: 'IBM Plex Sans', sans-serif;
@@ -231,7 +231,7 @@ h1, h2, h3 { font-family: var(--font-display); color: var(--text); margin: 0; le
   display: inline-block;
   transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
 }
-.btn-primary { background: var(--accent); color: #0B1912; }
+.btn-primary { background: var(--accent); color: #16223D; }
 .btn-primary:hover { background: var(--accent-bright); transform: translateY(-1px); }
 .btn-ghost { color: var(--text); border: 1px solid var(--line); }
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent-bright); }
