@@ -1,219 +1,195 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title data-key="title">Kadlance Turkey — Danışmanlık</title>
-<link rel="icon" type="image/png" href="assets/kadlance_turkey_logo.webp">
-<link rel="preload" as="image" href="assets/kadlance_turkey_logo.webp">
-
-<link rel="preload" as="fetch" href="en.json" crossorigin>
-<link rel="preload" as="fetch" href="tr.json" crossorigin>
-<link rel="preload" as="fetch" href="ar.json" crossorigin>
-<link rel="preload" as="fetch" href="ru.json" crossorigin>
-<link rel="preload" as="fetch" href="de.json" crossorigin>
-<link rel="preload" as="fetch" href="es.json" crossorigin>
-<link rel="preload" as="fetch" href="zh.json" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
-
-<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="sha512-CnVH7Gt+d8/7MuKDmXGaAt1TsnN8zFaeDWPy/6kX7UeUPT0L/tGCKEfgCNXwJGXmVMXk4IxPNS6qsNfGKoJEQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
-<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-CnVH7Gt+d8/7MuKDmXGaAt1TsnN8zFaeDWPy/6kX7UeUPT0L/tGCKEfgCNXwJGXmVMXk4IxPNS6qsNfGKoJEQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></noscript>
-
-<link rel="stylesheet" href="style.css?v=2.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UZN TECH &amp;&amp; SOFTWARE — Mekatronik Mühendisliği &amp; Otomasyon</title>
+<meta name="description" content="Fatih Uzner tarafından kurulan UZN TECH && SOFTWARE — mekatronik mühendisliği, otomasyon sistemleri ve gömülü yazılım çözümleri.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header id="main-header">
+<div class="grid-overlay" aria-hidden="true"></div>
 
-  <div class="header-bottom-row">
-    <div class="brand">
-      <a href="#hero" data-page="hero" style="text-decoration: none;">
-        <div class="brand-kadlence">
-          <span class="brand-kadlence-name">Kadlance</span>
-          <div class="brand-kadlence-line"></div>
-        </div>
-      </a>
-    </div>
-  
-    <div style="display: flex; align-items: center;">
-      <button class="menu-toggle" id="menu-toggle" aria-label="Menüyü aç/kapat">
-          <i class="fas fa-bars"></i>
-      </button>
-    
-      <nav class="navbar" id="navbar">
-        <a href="#hero" data-page="hero" class="nav-link" data-key="nav_home">Anasayfa</a>
-        <a href="#page-about" data-page="page-about" class="nav-link" data-key="nav_about">Kurumsal</a>
-        <a href="#page-services" data-page="page-services" class="nav-link" data-key="nav_services">Hizmetler</a>
-        <a href="#page-projects" data-page="page-projects" class="nav-link" data-key="nav_projects">Projeler</a>
-        <a href="#page-contact" data-page="page-contact" class="nav-link" data-key="nav_contact">İletişim</a>
-      </nav>
-    
-      <div class="lang-dropdown-container" style="margin-left: 20px;">
-        <button class="lang-dropdown-btn" id="lang-menu-btn" aria-label="Dil Seçimi">
-          <i class="fas fa-globe"></i> <span id="current-lang-text">EN</span> <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i>
-        </button>
-        <div class="lang-dropdown-content" id="lang-dropdown-list">
-          <button class="lang-option" data-lang="en" onclick="setLanguage('en')">English</button>
-          <button class="lang-option" data-lang="tr" onclick="setLanguage('tr')">Türkçe</button>
-          <button class="lang-option" data-lang="ar" onclick="setLanguage('ar')">العربية</button>
-          <button class="lang-option" data-lang="ru" onclick="setLanguage('ru')">Русский</button>
-          <button class="lang-option" data-lang="de" onclick="setLanguage('de')">Deutsch</button>
-          <button class="lang-option" data-lang="es" onclick="setLanguage('es')">Español</button>
-          <button class="lang-option" data-lang="zh" onclick="setLanguage('zh')">中文</button>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- Schematic trace running through the whole page -->
+<svg class="trace-line" viewBox="0 0 40 2000" preserveAspectRatio="none" aria-hidden="true">
+  <path id="tracePath" d="M20,0 L20,2000" />
+</svg>
+
+<header class="site-header">
+  <a href="#top" class="logo">
+    <svg class="logo-icon" width="20" height="20" viewBox="0 0 22 22" aria-hidden="true">
+      <circle cx="4" cy="11" r="2.2" fill="var(--accent)"/>
+      <line x1="6.2" y1="11" x2="15.8" y2="11" stroke="var(--signal)" stroke-width="1.4"/>
+      <circle cx="18" cy="11" r="2.2" fill="var(--signal)"/>
+    </svg>
+    <span class="logo-mark">UZN<span class="logo-amp">TECH</span></span><span class="logo-sub">SOFTWARE &amp; OTOMASYON</span>
+  </a>
+  <nav class="site-nav">
+    <a href="#hakkimda"><span class="ref">U1</span> Hakkımda</a>
+    <a href="#hizmetler"><span class="ref">U2</span> Hizmetler</a>
+    <a href="#projeler"><span class="ref">U3</span> Projeler</a>
+    <a href="#iletisim"><span class="ref">U4</span> İletişim</a>
+  </nav>
 </header>
 
-<section class="hero-video page-section active" id="hero">
-  <video autoplay muted loop playsinline class="hero-video-bg">
-    <source src="assets/hero_background.mp4" type="video/mp4">
-    Tarayıcınız video etiketini desteklemiyor.
-  </video>
+<main id="top">
 
-  <div class="hero-content-overlay">
-    <h1 class="hero-tagline" data-key="hero_tagline" style="font-size: clamp(2rem, 5vw, 3.5rem); margin: 0 0 10px 0;">Your Trusted Local Partner in Turkey</h1>
-    <h2 id="changing-text" data-key="hero_subtitle" style="font-size: 1.25rem; margin: 0 0 30px 0;"></h2>
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="node" data-ref="U0"></div>
+    <p class="eyebrow"><span class="node-motif"><span></span></span>U0 — GİRİŞ NOKTASI</p>
+    <h1>Mekanik hassasiyet.<br>Yazılım zekâsı.</h1>
+    <p class="hero-lede">
+      UZN TECH &amp;&amp; SOFTWARE, mekatronik mühendisi Fatih Uzner tarafından kuruldu.
+      Mekanik sistemleri, elektroniği ve yazılımı tek bir devrede birleştiren
+      mühendislik çözümleri üretiyoruz.
+    </p>
+    <div class="hero-actions">
+      <a href="#iletisim" class="btn btn-primary">Bir Proje Konuşalım</a>
+      <a href="#hizmetler" class="btn btn-ghost">Yetkinlikleri Gör</a>
+    </div>
+    <div class="hero-specs">
+      <div class="spec"><span class="spec-label">DİSİPLİN</span><span class="spec-val">Mekatronik Müh.</span></div>
+      <div class="spec"><span class="spec-label">ODAK</span><span class="spec-val">Otomasyon · Gömülü Yazılım</span></div>
+      <div class="spec"><span class="spec-label">DURUM</span><span class="spec-val">Aktif · Yeni Projelere Açık</span></div>
+    </div>
+  </section>
 
-    <div class="hero-links-container action-buttons">
-      <div class="hero-tooltip-wrapper">
-        <a href="#page-supplier" data-page="page-supplier" data-key="btn_service_1" class="btn-hero-link">Sourcing & Supplier Finding</a>
-        <div class="hero-tooltip-content"><ul><li data-key="desc_service_1">Identifying trusted manufacturers and suppliers in Turkey</li></ul></div>
-      </div>
-      <div class="hero-tooltip-wrapper">
-        <a href="#page-market-entry" data-page="page-market-entry" data-key="btn_service_2" class="btn-hero-link">Market Entry Consulting</a>
-        <div class="hero-tooltip-content"><ul><li data-key="desc_service_2">Guidance on entering and establishing your business in Turkey</li></ul></div>
-      </div>
-      <div class="hero-tooltip-wrapper">
-        <a href="#page-local-rep" data-page="page-local-rep" data-key="btn_service_3" class="btn-hero-link">Local Representation</a>
-        <div class="hero-tooltip-content"><ul><li data-key="desc_service_3">Acting as your local representative to manage operations</li></ul></div>
-      </div>
-      <div class="hero-tooltip-wrapper">
-        <a href="#page-on-ground" data-page="page-on-ground" data-key="btn_service_4" class="btn-hero-link">On-Ground Support</a>
-        <div class="hero-tooltip-content"><ul><li data-key="desc_service_4">Providing hands-on assistance and support within Turkey</li></ul></div>
-      </div>
-      <div class="hero-tooltip-wrapper">
-        <a href="#page-remote" data-page="page-remote" data-key="btn_service_5" class="btn-hero-link">Remote Support</a>
-        <div class="hero-tooltip-content"><ul><li data-key="desc_service_5">Conducting research and identifying suitable suppliers remotely</li></ul></div>
+  <!-- ABOUT -->
+  <section class="section" id="hakkimda">
+    <div class="node" data-ref="U1"></div>
+    <p class="eyebrow"><span class="node-motif"><span></span></span>U1 — HAKKIMDA</p>
+    <h2>Fatih Uzner</h2>
+    <div class="about-grid">
+      <p class="about-text">
+        Mekatronik mühendisliği eğitimimi tamamlamak üzereyim. Bu süreçte mekanik tasarım,
+        kontrol sistemleri, gömülü yazılım ve endüstriyel otomasyon üzerine çalıştım.
+        UZN TECH &amp;&amp; SOFTWARE'i, öğrendiklerimi gerçek mühendislik problemlerine
+        dönüştürmek için kurdum — donanımın fiziksel dünyayla, yazılımın ise akılla
+        konuştuğu yerde çalışıyorum.
+      </p>
+      <div class="about-meta">
+        <div class="meta-row"><span>Eğitim</span><span>Mekatronik Mühendisliği</span></div>
+        <div class="meta-row"><span>Durum</span><span>Mezuniyet aşaması</span></div>
+        <div class="meta-row"><span>Konum</span><span>İstanbul, Türkiye</span></div>
       </div>
     </div>
+  </section>
 
-  </div>
-</section>
+  <!-- SERVICES -->
+  <section class="section" id="hizmetler">
+    <div class="node" data-ref="U2"></div>
+    <p class="eyebrow"><span class="node-motif"><span></span></span>U2 — HİZMETLER</p>
+    <h2>Yetkinlik Alanları</h2>
+    <div class="card-grid">
+      <article class="card">
+        <span class="card-ref">01</span>
+        <h3>Otomasyon Sistemleri</h3>
+        <p>PLC/mikrodenetleyici tabanlı kontrol sistemleri, üretim hattı otomasyonu ve sensör entegrasyonu.</p>
+      </article>
+      <article class="card">
+        <span class="card-ref">02</span>
+        <h3>Gömülü Yazılım</h3>
+        <p>Mikrodenetleyiciler için C/C++ tabanlı firmware geliştirme, sensör-aktüatör kontrol algoritmaları.</p>
+      </article>
+      <article class="card">
+        <span class="card-ref">03</span>
+        <h3>Mekanik Tasarım &amp; CAD</h3>
+        <p>Parça ve mekanizma tasarımı, prototipleme ve 3D baskıya hazır üretim çizimleri.</p>
+      </article>
+      <article class="card">
+        <span class="card-ref">04</span>
+        <h3>Elektronik &amp; PCB</h3>
+        <p>Devre tasarımı, PCB düzeni ve elektromekanik sistemlerin entegrasyonu.</p>
+      </article>
+      <article class="card">
+        <span class="card-ref">05</span>
+        <h3>Robotik Prototipleme</h3>
+        <p>Fikirden çalışan prototipe: mekanizma + kontrol + yazılımın birlikte geliştirilmesi.</p>
+      </article>
+      <article class="card">
+        <span class="card-ref">06</span>
+        <h3>Endüstriyel Yazılım</h3>
+        <p>Üretim ve saha verilerini izleyen, süreçleri dijitalleştiren yazılım çözümleri.</p>
+      </article>
+    </div>
+  </section>
 
-<main id="page-container"></main>
+  <!-- PROJECTS -->
+  <section class="section" id="projeler">
+    <div class="node" data-ref="U3"></div>
+    <p class="eyebrow"><span class="node-motif"><span></span></span>U3 — PROJELER</p>
+    <h2>Seçili Çalışmalar</h2>
+    <div class="project-list">
+      <article class="project-row">
+        <span class="project-ref">P01</span>
+        <div class="project-info">
+          <h3>Proje Başlığı Buraya</h3>
+          <p>Kısa açıklama: hangi problemi çözdü, hangi araçlar kullanıldı.</p>
+        </div>
+        <span class="project-tag">Yakında</span>
+      </article>
+      <article class="project-row">
+        <span class="project-ref">P02</span>
+        <div class="project-info">
+          <h3>Proje Başlığı Buraya</h3>
+          <p>Kısa açıklama: hangi problemi çözdü, hangi araçlar kullanıldı.</p>
+        </div>
+        <span class="project-tag">Yakında</span>
+      </article>
+      <article class="project-row">
+        <span class="project-ref">P03</span>
+        <div class="project-info">
+          <h3>Proje Başlığı Buraya</h3>
+          <p>Kısa açıklama: hangi problemi çözdü, hangi araçlar kullanıldı.</p>
+        </div>
+        <span class="project-tag">Yakında</span>
+      </article>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="iletisim">
+    <div class="node" data-ref="U4"></div>
+    <p class="eyebrow"><span class="node-motif"><span></span></span>U4 — İLETİŞİM</p>
+    <h2>Bir Proje mi Var?</h2>
+    <p class="contact-lede">Otomasyon, gömülü sistem ya da mekanik tasarım ihtiyacın varsa yazabilirsin.</p>
+
+    <!--
+      GitHub Pages statik olduğu için PHP çalışmaz.
+      Bu form şu an Formspree'ye gönderiyor (ücretsiz plan yeterli).
+      Kurulum: https://formspree.io adresinden ücretsiz hesap aç,
+      "New Form" oluştur, sana verdiği endpoint'i aşağıdaki
+      action="https://formspree.io/f/XXXXXXX" kısmına yapıştır.
+    -->
+    <form class="contact-form" action="https://formspree.io/f/XXXXXXX" method="POST">
+      <div class="form-row">
+        <label for="name">Ad Soyad</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-row">
+        <label for="email">E-posta</label>
+        <input type="email" id="email" name="_replyto" required>
+      </div>
+      <div class="form-row">
+        <label for="message">Mesaj</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Gönder</button>
+    </form>
+  </section>
+
+</main>
 
 <footer class="site-footer">
-    <div class="footer-grid">
-        <div class="footer-column">
-            <h3 data-key="footer_col_1_title">Hızlı Menü</h3>
-            <ul class="footer-links">
-                <li><a href="#hero" data-page="hero" class="nav-link" data-key="nav_home">Anasayfa</a></li>
-                <li><a href="#page-about" data-page="page-about" class="nav-link" data-key="nav_about">Kurumsal</a></li>
-                <li><a href="#page-services" data-page="page-services" class="nav-link" data-key="nav_services">Hizmetler</a></li>
-                <li><a href="#page-projects" data-page="page-projects" class="nav-link" data-key="nav_projects">Projeler</a></li>
-                <li><a href="#page-contact" data-page="page-contact" class="nav-link" data-key="nav_contact">İletişim</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-column">
-            <h3 data-key="footer_col_2_title">Hizmetlerimiz</h3>
-            <ul class="footer-links">
-                <li><a href="#page-supplier" data-page="page-supplier" data-key="btn_service_1">Sourcing & Supplier Finding</a></li>
-                <li><a href="#page-market-entry" data-page="page-market-entry" data-key="btn_service_2">Market Entry Consulting</a></li>
-                <li><a href="#page-local-rep" data-page="page-local-rep" data-key="btn_service_3">Local Representation</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-column logo-column">
-            <h3 data-key="footer_col_3_title" style="visibility: hidden; margin: 0; height: 0; overflow: hidden;"></h3>
-            <div class="footer-logo-container">
-                <img src="assets/kadlance_turkey_logo.webp" alt="kadlence Turkey Logo">
-                <div class="footer-text-container">
-                    <span class="footer-title" data-key="brand_golden_palace">kadlence Turkey</span>
-                    <span class="footer-tagline" data-key="brand_realstate">Consulting & Investment</span>
-                </div>
-            </div>
-            <div class="social-icons">
-                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="/cdn-cgi/l/email-protection#10797e767f507d7562797479717e6465627b75693e737f7d" aria-label="Email"><i class="fas fa-envelope"></i></a>
-            </div>
-        </div>
-
-        <div class="footer-column">
-            <h3 data-key="footer_col_4_title">Çözümlerimiz</h3>
-            <ul class="footer-links">
-                <li><a href="#page-on-ground" data-page="page-on-ground" data-key="btn_service_4">On-Ground Support</a></li>
-                <li><a href="#page-remote" data-page="page-remote" data-key="btn_service_5">Remote Support</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-column">
-            <h3 data-key="footer_col_5_title">Bize Ulaşın</h3>
-            <ul class="footer-links contact-info">
-                <li>
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span data-key="contact_info_address_p">Kadırga Limanı Cd. No:138, Küçük Ayasofya, 34000 Fatih/İstanbul</span>
-                </li>
-                <li>
-                    <i class="fas fa-phone"></i>
-                    <a href="tel:+905301637370" data-key="contact_info_phone_p">+90 530 163 73 70</a>
-                </li>
-                <li>
-                    <i class="fas fa-envelope"></i>
-                    <a href="mailto:info@kadlence.com" data-key="contact_info_email_p">info@kadlence.com</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-    
-    <div class="footer-bottom" data-key="footer_copyright">
-        © 2025 Kadlance. Tüm hakları saklıdır.
-    </div>
+  <span>UZN TECH &amp;&amp; SOFTWARE © 2026</span>
+  <span class="node-motif" style="width:24px;"><span></span></span>
+  <span>Fatih Uzner</span>
 </footer>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="app.js?v=2.0" defer></script>
-
-<script>
-    const slideKeys = [
-        { title: "slide_1_title", desc: "slide_1_desc" },
-        { title: "slide_2_title", desc: "slide_2_desc" },
-        { title: "slide_3_title", desc: "slide_3_desc" },
-        { title: "slide_4_title", desc: "slide_4_desc" }
-    ];
-
-    let index = 0; 
-    const textElement = document.getElementById('changing-text'); 
-    const intervalTime = 5000; 
-
-    function changeTextWithFade() {
-        if(textElement) textElement.style.opacity = '0'; 
-
-        setTimeout(() => {
-            if(textElement) {
-                const currentLang = localStorage.getItem('lang') || 'en';
-                const langData = translations[currentLang] || {};
-                
-                const keys = slideKeys[index];
-                const titleText = langData[keys.title] || "";
-                const descText = langData[keys.desc] || "";
-                
-                textElement.innerHTML = `<strong>${titleText}</strong><br><span style="font-size: 0.9em; opacity: 0.9;">${descText}</span>`;
-                textElement.style.opacity = '1'; 
-                index = (index + 1) % slideKeys.length;
-            }
-        }, 500); 
-    }
-
-    if(textElement) {
-        setTimeout(changeTextWithFade, 500);
-        setInterval(changeTextWithFade, intervalTime);
-    }
-</script>
 
 </body>
 </html>
