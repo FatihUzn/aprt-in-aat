@@ -1,17 +1,17 @@
 :root {
-  --bg: #F6F2E7;
-  --bg-panel: #FBF8F0;
-  --bg-panel-alt: #EFE8D6;
-  --line: #D6CFB8;
-  --line-soft: #E5DFCB;
-  --accent: #C3A56B;
-  --accent-bright: #DCC08A;
-  --signal: #16223D;
-  --text: #1A2333;
-  --text-dim: #545E76;
-  --text-faint: #8991A5;
+  --bg: #FAFAF7;
+  --bg-panel: #FFFFFF;
+  --bg-panel-alt: #F1F0EB;
+  --line: #E2E0D8;
+  --line-soft: #ECEAE3;
+  --accent: #A9832E;
+  --accent-bright: #C9A227;
+  --signal: #0A0A0A;
+  --text: #111111;
+  --text-dim: #55524C;
+  --text-faint: #928D82;
 
-  --font-display: 'Cormorant Garamond', 'Playfair Display', serif;
+  --font-display: 'Playfair Display', 'Cormorant Garamond', serif;
   --font-body: 'IBM Plex Sans', sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
 }
@@ -201,14 +201,24 @@ main { max-width: 980px; margin: 0 auto; padding: 0 64px; }
 }
 .eyebrow .node-motif { width: 28px; }
 
-h1, h2, h3 { font-family: var(--font-display); color: var(--text); margin: 0; letter-spacing: 0; font-weight: 600; }
+h1, h2, h3 { font-family: var(--font-display); color: var(--text); margin: 0; letter-spacing: 0; font-weight: 700; }
+h2 { position: relative; padding-bottom: 18px; }
+h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 56px;
+  height: 1.5px;
+  background: var(--accent-bright);
+}
 
 /* Hero */
 .hero { padding-top: 120px; }
 .hero h1 {
-  font-size: clamp(2.3rem, 4.8vw, 3.6rem);
-  font-weight: 600;
-  line-height: 1.15;
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 700;
+  line-height: 1.12;
   letter-spacing: 0;
   max-width: 15ch;
 }
@@ -231,8 +241,8 @@ h1, h2, h3 { font-family: var(--font-display); color: var(--text); margin: 0; le
   display: inline-block;
   transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
 }
-.btn-primary { background: var(--accent); color: #16223D; }
-.btn-primary:hover { background: var(--accent-bright); transform: translateY(-1px); }
+.btn-primary { background: var(--signal); color: #FAFAF7; }
+.btn-primary:hover { background: #222; transform: translateY(-1px); }
 .btn-ghost { color: var(--text); border: 1px solid var(--line); }
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent-bright); }
 
@@ -250,7 +260,7 @@ h1, h2, h3 { font-family: var(--font-display); color: var(--text); margin: 0; le
 @media (max-width: 640px) { .hero-specs { grid-template-columns: 1fr; } }
 
 /* About */
-h2 { font-size: 1.9rem; font-weight: 600; margin-bottom: 32px; }
+h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
 .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; }
 .about-text { color: var(--text-dim); max-width: 60ch; }
 .about-meta { border-left: 1px solid var(--line); padding-left: 28px; display: flex; flex-direction: column; gap: 14px; }
