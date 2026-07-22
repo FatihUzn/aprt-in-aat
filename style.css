@@ -6,6 +6,8 @@
   --line-soft: #242229;
   --accent: #8B7CF6;
   --accent-bright: #A395FF;
+  --accent-2: #F0B75C;
+  --accent-2-dim: #F0B75C33;
   --signal: #F5F4F2;
   --text: #F5F4F2;
   --text-dim: #9C98A8;
@@ -51,6 +53,100 @@ body {
 /* Backdrop removed for a calmer, static look */
 .grid-overlay { display: none; }
 
+/* Subtle film-grain texture for depth, very low opacity */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Depth: soft elevation on panel surfaces */
+.card, .feature-visual, .skill-badge, .testimonial-card, .contact-form input, .contact-form textarea {
+  box-shadow: 0 1px 0 rgba(255,255,255,0.03) inset, 0 14px 32px -20px rgba(0,0,0,0.55);
+}
+
+/* HUD-style layered motion: slow-rotating rings + a softly pulsing core.
+   Used on the hero illustration and the about-page photo rings. */
+.hud-ring-outer, .hud-ring-dashed {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+}
+.hud-ring-outer { animation: hud-spin 46s linear infinite; }
+.hud-ring-dashed { animation: hud-spin-reverse 62s linear infinite; }
+.hud-core {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  animation: hud-pulse 3.2s ease-in-out infinite;
+}
+@keyframes hud-spin { to { transform: rotate(360deg); } }
+@keyframes hud-spin-reverse { to { transform: rotate(-360deg); } }
+@keyframes hud-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.72; }
+}
+
+/* About photo — layered rotating rings behind the portrait */
+.about-photo-wrap {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+}
+.about-photo-rings {
+  position: absolute;
+  inset: -26px;
+  width: calc(100% + 52px);
+  height: calc(100% + 52px);
+  pointer-events: none;
+}
+.about-photo-wrap .about-photo {
+  position: relative;
+  z-index: 1;
+  width: 96px;
+  height: 96px;
+}
+
+/* 3D tilt on hover — JS sets --rx/--ry, CSS applies the transform */
+.tilt {
+  --rx: 0deg;
+  --ry: 0deg;
+  transform: perspective(700px) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(0);
+  transition: transform 0.25s ease;
+  will-change: transform;
+}
+
+/* Mouse-tracked spotlight glow, fixed to viewport, position set via JS */
+.cursor-spotlight {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 30%), rgba(139,124,246,0.09), transparent 60%);
+}
+@media (hover: none) { .cursor-spotlight { display: none; } }
+
+/* Layered parallax inside a box — inner layer moves more than the box itself */
+.parallax-box { overflow: hidden; }
+.parallax-layer {
+  transform: translate(var(--px, 0px), var(--py, 0px));
+  transition: transform 0.2s ease-out;
+  will-change: transform;
+}
+
+/* Magnetic buttons — JS sets --mbx/--mby within bounds */
+.magnetic {
+  --mbx: 0px;
+  --mby: 0px;
+  transform: translate(var(--mbx), var(--mby));
+}
+.magnetic:hover { transition: transform 0.05s linear !important; }
+.magnetic:not(:hover) { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important; }
+
 /* Subtle purple glow behind the hero, Superhuman-style */
 .trace-line { display: none; }
 
@@ -59,12 +155,13 @@ body {
   position: absolute;
   top: -120px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(var(--scroll-y, 0px));
   width: 640px;
   height: 420px;
   background: radial-gradient(ellipse at center, rgba(139,124,246,0.22), transparent 70%);
   pointer-events: none;
   z-index: -1;
+  will-change: transform;
 }
 
 @media (max-width: 900px) {
@@ -260,7 +357,14 @@ h2::after {
 }
 
 /* Hero */
-.hero { padding-top: 120px; }
+.hero {
+  padding-top: 120px;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+.hero-text { min-width: 0; }
 .hero h1 {
   font-size: clamp(2.4rem, 5vw, 3.8rem);
   font-weight: 700;
@@ -289,6 +393,7 @@ h2::after {
 }
 .btn-primary { background: var(--accent); color: #0F0E14; }
 .btn-primary:hover { background: var(--accent-bright); transform: translateY(-1px); }
+.btn-primary.magnetic:hover { transform: translate(var(--mbx), var(--mby)); }
 .btn-ghost { color: var(--text); border: 1px solid var(--line); }
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent-bright); }
 
@@ -311,6 +416,89 @@ h2::after {
   font-size: 0.72rem;
   letter-spacing: 0.06em;
   color: var(--text-faint);
+}
+
+.stat-strip {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line-soft);
+}
+.stat { display: flex; flex-direction: column; gap: 4px; }
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  max-width: 12ch;
+}
+
+.pulse-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #6FCF97;
+  margin-right: 7px;
+  position: relative;
+  top: -1px;
+  box-shadow: 0 0 0 0 rgba(111,207,151,0.6);
+  animation: pulse 2.2s ease-out infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(111,207,151,0.5); }
+  70% { box-shadow: 0 0 0 8px rgba(111,207,151,0); }
+  100% { box-shadow: 0 0 0 0 rgba(111,207,151,0); }
+}
+
+.hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-visual svg {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  filter: drop-shadow(0 20px 60px rgba(139,124,246,0.15));
+}
+
+@media (max-width: 860px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-visual { order: -1; max-width: 260px; margin: 0 auto 8px; }
+}
+
+/* About intro — founder photo + name */
+.about-intro {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+.about-photo {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--line);
+  box-shadow: 0 0 0 6px rgba(139,124,246,0.08), 0 16px 40px -16px rgba(139,124,246,0.35);
+  flex-shrink: 0;
+}
+.about-role {
+  color: var(--text-dim);
+  font-size: 0.92rem;
+  margin: 8px 0 0;
+}
+.about-intro h2 { margin-bottom: 4px; padding-bottom: 10px; }
+@media (max-width: 500px) {
+  .about-intro { flex-direction: column; align-items: flex-start; }
 }
 
 /* About */
@@ -342,26 +530,69 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
 .meta-row span:last-child { color: var(--text); text-align: right; }
 @media (max-width: 700px) { .about-grid { grid-template-columns: 1fr; } .about-meta { border-left: none; padding-left: 0; border-top: 1px solid var(--line); padding-top: 20px; } }
 
-/* Skills */
-.skills-groups { display: flex; flex-direction: column; gap: 32px; }
-.skills-group-label {
+/* Skills — bento grid */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: minmax(120px, auto);
+  gap: 14px;
+}
+.bento-cell {
+  grid-column: span 2;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.bento-cell::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 60%;
+  height: 140%;
+  background: radial-gradient(ellipse, rgba(139,124,246,0.10), transparent 70%);
+  pointer-events: none;
+}
+.bento-lg { grid-column: span 4; grid-row: span 2; }
+.bento-wide { grid-column: span 2; }
+.bento-accent2::before {
+  background: radial-gradient(ellipse, var(--accent-2-dim), transparent 70%);
+}
+.bento-label {
   display: block;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.08em;
   color: var(--text-faint);
-  margin-bottom: 14px;
 }
+@media (max-width: 800px) {
+  .bento-grid { grid-template-columns: repeat(2, 1fr); }
+  .bento-lg, .bento-wide { grid-column: span 2; }
+}
+@media (max-width: 480px) {
+  .bento-grid { grid-template-columns: 1fr; }
+  .bento-lg, .bento-wide, .bento-cell { grid-column: span 1; }
+}
+
 .skills-row { display: flex; flex-wrap: wrap; gap: 14px; }
 .skill-badge {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: var(--bg-panel);
+  background: var(--bg);
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 12px 18px 12px 12px;
   transition: transform 0.18s ease, border-color 0.18s ease;
+  position: relative;
+  z-index: 1;
 }
 .skill-badge:hover { transform: translateY(-2px); border-color: var(--accent); }
 .skill-mono {
@@ -371,7 +602,7 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
   width: 38px;
   height: 38px;
   border-radius: 8px;
-  background: var(--bg);
+  background: var(--bg-panel);
   border: 1px solid var(--line);
   color: var(--accent);
   font-family: var(--font-mono);
@@ -434,7 +665,10 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
   border-radius: 12px;
   background:
     radial-gradient(ellipse at 30% 20%, rgba(139,124,246,0.16), transparent 60%),
-    var(--bg-panel);
+    rgba(27, 26, 33, 0.55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.05) inset, 0 14px 32px -20px rgba(0,0,0,0.55);
   display: flex;
   align-items: center;
   justify-content: center;

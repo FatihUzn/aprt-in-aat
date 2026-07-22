@@ -1,0 +1,5 @@
+# TODO: siteyi yayına alınca Sitemap satırındaki TODO-DOMAIN-EKLE kısmını gerçek domainle değiştir
+User-agent: *
+Allow: /
+
+Sitemap: https://TODO-DOMAIN-EKLE.github.io/sitemap.xml

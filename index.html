@@ -35,10 +35,64 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+
+<!-- Yapılandırılmış veri (JSON-LD) — arama motorlarının kim/ne olduğunu anlaması için -->
+<!-- TODO: domain bağlanınca "url" ve "sameAs" alanlarındaki TODO-DOMAIN-EKLE ve KULLANICI_ADIN'ları güncelle -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Fatih Uzner",
+  "url": "https://TODO-DOMAIN-EKLE.github.io/",
+  "jobTitle": "Mekatronik Mühendisliği Öğrencisi",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "UZN TECH && SOFTWARE"
+  },
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Bahçeşehir Üniversitesi"
+  },
+  "knowsAbout": ["Mekatronik Mühendisliği", "Otomasyon Sistemleri", "Python", "C++", "Java", "Go", "Siber Güvenlik", "SolidWorks"],
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Beşiktaş, İstanbul",
+    "addressCountry": "TR"
+  },
+  "email": "mailto:a.fatihuzn@gmail.com",
+  "sameAs": [
+    "https://github.com/KULLANICI_ADIN",
+    "https://linkedin.com/in/KULLANICI_ADIN"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "UZN TECH && SOFTWARE",
+  "url": "https://TODO-DOMAIN-EKLE.github.io/",
+  "image": "assets/icons/og-image.png",
+  "description": "Mekatronik mühendisliği, otomasyon sistemleri, yazılım geliştirme ve siber güvenlik çözümleri.",
+  "founder": {
+    "@type": "Person",
+    "name": "Fatih Uzner"
+  },
+  "areaServed": "TR",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Beşiktaş, İstanbul",
+    "addressCountry": "TR"
+  },
+  "email": "mailto:a.fatihuzn@gmail.com",
+  "telephone": "+905343771414"
+}
+</script>
 </head>
 <body>
 
 <div class="grid-overlay" aria-hidden="true"></div>
+<div class="cursor-spotlight" aria-hidden="true"></div>
 
 <!-- Schematic trace running through the whole page -->
 <svg class="trace-line" viewBox="0 0 40 2000" preserveAspectRatio="none" aria-hidden="true">
@@ -114,30 +168,93 @@
   <!-- HERO -->
   <section class="hero" id="hero">
     <div class="node" data-ref="U0"></div>
-    <p class="eyebrow"><span class="node-motif"><span></span></span>U0 — GİRİŞ NOKTASI</p>
-    <h1>Mekanik hassasiyet.<br>Yazılım zekâsı.</h1>
-    <p class="hero-lede">
-      UZN TECH &amp;&amp; SOFTWARE, mekatronik mühendisi Fatih Uzner tarafından kuruldu.
-      Mekanik sistemleri, elektroniği ve yazılımı tek bir devrede birleştiren
-      mühendislik çözümleri üretiyoruz.
-    </p>
-    <div class="hero-actions">
-      <a href="#iletisim" class="btn btn-primary">Bir Proje Konuşalım</a>
-      <a href="#hizmetler" class="btn btn-ghost">Yetkinlikleri Gör</a>
+    <div class="hero-text">
+      <p class="eyebrow"><span class="node-motif"><span></span></span>U0 — GİRİŞ NOKTASI</p>
+      <h1>Mekanik hassasiyet.<br>Yazılım zekâsı.</h1>
+      <p class="hero-lede">
+        UZN TECH &amp;&amp; SOFTWARE, mekatronik mühendisi Fatih Uzner tarafından kuruldu.
+        Mekanik sistemleri, elektroniği ve yazılımı tek bir devrede birleştiren
+        mühendislik çözümleri üretiyoruz.
+      </p>
+      <div class="hero-actions">
+        <a href="#iletisim" class="btn btn-primary magnetic">Bir Proje Konuşalım</a>
+        <a href="#hizmetler" class="btn btn-ghost">Yetkinlikleri Gör</a>
+      </div>
+      <div class="hero-specs">
+        <div class="spec"><span class="spec-label">DİSİPLİN</span><span class="spec-val">Mekatronik Müh.</span></div>
+        <div class="spec"><span class="spec-label">ODAK</span><span class="spec-val">Otomasyon · Siber Güvenlik</span></div>
+        <div class="spec"><span class="spec-label">DURUM</span><span class="spec-val"><span class="pulse-dot" aria-hidden="true"></span>Aktif · Yeni Projelere Açık</span></div>
+      </div>
+      <p class="credentials-strip">Bahçeşehir Üniversitesi · Denizbank · YetGen · Zirve 23 · Elite Case</p>
+
+      <div class="stat-strip">
+        <div class="stat"><span class="stat-num">4+</span><span class="stat-label">Yıl Mühendislik Eğitimi</span></div>
+        <div class="stat"><span class="stat-num">4</span><span class="stat-label">Programlama Dili</span></div>
+        <div class="stat"><span class="stat-num">3</span><span class="stat-label">Dil</span></div>
+        <div class="stat"><span class="stat-num">6</span><span class="stat-label">Sertifika / Program</span></div>
+      </div>
     </div>
-    <div class="hero-specs">
-      <div class="spec"><span class="spec-label">DİSİPLİN</span><span class="spec-val">Mekatronik Müh.</span></div>
-      <div class="spec"><span class="spec-label">ODAK</span><span class="spec-val">Otomasyon · Siber Güvenlik</span></div>
-      <div class="spec"><span class="spec-label">DURUM</span><span class="spec-val">Aktif · Yeni Projelere Açık</span></div>
+
+    <div class="hero-visual tilt" aria-hidden="true">
+      <svg viewBox="0 0 420 420" fill="none">
+        <g class="hud-ring-outer">
+          <circle cx="210" cy="210" r="164" stroke="var(--line)" stroke-width="1"/>
+          <circle cx="210" cy="46" r="6" fill="var(--accent-bright)"/>
+          <circle cx="374" cy="210" r="6" fill="var(--signal)"/>
+          <circle cx="210" cy="374" r="6" fill="var(--accent-2)"/>
+          <circle cx="46" cy="210" r="6" fill="var(--signal)"/>
+        </g>
+        <circle cx="210" cy="210" r="120" stroke="var(--line)" stroke-width="1" stroke-dasharray="2 6"/>
+        <g class="hud-ring-dashed">
+          <circle cx="210" cy="210" r="72" stroke="var(--accent)" stroke-width="1.3" opacity="0.5"/>
+          <path d="M282 138 L330 90" stroke="var(--accent-2)" stroke-width="1.2" stroke-dasharray="3 5" opacity="0.7"/>
+          <path d="M138 282 L90 330" stroke="var(--accent-2)" stroke-width="1.2" stroke-dasharray="3 5" opacity="0.7"/>
+          <circle cx="330" cy="90" r="4.5" fill="var(--accent-2)"/>
+          <circle cx="90" cy="330" r="4.5" fill="var(--accent-2)"/>
+        </g>
+
+        <g stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round" opacity="0.85">
+          <line x1="210" y1="46" x2="210" y2="88"/>
+          <line x1="210" y1="332" x2="210" y2="374"/>
+          <line x1="46" y1="210" x2="88" y2="210"/>
+          <line x1="332" y1="210" x2="374" y2="210"/>
+        </g>
+
+        <g class="hud-core">
+          <circle cx="210" cy="210" r="38" fill="var(--bg-panel)" stroke="var(--accent)" stroke-width="1.6"/>
+          <circle cx="210" cy="210" r="7" fill="var(--accent)"/>
+        </g>
+
+        <g font-family="var(--font-mono)" font-size="10" fill="var(--text-faint)">
+          <text x="222" y="42">MEC</text>
+          <text x="336" y="206">SEC</text>
+          <text x="180" y="392">SW</text>
+        </g>
+      </svg>
     </div>
-    <p class="credentials-strip">Bahçeşehir Üniversitesi · Denizbank · YetGen · Zirve 23 · Elite Case</p>
   </section>
 
   <!-- ABOUT -->
   <section class="section" id="hakkimda">
     <div class="node" data-ref="U1"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U1 — HAKKIMDA</p>
-    <h2>Fatih Uzner</h2>
+    <div class="about-intro">
+      <div class="about-photo-wrap">
+        <svg class="about-photo-rings" viewBox="0 0 160 160" aria-hidden="true">
+          <circle cx="80" cy="80" r="78" stroke="var(--line)" stroke-width="1"/>
+          <g class="hud-ring-outer">
+            <circle cx="80" cy="80" r="68" stroke="var(--accent)" stroke-width="1" stroke-dasharray="2 7" opacity="0.55"/>
+            <circle cx="80" cy="12" r="2.4" fill="var(--accent-bright)"/>
+          </g>
+          <circle class="hud-ring-dashed" cx="80" cy="80" r="58" stroke="var(--accent-2)" stroke-width="1" opacity="0.4"/>
+        </svg>
+        <img src="assets/img/fatih-uzner.jpg" alt="Fatih Uzner" class="about-photo tilt" width="96" height="96">
+      </div>
+      <div>
+        <h2>Fatih Uzner</h2>
+        <p class="about-role">Kurucu — UZN TECH &amp;&amp; SOFTWARE · Mekatronik Mühendisliği Öğrencisi</p>
+      </div>
+    </div>
     <div class="about-grid">
       <div class="about-text">
         <p>
@@ -188,9 +305,9 @@
     <p class="eyebrow"><span class="node-motif"><span></span></span>U2 — BECERİLER</p>
     <h2>Araçlar &amp; Teknolojiler</h2>
 
-    <div class="skills-groups">
-      <div class="skills-group">
-        <span class="skills-group-label">Programlama Dilleri</span>
+    <div class="bento-grid">
+      <div class="bento-cell bento-lg tilt">
+        <span class="bento-label">Programlama Dilleri</span>
         <div class="skills-row">
           <div class="skill-badge">
             <span class="skill-mono">Py</span>
@@ -211,8 +328,8 @@
         </div>
       </div>
 
-      <div class="skills-group">
-        <span class="skills-group-label">Siber Güvenlik</span>
+      <div class="bento-cell bento-accent2 tilt">
+        <span class="bento-label">Siber Güvenlik</span>
         <div class="skills-row">
           <div class="skill-badge">
             <span class="skill-mono">Kx</span>
@@ -221,12 +338,40 @@
         </div>
       </div>
 
-      <div class="skills-group">
-        <span class="skills-group-label">Mühendislik &amp; CAD</span>
+      <div class="bento-cell tilt">
+        <span class="bento-label">Mühendislik &amp; CAD</span>
         <div class="skills-row">
           <div class="skill-badge">
             <span class="skill-mono">SW</span>
             <span class="skill-name">SolidWorks</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bento-cell tilt">
+        <span class="bento-label">Ofis &amp; Araçlar</span>
+        <div class="skills-row">
+          <div class="skill-badge">
+            <span class="skill-mono">Of</span>
+            <span class="skill-name">Microsoft Office</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bento-cell bento-wide tilt">
+        <span class="bento-label">Diller</span>
+        <div class="skills-row">
+          <div class="skill-badge">
+            <span class="skill-mono">TR</span>
+            <span class="skill-name">Türkçe</span>
+          </div>
+          <div class="skill-badge">
+            <span class="skill-mono">EN</span>
+            <span class="skill-name">İngilizce</span>
+          </div>
+          <div class="skill-badge">
+            <span class="skill-mono">RU</span>
+            <span class="skill-name">Rusça</span>
           </div>
         </div>
       </div>
@@ -253,8 +398,8 @@
             <li>Konsept doğrulamadan fonksiyonel prototipe</li>
           </ul>
         </div>
-        <div class="feature-visual" aria-hidden="true">
-          <svg class="feature-diagram" viewBox="0 0 220 165" fill="none">
+        <div class="feature-visual parallax-box" aria-hidden="true">
+          <svg class="feature-diagram parallax-layer" viewBox="0 0 220 165" fill="none">
             <circle cx="70" cy="82" r="30" stroke="var(--line)" stroke-width="1.4"/>
             <g stroke="var(--accent)" stroke-width="3" stroke-linecap="round">
               <line x1="70" y1="46" x2="70" y2="56"/>
@@ -290,8 +435,8 @@
             <li>Veri odaklı küçük ölçekli uygulamalar</li>
           </ul>
         </div>
-        <div class="feature-visual" aria-hidden="true">
-          <svg class="feature-diagram" viewBox="0 0 220 165" fill="none">
+        <div class="feature-visual parallax-box" aria-hidden="true">
+          <svg class="feature-diagram parallax-layer" viewBox="0 0 220 165" fill="none">
             <rect x="24" y="40" width="172" height="86" rx="6" stroke="var(--signal)" stroke-width="1.4"/>
             <line x1="24" y1="58" x2="196" y2="58" stroke="var(--line)" stroke-width="1.2"/>
             <circle cx="38" cy="49" r="2.6" fill="var(--text-faint)"/>
@@ -328,8 +473,8 @@
             <li>Güvenli mimari tasarımı</li>
           </ul>
         </div>
-        <div class="feature-visual" aria-hidden="true">
-          <svg class="feature-diagram" viewBox="0 0 220 165" fill="none">
+        <div class="feature-visual parallax-box" aria-hidden="true">
+          <svg class="feature-diagram parallax-layer" viewBox="0 0 220 165" fill="none">
             <path d="M78 34 118 34 118 40 78 40Z" fill="none"/>
             <path d="M98 32 132 44V78C132 104 116 118 98 128 80 118 64 104 64 78V44L98 32Z" stroke="var(--signal)" stroke-width="1.6"/>
             <path d="M82 82 93 93 116 68" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
@@ -422,7 +567,7 @@
     <h2>Referanslar</h2>
     <p class="section-note">Bu bölüm ilk proje/staj referansları geldikçe dolacak — yapı şimdiden hazır.</p>
     <div class="testimonial-grid">
-      <article class="testimonial-card is-placeholder">
+      <article class="testimonial-card is-placeholder tilt">
         <svg class="testimonial-quote" width="28" height="20" viewBox="0 0 28 20" aria-hidden="true"><path d="M0 20V11.6C0 4.6 4.2 0.6 10.6 0L11.4 3.4C7.6 4.4 5.6 6.6 5.4 10H11V20H0ZM16.6 20V11.6C16.6 4.6 20.8 0.6 27.2 0L28 3.4C24.2 4.4 22.2 6.6 22 10H27.6V20H16.6Z" fill="currentColor"/></svg>
         <p class="testimonial-text">Bir müşteri veya çalışma arkadaşından gelecek geri bildirim burada yer alacak.</p>
         <div class="testimonial-who">
@@ -431,7 +576,7 @@
         </div>
         <span class="testimonial-tag">Yakında</span>
       </article>
-      <article class="testimonial-card is-placeholder">
+      <article class="testimonial-card is-placeholder tilt">
         <svg class="testimonial-quote" width="28" height="20" viewBox="0 0 28 20" aria-hidden="true"><path d="M0 20V11.6C0 4.6 4.2 0.6 10.6 0L11.4 3.4C7.6 4.4 5.6 6.6 5.4 10H11V20H0ZM16.6 20V11.6C16.6 4.6 20.8 0.6 27.2 0L28 3.4C24.2 4.4 22.2 6.6 22 10H27.6V20H16.6Z" fill="currentColor"/></svg>
         <p class="testimonial-text">Bir müşteri veya çalışma arkadaşından gelecek geri bildirim burada yer alacak.</p>
         <div class="testimonial-who">
@@ -440,7 +585,7 @@
         </div>
         <span class="testimonial-tag">Yakında</span>
       </article>
-      <article class="testimonial-card is-placeholder">
+      <article class="testimonial-card is-placeholder tilt">
         <svg class="testimonial-quote" width="28" height="20" viewBox="0 0 28 20" aria-hidden="true"><path d="M0 20V11.6C0 4.6 4.2 0.6 10.6 0L11.4 3.4C7.6 4.4 5.6 6.6 5.4 10H11V20H0ZM16.6 20V11.6C16.6 4.6 20.8 0.6 27.2 0L28 3.4C24.2 4.4 22.2 6.6 22 10H27.6V20H16.6Z" fill="currentColor"/></svg>
         <p class="testimonial-text">Bir müşteri veya çalışma arkadaşından gelecek geri bildirim burada yer alacak.</p>
         <div class="testimonial-who">
@@ -519,7 +664,7 @@
         <textarea id="message" name="message" rows="5" required></textarea>
       </div>
       <p class="form-consent">Formu göndererek verilerinizin <a href="kvkk.html">Gizlilik Politikası</a> kapsamında işlenmesini kabul etmiş olursunuz.</p>
-      <button type="submit" class="btn btn-primary">Gönder</button>
+      <button type="submit" class="btn btn-primary magnetic">Gönder</button>
     </form>
   </section>
 
@@ -623,6 +768,7 @@
       '.project-list > .project-row',
       '.testimonial-grid > .testimonial-card',
       '.skills-row > .skill-badge',
+      '.bento-grid > .bento-cell',
       '.faq-list > .faq-item',
       '.timeline > .timeline-row',
       '.hero-specs > .spec'
@@ -632,7 +778,7 @@
     var soloSelectors = [
       '.hero .eyebrow', '.hero h1', '.hero-lede', '.hero-actions', '.hero-specs', '.credentials-strip',
       '.section > .eyebrow', '.section > h2', '.section-note',
-      '.about-text', '.about-meta', '.skills-group',
+      '.about-text', '.about-meta',
       '.contact-lede', '.contact-direct', '.contact-form'
     ];
 
@@ -668,6 +814,103 @@
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 
     revealEls.forEach(function (el) { observer.observe(el); });
+  })();
+</script>
+
+<script>
+  (function () {
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var canHover = window.matchMedia('(hover: hover)').matches;
+    if (reduceMotion || !canHover) return;
+
+    // Mouse-tracked spotlight glow
+    var spotlight = document.querySelector('.cursor-spotlight');
+    if (spotlight) {
+      window.addEventListener('mousemove', function (e) {
+        spotlight.style.setProperty('--mx', e.clientX + 'px');
+        spotlight.style.setProperty('--my', e.clientY + 'px');
+      }, { passive: true });
+    }
+
+    // Subtle 3D tilt on cards
+    var tiltEls = document.querySelectorAll('.tilt');
+    tiltEls.forEach(function (el) {
+      el.addEventListener('mousemove', function (e) {
+        var rect = el.getBoundingClientRect();
+        var px = (e.clientX - rect.left) / rect.width - 0.5;
+        var py = (e.clientY - rect.top) / rect.height - 0.5;
+        el.style.setProperty('--ry', (px * 8).toFixed(2) + 'deg');
+        el.style.setProperty('--rx', (py * -8).toFixed(2) + 'deg');
+      }, { passive: true });
+      el.addEventListener('mouseleave', function () {
+        el.style.setProperty('--rx', '0deg');
+        el.style.setProperty('--ry', '0deg');
+      });
+    });
+
+    // Micro-parallax: skill icons inside bento cells shift a bit more than the card
+    document.querySelectorAll('.bento-cell').forEach(function (el) {
+      var icons = el.querySelectorAll('.skill-mono');
+      if (!icons.length) return;
+      el.addEventListener('mousemove', function (e) {
+        var rect = el.getBoundingClientRect();
+        var px = (e.clientX - rect.left) / rect.width - 0.5;
+        var py = (e.clientY - rect.top) / rect.height - 0.5;
+        icons.forEach(function (icon) {
+          icon.style.transform = 'translate(' + (px * 6).toFixed(1) + 'px,' + (py * 6).toFixed(1) + 'px)';
+        });
+      }, { passive: true });
+      el.addEventListener('mouseleave', function () {
+        icons.forEach(function (icon) { icon.style.transform = 'translate(0,0)'; });
+      });
+    });
+
+    // Layered parallax: inner diagram shifts more than its box (feature illustrations)
+    document.querySelectorAll('.parallax-box').forEach(function (box) {
+      var layer = box.querySelector('.parallax-layer');
+      if (!layer) return;
+      box.addEventListener('mousemove', function (e) {
+        var rect = box.getBoundingClientRect();
+        var px = (e.clientX - rect.left) / rect.width - 0.5;
+        var py = (e.clientY - rect.top) / rect.height - 0.5;
+        layer.style.setProperty('--px', (px * 14).toFixed(1) + 'px');
+        layer.style.setProperty('--py', (py * 14).toFixed(1) + 'px');
+      }, { passive: true });
+      box.addEventListener('mouseleave', function () {
+        layer.style.setProperty('--px', '0px');
+        layer.style.setProperty('--py', '0px');
+      });
+    });
+
+    // Magnetic buttons — follow the cursor within their own bounds
+    document.querySelectorAll('.magnetic').forEach(function (btn) {
+      btn.addEventListener('mousemove', function (e) {
+        var rect = btn.getBoundingClientRect();
+        var mx = (e.clientX - rect.left - rect.width / 2) * 0.28;
+        var my = (e.clientY - rect.top - rect.height / 2) * 0.35;
+        btn.style.setProperty('--mbx', mx.toFixed(1) + 'px');
+        btn.style.setProperty('--mby', my.toFixed(1) + 'px');
+      }, { passive: true });
+      btn.addEventListener('mouseleave', function () {
+        btn.style.setProperty('--mbx', '0px');
+        btn.style.setProperty('--mby', '0px');
+      });
+    });
+
+    // Scroll-based parallax on the hero glow — moves slower than the page
+    var heroEl = document.querySelector('.hero');
+    if (heroEl) {
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          var y = Math.min(window.scrollY * 0.15, 60);
+          heroEl.style.setProperty('--scroll-y', y.toFixed(1) + 'px');
+          ticking = false;
+        });
+      }, { passive: true });
+    }
   })();
 </script>
 
