@@ -1235,7 +1235,7 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
 .contact-form { max-width: 520px; display: flex; flex-direction: column; gap: 20px; }
 .form-row { display: flex; flex-direction: column; gap: 8px; }
 .form-row label { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim); letter-spacing: 0.05em; }
-.form-row input, .form-row textarea {
+.form-row input, .form-row textarea, .form-row select {
   background: var(--bg-panel);
   border: 1px solid var(--line);
   border-radius: 4px;
@@ -1245,12 +1245,42 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
   padding: 12px 14px;
   resize: vertical;
 }
-.form-row input:focus, .form-row textarea:focus {
+.form-row select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--text-faint) 50%), linear-gradient(135deg, var(--text-faint) 50%, transparent 50%); background-position: calc(100% - 20px) center, calc(100% - 15px) center; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; }
+.form-row input:focus, .form-row textarea:focus, .form-row select:focus {
   outline: none;
   border-color: var(--accent);
 }
 .contact-form .btn { align-self: flex-start; border: none; cursor: pointer; }
 .form-consent { color: var(--text-faint); font-size: 0.78rem; margin: -8px 0 0; }
+
+/* Hero track filter — soft yazılım/mekanik/ikisi switch */
+.track-switch { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 4px 0 24px; }
+.track-btn {
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+.track-btn:hover { border-color: var(--accent-2); color: var(--text); }
+.track-btn.is-active { border-color: var(--accent); color: var(--accent); background: var(--bg-panel-alt); }
+.track-reset {
+  background: none;
+  border: none;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-decoration: underline;
+  cursor: pointer;
+  display: none;
+  padding: 4px 0;
+}
+body[data-track] .track-reset { display: inline; }
+[data-track].is-track-hidden { display: none; }
 .form-consent a { color: var(--text-dim); }
 .form-consent a:hover { color: var(--accent-bright); }
 

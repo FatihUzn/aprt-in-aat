@@ -198,6 +198,12 @@
         Mekanik sistemleri, elektroniği ve yazılımı tek bir devrede birleştiren
         mühendislik çözümleri üretiyoruz.
       </p>
+      <div class="track-switch" role="group" aria-label="Hizmet alanına göre içeriği filtrele">
+        <button type="button" class="track-btn" data-track-btn="yazilim">Yazılım</button>
+        <button type="button" class="track-btn" data-track-btn="mekanik">Mekanik &amp; Otomasyon</button>
+        <button type="button" class="track-btn" data-track-btn="ikisi">Mekatronik (İkisi)</button>
+        <button type="button" class="track-reset" data-track-reset>Tümünü göster</button>
+      </div>
       <div class="hero-actions">
         <a href="#iletisim" class="btn btn-primary magnetic">Bir Proje Konuşalım</a>
         <a href="#hizmetler" class="btn btn-ghost">Yetkinlikleri Gör</a>
@@ -435,7 +441,7 @@
 
     <div class="feature-blocks">
 
-      <article class="feature-block">
+      <article class="feature-block" data-track="mekanik">
         <div class="feature-text">
           <span class="feature-label">Mühendislik &amp; Otomasyon</span>
           <h3>Fikirden çalışan prototipe, tek elden.</h3>
@@ -486,7 +492,7 @@
         </div>
       </article>
 
-      <article class="feature-block reverse">
+      <article class="feature-block reverse" data-track="yazilim">
         <div class="feature-text">
           <span class="feature-label">Yazılım Geliştirme</span>
           <h3>Donanımın konuştuğu dilden yazılıma.</h3>
@@ -538,7 +544,7 @@
         </div>
       </article>
 
-      <article class="feature-block">
+      <article class="feature-block" data-track="ikisi">
         <div class="feature-text">
           <span class="feature-label">Siber Güvenlik</span>
           <h3>Güvenlik, sonradan eklenen bir özellik değil.</h3>
@@ -781,6 +787,17 @@
       <div class="form-row">
         <label for="email">E-posta</label>
         <input type="email" id="email" name="_replyto" required>
+      </div>
+      <div class="form-row">
+        <label for="ilgi-alani">İlgi Alanı</label>
+        <select id="ilgi-alani" name="ilgi_alani">
+          <option value="">Seçiniz</option>
+          <option value="Yazılım Geliştirme">Yazılım Geliştirme</option>
+          <option value="Mekanik & Otomasyon">Mekanik &amp; Otomasyon</option>
+          <option value="Siber Güvenlik">Siber Güvenlik</option>
+          <option value="Mekatronik (İkisi)">Mekatronik (İkisi)</option>
+          <option value="Diğer">Diğer</option>
+        </select>
       </div>
       <div class="form-row">
         <label for="message">Mesaj</label>
@@ -1223,6 +1240,56 @@
     tickSession();
     setInterval(tickTime, 1000);
     setInterval(tickSession, 1000);
+  })();
+</script>
+
+<script>
+  (function () {
+    var trackBtns = document.querySelectorAll('[data-track-btn]');
+    var resetBtn = document.querySelector('[data-track-reset]');
+    var trackedEls = document.querySelectorAll('[data-track]');
+    var interestSelect = document.getElementById('ilgi-alani');
+    var labels = {
+      yazilim: 'Yazılım Geliştirme',
+      mekanik: 'Mekanik & Otomasyon',
+      ikisi: 'Mekatronik (İkisi)'
+    };
+
+    function applyTrack(track) {
+      if (track) {
+        document.body.setAttribute('data-track', track);
+      } else {
+        document.body.removeAttribute('data-track');
+      }
+      trackBtns.forEach(function (btn) {
+        btn.classList.toggle('is-active', btn.getAttribute('data-track-btn') === track);
+      });
+      trackedEls.forEach(function (el) {
+        var elTrack = el.getAttribute('data-track');
+        var hide = track && elTrack !== track && elTrack !== 'ikisi';
+        el.classList.toggle('is-track-hidden', hide);
+      });
+      if (interestSelect && track && labels[track]) {
+        interestSelect.value = labels[track];
+      }
+      var url = new URL(window.location.href);
+      if (track) { url.searchParams.set('track', track); } else { url.searchParams.delete('track'); }
+      window.history.replaceState({}, '', url);
+    }
+
+    trackBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var current = document.body.getAttribute('data-track');
+        var next = btn.getAttribute('data-track-btn');
+        applyTrack(current === next ? null : next);
+      });
+    });
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () { applyTrack(null); });
+    }
+
+    var initial = new URL(window.location.href).searchParams.get('track');
+    if (initial && labels[initial]) { applyTrack(initial); }
   })();
 </script>
 
