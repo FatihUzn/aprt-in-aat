@@ -76,18 +76,19 @@ body::after {
   transform-box: view-box;
   transform-origin: 50% 50%;
 }
-.hud-ring-outer { animation: hud-spin 46s linear infinite; }
-.hud-ring-dashed { animation: hud-spin-reverse 62s linear infinite; }
+.hud-ring-outer { animation: hud-spin 34s linear infinite; }
+.hud-ring-dashed { animation: hud-spin-reverse 48s linear infinite; }
 .hud-core {
   transform-box: view-box;
   transform-origin: 50% 50%;
-  animation: hud-pulse 3.2s ease-in-out infinite;
+  animation: hud-pulse 2.6s ease-in-out infinite;
+  filter: drop-shadow(0 0 0 rgba(139,124,246,0));
 }
 @keyframes hud-spin { to { transform: rotate(360deg); } }
 @keyframes hud-spin-reverse { to { transform: rotate(-360deg); } }
 @keyframes hud-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.72; }
+  0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 0 rgba(139,124,246,0)); }
+  50% { opacity: 0.82; transform: scale(1.06); filter: drop-shadow(0 0 14px rgba(139,124,246,0.75)); }
 }
 
 /* About photo — layered rotating rings behind the portrait */
@@ -97,12 +98,23 @@ body::after {
   height: 96px;
   flex-shrink: 0;
 }
+.about-photo-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -34px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(139,124,246,0.32) 30deg, transparent 66deg, transparent 360deg);
+  animation: hud-spin 6s linear infinite;
+  filter: blur(5px);
+  pointer-events: none;
+}
 .about-photo-rings {
   position: absolute;
-  inset: -26px;
-  width: calc(100% + 52px);
-  height: calc(100% + 52px);
+  inset: -34px;
+  width: calc(100% + 68px);
+  height: calc(100% + 68px);
   pointer-events: none;
+  filter: drop-shadow(0 0 10px rgba(139,124,246,0.25));
 }
 .about-photo-wrap .about-photo {
   position: relative;
@@ -115,9 +127,15 @@ body::after {
 .tilt {
   --rx: 0deg;
   --ry: 0deg;
-  transform: perspective(700px) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(0);
+  --tz: 0px;
+  --ts: 1;
+  transform: perspective(500px) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(var(--tz)) scale(var(--ts));
   transition: transform 0.25s ease;
   will-change: transform;
+}
+.tilt:hover {
+  --tz: 18px;
+  --ts: 1.015;
 }
 
 /* Mouse-tracked spotlight glow, fixed to viewport, position set via JS */
@@ -153,12 +171,25 @@ body::after {
 .hero::before {
   content: '';
   position: absolute;
-  top: -120px;
+  top: -160px;
   left: 50%;
   transform: translateX(-50%) translateY(var(--scroll-y, 0px));
-  width: 640px;
-  height: 420px;
-  background: radial-gradient(ellipse at center, rgba(139,124,246,0.22), transparent 70%);
+  width: 880px;
+  height: 560px;
+  background: radial-gradient(ellipse at center, rgba(139,124,246,0.34), transparent 68%);
+  pointer-events: none;
+  z-index: -1;
+  will-change: transform;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: 4%;
+  transform: translateY(var(--scroll-y, 0px));
+  width: 460px;
+  height: 460px;
+  background: radial-gradient(ellipse at center, var(--accent-2-dim, rgba(95,184,168,0.22)), transparent 70%);
   pointer-events: none;
   z-index: -1;
   will-change: transform;
@@ -462,12 +493,24 @@ h2::after {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+.hero-visual::before {
+  content: '';
+  position: absolute;
+  inset: -10%;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(139,124,246,0.28) 26deg, transparent 60deg, transparent 360deg);
+  animation: hud-spin 7s linear infinite;
+  filter: blur(6px);
+  pointer-events: none;
 }
 .hero-visual svg {
   width: 100%;
-  max-width: 400px;
+  max-width: 460px;
   height: auto;
-  filter: drop-shadow(0 20px 60px rgba(139,124,246,0.15));
+  position: relative;
+  filter: drop-shadow(0 30px 90px rgba(139,124,246,0.32)) drop-shadow(0 0 40px rgba(139,124,246,0.18));
 }
 
 @media (max-width: 860px) {
@@ -487,8 +530,8 @@ h2::after {
   height: 96px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--line);
-  box-shadow: 0 0 0 6px rgba(139,124,246,0.08), 0 16px 40px -16px rgba(139,124,246,0.35);
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 0 8px rgba(139,124,246,0.14), 0 20px 50px -16px rgba(139,124,246,0.55);
   flex-shrink: 0;
 }
 .about-role {
@@ -549,6 +592,11 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
   gap: 16px;
   position: relative;
   overflow: hidden;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.bento-cell:hover {
+  border-color: rgba(139,124,246,0.5);
+  box-shadow: 0 20px 44px -18px rgba(139,124,246,0.4);
 }
 .bento-cell::before {
   content: '';
@@ -594,7 +642,7 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
   position: relative;
   z-index: 1;
 }
-.skill-badge:hover { transform: translateY(-2px); border-color: var(--accent); }
+.skill-badge:hover { transform: translateY(-5px) scale(1.02); border-color: var(--accent); box-shadow: 0 16px 32px -14px rgba(139,124,246,0.45); }
 .skill-mono {
   display: flex;
   align-items: center;
@@ -661,14 +709,14 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
 
 .feature-visual {
   aspect-ratio: 4 / 3;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(139,124,246,0.35);
   border-radius: 12px;
   background:
-    radial-gradient(ellipse at 30% 20%, rgba(139,124,246,0.16), transparent 60%),
-    rgba(27, 26, 33, 0.55);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.05) inset, 0 14px 32px -20px rgba(0,0,0,0.55);
+    radial-gradient(ellipse at 30% 20%, rgba(139,124,246,0.24), transparent 60%),
+    rgba(27, 26, 33, 0.45);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.08) inset, 0 24px 48px -20px rgba(139,124,246,0.35), 0 14px 32px -20px rgba(0,0,0,0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -812,7 +860,7 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
 /* Services (legacy card grid, kept for reference elsewhere if needed) */
 .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
 .card { background: var(--bg-panel); padding: 28px 24px; transition: transform 0.18s ease, box-shadow 0.18s ease; }
-.card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px -12px rgba(139,124,246,0.25); }
+.card:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 22px 48px -14px rgba(139,124,246,0.4); }
 .card-ref { font-family: var(--font-mono); color: var(--accent); font-size: 0.75rem; }
 .card h3 { font-size: 1.05rem; margin: 14px 0 10px; font-weight: 600; }
 .card p { color: var(--text-dim); font-size: 0.88rem; margin: 0; }
