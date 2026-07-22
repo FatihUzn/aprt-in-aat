@@ -1253,8 +1253,23 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
 .contact-form .btn { align-self: flex-start; border: none; cursor: pointer; }
 .form-consent { color: var(--text-faint); font-size: 0.78rem; margin: -8px 0 0; }
 
-/* Hero track filter — soft yazılım/mekanik/ikisi switch */
-.track-switch { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 4px 0 24px; }
+/* Hero track filter — soft yazılım/mekanik/siber/ikisi switch */
+.track-select {
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px 18px 18px;
+  margin: 8px 0 40px;
+}
+.track-select-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 12px;
+}
+.track-switch { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0; }
 .track-btn {
   background: var(--bg-panel);
   border: 1px solid var(--line);

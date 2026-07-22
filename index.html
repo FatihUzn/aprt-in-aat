@@ -198,11 +198,15 @@
         Mekanik sistemleri, elektroniği ve yazılımı tek bir devrede birleştiren
         mühendislik çözümleri üretiyoruz.
       </p>
-      <div class="track-switch" role="group" aria-label="Hizmet alanına göre içeriği filtrele">
-        <button type="button" class="track-btn" data-track-btn="yazilim">Yazılım</button>
-        <button type="button" class="track-btn" data-track-btn="mekanik">Mekanik &amp; Otomasyon</button>
-        <button type="button" class="track-btn" data-track-btn="ikisi">Mekatronik (İkisi)</button>
-        <button type="button" class="track-reset" data-track-reset>Tümünü göster</button>
+      <div class="track-select">
+        <p class="track-select-label">İlgi alanını seç, içerik ona göre süzülsün</p>
+        <div class="track-switch" role="group" aria-label="Hizmet alanına göre içeriği filtrele">
+          <button type="button" class="track-btn" data-track-btn="yazilim">Yazılım</button>
+          <button type="button" class="track-btn" data-track-btn="mekanik">Mekanik &amp; Otomasyon</button>
+          <button type="button" class="track-btn" data-track-btn="siber">Siber Güvenlik</button>
+          <button type="button" class="track-btn" data-track-btn="ikisi">Mekatronik (İkisi)</button>
+          <button type="button" class="track-reset" data-track-reset>Tümünü göster</button>
+        </div>
       </div>
       <div class="hero-actions">
         <a href="#iletisim" class="btn btn-primary magnetic">Bir Proje Konuşalım</a>
@@ -336,7 +340,7 @@
     <h2>Araçlar &amp; Teknolojiler</h2>
 
     <div class="bento-grid">
-      <div class="bento-cell bento-lg tilt">
+      <div class="bento-cell bento-lg tilt" data-track="yazilim">
         <span class="bento-label">Programlama Dilleri</span>
         <div class="skills-row">
           <div class="skill-badge">
@@ -374,7 +378,7 @@
         </div>
       </div>
 
-      <div class="bento-cell bento-accent2 tilt">
+      <div class="bento-cell bento-accent2 tilt" data-track="siber">
         <span class="bento-label">Siber Güvenlik</span>
         <div class="skills-row">
           <div class="skill-badge">
@@ -388,7 +392,7 @@
         </div>
       </div>
 
-      <div class="bento-cell tilt">
+      <div class="bento-cell tilt" data-track="mekanik">
         <span class="bento-label">Mühendislik &amp; CAD</span>
         <div class="skills-row">
           <div class="skill-badge">
@@ -544,7 +548,7 @@
         </div>
       </article>
 
-      <article class="feature-block" data-track="ikisi">
+      <article class="feature-block" data-track="siber">
         <div class="feature-text">
           <span class="feature-label">Siber Güvenlik</span>
           <h3>Güvenlik, sonradan eklenen bir özellik değil.</h3>
@@ -631,6 +635,7 @@
     <div class="node" data-ref="U5"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U5 — PROJELER</p>
     <h2>Seçili Çalışmalar</h2>
+    <!-- Gerçek bir proje eklerken <article class="project-row" data-track="yazilim|mekanik|siber|ikisi"> şeklinde etiketle, track filtresi burada da otomatik çalışır -->
     <div class="project-list">
       <article class="project-row">
         <span class="project-ref">P01</span>
@@ -1252,6 +1257,7 @@
     var labels = {
       yazilim: 'Yazılım Geliştirme',
       mekanik: 'Mekanik & Otomasyon',
+      siber: 'Siber Güvenlik',
       ikisi: 'Mekatronik (İkisi)'
     };
 
@@ -1266,7 +1272,10 @@
       });
       trackedEls.forEach(function (el) {
         var elTrack = el.getAttribute('data-track');
-        var hide = track && elTrack !== track && elTrack !== 'ikisi';
+        // 'ikisi' (Mekatronik) hiçbir şeyi gizlemez: hem gerçekten iki alanı birleştiren
+        // içerik eklendiğinde onu göstermek, hem de henüz öyle bir içerik yokken boş
+        // bölüm bırakmamak için "hepsini göster" gibi davranır.
+        var hide = track && track !== 'ikisi' && elTrack !== track && elTrack !== 'ikisi';
         el.classList.toggle('is-track-hidden', hide);
       });
       if (interestSelect && track && labels[track]) {
