@@ -1,9 +1,9 @@
 :root {
-  --bg: #131217;
-  --bg-panel: #1B1A21;
-  --bg-panel-alt: #211F28;
-  --line: #2E2C36;
-  --line-soft: #242229;
+  --bg: #15141C;
+  --bg-panel: #1D1C24;
+  --bg-panel-alt: #23212B;
+  --line: #322F3B;
+  --line-soft: #26242D;
   --accent: #8B7CF6;
   --accent-bright: #A395FF;
   --accent-2: #F0B75C;
@@ -11,7 +11,7 @@
   --signal: #F5F4F2;
   --text: #F5F4F2;
   --text-dim: #9C98A8;
-  --text-faint: #656277;
+  --text-faint: #706C82;
 
   --font-display: 'Sora', 'Inter', sans-serif;
   --font-body: 'Inter', sans-serif;
