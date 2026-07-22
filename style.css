@@ -65,6 +65,22 @@ body::after {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* Faint PCB circuit-trace pattern behind the whole page — barely-there
+   engineering texture instead of a flat dark background. */
+.circuit-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-repeat: repeat;
+  background-size: 160px 160px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cg fill='none' stroke='%238B7CF6' stroke-width='1'%3E%3Cpath d='M0 40H40V80H100V20H160'/%3E%3Cpath d='M0 120H60V140H160'/%3E%3Cpath d='M90 160V110H140V60'/%3E%3Crect x='40' y='80' width='24' height='16' rx='2'/%3E%3Crect x='118' y='46' width='18' height='18' rx='2'/%3E%3C/g%3E%3Cg fill='%238B7CF6'%3E%3Ccircle cx='40' cy='40' r='2.4'/%3E%3Ccircle cx='100' cy='20' r='2.4'/%3E%3Ccircle cx='60' cy='140' r='2.4'/%3E%3Ccircle cx='140' cy='60' r='2.4'/%3E%3Ccircle cx='90' cy='110' r='2.4'/%3E%3C/g%3E%3C/svg%3E");
+}
+@media (max-width: 780px) {
+  .circuit-bg { opacity: 0.022; }
+}
+
 /* Depth: soft elevation on panel surfaces */
 .card, .feature-visual, .skill-badge, .testimonial-card, .contact-form input, .contact-form textarea {
   box-shadow: 0 1px 0 rgba(255,255,255,0.03) inset, 0 14px 32px -20px rgba(0,0,0,0.55);
@@ -156,6 +172,138 @@ body::after {
   will-change: transform;
 }
 
+/* CAD-style dimension line overlay — corner brackets + measurement lines,
+   fades in on hover over service diagrams and project rows. */
+.dim-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+.feature-visual:hover .dim-overlay,
+.project-row:hover .dim-overlay {
+  opacity: 1;
+}
+.dim-overlay .dim-bracket,
+.dim-overlay .dim-line,
+.dim-overlay .dim-arrow {
+  stroke: var(--accent-bright);
+  stroke-width: 1;
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+.dim-overlay .dim-text {
+  fill: var(--accent-bright);
+  font-family: var(--font-mono);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dim-overlay { transition: none; }
+}
+
+/* Fixed corner telemetry panel — subtle, low-opacity "system alive" readout */
+.corner-telemetry {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 6;
+  padding: 10px 14px;
+  border: 1px solid rgba(139,124,246,0.18);
+  border-radius: 8px;
+  background: rgba(27,26,33,0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-faint);
+  opacity: 0.55;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: opacity 0.3s ease;
+}
+.corner-telemetry:hover { opacity: 0.85; }
+.corner-telemetry-row {
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+  white-space: nowrap;
+}
+.corner-telemetry-label {
+  color: var(--accent);
+  letter-spacing: 0.06em;
+}
+@media (max-width: 780px) {
+  .corner-telemetry { display: none; }
+}
+
+/* Oscilloscope waveform — appears behind a skill badge's icon on hover */
+.skill-badge { position: relative; overflow: hidden; }
+.badge-wave {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.skill-badge:hover .badge-wave { opacity: 0.42; }
+.badge-wave .wave-baseline {
+  stroke: var(--text-faint);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+  opacity: 0.5;
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+.badge-wave .wave-path {
+  fill: none;
+  stroke: var(--accent-bright);
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 100 100;
+  animation: osc-scroll 1.8s linear infinite;
+}
+@keyframes osc-scroll {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -100; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .badge-wave .wave-path { animation: none; }
+}
+
+/* Scroll scan-line — a thin line sweeps top-to-bottom the first time a
+   section enters view, like a document being scanned. */
+.scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-bright) 20%, var(--accent) 50%, var(--accent-bright) 80%, transparent);
+  box-shadow: 0 0 12px 1px rgba(139,124,246,0.55);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+.scan-line.is-scanning {
+  animation: scan-sweep 1.1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes scan-sweep {
+  0% { top: 0; opacity: 0; }
+  8% { opacity: 0.9; }
+  90% { opacity: 0.9; }
+  100% { top: 100%; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scan-line { display: none; }
+}
+
 /* Magnetic buttons — JS sets --mbx/--mby within bounds */
 .magnetic {
   --mbx: 0px;
@@ -164,9 +312,6 @@ body::after {
 }
 .magnetic:hover { transition: transform 0.05s linear !important; }
 .magnetic:not(:hover) { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important; }
-
-/* Subtle purple glow behind the hero, Superhuman-style */
-.trace-line { display: none; }
 
 .hero::before {
   content: '';
@@ -193,10 +338,6 @@ body::after {
   pointer-events: none;
   z-index: -1;
   will-change: transform;
-}
-
-@media (max-width: 900px) {
-  .trace-line { display: none; }
 }
 
 .site-header, main, .site-footer {
@@ -351,16 +492,128 @@ body.nav-open { overflow: hidden; }
   .menu-toggle { display: flex; }
 }
 
+/* Telemetry strip — decorative "system status" readout under the header */
+.telemetry-strip {
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-panel);
+  overflow: hidden;
+  position: relative;
+}
+.telemetry-track {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 8px 64px;
+  white-space: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+}
+.telemetry-track::-webkit-scrollbar { display: none; }
+.telemetry-item { display: inline-flex; align-items: center; gap: 6px; }
+.telemetry-label { color: var(--text-faint); letter-spacing: 0.06em; }
+.telemetry-val { color: var(--accent); }
+.telemetry-sep { color: var(--line); }
+@media (max-width: 700px) {
+  .telemetry-track { padding: 8px 24px; gap: 14px; }
+}
+
 /* Layout */
-main { max-width: 980px; margin: 0 auto; padding: 0 64px; }
+main { max-width: 980px; margin: 0 auto; padding: 0 64px; position: relative; }
 @media (max-width: 700px) { main { padding: 0 24px; } }
+
+/* PCB trace — a vertical circuit line down the left margin that "fills in"
+   as you scroll, with a glowing signal dot at its leading edge. Nodes along
+   each section light up once the trace has reached them. */
+.trace-line {
+  position: absolute;
+  top: 0;
+  left: -47px;
+  width: 14px;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+.trace-path-bg {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1.5;
+}
+.trace-path-fill {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  filter: drop-shadow(0 0 4px rgba(139,124,246,0.7));
+}
+.trace-dot {
+  position: absolute;
+  left: -50px;
+  top: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent-bright);
+  box-shadow: 0 0 10px 2px rgba(139,124,246,0.9), 0 0 22px 6px rgba(139,124,246,0.4);
+  pointer-events: none;
+  z-index: 1;
+  transition: top 0.1s linear;
+}
+@media (max-width: 1180px) {
+  .trace-line, .trace-dot { display: none; }
+}
+
+.node {
+  position: absolute;
+  left: -47px;
+  top: 100px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--line);
+  z-index: 1;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+}
+.node.is-active {
+  border-color: var(--accent);
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgba(139,124,246,0.18), 0 0 14px 2px rgba(139,124,246,0.65);
+}
+@media (max-width: 1180px) { .node { display: none; } }
+
+.node-motif { display: none; }
 
 .section, .hero { position: relative; padding: 96px 0 80px; border-bottom: 1px solid var(--line); }
 .section:last-of-type { border-bottom: none; }
 
-.node { display: none; }
-
-.node-motif { display: none; }
+/* Boot sequence — a brief terminal-style line that types itself out once on
+   page load, then collapses away. Never retriggers. */
+.boot-line {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--accent-2);
+  margin: 0 0 10px;
+  max-height: 20px;
+  opacity: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.5s ease;
+}
+.boot-line.boot-done {
+  max-height: 0;
+  opacity: 0;
+  margin-bottom: 0;
+}
+.boot-cursor {
+  display: inline-block;
+  margin-left: 2px;
+  animation: boot-blink 0.9s step-end infinite;
+}
+@keyframes boot-blink { 50% { opacity: 0; } }
 
 .eyebrow {
   font-family: var(--font-mono);
@@ -487,6 +740,52 @@ h2::after {
   0% { box-shadow: 0 0 0 0 rgba(111,207,151,0.5); }
   70% { box-shadow: 0 0 0 8px rgba(111,207,151,0); }
   100% { box-shadow: 0 0 0 0 rgba(111,207,151,0); }
+}
+
+/* PCB rocker switch — a small toggle that looks physically flippable,
+   sits next to the "DURUM: Aktif" status text, always shown in the ON position. */
+.pcb-switch {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 9px;
+  position: relative;
+  top: -1px;
+}
+.pcb-switch-track {
+  position: relative;
+  width: 26px;
+  height: 13px;
+  border-radius: 7px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.65);
+  display: inline-block;
+}
+.pcb-switch-knob {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--accent-bright), var(--accent));
+  box-shadow: 0 0 6px 1px rgba(139,124,246,0.7), 0 1px 1px rgba(0,0,0,0.4);
+  animation: switch-glow 2.4s ease-in-out infinite;
+}
+@keyframes switch-glow {
+  0%, 100% { box-shadow: 0 0 6px 1px rgba(139,124,246,0.65), 0 1px 1px rgba(0,0,0,0.4); }
+  50% { box-shadow: 0 0 10px 2px rgba(139,124,246,0.95), 0 1px 1px rgba(0,0,0,0.4); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pcb-switch-knob { animation: none; }
+}
+
+/* Custom cursor — a thin crosshair/reticle over interactive elements,
+   desktop-only (real pointer + hover support), never on touch devices. */
+@media (hover: hover) and (pointer: fine) {
+  a, button, .btn, .menu-toggle, .faq-item summary, .footer-top-link {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='7' fill='none' stroke='%23A395FF' stroke-width='1.4'/%3E%3Cline x1='12' y1='0' x2='12' y2='6' stroke='%23A395FF' stroke-width='1.4'/%3E%3Cline x1='12' y1='18' x2='12' y2='24' stroke='%23A395FF' stroke-width='1.4'/%3E%3Cline x1='0' y1='12' x2='6' y2='12' stroke='%23A395FF' stroke-width='1.4'/%3E%3Cline x1='18' y1='12' x2='24' y2='12' stroke='%23A395FF' stroke-width='1.4'/%3E%3Ccircle cx='12' cy='12' r='1.3' fill='%23A395FF'/%3E%3C/svg%3E") 12 12, pointer;
+  }
 }
 
 .hero-visual {
@@ -708,6 +1007,7 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
 }
 
 .feature-visual {
+  position: relative;
   aspect-ratio: 4 / 3;
   border: 1px solid rgba(139,124,246,0.35);
   border-radius: 12px;
@@ -894,6 +1194,7 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
 /* Projects */
 .project-list { display: flex; flex-direction: column; }
 .project-row {
+  position: relative;
   display: grid;
   grid-template-columns: 60px 1fr auto;
   align-items: center;
@@ -1026,6 +1327,7 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
 
 /* ===== 404 page ===== */
 .error-page {
+  position: relative;
   min-height: 60vh;
   display: flex;
   flex-direction: column;
@@ -1091,7 +1393,7 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
 .error-links a:hover { color: var(--accent-bright); }
 
 /* ===== Legal / KVKK page ===== */
-.legal-page { padding: 100px 0 80px; max-width: 760px; }
+.legal-page { position: relative; padding: 100px 0 80px; max-width: 760px; }
 .legal-page .eyebrow { margin-bottom: 20px; }
 .legal-page h1 { font-size: clamp(1.8rem, 4vw, 2.4rem); margin: 0 0 12px; max-width: none; }
 .legal-updated {

@@ -92,12 +92,8 @@
 <body>
 
 <div class="grid-overlay" aria-hidden="true"></div>
+<div class="circuit-bg" aria-hidden="true"></div>
 <div class="cursor-spotlight" aria-hidden="true"></div>
-
-<!-- Schematic trace running through the whole page -->
-<svg class="trace-line" viewBox="0 0 40 2000" preserveAspectRatio="none" aria-hidden="true">
-  <path id="tracePath" d="M20,0 L20,2000" />
-</svg>
 
 <header class="site-header">
   <a href="#top" class="logo">
@@ -163,12 +159,36 @@
 </div>
 <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
 
+<div class="telemetry-strip" aria-hidden="true">
+  <div class="telemetry-track" id="telemetryTrack">
+    <span class="telemetry-item"><span class="telemetry-label">SYS</span><span class="telemetry-val" id="telSys">ONLINE</span></span>
+    <span class="telemetry-sep">/</span>
+    <span class="telemetry-item"><span class="telemetry-label">CPU</span><span class="telemetry-val" id="telCpu">—</span></span>
+    <span class="telemetry-sep">/</span>
+    <span class="telemetry-item"><span class="telemetry-label">LATENCY</span><span class="telemetry-val" id="telLatency">—</span></span>
+    <span class="telemetry-sep">/</span>
+    <span class="telemetry-item"><span class="telemetry-label">UPTIME</span><span class="telemetry-val" id="telUptime">00:00:00</span></span>
+    <span class="telemetry-sep">/</span>
+    <span class="telemetry-item"><span class="telemetry-label">LOC</span><span class="telemetry-val">İstanbul, TR</span></span>
+    <span class="telemetry-sep">/</span>
+    <span class="telemetry-item"><span class="telemetry-label">STACK</span><span class="telemetry-val">Python · C++ · Go</span></span>
+  </div>
+</div>
+
 <main id="top">
+  <!-- PCB trace: fills in as you scroll, with a glowing "signal" dot at the leading edge -->
+  <svg class="trace-line" id="traceLine" viewBox="0 0 40 2000" preserveAspectRatio="none" aria-hidden="true">
+    <path class="trace-path-bg" d="M20,0 L20,2000"/>
+    <path class="trace-path-fill" id="tracePath" d="M20,0 L20,2000"/>
+  </svg>
+  <div class="trace-dot" id="traceDot" aria-hidden="true"></div>
 
   <!-- HERO -->
   <section class="hero" id="hero">
+    <div class="scan-line" aria-hidden="true"></div>
     <div class="node" data-ref="U0"></div>
     <div class="hero-text">
+      <p class="boot-line" id="bootLine" aria-hidden="true">&nbsp;</p>
       <p class="eyebrow"><span class="node-motif"><span></span></span>U0 — GİRİŞ NOKTASI</p>
       <h1>Mekanik hassasiyet.<br>Yazılım zekâsı.</h1>
       <p class="hero-lede">
@@ -183,7 +203,7 @@
       <div class="hero-specs">
         <div class="spec"><span class="spec-label">DİSİPLİN</span><span class="spec-val">Mekatronik Müh.</span></div>
         <div class="spec"><span class="spec-label">ODAK</span><span class="spec-val">Otomasyon · Siber Güvenlik</span></div>
-        <div class="spec"><span class="spec-label">DURUM</span><span class="spec-val"><span class="pulse-dot" aria-hidden="true"></span>Aktif · Yeni Projelere Açık</span></div>
+        <div class="spec"><span class="spec-label">DURUM</span><span class="spec-val"><span class="pulse-dot" aria-hidden="true"></span>Aktif · Yeni Projelere Açık<span class="pcb-switch" aria-hidden="true" title="Sistem durumu: Aktif"><span class="pcb-switch-track"><span class="pcb-switch-knob"></span></span></span></span></div>
       </div>
       <p class="credentials-strip">Bahçeşehir Üniversitesi · Denizbank · YetGen · Zirve 23 · Elite Case</p>
 
@@ -236,6 +256,7 @@
 
   <!-- ABOUT -->
   <section class="section" id="hakkimda">
+    <div class="scan-line" aria-hidden="true"></div>
     <div class="node" data-ref="U1"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U1 — HAKKIMDA</p>
     <div class="about-intro">
@@ -301,6 +322,7 @@
 
   <!-- SKILLS -->
   <section class="section" id="beceriler">
+    <div class="scan-line" aria-hidden="true"></div>
     <div class="node" data-ref="U2"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U2 — BECERİLER</p>
     <h2>Araçlar &amp; Teknolojiler</h2>
@@ -312,18 +334,34 @@
           <div class="skill-badge">
             <span class="skill-mono">Py</span>
             <span class="skill-name">Python</span>
+            <svg class="badge-wave" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
+              <line class="wave-baseline" x1="0" y1="20" x2="200" y2="20"/>
+              <path class="wave-path" pathLength="200" d="M0,20 C12.5,2 37.5,2 50,20 C62.5,38 87.5,38 100,20 C112.5,2 137.5,2 150,20 C162.5,38 187.5,38 200,20"/>
+            </svg>
           </div>
           <div class="skill-badge">
             <span class="skill-mono">C++</span>
             <span class="skill-name">C++</span>
+            <svg class="badge-wave" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
+              <line class="wave-baseline" x1="0" y1="20" x2="200" y2="20"/>
+              <path class="wave-path" pathLength="200" d="M0,20 H20 V4 H45 V36 H70 V4 H95 V20 H120 V4 H145 V36 H170 V4 H195 V20 H200"/>
+            </svg>
           </div>
           <div class="skill-badge">
             <span class="skill-mono">Jv</span>
             <span class="skill-name">Java</span>
+            <svg class="badge-wave" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
+              <line class="wave-baseline" x1="0" y1="20" x2="200" y2="20"/>
+              <path class="wave-path" pathLength="200" d="M0,20 C12.5,2 37.5,2 50,20 C62.5,38 87.5,38 100,20 C112.5,2 137.5,2 150,20 C162.5,38 187.5,38 200,20"/>
+            </svg>
           </div>
           <div class="skill-badge">
             <span class="skill-mono">Go</span>
             <span class="skill-name">Go</span>
+            <svg class="badge-wave" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
+              <line class="wave-baseline" x1="0" y1="20" x2="200" y2="20"/>
+              <path class="wave-path" pathLength="200" d="M0,20 H20 V4 H45 V36 H70 V4 H95 V20 H120 V4 H145 V36 H170 V4 H195 V20 H200"/>
+            </svg>
           </div>
         </div>
       </div>
@@ -334,6 +372,10 @@
           <div class="skill-badge">
             <span class="skill-mono">Kx</span>
             <span class="skill-name">Kali Linux</span>
+            <svg class="badge-wave" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
+              <line class="wave-baseline" x1="0" y1="20" x2="200" y2="20"/>
+              <path class="wave-path" pathLength="200" d="M0,20 H20 V4 H45 V36 H70 V4 H95 V20 H120 V4 H145 V36 H170 V4 H195 V20 H200"/>
+            </svg>
           </div>
         </div>
       </div>
@@ -344,6 +386,10 @@
           <div class="skill-badge">
             <span class="skill-mono">SW</span>
             <span class="skill-name">SolidWorks</span>
+            <svg class="badge-wave" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
+              <line class="wave-baseline" x1="0" y1="20" x2="200" y2="20"/>
+              <path class="wave-path" pathLength="200" d="M0,20 C12.5,2 37.5,2 50,20 C62.5,38 87.5,38 100,20 C112.5,2 137.5,2 150,20 C162.5,38 187.5,38 200,20"/>
+            </svg>
           </div>
         </div>
       </div>
@@ -380,6 +426,7 @@
 
   <!-- SERVICES -->
   <section class="section" id="hizmetler">
+    <div class="scan-line" aria-hidden="true"></div>
     <div class="node" data-ref="U3"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U3 — HİZMETLER</p>
     <h2>Yetkinlik Alanları</h2>
@@ -420,6 +467,20 @@
             <circle cx="70" cy="138" r="4" fill="var(--signal)"/>
             <path d="M173 100V138H70" stroke="var(--line)" stroke-width="1.4" stroke-dasharray="3 4"/>
           </svg>
+          <svg class="dim-overlay" viewBox="0 0 220 165" preserveAspectRatio="none" aria-hidden="true">
+            <path class="dim-bracket" d="M8,20 L8,8 L20,8"/>
+            <path class="dim-bracket" d="M200,8 L212,8 L212,20"/>
+            <path class="dim-bracket" d="M212,145 L212,157 L200,157"/>
+            <path class="dim-bracket" d="M20,157 L8,157 L8,145"/>
+            <line class="dim-line" x1="22" y1="151" x2="198" y2="151"/>
+            <path class="dim-arrow" d="M22,151 L30,147 M22,151 L30,155"/>
+            <path class="dim-arrow" d="M198,151 L190,147 M198,151 L190,155"/>
+            <text class="dim-text" x="110" y="146" text-anchor="middle" font-size="7">142.0</text>
+            <line class="dim-line" x1="205" y1="22" x2="205" y2="143"/>
+            <path class="dim-arrow" d="M205,22 L201,30 M205,22 L209,30"/>
+            <path class="dim-arrow" d="M205,143 L201,135 M205,143 L209,135"/>
+            <text class="dim-text" x="209" y="85" font-size="7">96.5</text>
+          </svg>
         </div>
       </article>
 
@@ -458,6 +519,20 @@
             <path d="M110 126V140" stroke="var(--line)" stroke-width="1.4" stroke-dasharray="3 4"/>
             <circle cx="110" cy="146" r="4" fill="var(--signal)"/>
           </svg>
+          <svg class="dim-overlay" viewBox="0 0 220 165" preserveAspectRatio="none" aria-hidden="true">
+            <path class="dim-bracket" d="M8,20 L8,8 L20,8"/>
+            <path class="dim-bracket" d="M200,8 L212,8 L212,20"/>
+            <path class="dim-bracket" d="M212,145 L212,157 L200,157"/>
+            <path class="dim-bracket" d="M20,157 L8,157 L8,145"/>
+            <line class="dim-line" x1="22" y1="151" x2="198" y2="151"/>
+            <path class="dim-arrow" d="M22,151 L30,147 M22,151 L30,155"/>
+            <path class="dim-arrow" d="M198,151 L190,147 M198,151 L190,155"/>
+            <text class="dim-text" x="110" y="146" text-anchor="middle" font-size="7">168.4</text>
+            <line class="dim-line" x1="205" y1="22" x2="205" y2="143"/>
+            <path class="dim-arrow" d="M205,22 L201,30 M205,22 L209,30"/>
+            <path class="dim-arrow" d="M205,143 L201,135 M205,143 L209,135"/>
+            <text class="dim-text" x="209" y="85" font-size="7">82.0</text>
+          </svg>
         </div>
       </article>
 
@@ -492,6 +567,20 @@
             </g>
             <path d="M98 18V32M98 128V142" stroke="var(--accent-bright)" stroke-width="1.4" stroke-dasharray="2 4"/>
           </svg>
+          <svg class="dim-overlay" viewBox="0 0 220 165" preserveAspectRatio="none" aria-hidden="true">
+            <path class="dim-bracket" d="M8,20 L8,8 L20,8"/>
+            <path class="dim-bracket" d="M200,8 L212,8 L212,20"/>
+            <path class="dim-bracket" d="M212,145 L212,157 L200,157"/>
+            <path class="dim-bracket" d="M20,157 L8,157 L8,145"/>
+            <line class="dim-line" x1="22" y1="151" x2="198" y2="151"/>
+            <path class="dim-arrow" d="M22,151 L30,147 M22,151 L30,155"/>
+            <path class="dim-arrow" d="M198,151 L190,147 M198,151 L190,155"/>
+            <text class="dim-text" x="110" y="146" text-anchor="middle" font-size="7">Ø124.0</text>
+            <line class="dim-line" x1="205" y1="22" x2="205" y2="143"/>
+            <path class="dim-arrow" d="M205,22 L201,30 M205,22 L209,30"/>
+            <path class="dim-arrow" d="M205,143 L201,135 M205,143 L209,135"/>
+            <text class="dim-text" x="209" y="85" font-size="7">62.0</text>
+          </svg>
         </div>
       </article>
 
@@ -500,6 +589,7 @@
 
   <!-- PROCESS -->
   <section class="section" id="surec">
+    <div class="scan-line" aria-hidden="true"></div>
     <div class="node" data-ref="U4"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U4 — SÜREÇ</p>
     <h2>Nasıl Çalışıyorum</h2>
@@ -529,6 +619,7 @@
 
   <!-- PROJECTS -->
   <section class="section" id="projeler">
+    <div class="scan-line" aria-hidden="true"></div>
     <div class="node" data-ref="U5"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U5 — PROJELER</p>
     <h2>Seçili Çalışmalar</h2>
@@ -540,6 +631,15 @@
           <p>Kısa açıklama: hangi problemi çözdü, hangi araçlar kullanıldı.</p>
         </div>
         <span class="project-tag">Yakında</span>
+        <svg class="dim-overlay" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">
+          <path class="dim-bracket" d="M4,14 L4,4 L14,4"/>
+          <path class="dim-bracket" d="M386,4 L396,4 L396,14"/>
+          <path class="dim-bracket" d="M396,46 L396,56 L386,56"/>
+          <path class="dim-bracket" d="M14,56 L4,56 L4,46"/>
+          <line class="dim-line" x1="18" y1="30" x2="382" y2="30"/>
+          <path class="dim-arrow" d="M18,30 L26,25 M18,30 L26,35"/>
+          <path class="dim-arrow" d="M382,30 L374,25 M382,30 L374,35"/>
+        </svg>
       </article>
       <article class="project-row">
         <span class="project-ref">P02</span>
@@ -548,6 +648,15 @@
           <p>Kısa açıklama: hangi problemi çözdü, hangi araçlar kullanıldı.</p>
         </div>
         <span class="project-tag">Yakında</span>
+        <svg class="dim-overlay" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">
+          <path class="dim-bracket" d="M4,14 L4,4 L14,4"/>
+          <path class="dim-bracket" d="M386,4 L396,4 L396,14"/>
+          <path class="dim-bracket" d="M396,46 L396,56 L386,56"/>
+          <path class="dim-bracket" d="M14,56 L4,56 L4,46"/>
+          <line class="dim-line" x1="18" y1="30" x2="382" y2="30"/>
+          <path class="dim-arrow" d="M18,30 L26,25 M18,30 L26,35"/>
+          <path class="dim-arrow" d="M382,30 L374,25 M382,30 L374,35"/>
+        </svg>
       </article>
       <article class="project-row">
         <span class="project-ref">P03</span>
@@ -556,12 +665,22 @@
           <p>Kısa açıklama: hangi problemi çözdü, hangi araçlar kullanıldı.</p>
         </div>
         <span class="project-tag">Yakında</span>
+        <svg class="dim-overlay" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">
+          <path class="dim-bracket" d="M4,14 L4,4 L14,4"/>
+          <path class="dim-bracket" d="M386,4 L396,4 L396,14"/>
+          <path class="dim-bracket" d="M396,46 L396,56 L386,56"/>
+          <path class="dim-bracket" d="M14,56 L4,56 L4,46"/>
+          <line class="dim-line" x1="18" y1="30" x2="382" y2="30"/>
+          <path class="dim-arrow" d="M18,30 L26,25 M18,30 L26,35"/>
+          <path class="dim-arrow" d="M382,30 L374,25 M382,30 L374,35"/>
+        </svg>
       </article>
     </div>
   </section>
 
   <!-- TESTIMONIALS -->
   <section class="section" id="referanslar">
+    <div class="scan-line" aria-hidden="true"></div>
     <div class="node" data-ref="U6"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U6 — REFERANSLAR</p>
     <h2>Referanslar</h2>
@@ -599,6 +718,7 @@
 
   <!-- FAQ -->
   <section class="section" id="sss">
+    <div class="scan-line" aria-hidden="true"></div>
     <div class="node" data-ref="U7"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U7 — SSS</p>
     <h2>Sık Sorulan Sorular</h2>
@@ -632,6 +752,7 @@
 
   <!-- CONTACT -->
   <section class="section" id="iletisim">
+    <div class="scan-line" aria-hidden="true"></div>
     <div class="node" data-ref="U8"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U8 — İLETİŞİM</p>
     <h2>Bir Proje mi Var?</h2>
@@ -721,6 +842,46 @@
     <a href="#top" class="footer-top-link">Yukarı çık ↑</a>
   </div>
 </footer>
+
+<div class="corner-telemetry" aria-hidden="true">
+  <div class="corner-telemetry-row"><span class="corner-telemetry-label">İST</span><span id="cornerTime">--:--:--</span></div>
+  <div class="corner-telemetry-row"><span class="corner-telemetry-label">COORD</span><span>41.0431°N 29.0061°E</span></div>
+  <div class="corner-telemetry-row"><span class="corner-telemetry-label">SESSION</span><span id="cornerSession">00:00:00</span></div>
+</div>
+
+<script>
+  (function () {
+    var el = document.getElementById('bootLine');
+    if (!el) return;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduceMotion) {
+      el.classList.add('boot-done');
+      return;
+    }
+
+    var text = 'SYSTEM_BOOT... UZNTECH v1.0 ONLINE';
+    var i = 0;
+    el.textContent = '';
+    var cursor = document.createElement('span');
+    cursor.className = 'boot-cursor';
+    cursor.textContent = '_';
+
+    function typeNext() {
+      if (i < text.length) {
+        el.textContent = text.slice(0, i + 1);
+        el.appendChild(cursor);
+        i++;
+        setTimeout(typeNext, 22);
+      } else {
+        setTimeout(function () {
+          el.classList.add('boot-done');
+        }, 350);
+      }
+    }
+    typeNext();
+  })();
+</script>
 
 <script>
   (function () {
@@ -814,6 +975,20 @@
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 
     revealEls.forEach(function (el) { observer.observe(el); });
+
+    // Scan-line: sweep once per section the first time it enters view
+    var scanEls = document.querySelectorAll('.scan-line');
+    if (scanEls.length) {
+      var scanObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-scanning');
+            scanObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0, rootMargin: '0px 0px -60% 0px' });
+      scanEls.forEach(function (el) { scanObserver.observe(el); });
+    }
   })();
 </script>
 
@@ -911,6 +1086,129 @@
         });
       }, { passive: true });
     }
+
+    // PCB trace: fills in with scroll progress, glowing dot leads the way,
+    // nodes power on permanently once the trace reaches their section.
+    var tracePath = document.getElementById('tracePath');
+    var traceDot = document.getElementById('traceDot');
+    var traceLine = document.getElementById('traceLine');
+    var mainEl = document.getElementById('top');
+    if (tracePath && traceDot && traceLine && mainEl) {
+      var TRACE_LEN = 2000;
+      var nodes = Array.prototype.slice.call(document.querySelectorAll('.node'));
+      var traceTicking = false;
+
+      function updateTrace() {
+        var mainRect = mainEl.getBoundingClientRect();
+        var mainHeight = mainEl.offsetHeight;
+        var scrolled = -mainRect.top;
+        var viewportH = window.innerHeight;
+        var frac = mainHeight > viewportH ? scrolled / (mainHeight - viewportH) : 0;
+        frac = Math.max(0, Math.min(1, frac));
+
+        tracePath.style.strokeDashoffset = (TRACE_LEN * (1 - frac)).toFixed(1);
+        traceDot.style.top = (frac * 100) + '%';
+        traceDot.style.opacity = frac > 0.01 && frac < 0.999 ? '1' : '0';
+
+        var scrollTopWithinMain = frac * (mainHeight - viewportH);
+        nodes.forEach(function (node) {
+          if (node.classList.contains('is-active')) return;
+          var sectionTop = node.parentElement ? node.parentElement.offsetTop : node.offsetTop;
+          if (sectionTop <= scrollTopWithinMain + viewportH * 0.35) {
+            node.classList.add('is-active');
+          }
+        });
+
+        traceTicking = false;
+      }
+
+      window.addEventListener('scroll', function () {
+        if (traceTicking) return;
+        traceTicking = true;
+        requestAnimationFrame(updateTrace);
+      }, { passive: true });
+      window.addEventListener('resize', updateTrace, { passive: true });
+      updateTrace();
+    }
+  })();
+</script>
+
+<script>
+  (function () {
+    var sysEl = document.getElementById('telSys');
+    var cpuEl = document.getElementById('telCpu');
+    var latEl = document.getElementById('telLatency');
+    var upEl = document.getElementById('telUptime');
+    if (!cpuEl || !latEl || !upEl) return;
+
+    var startTime = Date.now();
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function tickUptime() {
+      var elapsed = Math.floor((Date.now() - startTime) / 1000);
+      var h = pad(Math.floor(elapsed / 3600));
+      var m = pad(Math.floor((elapsed % 3600) / 60));
+      var s = pad(elapsed % 60);
+      upEl.textContent = h + ':' + m + ':' + s;
+    }
+
+    // Decorative, non-real metrics — gently drift within a believable range
+    var cpu = 12;
+    var lat = 4;
+    function tickMetrics() {
+      cpu += (Math.random() - 0.5) * 4;
+      cpu = Math.max(4, Math.min(28, cpu));
+      lat += (Math.random() - 0.5) * 2;
+      lat = Math.max(2, Math.min(11, lat));
+      cpuEl.textContent = cpu.toFixed(0) + '%';
+      latEl.textContent = lat.toFixed(0) + 'ms';
+    }
+
+    tickUptime();
+    tickMetrics();
+    setInterval(tickUptime, 1000);
+    setInterval(tickMetrics, 2200);
+  })();
+</script>
+
+<script>
+  (function () {
+    var timeEl = document.getElementById('cornerTime');
+    var sessionEl = document.getElementById('cornerSession');
+    if (!timeEl || !sessionEl) return;
+
+    var startTime = Date.now();
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function tickTime() {
+      var parts = new Intl.DateTimeFormat('tr-TR', {
+        timeZone: 'Europe/Istanbul',
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        hour12: false
+      }).formatToParts(new Date());
+      var h = '00', m = '00', s = '00';
+      parts.forEach(function (p) {
+        if (p.type === 'hour') h = p.value;
+        if (p.type === 'minute') m = p.value;
+        if (p.type === 'second') s = p.value;
+      });
+      timeEl.textContent = h + ':' + m + ':' + s;
+    }
+
+    function tickSession() {
+      var elapsed = Math.floor((Date.now() - startTime) / 1000);
+      var h = pad(Math.floor(elapsed / 3600));
+      var m = pad(Math.floor((elapsed % 3600) / 60));
+      var s = pad(elapsed % 60);
+      sessionEl.textContent = h + ':' + m + ':' + s;
+    }
+
+    tickTime();
+    tickSession();
+    setInterval(tickTime, 1000);
+    setInterval(tickSession, 1000);
   })();
 </script>
 
