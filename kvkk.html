@@ -54,6 +54,8 @@
     <span class="telemetry-item"><span class="telemetry-label">UPTIME</span><span class="telemetry-val" id="telUptime">00:00:00</span></span>
     <span class="telemetry-sep">/</span>
     <span class="telemetry-item"><span class="telemetry-label">LOC</span><span class="telemetry-val">İstanbul, TR</span></span>
+    <span class="telemetry-sep">/</span>
+    <span class="telemetry-item"><span class="telemetry-label">WORLD</span><span class="telemetry-val" id="telWorld">İST -- · BER -- · SF --</span></span>
   </div>
 </div>
 
@@ -219,6 +221,7 @@
     var cpuEl = document.getElementById('telCpu');
     var latEl = document.getElementById('telLatency');
     var upEl = document.getElementById('telUptime');
+    var worldEl = document.getElementById('telWorld');
     if (!cpuEl || !latEl || !upEl) return;
 
     var startTime = Date.now();
@@ -234,9 +237,19 @@
       cpuEl.textContent = cpu.toFixed(0) + '%';
       latEl.textContent = lat.toFixed(0) + 'ms';
     }
-    tickUptime(); tickMetrics();
+    function tickWorld() {
+      if (!worldEl) return;
+      var now = new Date();
+      function fmt(tz) {
+        return new Intl.DateTimeFormat('tr-TR', { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false }).format(now);
+      }
+      worldEl.textContent = 'İST ' + fmt('Europe/Istanbul') + ' · BER ' + fmt('Europe/Berlin') + ' · SF ' + fmt('America/Los_Angeles');
+    }
+
+    tickUptime(); tickMetrics(); tickWorld();
     setInterval(tickUptime, 1000);
     setInterval(tickMetrics, 2200);
+    setInterval(tickWorld, 1000);
   })();
 </script>
 
