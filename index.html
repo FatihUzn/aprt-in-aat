@@ -159,18 +159,10 @@
 </div>
 
 <main id="top">
-  <!-- PCB trace: fills in as you scroll, with a glowing "signal" dot at the leading edge -->
-  <svg class="trace-line" id="traceLine" viewBox="0 0 40 2000" preserveAspectRatio="none" aria-hidden="true">
-    <path class="trace-path-bg" d="M20,0 L20,2000"/>
-    <path class="trace-path-fill" id="tracePath" d="M20,0 L20,2000"/>
-  </svg>
-  <div class="trace-dot" id="traceDot" aria-hidden="true"></div>
-
   <!-- HERO -->
   <section class="hero" id="hero">
     <canvas class="hero-beams" id="heroBeams" aria-hidden="true"></canvas>
     <div class="scan-line" aria-hidden="true"></div>
-    <div class="node" data-ref="U0"></div>
     <div class="hero-text">
       <p class="boot-line" id="bootLine" aria-hidden="true">&nbsp;</p>
       <p class="eyebrow"><span class="node-motif"><span></span></span>U0 — GİRİŞ NOKTASI</p>
@@ -251,7 +243,6 @@
   <!-- SERVICES -->
   <section class="section" id="hizmetler">
     <div class="scan-line" aria-hidden="true"></div>
-    <div class="node" data-ref="U1"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U1 — HİZMETLER</p>
     <h2>Yetkinlik Alanları</h2>
 
@@ -430,7 +421,6 @@
   <!-- ABOUT -->
   <section class="section" id="hakkimda">
     <div class="scan-line" aria-hidden="true"></div>
-    <div class="node" data-ref="U2"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U2 — HAKKIMDA</p>
     <div class="about-intro">
       <div class="about-photo-wrap">
@@ -595,7 +585,6 @@
   <!-- PROJECTS -->
   <section class="section" id="projeler">
     <div class="scan-line" aria-hidden="true"></div>
-    <div class="node" data-ref="U3"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U3 — PROJELER</p>
     <h2>Seçili Çalışmalar</h2>
     <!-- Gerçek bir proje eklerken <article class="project-row" data-track="yazilim|mekanik|siber|ikisi"> şeklinde etiketle, track filtresi burada da otomatik çalışır -->
@@ -658,7 +647,6 @@
   <!--
   <section class="section" id="referanslar">
     <div class="scan-line" aria-hidden="true"></div>
-    <div class="node" data-ref="U4"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U4 — REFERANSLAR</p>
     <h2>Referanslar</h2>
     <p class="section-note">Bu bölüm ilk proje/staj referansları geldikçe dolacak — yapı şimdiden hazır.</p>
@@ -697,7 +685,6 @@
   <!-- FAQ -->
   <section class="section" id="sss">
     <div class="scan-line" aria-hidden="true"></div>
-    <div class="node" data-ref="U4"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U4 — SSS</p>
     <h2>Sık Sorulan Sorular</h2>
     <div class="faq-list">
@@ -727,7 +714,6 @@
   <!-- CONTACT -->
   <section class="section" id="iletisim">
     <div class="scan-line" aria-hidden="true"></div>
-    <div class="node" data-ref="U5"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U5 — İLETİŞİM</p>
     <h2>Bir Proje mi Var?</h2>
     <p class="contact-lede">Otomasyon, siber güvenlik ya da mekanik tasarım ihtiyacın varsa yazabilirsin.</p>
@@ -1186,49 +1172,7 @@
       }, { passive: true });
     }
 
-    // PCB trace: fills in with scroll progress, glowing dot leads the way,
-    // nodes power on permanently once the trace reaches their section.
-    var tracePath = document.getElementById('tracePath');
-    var traceDot = document.getElementById('traceDot');
-    var traceLine = document.getElementById('traceLine');
-    var mainEl = document.getElementById('top');
-    if (tracePath && traceDot && traceLine && mainEl) {
-      var TRACE_LEN = 2000;
-      var nodes = Array.prototype.slice.call(document.querySelectorAll('.node'));
-      var traceTicking = false;
-
-      function updateTrace() {
-        var mainRect = mainEl.getBoundingClientRect();
-        var mainHeight = mainEl.offsetHeight;
-        var scrolled = -mainRect.top;
-        var viewportH = window.innerHeight;
-        var frac = mainHeight > viewportH ? scrolled / (mainHeight - viewportH) : 0;
-        frac = Math.max(0, Math.min(1, frac));
-
-        tracePath.style.strokeDashoffset = (TRACE_LEN * (1 - frac)).toFixed(1);
-        traceDot.style.top = (frac * 100) + '%';
-        traceDot.style.opacity = frac > 0.01 && frac < 0.999 ? '1' : '0';
-
-        var scrollTopWithinMain = frac * (mainHeight - viewportH);
-        nodes.forEach(function (node) {
-          if (node.classList.contains('is-active')) return;
-          var sectionTop = node.parentElement ? node.parentElement.offsetTop : node.offsetTop;
-          if (sectionTop <= scrollTopWithinMain + viewportH * 0.35) {
-            node.classList.add('is-active');
-          }
-        });
-
-        traceTicking = false;
-      }
-
-      window.addEventListener('scroll', function () {
-        if (traceTicking) return;
-        traceTicking = true;
-        requestAnimationFrame(updateTrace);
-      }, { passive: true });
-      window.addEventListener('resize', updateTrace, { passive: true });
-      updateTrace();
-    }
+    // PCB trace removed — kept hero parallax above only.
   })();
 </script>
 

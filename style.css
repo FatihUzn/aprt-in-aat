@@ -492,64 +492,6 @@ main { max-width: 980px; margin: 0 auto; padding: 0 64px; position: relative; }
 /* PCB trace — a vertical circuit line down the left margin that "fills in"
    as you scroll, with a glowing signal dot at its leading edge. Nodes along
    each section light up once the trace has reached them. */
-.trace-line {
-  position: absolute;
-  top: 0;
-  left: -47px;
-  width: 14px;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
-.trace-path-bg {
-  fill: none;
-  stroke: var(--line);
-  stroke-width: 1.5;
-}
-.trace-path-fill {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 1.3;
-  stroke-dasharray: 2000;
-  stroke-dashoffset: 2000;
-  filter: drop-shadow(0 0 2px rgba(45,212,191,0.45));
-}
-.trace-dot {
-  position: absolute;
-  left: -50px;
-  top: 0;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent-bright);
-  box-shadow: 0 0 6px 1px rgba(45,212,191,0.6);
-  pointer-events: none;
-  z-index: 1;
-  transition: top 0.1s linear;
-}
-@media (max-width: 1180px) {
-  .trace-line, .trace-dot { display: none; }
-}
-
-.node {
-  position: absolute;
-  left: -47px;
-  top: 100px;
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 2px solid var(--line);
-  z-index: 1;
-  transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
-}
-.node.is-active {
-  border-color: var(--accent);
-  background: var(--accent);
-  box-shadow: 0 0 0 3px rgba(45,212,191,0.14), 0 0 8px 1px rgba(45,212,191,0.4);
-}
-@media (max-width: 1180px) { .node { display: none; } }
-
 .node-motif { display: none; }
 
 .section, .hero { position: relative; padding: 96px 0 80px; border-bottom: 1px solid var(--line); }
