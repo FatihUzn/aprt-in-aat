@@ -47,15 +47,9 @@
   <div class="telemetry-track" id="telemetryTrack">
     <span class="telemetry-item"><span class="telemetry-label">SYS</span><span class="telemetry-val" id="telSys">ONLINE</span></span>
     <span class="telemetry-sep">/</span>
-    <span class="telemetry-item"><span class="telemetry-label">CPU</span><span class="telemetry-val" id="telCpu">—</span></span>
-    <span class="telemetry-sep">/</span>
-    <span class="telemetry-item"><span class="telemetry-label">LATENCY</span><span class="telemetry-val" id="telLatency">—</span></span>
-    <span class="telemetry-sep">/</span>
-    <span class="telemetry-item"><span class="telemetry-label">UPTIME</span><span class="telemetry-val" id="telUptime">00:00:00</span></span>
-    <span class="telemetry-sep">/</span>
     <span class="telemetry-item"><span class="telemetry-label">LOC</span><span class="telemetry-val">İstanbul, TR</span></span>
     <span class="telemetry-sep">/</span>
-    <span class="telemetry-item"><span class="telemetry-label">WORLD</span><span class="telemetry-val" id="telWorld">İST -- · BER -- · SF --</span></span>
+    <span class="telemetry-item"><span class="telemetry-label">UPTIME</span><span class="telemetry-val" id="telUptime">00:00:00</span></span>
   </div>
 </div>
 
@@ -128,46 +122,18 @@
   </div>
 </footer>
 
-<div class="corner-telemetry" aria-hidden="true">
-  <div class="corner-telemetry-row"><span class="corner-telemetry-label">İST</span><span id="cornerTime">--:--:--</span></div>
-  <div class="corner-telemetry-row"><span class="corner-telemetry-label">COORD</span><span>41.0431°N 29.0061°E</span></div>
-  <div class="corner-telemetry-row"><span class="corner-telemetry-label">SESSION</span><span id="cornerSession">00:00:00</span></div>
-</div>
-
 <script>
   (function () {
-    var cpuEl = document.getElementById('telCpu');
-    var latEl = document.getElementById('telLatency');
     var upEl = document.getElementById('telUptime');
-    var worldEl = document.getElementById('telWorld');
-    if (!cpuEl || !latEl || !upEl) return;
-
+    if (!upEl) return;
     var startTime = Date.now();
     function pad(n) { return n < 10 ? '0' + n : '' + n; }
     function tickUptime() {
       var elapsed = Math.floor((Date.now() - startTime) / 1000);
       upEl.textContent = pad(Math.floor(elapsed / 3600)) + ':' + pad(Math.floor((elapsed % 3600) / 60)) + ':' + pad(elapsed % 60);
     }
-    var cpu = 12, lat = 4;
-    function tickMetrics() {
-      cpu += (Math.random() - 0.5) * 4; cpu = Math.max(4, Math.min(28, cpu));
-      lat += (Math.random() - 0.5) * 2; lat = Math.max(2, Math.min(11, lat));
-      cpuEl.textContent = cpu.toFixed(0) + '%';
-      latEl.textContent = lat.toFixed(0) + 'ms';
-    }
-    function tickWorld() {
-      if (!worldEl) return;
-      var now = new Date();
-      function fmt(tz) {
-        return new Intl.DateTimeFormat('tr-TR', { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false }).format(now);
-      }
-      worldEl.textContent = 'İST ' + fmt('Europe/Istanbul') + ' · BER ' + fmt('Europe/Berlin') + ' · SF ' + fmt('America/Los_Angeles');
-    }
-
-    tickUptime(); tickMetrics(); tickWorld();
+    tickUptime();
     setInterval(tickUptime, 1000);
-    setInterval(tickMetrics, 2200);
-    setInterval(tickWorld, 1000);
   })();
 </script>
 
@@ -186,41 +152,6 @@
       }, { threshold: 0, rootMargin: '0px 0px -60% 0px' });
       scanEls.forEach(function (el) { scanObserver.observe(el); });
     }
-  })();
-</script>
-
-<script>
-  (function () {
-    var timeEl = document.getElementById('cornerTime');
-    var sessionEl = document.getElementById('cornerSession');
-    if (!timeEl || !sessionEl) return;
-
-    var startTime = Date.now();
-    function pad(n) { return n < 10 ? '0' + n : '' + n; }
-
-    function tickTime() {
-      var parts = new Intl.DateTimeFormat('tr-TR', {
-        timeZone: 'Europe/Istanbul',
-        hour: '2-digit', minute: '2-digit', second: '2-digit',
-        hour12: false
-      }).formatToParts(new Date());
-      var h = '00', m = '00', s = '00';
-      parts.forEach(function (p) {
-        if (p.type === 'hour') h = p.value;
-        if (p.type === 'minute') m = p.value;
-        if (p.type === 'second') s = p.value;
-      });
-      timeEl.textContent = h + ':' + m + ':' + s;
-    }
-
-    function tickSession() {
-      var elapsed = Math.floor((Date.now() - startTime) / 1000);
-      sessionEl.textContent = pad(Math.floor(elapsed / 3600)) + ':' + pad(Math.floor((elapsed % 3600) / 60)) + ':' + pad(elapsed % 60);
-    }
-
-    tickTime(); tickSession();
-    setInterval(tickTime, 1000);
-    setInterval(tickSession, 1000);
   })();
 </script>
 

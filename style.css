@@ -92,45 +92,33 @@ body::after {
   transform-box: view-box;
   transform-origin: 50% 50%;
 }
-.hud-ring-outer { animation: hud-spin 34s linear infinite; }
-.hud-ring-dashed { animation: hud-spin-reverse 48s linear infinite; }
+.hud-ring-outer { animation: hud-spin 90s linear infinite; }
+.hud-ring-dashed { animation: hud-spin-reverse 120s linear infinite; }
 .hud-core {
   transform-box: view-box;
   transform-origin: 50% 50%;
-  animation: hud-pulse 2.6s ease-in-out infinite;
-  filter: drop-shadow(0 0 0 rgba(45,212,191,0));
+  animation: hud-pulse 4.5s ease-in-out infinite;
 }
 @keyframes hud-spin { to { transform: rotate(360deg); } }
 @keyframes hud-spin-reverse { to { transform: rotate(-360deg); } }
 @keyframes hud-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 0 rgba(45,212,191,0)); }
-  50% { opacity: 0.82; transform: scale(1.06); filter: drop-shadow(0 0 14px rgba(45,212,191,0.75)); }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.88; }
 }
 
-/* About photo — layered rotating rings behind the portrait */
+/* About photo — a single slow-rotating ring behind the portrait */
 .about-photo-wrap {
   position: relative;
   width: 96px;
   height: 96px;
   flex-shrink: 0;
 }
-.about-photo-wrap::before {
-  content: '';
-  position: absolute;
-  inset: -34px;
-  border-radius: 50%;
-  background: conic-gradient(from 0deg, transparent 0deg, rgba(45,212,191,0.32) 30deg, transparent 66deg, transparent 360deg);
-  animation: hud-spin 6s linear infinite;
-  filter: blur(5px);
-  pointer-events: none;
-}
 .about-photo-rings {
   position: absolute;
-  inset: -34px;
-  width: calc(100% + 68px);
-  height: calc(100% + 68px);
+  inset: -22px;
+  width: calc(100% + 44px);
+  height: calc(100% + 44px);
   pointer-events: none;
-  filter: drop-shadow(0 0 10px rgba(45,212,191,0.25));
 }
 .about-photo-wrap .about-photo {
   position: relative;
@@ -145,13 +133,13 @@ body::after {
   --ry: 0deg;
   --tz: 0px;
   --ts: 1;
-  transform: perspective(500px) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(var(--tz)) scale(var(--ts));
-  transition: transform 0.25s ease;
+  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(var(--tz)) scale(var(--ts));
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
 }
 .tilt:hover {
-  --tz: 18px;
-  --ts: 1.015;
+  --tz: 6px;
+  --ts: 1.006;
 }
 
 /* Mouse-tracked spotlight glow, fixed to viewport, position set via JS */
@@ -202,43 +190,6 @@ body::after {
 }
 @media (prefers-reduced-motion: reduce) {
   .dim-overlay { transition: none; }
-}
-
-/* Fixed corner telemetry panel — subtle, low-opacity "system alive" readout */
-.corner-telemetry {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  z-index: 6;
-  padding: 10px 14px;
-  border: 1px solid rgba(45,212,191,0.18);
-  border-radius: 8px;
-  background: rgba(27,26,33,0.35);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  color: var(--text-faint);
-  opacity: 0.55;
-  pointer-events: none;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  transition: opacity 0.3s ease;
-}
-.corner-telemetry:hover { opacity: 0.85; }
-.corner-telemetry-row {
-  display: flex;
-  gap: 14px;
-  justify-content: space-between;
-  white-space: nowrap;
-}
-.corner-telemetry-label {
-  color: var(--accent);
-  letter-spacing: 0.06em;
-}
-@media (max-width: 780px) {
-  .corner-telemetry { display: none; }
 }
 
 /* Oscilloscope waveform — appears behind a skill badge's icon on hover */
@@ -331,12 +282,12 @@ body::after {
 .hero::before {
   content: '';
   position: absolute;
-  top: -160px;
+  top: -140px;
   left: 50%;
   transform: translateX(-50%) translateY(var(--scroll-y, 0px));
-  width: 880px;
-  height: 560px;
-  background: radial-gradient(ellipse at center, rgba(45,212,191,0.34), transparent 68%);
+  width: 640px;
+  height: 420px;
+  background: radial-gradient(ellipse at center, rgba(45,212,191,0.16), transparent 70%);
   pointer-events: none;
   z-index: -1;
   will-change: transform;
@@ -344,12 +295,12 @@ body::after {
 .hero::after {
   content: '';
   position: absolute;
-  top: -60px;
-  right: 4%;
+  top: -40px;
+  right: 6%;
   transform: translateY(var(--scroll-y, 0px));
-  width: 460px;
-  height: 460px;
-  background: radial-gradient(ellipse at center, var(--accent-2-dim, rgba(95,184,168,0.22)), transparent 70%);
+  width: 340px;
+  height: 340px;
+  background: radial-gradient(ellipse at center, var(--accent-2-dim, rgba(56,189,248,0.12)), transparent 72%);
   pointer-events: none;
   z-index: -1;
   will-change: transform;
@@ -558,20 +509,20 @@ main { max-width: 980px; margin: 0 auto; padding: 0 64px; position: relative; }
 .trace-path-fill {
   fill: none;
   stroke: var(--accent);
-  stroke-width: 1.5;
+  stroke-width: 1.3;
   stroke-dasharray: 2000;
   stroke-dashoffset: 2000;
-  filter: drop-shadow(0 0 4px rgba(45,212,191,0.7));
+  filter: drop-shadow(0 0 2px rgba(45,212,191,0.45));
 }
 .trace-dot {
   position: absolute;
   left: -50px;
   top: 0;
-  width: 9px;
-  height: 9px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--accent-bright);
-  box-shadow: 0 0 10px 2px rgba(45,212,191,0.9), 0 0 22px 6px rgba(45,212,191,0.4);
+  box-shadow: 0 0 6px 1px rgba(45,212,191,0.6);
   pointer-events: none;
   z-index: 1;
   transition: top 0.1s linear;
@@ -595,7 +546,7 @@ main { max-width: 980px; margin: 0 auto; padding: 0 64px; position: relative; }
 .node.is-active {
   border-color: var(--accent);
   background: var(--accent);
-  box-shadow: 0 0 0 4px rgba(45,212,191,0.18), 0 0 14px 2px rgba(45,212,191,0.65);
+  box-shadow: 0 0 0 3px rgba(45,212,191,0.14), 0 0 8px 1px rgba(45,212,191,0.4);
 }
 @media (max-width: 1180px) { .node { display: none; } }
 
@@ -784,15 +735,7 @@ h2::after {
   height: 10px;
   border-radius: 50%;
   background: linear-gradient(180deg, var(--accent-bright), var(--accent));
-  box-shadow: 0 0 6px 1px rgba(45,212,191,0.7), 0 1px 1px rgba(0,0,0,0.4);
-  animation: switch-glow 2.4s ease-in-out infinite;
-}
-@keyframes switch-glow {
-  0%, 100% { box-shadow: 0 0 6px 1px rgba(45,212,191,0.65), 0 1px 1px rgba(0,0,0,0.4); }
-  50% { box-shadow: 0 0 10px 2px rgba(45,212,191,0.95), 0 1px 1px rgba(0,0,0,0.4); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .pcb-switch-knob { animation: none; }
+  box-shadow: 0 0 5px 1px rgba(45,212,191,0.55), 0 1px 1px rgba(0,0,0,0.4);
 }
 
 /* Custom cursor — a thin crosshair/reticle over interactive elements,
@@ -809,22 +752,12 @@ h2::after {
   justify-content: center;
   position: relative;
 }
-.hero-visual::before {
-  content: '';
-  position: absolute;
-  inset: -10%;
-  border-radius: 50%;
-  background: conic-gradient(from 0deg, transparent 0deg, rgba(45,212,191,0.28) 26deg, transparent 60deg, transparent 360deg);
-  animation: hud-spin 7s linear infinite;
-  filter: blur(6px);
-  pointer-events: none;
-}
 .hero-visual svg {
   width: 100%;
-  max-width: 460px;
+  max-width: 440px;
   height: auto;
   position: relative;
-  filter: drop-shadow(0 30px 90px rgba(45,212,191,0.32)) drop-shadow(0 0 40px rgba(45,212,191,0.18));
+  filter: drop-shadow(0 24px 60px rgba(45,212,191,0.16));
 }
 
 @media (max-width: 860px) {
@@ -844,8 +777,8 @@ h2::after {
   height: 96px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--accent);
-  box-shadow: 0 0 0 8px rgba(45,212,191,0.14), 0 20px 50px -16px rgba(45,212,191,0.55);
+  border: 2px solid var(--line);
+  box-shadow: 0 0 0 5px rgba(45,212,191,0.08), 0 12px 30px -14px rgba(0,0,0,0.6);
   flex-shrink: 0;
 }
 .about-role {
@@ -909,8 +842,8 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 .bento-cell:hover {
-  border-color: rgba(45,212,191,0.5);
-  box-shadow: 0 20px 44px -18px rgba(45,212,191,0.4);
+  border-color: rgba(45,212,191,0.35);
+  box-shadow: 0 14px 30px -18px rgba(45,212,191,0.26);
 }
 .bento-cell::before {
   content: '';
@@ -956,7 +889,7 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
   position: relative;
   z-index: 1;
 }
-.skill-badge:hover { transform: translateY(-5px) scale(1.02); border-color: var(--accent); box-shadow: 0 16px 32px -14px rgba(45,212,191,0.45); }
+.skill-badge:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 10px 22px -14px rgba(45,212,191,0.3); }
 .skill-mono {
   display: flex;
   align-items: center;
@@ -1024,14 +957,14 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
 .feature-visual {
   position: relative;
   aspect-ratio: 4 / 3;
-  border: 1px solid rgba(45,212,191,0.35);
+  border: 1px solid var(--line);
   border-radius: 12px;
   background:
-    radial-gradient(ellipse at 30% 20%, rgba(45,212,191,0.24), transparent 60%),
+    radial-gradient(ellipse at 30% 20%, rgba(45,212,191,0.12), transparent 60%),
     rgba(27, 26, 33, 0.45);
-  backdrop-filter: blur(22px) saturate(140%);
-  -webkit-backdrop-filter: blur(22px) saturate(140%);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.08) inset, 0 24px 48px -20px rgba(45,212,191,0.35), 0 14px 32px -20px rgba(0,0,0,0.6);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.05) inset, 0 14px 32px -20px rgba(0,0,0,0.55);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1175,7 +1108,7 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
 /* Services (legacy card grid, kept for reference elsewhere if needed) */
 .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
 .card { background: var(--bg-panel); padding: 28px 24px; transition: transform 0.18s ease, box-shadow 0.18s ease; }
-.card:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 22px 48px -14px rgba(45,212,191,0.4); }
+.card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px -16px rgba(45,212,191,0.28); }
 .card-ref { font-family: var(--font-mono); color: var(--accent); font-size: 0.75rem; }
 .card h3 { font-size: 1.05rem; margin: 14px 0 10px; font-weight: 600; }
 .card p { color: var(--text-dim); font-size: 0.88rem; margin: 0; }
