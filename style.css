@@ -746,6 +746,73 @@ h2::after {
   }
 }
 
+/* Mini terminal widget — small looping "typed command" panel (About section) */
+.mini-terminal {
+  margin-top: 24px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: rgba(10,10,14,0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 14px 32px -22px rgba(0,0,0,0.65);
+}
+.mini-terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--line);
+}
+.mini-terminal-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.mini-terminal-dot-red { background: #FF5F56; }
+.mini-terminal-dot-yellow { background: #FFBD2E; }
+.mini-terminal-dot-green { background: #27C93F; }
+.mini-terminal-title {
+  margin-left: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: var(--text-faint);
+  letter-spacing: 0.03em;
+}
+.mini-terminal-body {
+  padding: 14px 16px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  min-height: 58px;
+}
+.mini-terminal-line { margin: 0; }
+.mini-terminal-prompt { color: var(--accent); }
+.mini-terminal-cmd { color: var(--text); }
+.mini-terminal-out {
+  display: block;
+  margin: 8px 0 0;
+  color: var(--text-dim);
+  min-height: 1.4em;
+}
+.mini-terminal-cursor {
+  display: inline-block;
+  width: 6px;
+  height: 12px;
+  background: var(--accent-bright);
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: term-blink 1s step-end infinite;
+}
+@keyframes term-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .mini-terminal-cursor { animation: none; }
+}
+
+/* Sub-section heading — used where Beceriler/Süreç content now lives
+   inside Hakkımda/Hizmetler instead of being their own top-level sections. */
+.subsection-heading {
+  margin: 64px 0 28px;
+  padding-top: 40px;
+  border-top: 1px solid var(--line-soft);
+}
+
 .hero-visual {
   display: flex;
   align-items: center;
