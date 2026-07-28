@@ -111,6 +111,9 @@
       <a href="#sss"><span class="ref">U5</span> SSS</a>
       <a href="#iletisim"><span class="ref">U6</span> İletişim</a>
     </nav>
+    <button type="button" class="cmdk-trigger" id="cmdkTrigger" aria-label="Hızlı gezinme (Ctrl/Cmd+K)">
+      <span>Bölüm ara</span><kbd>⌘K</kbd>
+    </button>
     <div class="social-links">
       <!-- TODO: kendi GitHub / LinkedIn adreslerinle değiştir -->
       <a href="https://github.com/FatihUzn" target="_blank" rel="noopener" aria-label="GitHub">
@@ -839,7 +842,27 @@
     </div>
     <a href="#top" class="footer-top-link">Yukarı çık ↑</a>
   </div>
+  <p class="footer-build" aria-hidden="true">BUILD v1.2.0 · SON GÜNCELLEME: 28 Temmuz 2026</p>
 </footer>
+
+<div class="cmdk-overlay" id="cmdkOverlay" aria-hidden="true">
+  <div class="cmdk-panel" role="dialog" aria-modal="true" aria-label="Hızlı gezinme">
+    <div class="cmdk-input-row">
+      <span class="cmdk-prompt">›</span>
+      <input type="text" class="cmdk-input" id="cmdkInput" placeholder="Bölüm ara..." autocomplete="off">
+      <kbd class="cmdk-esc">Esc</kbd>
+    </div>
+    <ul class="cmdk-list" id="cmdkList">
+      <li><a href="#top" data-cmdk-item>Başa Dön <span class="cmdk-ref">U0</span></a></li>
+      <li><a href="#hizmetler" data-cmdk-item>Hizmetler <span class="cmdk-ref">U1</span></a></li>
+      <li><a href="#hakkimda" data-cmdk-item>Hakkımda <span class="cmdk-ref">U2</span></a></li>
+      <li><a href="#projeler" data-cmdk-item>Projeler <span class="cmdk-ref">U3</span></a></li>
+      <li><a href="#referanslar" data-cmdk-item>Referanslar <span class="cmdk-ref">U4</span></a></li>
+      <li><a href="#sss" data-cmdk-item>SSS <span class="cmdk-ref">U5</span></a></li>
+      <li><a href="#iletisim" data-cmdk-item>İletişim <span class="cmdk-ref">U6</span></a></li>
+    </ul>
+  </div>
+</div>
 
 <script>
   (function () {
@@ -1372,6 +1395,107 @@
     }
 
     runScreen();
+  })();
+</script>
+
+<script>
+  (function () {
+    var overlay = document.getElementById('cmdkOverlay');
+    var input = document.getElementById('cmdkInput');
+    var list = document.getElementById('cmdkList');
+    var trigger = document.getElementById('cmdkTrigger');
+    if (!overlay || !input || !list) return;
+
+    var items = Array.prototype.slice.call(list.querySelectorAll('a[data-cmdk-item]'));
+    var selectedIndex = 0;
+
+    function visibleItems() {
+      return items.filter(function (a) { return !a.parentElement.classList.contains('is-hidden'); });
+    }
+    function updateSelection() {
+      items.forEach(function (a) { a.classList.remove('is-selected'); });
+      var vis = visibleItems();
+      if (vis[selectedIndex]) vis[selectedIndex].classList.add('is-selected');
+    }
+    function openPalette() {
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      input.value = '';
+      items.forEach(function (a) { a.parentElement.classList.remove('is-hidden'); });
+      selectedIndex = 0;
+      updateSelection();
+      setTimeout(function () { input.focus(); }, 10);
+    }
+    function closePalette() {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+    }
+
+    document.addEventListener('keydown', function (e) {
+      var isOpen = overlay.classList.contains('is-open');
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        isOpen ? closePalette() : openPalette();
+      } else if (e.key === 'Escape' && isOpen) {
+        closePalette();
+      }
+    });
+
+    if (trigger) trigger.addEventListener('click', openPalette);
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) closePalette(); });
+
+    input.addEventListener('input', function () {
+      var q = input.value.trim().toLowerCase();
+      items.forEach(function (a) {
+        var match = a.textContent.toLowerCase().indexOf(q) !== -1;
+        a.parentElement.classList.toggle('is-hidden', !match);
+      });
+      selectedIndex = 0;
+      updateSelection();
+    });
+
+    input.addEventListener('keydown', function (e) {
+      var vis = visibleItems();
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        selectedIndex = Math.min(selectedIndex + 1, vis.length - 1);
+        updateSelection();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        selectedIndex = Math.max(selectedIndex - 1, 0);
+        updateSelection();
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        var target = vis[selectedIndex];
+        if (target) {
+          closePalette();
+          window.location.hash = target.getAttribute('href').replace('#', '');
+        }
+      }
+    });
+
+    items.forEach(function (a) {
+      a.addEventListener('click', function () { closePalette(); });
+    });
+  })();
+</script>
+
+<script>
+  (function () {
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    document.querySelectorAll('.btn').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        var rect = btn.getBoundingClientRect();
+        var spark = document.createElement('span');
+        spark.className = 'btn-spark';
+        spark.style.left = (e.clientX - rect.left) + 'px';
+        spark.style.top = (e.clientY - rect.top) + 'px';
+        btn.appendChild(spark);
+        spark.addEventListener('animationend', function () { spark.remove(); });
+      });
+    });
   })();
 </script>
 
