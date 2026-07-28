@@ -1254,29 +1254,42 @@
 
 <script>
   (function () {
-    var sysEl = document.getElementById('telSys');
-    var cpuEl = document.getElementById('telCpu');
-    var latEl = document.getElementById('telLatency');
+    // Single shared clock/session tick drives every time-based readout on the
+    // page (header telemetry, world clock, corner panel) instead of five
+    // separate intervals each doing their own Date() math.
     var upEl = document.getElementById('telUptime');
     var worldEl = document.getElementById('telWorld');
-    if (!cpuEl || !latEl || !upEl) return;
+    var cornerTimeEl = document.getElementById('cornerTime');
+    var cornerSessionEl = document.getElementById('cornerSession');
+    var cpuEl = document.getElementById('telCpu');
+    var latEl = document.getElementById('telLatency');
 
     var startTime = Date.now();
-
     function pad(n) { return n < 10 ? '0' + n : '' + n; }
+    function hms(elapsedSec) {
+      return pad(Math.floor(elapsedSec / 3600)) + ':' + pad(Math.floor((elapsedSec % 3600) / 60)) + ':' + pad(elapsedSec % 60);
+    }
+    function fmtZone(tz, now) {
+      return new Intl.DateTimeFormat('tr-TR', { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false }).format(now);
+    }
 
-    function tickUptime() {
-      var elapsed = Math.floor((Date.now() - startTime) / 1000);
-      var h = pad(Math.floor(elapsed / 3600));
-      var m = pad(Math.floor((elapsed % 3600) / 60));
-      var s = pad(elapsed % 60);
-      upEl.textContent = h + ':' + m + ':' + s;
+    function tickClock() {
+      var now = new Date();
+      var elapsed = Math.floor((now.getTime() - startTime) / 1000);
+      var elapsedStr = hms(elapsed);
+
+      if (upEl) upEl.textContent = elapsedStr;
+      if (cornerSessionEl) cornerSessionEl.textContent = elapsedStr;
+      if (cornerTimeEl) cornerTimeEl.textContent = fmtZone('Europe/Istanbul', now) + ':' + pad(now.getSeconds());
+      if (worldEl) {
+        worldEl.textContent = 'İST ' + fmtZone('Europe/Istanbul', now) + ' · BER ' + fmtZone('Europe/Berlin', now) + ' · SF ' + fmtZone('America/Los_Angeles', now);
+      }
     }
 
     // Decorative, non-real metrics — gently drift within a believable range
-    var cpu = 12;
-    var lat = 4;
+    var cpu = 12, lat = 4;
     function tickMetrics() {
+      if (!cpuEl || !latEl) return;
       cpu += (Math.random() - 0.5) * 4;
       cpu = Math.max(4, Math.min(28, cpu));
       lat += (Math.random() - 0.5) * 2;
@@ -1285,61 +1298,10 @@
       latEl.textContent = lat.toFixed(0) + 'ms';
     }
 
-    function tickWorld() {
-      if (!worldEl) return;
-      var now = new Date();
-      function fmtZone(tz) {
-        return new Intl.DateTimeFormat('tr-TR', { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false }).format(now);
-      }
-      worldEl.textContent = 'İST ' + fmtZone('Europe/Istanbul') + ' · BER ' + fmtZone('Europe/Berlin') + ' · SF ' + fmtZone('America/Los_Angeles');
-    }
-
-    tickUptime();
+    tickClock();
     tickMetrics();
-    tickWorld();
-    setInterval(tickUptime, 1000);
+    setInterval(tickClock, 1000);
     setInterval(tickMetrics, 2200);
-    setInterval(tickWorld, 1000);
-  })();
-</script>
-
-<script>
-  (function () {
-    var timeEl = document.getElementById('cornerTime');
-    var sessionEl = document.getElementById('cornerSession');
-    if (!timeEl || !sessionEl) return;
-
-    var startTime = Date.now();
-
-    function pad(n) { return n < 10 ? '0' + n : '' + n; }
-
-    function tickTime() {
-      var parts = new Intl.DateTimeFormat('tr-TR', {
-        timeZone: 'Europe/Istanbul',
-        hour: '2-digit', minute: '2-digit', second: '2-digit',
-        hour12: false
-      }).formatToParts(new Date());
-      var h = '00', m = '00', s = '00';
-      parts.forEach(function (p) {
-        if (p.type === 'hour') h = p.value;
-        if (p.type === 'minute') m = p.value;
-        if (p.type === 'second') s = p.value;
-      });
-      timeEl.textContent = h + ':' + m + ':' + s;
-    }
-
-    function tickSession() {
-      var elapsed = Math.floor((Date.now() - startTime) / 1000);
-      var h = pad(Math.floor(elapsed / 3600));
-      var m = pad(Math.floor((elapsed % 3600) / 60));
-      var s = pad(elapsed % 60);
-      sessionEl.textContent = h + ':' + m + ':' + s;
-    }
-
-    tickTime();
-    tickSession();
-    setInterval(tickTime, 1000);
-    setInterval(tickSession, 1000);
   })();
 </script>
 

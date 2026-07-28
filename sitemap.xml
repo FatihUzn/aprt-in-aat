@@ -1,38 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- TODO: siteyi yayına alınca tüm loc değerlerindeki TODO-DOMAIN-EKLE kısmını gerçek domainle değiştir -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://TODO-DOMAIN-EKLE.github.io/</loc>
+    <loc>https://fatihuzn.github.io/consulting/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://TODO-DOMAIN-EKLE.github.io/#hakkimda</loc>
+    <loc>https://fatihuzn.github.io/consulting/#hakkimda</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://TODO-DOMAIN-EKLE.github.io/#beceriler</loc>
+    <loc>https://fatihuzn.github.io/consulting/#beceriler</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://TODO-DOMAIN-EKLE.github.io/#hizmetler</loc>
+    <loc>https://fatihuzn.github.io/consulting/#hizmetler</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://TODO-DOMAIN-EKLE.github.io/#projeler</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://TODO-DOMAIN-EKLE.github.io/#sss</loc>
+    <loc>https://fatihuzn.github.io/consulting/#surec</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://TODO-DOMAIN-EKLE.github.io/#iletisim</loc>
+    <loc>https://fatihuzn.github.io/consulting/#projeler</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fatihuzn.github.io/consulting/#referanslar</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://fatihuzn.github.io/consulting/#sss</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://fatihuzn.github.io/consulting/#iletisim</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
