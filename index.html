@@ -2,474 +2,1422 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>OPERASYON: ALMANYA → TU BERLIN</title>
-<meta name="theme-color" content="#f5f2e8">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="ALMANYA→TUB">
-<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Almanya%20Operasyon%20Paneli%22%2C%22short_name%22%3A%22Almanya%22%2C%22display%22%3A%22standalone%22%2C%22start_url%22%3A%22.%22%2C%22background_color%22%3A%22%23f5f2e8%22%2C%22theme_color%22%3A%22%23f5f2e8%22%7D">
-<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAElklEQVR4nO3drW4UURiH8VOCIxhCMHxITK+AVOF6JdVNEAg0ooIESZBcBQ5FuIIaJC2m6UUgTphMdve/c75nznmfn6INsMOcZ9/52KV78ujxEwcc8mDtDcB2EQck4oBEHJCIAxJxQCIOSMQBiTggPWzwGM9fvW7wKAb9/fO76t9/Uun2OUE0ViOU8nHsZ3F/d1v2IeA9ffZi5ztlEykZx04WNNHMTiWlEikTxzwLmljRvJL8RArEMZVBFhsxJZLZR+6lLGVs0LQWmZcF6ZODLLYvc4QkTg7K6ELmCEmJgzI6ktNH+jkHZfQieaWi4/ABUkZf/HrFDo+4OCijXwl9RMTByyVjCF/H6MMKY6NfsWsXGgcHlDFEHVx4sw+koDgYGyMJHx5MDkjLcXCRMqrFlQ19D6mFY8r52aX/xfefn9fcjvru727330W2j8MKJOKAtBAH1ymjCrlmYXJAIg5IxAGJOCARByTigEQckIgDEnFAIg5IxAGJOCARByTigEQckIgDEnFAIg5IxAGJOCARByTigEQckIgDEnFAIg5IxAGJOCARByTigEQckIgDEnFAIg5IxAGJOCARByTigEQckIgDUujPPh/b1cWNc+7H9af5l++/vlxzmzZg4ROpx/4Jxj6CRaNW4n82/pEPqzY6OQKzmP/mURM5wuI5R1QZmX+qa7YmR+YCWxshhiZHqae+nRFiKA7EshJH2ae7keFhIo4aa2mhDxNxIE2Vq5XTXx/mX16/+VjjUQLVe4pfXdyse+VSez+Xnxw7W3zwO8jXYD8XjkNtH32U1WY/l4zj+Jat0kft08ZVTkub7edicYRsE/MjX8v93Pr2+XhXgI3/Rd/cl2aPxaUsJOKARByQSr4TbPE8qP3dsAYnBO3vg5Xaz4vvBCs5OY5v0yr3SWuv3Cp3SJvt58KHFbVl695BH0+b/Vz+nGN/+yijhgb72cS7zyudefT+fsGm5xwYjIk4ajzFex8bIUzE4UqvpYUynJ04kMBQHKWe7kbGhrP2n5r8uiZfvNjJwjM0OSZpa2ytDGdtckyiRojBLDyjcXjTqu/8fI63p++c4SYmpuOY+A7Ozy7nX8LiOQcCEQck4oBEHJCIAxJxQCIOSMQBiTggEQck4oBEHJCIAxJxQCIOSMQBiTggEQck4oBEHJCIAxJxQCIOSMQBiTggEQck4oBEHJCIAxJxQCIOSMQBiTggEQck4oBEHJCIAxJxQCIOSMQBaSEO/xlP/vOeMJLFz/ByTA4cQRyQFj4d0v3/gEjX/2dEYjKdJ+QeVo7/efRrcWU5rEAKioNrlpGEXKd4TA5IoXEwPMYQPjZcwuSgj37Frl1EHFy2jCF8HeMmBweXfkUdULzowwp99CihDJdztUIfvUheqZQ4pgDpY/sC75QflDg56KMLOWW4kBfejuNluW3KzMLLvUPKCNmgImW4/MnhTfPDMUJWNX+K5t+XKhOHN0/EUUlDO2O71O3KknF4O4k4Kqlm/1Be9i52+Ti8/URQVY0XN2rFMUcoldR+tatFHOgUb/aBRByQiAMScUAiDkjEAYk4IBEHpH8wzWj+E0p5HgAAAABJRU5ErkJggg==">
-<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAElklEQVR4nO3drW4UURiH8VOCIxhCMHxITK+AVOF6JdVNEAg0ooIESZBcBQ5FuIIaJC2m6UUgTphMdve/c75nznmfn6INsMOcZ9/52KV78ujxEwcc8mDtDcB2EQck4oBEHJCIAxJxQCIOSMQBiTggPWzwGM9fvW7wKAb9/fO76t9/Uun2OUE0ViOU8nHsZ3F/d1v2IeA9ffZi5ztlEykZx04WNNHMTiWlEikTxzwLmljRvJL8RArEMZVBFhsxJZLZR+6lLGVs0LQWmZcF6ZODLLYvc4QkTg7K6ELmCEmJgzI6ktNH+jkHZfQieaWi4/ABUkZf/HrFDo+4OCijXwl9RMTByyVjCF/H6MMKY6NfsWsXGgcHlDFEHVx4sw+koDgYGyMJHx5MDkjLcXCRMqrFlQ19D6mFY8r52aX/xfefn9fcjvru727330W2j8MKJOKAtBAH1ymjCrlmYXJAIg5IxAGJOCARByTigEQckIgDEnFAIg5IxAGJOCARByTigEQckIgDEnFAIg5IxAGJOCARByTigEQckIgDEnFAIg5IxAGJOCARByTigEQckIgDEnFAIg5IxAGJOCARByTigEQckIgDUujPPh/b1cWNc+7H9af5l++/vlxzmzZg4ROpx/4Jxj6CRaNW4n82/pEPqzY6OQKzmP/mURM5wuI5R1QZmX+qa7YmR+YCWxshhiZHqae+nRFiKA7EshJH2ae7keFhIo4aa2mhDxNxIE2Vq5XTXx/mX16/+VjjUQLVe4pfXdyse+VSez+Xnxw7W3zwO8jXYD8XjkNtH32U1WY/l4zj+Jat0kft08ZVTkub7edicYRsE/MjX8v93Pr2+XhXgI3/Rd/cl2aPxaUsJOKARByQSr4TbPE8qP3dsAYnBO3vg5Xaz4vvBCs5OY5v0yr3SWuv3Cp3SJvt58KHFbVl695BH0+b/Vz+nGN/+yijhgb72cS7zyudefT+fsGm5xwYjIk4ajzFex8bIUzE4UqvpYUynJ04kMBQHKWe7kbGhrP2n5r8uiZfvNjJwjM0OSZpa2ytDGdtckyiRojBLDyjcXjTqu/8fI63p++c4SYmpuOY+A7Ozy7nX8LiOQcCEQck4oBEHJCIAxJxQCIOSMQBiTggEQck4oBEHJCIAxJxQCIOSMQBiTggEQck4oBEHJCIAxJxQCIOSMQBiTggEQck4oBEHJCIAxJxQCIOSMQBiTggEQck4oBEHJCIAxJxQCIOSMQBaSEO/xlP/vOeMJLFz/ByTA4cQRyQFj4d0v3/gEjX/2dEYjKdJ+QeVo7/efRrcWU5rEAKioNrlpGEXKd4TA5IoXEwPMYQPjZcwuSgj37Frl1EHFy2jCF8HeMmBweXfkUdULzowwp99CihDJdztUIfvUheqZQ4pgDpY/sC75QflDg56KMLOWW4kBfejuNluW3KzMLLvUPKCNmgImW4/MnhTfPDMUJWNX+K5t+XKhOHN0/EUUlDO2O71O3KknF4O4k4Kqlm/1Be9i52+Ti8/URQVY0XN2rFMUcoldR+tatFHOgUb/aBRByQiAMScUAiDkjEAYk4IBEHpH8wzWj+E0p5HgAAAABJRU5ErkJggg==">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UZN TECH &amp; SOFTWARE — Mekatronik Mühendisliği &amp; Siber Güvenlik</title>
+<meta name="description" content="Fatih Uzner tarafından kurulan UZN TECH & SOFTWARE — mekatronik mühendisliği, otomasyon sistemleri, yazılım geliştirme ve siber güvenlik çözümleri.">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/icons/icon-512.png">
+<meta name="theme-color" content="#0A0E17">
+
+<!-- Open Graph / sosyal medya önizleme kartı -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="UZN TECH & SOFTWARE">
+<meta property="og:title" content="UZN TECH & SOFTWARE — Mekatronik Mühendisliği & Siber Güvenlik">
+<meta property="og:description" content="Fatih Uzner tarafından kurulan UZN TECH & SOFTWARE — mekatronik mühendisliği, otomasyon sistemleri, yazılım geliştirme ve siber güvenlik çözümleri.">
+<meta property="og:image" content="assets/icons/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://fatihuzn.github.io/consulting/">
+<meta property="og:locale" content="tr_TR">
+
+<!-- Twitter kartı -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="UZN TECH & SOFTWARE — Mekatronik Mühendisliği & Siber Güvenlik">
+<meta name="twitter:description" content="Mekatronik mühendisliği, otomasyon, yazılım geliştirme ve siber güvenlik çözümleri.">
+<meta name="twitter:image" content="assets/icons/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+
+<!-- Yapılandırılmış veri (JSON-LD) — arama motorlarının kim/ne olduğunu anlaması için -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Fatih Uzner",
+  "url": "https://fatihuzn.github.io/consulting/",
+  "jobTitle": "Mekatronik Mühendisliği Öğrencisi",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "UZN TECH & SOFTWARE"
+  },
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Bahçeşehir Üniversitesi"
+  },
+  "knowsAbout": ["Mekatronik Mühendisliği", "Otomasyon Sistemleri", "Python", "C++", "Java", "Go", "Siber Güvenlik", "SolidWorks"],
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Beşiktaş, İstanbul",
+    "addressCountry": "TR"
+  },
+  "email": "mailto:a.fatihuzn@gmail.com",
+  "sameAs": [
+    "https://github.com/FatihUzn"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "UZN TECH & SOFTWARE",
+  "url": "https://fatihuzn.github.io/consulting/",
+  "image": "assets/icons/og-image.png",
+  "description": "Mekatronik mühendisliği, otomasyon sistemleri, yazılım geliştirme ve siber güvenlik çözümleri.",
+  "founder": {
+    "@type": "Person",
+    "name": "Fatih Uzner"
+  },
+  "areaServed": "TR",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Beşiktaş, İstanbul",
+    "addressCountry": "TR"
+  },
+  "email": "mailto:a.fatihuzn@gmail.com",
+  "telephone": "+905343771414"
+}
+</script>
 </head>
 <body>
-<div class="wrap">
 
-  <header>
-    <div class="tag-row">
-      <span class="i18n" data-tr="REV 3.0 // GERÇEKLİK-KONTROLLÜ" data-de="REV 3.0 // REALITÄTSGEPRÜFT">REV 3.0 // GERÇEKLİK-KONTROLLÜ</span>
-      <div style="display:flex; align-items:center; gap:12px;">
-        <span class="status i18n" data-tr="STATUS: ACTIVE" data-de="STATUS: AKTIV">STATUS: ACTIVE</span>
-        <div class="lang-toggle">
-          <button type="button" class="active" data-lang="tr" onclick="setLang('tr')">TR</button>
-          <button type="button" data-lang="de" onclick="setLang('de')">DE</button>
-        </div>
-      </div>
-    </div>
-    <h1>ALMANYA<span class="arrow">→</span>TU BERLIN</h1>
-    <p class="subtitle i18n" data-tr="Limburgerhof köprü dönemi operasyon paneli. Nihai hedef: Mekatronik Mühendisliği, TU Berlin." data-de="Operationspanel für die Übergangsphase in Limburgerhof. Endziel: Mechatronik-Ingenieurwesen, TU Berlin.">Limburgerhof köprü dönemi operasyon paneli. Nihai hedef: Mekatronik Mühendisliği, TU Berlin.</p>
-    <div class="phase-strip">
-      <div class="phase-chip active i18n" data-tr="FAZ 1 · Çalışma &amp; Dil (Ekim–Eylül)" data-de="PHASE 1 · Arbeit &amp; Sprache (Okt.–Sept.)">FAZ 1 · Çalışma &amp; Dil (Ekim–Eylül)</div>
-      <div class="phase-chip i18n" data-tr="FAZ 2 · Vize Dönüşümü (§16b)" data-de="PHASE 2 · Visumsumwandlung (§16b)">FAZ 2 · Vize Dönüşümü (§16b)</div>
-      <div class="phase-chip i18n" data-tr="FAZ 3 · TU Berlin" data-de="PHASE 3 · TU Berlin">FAZ 3 · TU Berlin</div>
-    </div>
-    <div class="hero-progress">
-      <div class="hero-progress-top">
-        <span class="hero-progress-label i18n" data-tr="Genel İlerleme · 1 Yıllık Operasyon" data-de="Gesamtfortschritt · 1-jährige Operation">Genel İlerleme · 1 Yıllık Operasyon</span>
-        <span class="hero-progress-pct" id="progressPct">–%</span>
-      </div>
-      <div class="hero-progress-track"><div class="hero-progress-fill" id="progressFill"></div></div>
-      <div class="hero-progress-sub" id="progressSub">başlangıç: 01.10.2026 · otomatik hesaplanıyor</div>
-    </div>
-  </header>
+<div class="grid-overlay" aria-hidden="true"></div>
+<div class="circuit-bg" aria-hidden="true"></div>
+<div class="cursor-spotlight" aria-hidden="true"></div>
 
-  <nav class="tab-nav">
-    <button type="button" class="tab-btn active" data-tab="zaman" onclick="switchTab('zaman')">⏱️ ZAMAN</button>
-    <button type="button" class="tab-btn" data-tab="sistem" onclick="switchTab('sistem')">⚙️ SİSTEM</button>
-    <button type="button" class="tab-btn" data-tab="finans" onclick="switchTab('finans')">💰 FİNANS</button>
-    <button type="button" class="tab-btn" data-tab="yks" onclick="switchTab('yks')">📚 YKS</button>
+<header class="site-header">
+  <a href="#top" class="logo">
+    <svg class="logo-icon" width="20" height="20" viewBox="0 0 22 22" aria-hidden="true">
+      <circle cx="4" cy="11" r="2.2" fill="var(--accent)"/>
+      <line x1="6.2" y1="11" x2="15.8" y2="11" stroke="var(--signal)" stroke-width="1.4"/>
+      <circle cx="18" cy="11" r="2.2" fill="var(--signal)"/>
+    </svg>
+    <span class="logo-mark">UZN<span class="logo-amp">TECH</span></span><span class="logo-sub">SOFTWARE &amp; OTOMASYON</span>
+  </a>
+
+  <div class="header-right">
+    <nav class="site-nav">
+      <a href="#hizmetler"><span class="ref">U1</span> Hizmetler</a>
+      <a href="#hakkimda"><span class="ref">U2</span> Hakkımda</a>
+      <a href="#projeler"><span class="ref">U3</span> Projeler</a>
+      <a href="#sss"><span class="ref">U4</span> SSS</a>
+      <a href="#iletisim"><span class="ref">U5</span> İletişim</a>
+    </nav>
+    <button type="button" class="cmdk-trigger" id="cmdkTrigger" aria-label="Hızlı gezinme (Ctrl/Cmd+K)">
+      <span>Bölüm ara</span><kbd>⌘K</kbd>
+    </button>
+    <div class="social-links">
+      <!-- TODO: kendi GitHub / LinkedIn adreslerinle değiştir -->
+      <a href="https://github.com/FatihUzn" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.09.68-.22.68-.49 0-.24-.01-.88-.01-1.72-2.78.62-3.37-1.37-3.37-1.37-.46-1.19-1.11-1.51-1.11-1.51-.91-.64.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.13-4.56-5.02 0-1.11.39-2.02 1.03-2.73-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.71 1.03 1.62 1.03 2.73 0 3.9-2.34 4.76-4.57 5.01.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.59.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z" fill="currentColor"/></svg>
+      </a>
+    </div>
+    <!-- TODO: assets/cv/ klasörüne kendi CV PDF'ini koy ve dosya adını güncelle -->
+    <a href="assets/cv/Fatih-Uzner-CV.pdf" class="btn btn-ghost btn-cv" download>CV İndir</a>
+  </div>
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Menüyü aç" aria-expanded="false" aria-controls="mobileNav">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <nav>
+    <a href="#hizmetler"><span class="ref">U1</span> Hizmetler</a>
+    <a href="#hakkimda"><span class="ref">U2</span> Hakkımda</a>
+    <a href="#projeler"><span class="ref">U3</span> Projeler</a>
+    <a href="#sss"><span class="ref">U4</span> SSS</a>
+    <a href="#iletisim"><span class="ref">U5</span> İletişim</a>
   </nav>
+  <div class="social-links">
+    <a href="https://github.com/FatihUzn" target="_blank" rel="noopener" aria-label="GitHub">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.09.68-.22.68-.49 0-.24-.01-.88-.01-1.72-2.78.62-3.37-1.37-3.37-1.37-.46-1.19-1.11-1.51-1.11-1.51-.91-.64.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.13-4.56-5.02 0-1.11.39-2.02 1.03-2.73-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.71 1.03 1.62 1.03 2.73 0 3.9-2.34 4.76-4.57 5.01.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.59.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z" fill="currentColor"/></svg>
+      <span>GitHub</span>
+    </a>
+  </div>
+  <a href="assets/cv/Fatih-Uzner-CV.pdf" class="btn btn-primary" download>CV İndir</a>
+</div>
+<div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
 
-  <div class="tab-panel active" id="tab-zaman">
+<div class="telemetry-strip" aria-hidden="true">
+  <div class="telemetry-track" id="telemetryTrack">
+    <span class="telemetry-item"><span class="telemetry-label">SYS</span><span class="telemetry-val" id="telSys">ONLINE</span></span>
+    <span class="telemetry-sep">/</span>
+    <span class="telemetry-item"><span class="telemetry-label">LOC</span><span class="telemetry-val">İstanbul, TR</span></span>
+    <span class="telemetry-sep">/</span>
+    <span class="telemetry-item"><span class="telemetry-label">STACK</span><span class="telemetry-val">Python · C++ · Go</span></span>
+    <span class="telemetry-sep">/</span>
+    <span class="telemetry-item"><span class="telemetry-label">UPTIME</span><span class="telemetry-val" id="telUptime">00:00:00</span></span>
+  </div>
+</div>
 
-  <!-- CANLI YKS SAYACI (GÜN:SAAT:DK:SN) -->
-  <section>
-    <div class="sec-label">
-      <span>2027 YKS Canlı Geri Sayım</span>
-      <span style="color:var(--amber); font-size:10px;">— HEDEF: İLK 100</span>
-    </div>
-
-    <!-- TİKK TAK SAAT KISMI -->
-    <div class="yks-clock-wrapper yks-clock-light" id="yksClock">
-      <div class="yks-unit"><div class="yks-num" id="tDays">00</div><div class="yks-label">Gün</div></div>
-      <div class="yks-unit"><div class="yks-num" id="tHours">00</div><div class="yks-label">Saat</div></div>
-      <div class="yks-unit"><div class="yks-num" id="tMins">00</div><div class="yks-label">Dakika</div></div>
-      <div class="yks-unit"><div class="yks-num" id="tSecs">00</div><div class="yks-label">Saniye</div></div>
-    </div>
-
-    <div class="hero-progress" style="margin-top:14px;">
-      <div class="hero-progress-top">
-        <span class="hero-progress-label">Genel Zaman Dilimi (Azalan)</span>
-        <span class="hero-progress-pct" id="yksPct">%100</span>
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <canvas class="hero-beams" id="heroBeams" aria-hidden="true"></canvas>
+    <div class="scan-line" aria-hidden="true"></div>
+    <div class="hero-text">
+      <p class="boot-line" id="bootLine" aria-hidden="true">&nbsp;</p>
+      <p class="eyebrow"><span class="node-motif"><span></span></span>U0 — GİRİŞ NOKTASI</p>
+      <h1>Mekanik hassasiyet.<br>Yazılım zekâsı.</h1>
+      <p class="hero-lede">
+        UZN TECH &amp; SOFTWARE, mekatronik mühendisi Fatih Uzner tarafından kuruldu.
+        Mekanik sistemleri, elektroniği ve yazılımı tek bir devrede birleştiren
+        mühendislik çözümleri üretiyoruz.
+      </p>
+      <div class="track-select">
+        <p class="track-select-label">İlgi alanını seç, içerik ona göre süzülsün</p>
+        <div class="track-switch" role="group" aria-label="Hizmet alanına göre içeriği filtrele">
+          <button type="button" class="track-btn" data-track-btn="yazilim">Yazılım</button>
+          <button type="button" class="track-btn" data-track-btn="mekanik">Mekanik &amp; Otomasyon</button>
+          <button type="button" class="track-btn" data-track-btn="siber">Siber Güvenlik</button>
+          <button type="button" class="track-btn" data-track-btn="ikisi">Mekatronik (İkisi)</button>
+          <button type="button" class="track-reset" data-track-reset>Tümünü göster</button>
+        </div>
       </div>
-      <div class="hero-progress-track"><div class="hero-progress-fill" id="yksFill"></div></div>
+      <div class="hero-actions">
+        <a href="#iletisim" class="btn btn-primary magnetic">Bir Proje Konuşalım</a>
+        <a href="#hizmetler" class="btn btn-ghost">Yetkinlikleri Gör</a>
+      </div>
+      <div class="hero-specs">
+        <div class="spec"><span class="spec-label">DİSİPLİN</span><span class="spec-val">Mekatronik Müh.</span></div>
+        <div class="spec"><span class="spec-label">ODAK</span><span class="spec-val">Otomasyon · Siber Güvenlik</span></div>
+        <div class="spec"><span class="spec-label">DURUM</span><span class="spec-val"><span class="pulse-dot" aria-hidden="true"></span>Aktif · Yeni Projelere Açık</span></div>
+      </div>
+      <p class="credentials-strip">Bahçeşehir Üniversitesi · Denizbank · YetGen · Zirve 23 · Elite Case</p>
+
+      <div class="stat-strip">
+        <div class="stat"><span class="stat-num">4+</span><span class="stat-label">Yıl Mühendislik Eğitimi</span></div>
+        <div class="stat"><span class="stat-num">4</span><span class="stat-label">Programlama Dili</span></div>
+        <div class="stat"><span class="stat-num">3</span><span class="stat-label">Dil</span></div>
+        <div class="stat"><span class="stat-num">6</span><span class="stat-label">Sertifika / Program</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual tilt" aria-hidden="true">
+      <svg viewBox="0 0 420 420" fill="none">
+        <g class="hud-ring-outer">
+          <circle cx="210" cy="210" r="164" stroke="var(--line)" stroke-width="1"/>
+          <circle cx="210" cy="46" r="4" fill="var(--accent)"/>
+          <circle cx="374" cy="210" r="4" fill="var(--line)"/>
+          <circle cx="210" cy="374" r="4" fill="var(--line)"/>
+          <circle cx="46" cy="210" r="4" fill="var(--line)"/>
+        </g>
+        <circle cx="210" cy="210" r="120" stroke="var(--line)" stroke-width="1" stroke-dasharray="2 6"/>
+        <g class="hud-ring-dashed">
+          <circle cx="210" cy="210" r="72" stroke="var(--accent)" stroke-width="1.1" opacity="0.4"/>
+          <path d="M282 138 L330 90" stroke="var(--accent-2)" stroke-width="1" stroke-dasharray="3 5" opacity="0.45"/>
+          <path d="M138 282 L90 330" stroke="var(--accent-2)" stroke-width="1" stroke-dasharray="3 5" opacity="0.45"/>
+          <circle cx="330" cy="90" r="3.5" fill="var(--accent-2)"/>
+          <circle cx="90" cy="330" r="3.5" fill="var(--accent-2)"/>
+        </g>
+
+        <g stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round" opacity="0.6">
+          <line x1="210" y1="46" x2="210" y2="88"/>
+          <line x1="210" y1="332" x2="210" y2="374"/>
+          <line x1="46" y1="210" x2="88" y2="210"/>
+          <line x1="332" y1="210" x2="374" y2="210"/>
+        </g>
+
+        <g class="hud-core">
+          <circle cx="210" cy="210" r="42" fill="var(--bg-panel)" stroke="var(--accent)" stroke-width="1.4"/>
+          <circle cx="210" cy="210" r="7" fill="var(--accent)"/>
+        </g>
+
+        <g font-family="var(--font-mono)" font-size="10" fill="var(--text-faint)">
+          <text x="222" y="42">MEC</text>
+          <text x="336" y="206">SEC</text>
+          <text x="180" y="392">SW</text>
+        </g>
+      </svg>
     </div>
   </section>
 
+  <!-- SERVICES -->
+  <section class="section" id="hizmetler">
+    <div class="scan-line" aria-hidden="true"></div>
+    <p class="eyebrow"><span class="node-motif"><span></span></span>U1 — HİZMETLER</p>
+    <h2>Yetkinlik Alanları</h2>
+
+    <div class="feature-blocks">
+
+      <article class="feature-block" data-track="mekanik">
+        <div class="feature-text">
+          <span class="feature-label">Mühendislik &amp; Otomasyon</span>
+          <h3>Fikirden çalışan prototipe, tek elden.</h3>
+          <p>Mekanik tasarımdan kontrol sistemine kadar bir mekanizmanın tüm yaşam döngüsünde çalışıyorum.</p>
+          <ul class="feature-list">
+            <li>SolidWorks ile parça ve mekanizma tasarımı</li>
+            <li>PLC / mikrodenetleyici tabanlı kontrol sistemleri</li>
+            <li>Sensör–aktüatör entegrasyonu</li>
+          </ul>
+        </div>
+        <div class="feature-visual parallax-box tilt" aria-hidden="true">
+          <svg class="feature-diagram parallax-layer" viewBox="0 0 220 165" fill="none">
+            <circle cx="70" cy="82" r="30" stroke="var(--line)" stroke-width="1.4"/>
+            <g stroke="var(--accent-2)" stroke-width="3" stroke-linecap="round">
+              <line x1="70" y1="46" x2="70" y2="56"/>
+              <line x1="70" y1="108" x2="70" y2="118"/>
+              <line x1="34" y1="82" x2="44" y2="82"/>
+              <line x1="96" y1="82" x2="106" y2="82"/>
+              <line x1="45.6" y1="57.6" x2="52.3" y2="64.3"/>
+              <line x1="87.7" y1="99.7" x2="94.4" y2="106.4"/>
+              <line x1="94.4" y1="57.6" x2="87.7" y2="64.3"/>
+              <line x1="52.3" y1="99.7" x2="45.6" y2="106.4"/>
+            </g>
+            <circle cx="70" cy="82" r="13" fill="var(--bg)" stroke="var(--accent-2)" stroke-width="1.6"/>
+            <circle cx="70" cy="82" r="4" fill="var(--accent-2)"/>
+            <path d="M106 82H150" stroke="var(--line)" stroke-width="1.4"/>
+            <rect x="150" y="64" width="46" height="36" rx="4" stroke="var(--signal)" stroke-width="1.4"/>
+            <path d="M160 82H186M173 71V93" stroke="var(--accent-bright)" stroke-width="1.4"/>
+            <path d="M70 118V138" stroke="var(--line)" stroke-width="1.4"/>
+            <circle cx="70" cy="138" r="4" fill="var(--signal)"/>
+            <path d="M173 100V138H70" stroke="var(--line)" stroke-width="1.4" stroke-dasharray="3 4"/>
+          </svg>
+          <svg class="dim-overlay" viewBox="0 0 220 165" preserveAspectRatio="none" aria-hidden="true">
+            <path class="dim-bracket" d="M8,20 L8,8 L20,8"/>
+            <path class="dim-bracket" d="M200,8 L212,8 L212,20"/>
+            <path class="dim-bracket" d="M212,145 L212,157 L200,157"/>
+            <path class="dim-bracket" d="M20,157 L8,157 L8,145"/>
+            <line class="dim-line" x1="22" y1="151" x2="198" y2="151"/>
+            <path class="dim-arrow" d="M22,151 L30,147 M22,151 L30,155"/>
+            <path class="dim-arrow" d="M198,151 L190,147 M198,151 L190,155"/>
+            <text class="dim-text" x="110" y="146" text-anchor="middle" font-size="7">142.0</text>
+            <line class="dim-line" x1="205" y1="22" x2="205" y2="143"/>
+            <path class="dim-arrow" d="M205,22 L201,30 M205,22 L209,30"/>
+            <path class="dim-arrow" d="M205,143 L201,135 M205,143 L209,135"/>
+            <text class="dim-text" x="209" y="85" font-size="7">96.5</text>
+          </svg>
+        </div>
+      </article>
+
+      <article class="feature-block reverse" data-track="yazilim">
+        <div class="feature-text">
+          <span class="feature-label">Yazılım Geliştirme</span>
+          <h3>Donanımın konuştuğu dilden yazılıma.</h3>
+          <p>Python, C++, Java ve Go ile hem otomasyon araçları hem de sistem düzeyinde yazılımlar geliştiriyorum.</p>
+          <ul class="feature-list">
+            <li>Otomasyon ve iş akışı araçları</li>
+            <li>Backend ve sistem yazılımları</li>
+            <li>Mikrodenetleyici firmware'i</li>
+          </ul>
+        </div>
+        <div class="feature-visual parallax-box tilt" aria-hidden="true">
+          <svg class="feature-diagram parallax-layer" viewBox="0 0 220 165" fill="none">
+            <rect x="24" y="40" width="172" height="86" rx="6" stroke="var(--signal)" stroke-width="1.4"/>
+            <line x1="24" y1="58" x2="196" y2="58" stroke="var(--line)" stroke-width="1.2"/>
+            <circle cx="38" cy="49" r="2.6" fill="var(--text-faint)"/>
+            <circle cx="48" cy="49" r="2.6" fill="var(--text-faint)"/>
+            <circle cx="58" cy="49" r="2.6" fill="var(--text-faint)"/>
+            <g stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round">
+              <path d="M46 78 34 90 46 102"/>
+              <path d="M78 78 90 90 78 102"/>
+            </g>
+            <line x1="66" y1="104" x2="60" y2="76" stroke="var(--accent-bright)" stroke-width="2.2" stroke-linecap="round"/>
+            <g stroke="var(--line)" stroke-width="1.4">
+              <line x1="108" y1="76" x2="180" y2="76"/>
+              <line x1="108" y1="90" x2="164" y2="90"/>
+              <line x1="108" y1="104" x2="172" y2="104"/>
+            </g>
+            <circle cx="180" cy="76" r="3" fill="var(--accent)"/>
+            <circle cx="164" cy="90" r="3" fill="var(--text-dim)"/>
+            <circle cx="172" cy="104" r="3" fill="var(--text-dim)"/>
+            <path d="M110 126V140" stroke="var(--line)" stroke-width="1.4" stroke-dasharray="3 4"/>
+            <circle cx="110" cy="146" r="4" fill="var(--signal)"/>
+          </svg>
+          <svg class="dim-overlay" viewBox="0 0 220 165" preserveAspectRatio="none" aria-hidden="true">
+            <path class="dim-bracket" d="M8,20 L8,8 L20,8"/>
+            <path class="dim-bracket" d="M200,8 L212,8 L212,20"/>
+            <path class="dim-bracket" d="M212,145 L212,157 L200,157"/>
+            <path class="dim-bracket" d="M20,157 L8,157 L8,145"/>
+            <line class="dim-line" x1="22" y1="151" x2="198" y2="151"/>
+            <path class="dim-arrow" d="M22,151 L30,147 M22,151 L30,155"/>
+            <path class="dim-arrow" d="M198,151 L190,147 M198,151 L190,155"/>
+            <text class="dim-text" x="110" y="146" text-anchor="middle" font-size="7">168.4</text>
+            <line class="dim-line" x1="205" y1="22" x2="205" y2="143"/>
+            <path class="dim-arrow" d="M205,22 L201,30 M205,22 L209,30"/>
+            <path class="dim-arrow" d="M205,143 L201,135 M205,143 L209,135"/>
+            <text class="dim-text" x="209" y="85" font-size="7">82.0</text>
+          </svg>
+        </div>
+      </article>
+
+      <article class="feature-block" data-track="siber">
+        <div class="feature-text">
+          <span class="feature-label">Siber Güvenlik</span>
+          <h3>Güvenlik, sonradan eklenen bir özellik değil.</h3>
+          <p>Kali Linux üzerinde sızma testi ve sistem sertleştirme pratikleriyle geliştirdiğim her sistemi baştan güvenli kuruyorum.</p>
+          <ul class="feature-list">
+            <li>Sızma testi</li>
+            <li>Ağ analizi</li>
+            <li>Sistem sertleştirme</li>
+          </ul>
+        </div>
+        <div class="feature-visual parallax-box tilt" aria-hidden="true">
+          <svg class="feature-diagram parallax-layer" viewBox="0 0 220 165" fill="none">
+            <path d="M78 34 118 34 118 40 78 40Z" fill="none"/>
+            <path d="M98 32 132 44V78C132 104 116 118 98 128 80 118 64 104 64 78V44L98 32Z" stroke="var(--signal)" stroke-width="1.6"/>
+            <path d="M82 82 93 93 116 68" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <g stroke="var(--line)" stroke-width="1.2">
+              <circle cx="98" cy="80" r="46"/>
+              <circle cx="98" cy="80" r="62"/>
+            </g>
+            <g fill="var(--text-faint)">
+              <circle cx="44" cy="52" r="2.4"/>
+              <circle cx="34" cy="96" r="2.4"/>
+              <circle cx="152" cy="48" r="2.4"/>
+              <circle cx="162" cy="100" r="2.4"/>
+              <circle cx="58" cy="132" r="2.4"/>
+              <circle cx="140" cy="130" r="2.4"/>
+            </g>
+            <path d="M98 18V32M98 128V142" stroke="var(--accent-bright)" stroke-width="1.4" stroke-dasharray="2 4"/>
+          </svg>
+          <svg class="dim-overlay" viewBox="0 0 220 165" preserveAspectRatio="none" aria-hidden="true">
+            <path class="dim-bracket" d="M8,20 L8,8 L20,8"/>
+            <path class="dim-bracket" d="M200,8 L212,8 L212,20"/>
+            <path class="dim-bracket" d="M212,145 L212,157 L200,157"/>
+            <path class="dim-bracket" d="M20,157 L8,157 L8,145"/>
+            <line class="dim-line" x1="22" y1="151" x2="198" y2="151"/>
+            <path class="dim-arrow" d="M22,151 L30,147 M22,151 L30,155"/>
+            <path class="dim-arrow" d="M198,151 L190,147 M198,151 L190,155"/>
+            <text class="dim-text" x="110" y="146" text-anchor="middle" font-size="7">Ø124.0</text>
+            <line class="dim-line" x1="205" y1="22" x2="205" y2="143"/>
+            <path class="dim-arrow" d="M205,22 L201,30 M205,22 L209,30"/>
+            <path class="dim-arrow" d="M205,143 L201,135 M205,143 L209,135"/>
+            <text class="dim-text" x="209" y="85" font-size="7">62.0</text>
+          </svg>
+        </div>
+      </article>
+
+    </div>
+
+    <h2 class="subsection-heading">Nasıl Çalışıyorum</h2>
+    <div class="process-steps">
+      <div class="process-step">
+        <span class="process-num">01</span>
+        <h3>Görüşme &amp; Analiz</h3>
+        <p>İhtiyacını, hedefini ve kısıtlarını netleştirip; mekanik, elektronik ve yazılım tarafında kapsamı ve zaman çizelgesini birlikte belirliyoruz.</p>
+      </div>
+      <div class="process-step">
+        <span class="process-num">02</span>
+        <h3>Prototip</h3>
+        <p>Tasarım, kod ve sistem entegrasyonunu birlikte ilerletip düzenli olarak ilerlemeyi paylaşıyorum.</p>
+      </div>
+      <div class="process-step">
+        <span class="process-num">03</span>
+        <h3>Teslim</h3>
+        <p>Test edilmiş, dokümante edilmiş ve gerekirse güvenlik açısından sertleştirilmiş çözümü teslim ediyorum.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="hakkimda">
+    <div class="scan-line" aria-hidden="true"></div>
+    <p class="eyebrow"><span class="node-motif"><span></span></span>U2 — HAKKIMDA</p>
+    <div class="about-intro">
+      <div class="about-photo-wrap">
+        <svg class="about-photo-rings" viewBox="0 0 160 160" aria-hidden="true">
+          <circle cx="80" cy="80" r="78" stroke="var(--line)" stroke-width="1"/>
+          <g class="hud-ring-outer">
+            <circle cx="80" cy="80" r="68" stroke="var(--accent)" stroke-width="1" stroke-dasharray="2 7" opacity="0.5"/>
+            <circle cx="80" cy="12" r="2.4" fill="var(--accent)"/>
+          </g>
+        </svg>
+        <img src="assets/img/fatih-uzner.jpg" alt="Fatih Uzner" class="about-photo tilt" width="96" height="96">
+      </div>
+      <div>
+        <h2>Fatih Uzner</h2>
+        <p class="about-role">Kurucu — UZN TECH &amp; SOFTWARE · Mekatronik Mühendisliği Öğrencisi</p>
+      </div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          Mekatronik mühendisliği okuyorum; yazılım geliştirme ve siber güvenlik arasında
+          dengeli bir odakla çalışıyorum. Python, C++, Java ve Go ile programlama
+          yapıyor; Kali Linux, sızma testleri ve sistem sertleştirme gibi güvenlik
+          pratikleriyle bunu destekliyorum.
+        </p>
+        <p>
+          Otomasyon araçları geliştirdim, ağları analiz ettim, güvenli uygulamalar
+          tasarladım. Mühendislik disiplinini pratik siber güvenlik bilgisiyle
+          birleştirerek teknoloji ve savunma sektörlerine yenilikçi, güvenli ve
+          verimli çözümler sunmayı hedefliyorum.
+        </p>
+        <div class="timeline">
+          <div class="timeline-row">
+            <span class="timeline-year">2021 — Devam</span>
+            <span class="timeline-what">Bahçeşehir Üniversitesi — Mekatronik Mühendisliği</span>
+          </div>
+          <div class="timeline-row">
+            <span class="timeline-year">2020–2021</span>
+            <span class="timeline-what">Bahçeşehir COOP — Finans, AI, Erasmus (Litvanya)</span>
+          </div>
+          <div class="timeline-row">
+            <span class="timeline-year">2025</span>
+            <span class="timeline-what">Elite Case — Mak. Elek. San. (Ağustos)</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-meta">
+        <div class="meta-row"><span>Eğitim</span><span>Mekatronik Mühendisliği</span></div>
+        <div class="meta-row"><span>Durum</span><span>Mezuniyet aşaması</span></div>
+        <div class="meta-row"><span>Konum</span><span>İstanbul, Türkiye</span></div>
+        <div class="meta-row"><span>Sertifikalar</span><span>YetGen · Zirve 23</span></div>
+        <div class="meta-row"><span>Diller</span><span>Türkçe · İngilizce · Rusça</span></div>
+        <div class="meta-row"><span>Araçlar</span><span>SolidWorks · Kali Linux</span></div>
+
+        <div class="mini-terminal" aria-hidden="true">
+          <div class="mini-terminal-bar">
+            <span class="mini-terminal-dot mini-terminal-dot-red"></span>
+            <span class="mini-terminal-dot mini-terminal-dot-yellow"></span>
+            <span class="mini-terminal-dot mini-terminal-dot-green"></span>
+            <span class="mini-terminal-title">fatih@uzntech:~</span>
+          </div>
+          <div class="mini-terminal-body">
+            <p class="mini-terminal-line"><span class="mini-terminal-prompt">$</span> <span class="mini-terminal-cmd" id="termCmd"></span><span class="mini-terminal-cursor" id="termCursor"></span></p>
+            <p class="mini-terminal-out" id="termOut">&nbsp;</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="subsection-heading">Araçlar &amp; Teknolojiler</h2>
+    <div class="bento-grid">
+      <div class="bento-cell bento-lg tilt" data-track="yazilim">
+        <span class="bento-label">Programlama Dilleri</span>
+        <div class="skills-row">
+          <div class="skill-badge">
+            <span class="skill-mono">Py</span>
+            <span class="skill-name">Python</span>
+            <svg class="badge-wave" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
+              <line class="wave-baseline" x1="0" y1="20" x2="200" y2="20"/>
+              <path class="wave-path" pathLength="200" d="M0,20 C12.5,2 37.5,2 50,20 C62.5,38 87.5,38 100,20 C112.5,2 137.5,2 150,20 C162.5,38 187.5,38 200,20"/>
+            </svg>
+          </div>
+          <div class="skill-badge">
+            <span class="skill-mono">C++</span>
+            <span class="skill-name">C++</span>
+            <svg class="badge-wave" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
+              <line class="wave-baseline" x1="0" y1="20" x2="200" y2="20"/>
+              <path class="wave-path" pathLength="200" d="M0,20 H20 V4 H45 V36 H70 V4 H95 V20 H120 V4 H145 V36 H170 V4 H195 V20 H200"/>
+            </svg>
+          </div>
+          <div class="skill-badge">
+            <span class="skill-mono">Jv</span>
+            <span class="skill-name">Java</span>
+            <svg class="badge-wave" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
+              <line class="wave-baseline" x1="0" y1="20" x2="200" y2="20"/>
+              <path class="wave-path" pathLength="200" d="M0,20 C12.5,2 37.5,2 50,20 C62.5,38 87.5,38 100,20 C112.5,2 137.5,2 150,20 C162.5,38 187.5,38 200,20"/>
+            </svg>
+          </div>
+          <div class="skill-badge">
+            <span class="skill-mono">Go</span>
+            <span class="skill-name">Go</span>
+            <svg class="badge-wave" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
+              <line class="wave-baseline" x1="0" y1="20" x2="200" y2="20"/>
+              <path class="wave-path" pathLength="200" d="M0,20 H20 V4 H45 V36 H70 V4 H95 V20 H120 V4 H145 V36 H170 V4 H195 V20 H200"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="bento-cell bento-accent2 tilt" data-track="siber">
+        <span class="bento-label">Siber Güvenlik</span>
+        <div class="skills-row">
+          <div class="skill-badge">
+            <span class="skill-mono">Kx</span>
+            <span class="skill-name">Kali Linux</span>
+            <svg class="badge-wave" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
+              <line class="wave-baseline" x1="0" y1="20" x2="200" y2="20"/>
+              <path class="wave-path" pathLength="200" d="M0,20 H20 V4 H45 V36 H70 V4 H95 V20 H120 V4 H145 V36 H170 V4 H195 V20 H200"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="bento-cell tilt" data-track="mekanik">
+        <span class="bento-label">Mühendislik &amp; CAD</span>
+        <div class="skills-row">
+          <div class="skill-badge">
+            <span class="skill-mono">SW</span>
+            <span class="skill-name">SolidWorks</span>
+            <svg class="badge-wave" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
+              <line class="wave-baseline" x1="0" y1="20" x2="200" y2="20"/>
+              <path class="wave-path" pathLength="200" d="M0,20 C12.5,2 37.5,2 50,20 C62.5,38 87.5,38 100,20 C112.5,2 137.5,2 150,20 C162.5,38 187.5,38 200,20"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="bento-cell bento-wide tilt">
+        <span class="bento-label">Ofis &amp; Diller</span>
+        <div class="skills-row">
+          <div class="skill-badge">
+            <span class="skill-mono">Of</span>
+            <span class="skill-name">Microsoft Office</span>
+          </div>
+          <div class="skill-badge">
+            <span class="skill-mono">TR</span>
+            <span class="skill-name">Türkçe</span>
+          </div>
+          <div class="skill-badge">
+            <span class="skill-mono">EN</span>
+            <span class="skill-name">İngilizce</span>
+          </div>
+          <div class="skill-badge">
+            <span class="skill-mono">RU</span>
+            <span class="skill-name">Rusça</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section" id="projeler">
+    <div class="scan-line" aria-hidden="true"></div>
+    <p class="eyebrow"><span class="node-motif"><span></span></span>U3 — PROJELER</p>
+    <h2>Seçili Çalışmalar</h2>
+    <!-- Gerçek bir proje eklerken <article class="project-row" data-track="yazilim|mekanik|siber|ikisi"> şeklinde etiketle, track filtresi burada da otomatik çalışır -->
+    <div class="project-list">
+      <article class="project-row">
+        <span class="project-ref">P01</span>
+        <div class="project-info">
+          <h3>Proje Başlığı Buraya</h3>
+          <p>Kısa açıklama: hangi problemi çözdü, hangi araçlar kullanıldı.</p>
+        </div>
+        <span class="project-tag">Yakında</span>
+        <svg class="dim-overlay" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">
+          <path class="dim-bracket" d="M4,14 L4,4 L14,4"/>
+          <path class="dim-bracket" d="M386,4 L396,4 L396,14"/>
+          <path class="dim-bracket" d="M396,46 L396,56 L386,56"/>
+          <path class="dim-bracket" d="M14,56 L4,56 L4,46"/>
+          <line class="dim-line" x1="18" y1="30" x2="382" y2="30"/>
+          <path class="dim-arrow" d="M18,30 L26,25 M18,30 L26,35"/>
+          <path class="dim-arrow" d="M382,30 L374,25 M382,30 L374,35"/>
+        </svg>
+      </article>
+      <article class="project-row">
+        <span class="project-ref">P02</span>
+        <div class="project-info">
+          <h3>Proje Başlığı Buraya</h3>
+          <p>Kısa açıklama: hangi problemi çözdü, hangi araçlar kullanıldı.</p>
+        </div>
+        <span class="project-tag">Yakında</span>
+        <svg class="dim-overlay" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">
+          <path class="dim-bracket" d="M4,14 L4,4 L14,4"/>
+          <path class="dim-bracket" d="M386,4 L396,4 L396,14"/>
+          <path class="dim-bracket" d="M396,46 L396,56 L386,56"/>
+          <path class="dim-bracket" d="M14,56 L4,56 L4,46"/>
+          <line class="dim-line" x1="18" y1="30" x2="382" y2="30"/>
+          <path class="dim-arrow" d="M18,30 L26,25 M18,30 L26,35"/>
+          <path class="dim-arrow" d="M382,30 L374,25 M382,30 L374,35"/>
+        </svg>
+      </article>
+      <article class="project-row">
+        <span class="project-ref">P03</span>
+        <div class="project-info">
+          <h3>Proje Başlığı Buraya</h3>
+          <p>Kısa açıklama: hangi problemi çözdü, hangi araçlar kullanıldı.</p>
+        </div>
+        <span class="project-tag">Yakında</span>
+        <svg class="dim-overlay" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">
+          <path class="dim-bracket" d="M4,14 L4,4 L14,4"/>
+          <path class="dim-bracket" d="M386,4 L396,4 L396,14"/>
+          <path class="dim-bracket" d="M396,46 L396,56 L386,56"/>
+          <path class="dim-bracket" d="M14,56 L4,56 L4,46"/>
+          <line class="dim-line" x1="18" y1="30" x2="382" y2="30"/>
+          <path class="dim-arrow" d="M18,30 L26,25 M18,30 L26,35"/>
+          <path class="dim-arrow" d="M382,30 L374,25 M382,30 L374,35"/>
+        </svg>
+      </article>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <!--
+  <section class="section" id="referanslar">
+    <div class="scan-line" aria-hidden="true"></div>
+    <p class="eyebrow"><span class="node-motif"><span></span></span>U4 — REFERANSLAR</p>
+    <h2>Referanslar</h2>
+    <p class="section-note">Bu bölüm ilk proje/staj referansları geldikçe dolacak — yapı şimdiden hazır.</p>
+    <div class="testimonial-grid">
+      <article class="testimonial-card is-placeholder tilt">
+        <svg class="testimonial-quote" width="28" height="20" viewBox="0 0 28 20" aria-hidden="true"><path d="M0 20V11.6C0 4.6 4.2 0.6 10.6 0L11.4 3.4C7.6 4.4 5.6 6.6 5.4 10H11V20H0ZM16.6 20V11.6C16.6 4.6 20.8 0.6 27.2 0L28 3.4C24.2 4.4 22.2 6.6 22 10H27.6V20H16.6Z" fill="currentColor"/></svg>
+        <p class="testimonial-text">Bir müşteri veya çalışma arkadaşından gelecek geri bildirim burada yer alacak.</p>
+        <div class="testimonial-who">
+          <span class="testimonial-name">İsim Soyisim</span>
+          <span class="testimonial-role">Ünvan, Şirket</span>
+        </div>
+        <span class="testimonial-tag">Yakında</span>
+      </article>
+      <article class="testimonial-card is-placeholder tilt">
+        <svg class="testimonial-quote" width="28" height="20" viewBox="0 0 28 20" aria-hidden="true"><path d="M0 20V11.6C0 4.6 4.2 0.6 10.6 0L11.4 3.4C7.6 4.4 5.6 6.6 5.4 10H11V20H0ZM16.6 20V11.6C16.6 4.6 20.8 0.6 27.2 0L28 3.4C24.2 4.4 22.2 6.6 22 10H27.6V20H16.6Z" fill="currentColor"/></svg>
+        <p class="testimonial-text">Bir müşteri veya çalışma arkadaşından gelecek geri bildirim burada yer alacak.</p>
+        <div class="testimonial-who">
+          <span class="testimonial-name">İsim Soyisim</span>
+          <span class="testimonial-role">Ünvan, Şirket</span>
+        </div>
+        <span class="testimonial-tag">Yakında</span>
+      </article>
+      <article class="testimonial-card is-placeholder tilt">
+        <svg class="testimonial-quote" width="28" height="20" viewBox="0 0 28 20" aria-hidden="true"><path d="M0 20V11.6C0 4.6 4.2 0.6 10.6 0L11.4 3.4C7.6 4.4 5.6 6.6 5.4 10H11V20H0ZM16.6 20V11.6C16.6 4.6 20.8 0.6 27.2 0L28 3.4C24.2 4.4 22.2 6.6 22 10H27.6V20H16.6Z" fill="currentColor"/></svg>
+        <p class="testimonial-text">Bir müşteri veya çalışma arkadaşından gelecek geri bildirim burada yer alacak.</p>
+        <div class="testimonial-who">
+          <span class="testimonial-name">İsim Soyisim</span>
+          <span class="testimonial-role">Ünvan, Şirket</span>
+        </div>
+        <span class="testimonial-tag">Yakında</span>
+      </article>
+    </div>
+  </section>
+  -->
+
+  <!-- FAQ -->
+  <section class="section" id="sss">
+    <div class="scan-line" aria-hidden="true"></div>
+    <p class="eyebrow"><span class="node-motif"><span></span></span>U4 — SSS</p>
+    <h2>Sık Sorulan Sorular</h2>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>Uzaktan mı çalışıyorsun, yüz yüze mi?</summary>
+        <p>Çoğu proje uzaktan yürütülebiliyor — görüşme, ilerleme paylaşımı ve teslim dahil. Donanım/mekanik bir prototip gerektiren işlerde İstanbul içinde yüz yüze buluşmak da mümkün.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Fiyatlandırma nasıl belirleniyor?</summary>
+        <p>Projenin kapsamına, süresine ve gereken uzmanlığa göre değişiyor. İlk görüşmeden sonra net bir kapsam ve fiyat teklifi paylaşıyorum, sürpriz ek ücret çıkmıyor.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Sadece yazılım/siber güvenlik mi, mekanik ve otomasyon projeleri de alıyor musun?</summary>
+        <p>Hepsini alıyorum. Mekatronik mühendisliği geçmişim sayesinde mekanik tasarım, otomasyon, gömülü yazılım ve siber güvenliği aynı projede birlikte yürütebiliyorum.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Bir proje ne kadar sürede tamamlanır?</summary>
+        <p>Küçük ölçekli bir otomasyon aracı ya da yazılım modülü genelde 1-3 hafta, mekanik tasarım içeren daha kapsamlı projeler birkaç ay sürebiliyor. Yukarıda "Nasıl Çalışıyorum" kısmında belirttiğim gibi, kapsam netleştikten sonra net bir zaman çizelgesi paylaşıyorum.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Gizlilik ve NDA konusunda nasıl çalışıyorsun?</summary>
+        <p>Talep edilirse NDA imzalamaya açığım. Paylaşılan kod, veri ve dokümanlar proje dışında kullanılmıyor ya da paylaşılmıyor.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="iletisim">
+    <div class="scan-line" aria-hidden="true"></div>
+    <p class="eyebrow"><span class="node-motif"><span></span></span>U5 — İLETİŞİM</p>
+    <h2>Bir Proje mi Var?</h2>
+    <p class="contact-lede">Otomasyon, siber güvenlik ya da mekanik tasarım ihtiyacın varsa yazabilirsin.</p>
+
+    <div class="contact-direct">
+      <div class="contact-item"><span>E-posta</span><a href="mailto:a.fatihuzn@gmail.com">a.fatihuzn@gmail.com</a></div>
+      <div class="contact-item"><span>Telefon</span><a href="tel:+905343771414">+90 534 377 14 14</a></div>
+      <div class="contact-item"><span>Konum</span><span>Beşiktaş, İstanbul</span></div>
+    </div>
+
+    <!--
+      GitHub Pages statik olduğu için PHP çalışmaz.
+      Bu form şu an Formspree'ye gönderiyor (ücretsiz plan yeterli).
+      Kurulum: https://formspree.io adresinden ücretsiz hesap aç,
+      "New Form" oluştur, sana verdiği endpoint'i aşağıdaki
+      action="https://formspree.io/f/XXXXXXX" kısmına yapıştır.
+    -->
+    <form class="contact-form" action="https://formspree.io/f/XXXXXXX" method="POST">
+      <div class="form-row">
+        <label for="name">Ad Soyad</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-row">
+        <label for="email">E-posta</label>
+        <input type="email" id="email" name="_replyto" required>
+      </div>
+      <div class="form-row">
+        <label for="ilgi-alani">İlgi Alanı</label>
+        <select id="ilgi-alani" name="ilgi_alani">
+          <option value="">Seçiniz</option>
+          <option value="Yazılım Geliştirme">Yazılım Geliştirme</option>
+          <option value="Mekanik & Otomasyon">Mekanik &amp; Otomasyon</option>
+          <option value="Siber Güvenlik">Siber Güvenlik</option>
+          <option value="Mekatronik (İkisi)">Mekatronik (İkisi)</option>
+          <option value="Diğer">Diğer</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="message">Mesaj</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+      </div>
+      <p class="form-consent">Formu göndererek verilerinizin <a href="kvkk.html">Gizlilik Politikası</a> kapsamında işlenmesini kabul etmiş olursunuz.</p>
+      <button type="submit" class="btn btn-primary magnetic">Gönder</button>
+    </form>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-main">
+    <div class="footer-brand">
+      <a href="#top" class="logo">
+        <svg class="logo-icon" width="20" height="20" viewBox="0 0 22 22" aria-hidden="true">
+          <circle cx="4" cy="11" r="2.2" fill="var(--accent)"/>
+          <line x1="6.2" y1="11" x2="15.8" y2="11" stroke="var(--signal)" stroke-width="1.4"/>
+          <circle cx="18" cy="11" r="2.2" fill="var(--signal)"/>
+        </svg>
+        <span class="logo-mark">UZN<span class="logo-amp">TECH</span></span>
+      </a>
+      <p class="footer-tagline">Mekanik hassasiyet, yazılım zekâsı, güvenli mimari — tek elden.</p>
+    </div>
+
+    <div class="footer-col">
+      <span class="footer-col-title">Site Haritası</span>
+      <a href="#hizmetler">Hizmetler</a>
+      <a href="#hakkimda">Hakkımda</a>
+      <a href="#projeler">Projeler</a>
+      <a href="#sss">SSS</a>
+      <a href="#iletisim">İletişim</a>
+    </div>
+
+    <div class="footer-col">
+      <span class="footer-col-title">İletişim</span>
+      <a href="mailto:a.fatihuzn@gmail.com">a.fatihuzn@gmail.com</a>
+      <a href="tel:+905343771414">+90 534 377 14 14</a>
+      <span class="footer-static">Beşiktaş, İstanbul</span>
+    </div>
   </div>
 
-  <div class="tab-panel" id="tab-sistem">
-
-  <details class="acc-section">
-    <summary class="sec-label acc-summary"><span class="i18n" data-tr="Günlük Ritim &amp; Haftalık Yapı" data-de="Täglicher Rhythmus &amp; Wochenstruktur">Günlük Ritim &amp; Haftalık Yapı</span> <span style="color:var(--amber); font-size:10px; margin-left:4px;">— TASLAK, İŞVERENLE NETLEŞTİRİLECEK</span><span class="acc-chevron">▾</span></summary>
-    <div class="acc-body">
-    <div class="rhythm-subhead i18n" data-tr="Günlük döngü (24 sa)" data-de="Täglicher Zyklus (24 Std.)">Günlük döngü (24 sa)</div>
-    <div class="daily-timeline">
-      <div class="seg" style="width:25%; background:var(--amber);" title="00:00–06:00 Vardiya (Temel, devam)"></div>
-      <div class="seg" style="width:2.1%; background:var(--line);" title="06:00–06:30 Yol"></div>
-      <div class="seg" style="width:27.1%; background:var(--purple);" title="06:30–13:00 Ana Uyku"></div>
-      <div class="seg" style="width:2.1%; background:var(--line);" title="13:00–13:30 Hazırlık"></div>
-      <div class="seg" style="width:17.7%; background:var(--green);" title="13:30–17:45 VHS Kurs"></div>
-      <div class="seg" style="width:1.0%; background:var(--line);" title="17:45–18:00 Yol"></div>
-      <div class="seg" style="width:5.2%; background:var(--purple-dim);" title="18:00–19:15 Power Nap"></div>
-      <div class="seg" style="width:2.1%; background:var(--line);" title="19:15–19:45 Hazırlık"></div>
-      <div class="seg" style="width:1.0%; background:var(--line);" title="19:45–20:00 Yol"></div>
-      <div class="seg" style="width:8.3%; background:rgba(168,99,26,0.45);" title="20:00–22:00 Mesai (İsteğe Bağlı — vergisiz gece primi penceresi)"></div>
-      <div class="seg" style="width:8.3%; background:var(--amber);" title="22:00–24:00 Vardiya (Temel)"></div>
-    </div>
-    <div class="timeline-ticks"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
-    <div class="legend">
-      <div class="legend-item"><span class="legend-dot" style="background:var(--amber);"></span><span class="i18n" data-tr="Fırın Vardiyası — Temel (22:00–06:00, 8 sa)" data-de="Bäckerei-Schicht — Basis (22:00–06:00, 8 Std.)">Fırın Vardiyası — Temel (22:00–06:00, 8 sa)</span></div>
-      <div class="legend-item"><span class="legend-dot" style="background:rgba(168,99,26,0.45);"></span><span class="i18n" data-tr="Mesai — İsteğe Bağlı (20:00–22:00)" data-de="Überstunden — Optional (20:00–22:00)">Mesai — İsteğe Bağlı (20:00–22:00)</span></div>
-      <div class="legend-item"><span class="legend-dot" style="background:var(--purple);"></span><span class="i18n" data-tr="Ana Uyku (06:30–13:00)" data-de="Hauptschlaf (06:30–13:00)">Ana Uyku (06:30–13:00)</span></div>
-      <div class="legend-item"><span class="legend-dot" style="background:var(--green);"></span><span class="i18n" data-tr="VHS Kurs (13:30–17:45)" data-de="VHS-Kurs (13:30–17:45)">VHS Kurs (13:30–17:45)</span></div>
-      <div class="legend-item"><span class="legend-dot" style="background:var(--purple-dim);"></span>Power Nap (18:00–19:15)</div>
-      <div class="legend-item"><span class="legend-dot" style="background:var(--line);"></span><span class="i18n" data-tr="Yol / Hazırlık" data-de="Weg / Vorbereitung">Yol / Hazırlık</span></div>
-    </div>
-    <div class="hero-progress-sub" style="margin-top:10px;">
-      <span class="i18n" data-tr="Temel vardiya 8 sa × 6 gün = 48 sa/hafta (Almanya'daki yasal ortalama üst sınırla aynı hizada). 20:00–22:00 mesai penceresi isteğe bağlı ve gece primi vergisiz olduğu için ekonomik olarak cazip, ama her gün garanti değil — işverenin o gün seni yazıp yazmamasına bağlı." data-de="Basisschicht 8 Std. × 6 Tage = 48 Std./Woche (entspricht der gesetzlichen Durchschnittsobergrenze in Deutschland). Das Zeitfenster 20:00–22:00 ist optionale Mehrarbeit und wegen des steuerfreien Nachtzuschlags finanziell attraktiv, aber nicht täglich garantiert — abhängig davon, ob der Arbeitgeber dich einteilt.">Temel vardiya 8 sa × 6 gün = 48 sa/hafta (Almanya'daki yasal ortalama üst sınırla aynı hizada). 20:00–22:00 mesai penceresi isteğe bağlı ve gece primi vergisiz olduğu için ekonomik olarak cazip, ama her gün garanti değil — işverenin o gün seni yazıp yazmamasına bağlı.</span>
-    </div>
-
-    <div class="rhythm-subhead i18n" data-tr="Haftalık yapı" data-de="Wochenstruktur" style="margin-top:22px;">Haftalık yapı</div>
-    <div class="table-wrap weekly-table">
-      <table>
-        <thead><tr><th class="i18n" data-tr="Gün" data-de="Tag">Gün</th><th class="i18n" data-tr="Vardiya" data-de="Schicht">Vardiya</th><th class="i18n" data-tr="Kurs" data-de="Kurs">Kurs</th><th class="i18n" data-tr="Not" data-de="Notiz">Not</th></tr></thead>
-        <tbody>
-          <tr class="milestone"><td data-label="Gün">Pazartesi</td><td data-label="Vardiya">—</td><td data-label="Kurs">—</td><td data-label="Not" class="cash">Tam dinlenme günü</td></tr>
-          <tr><td data-label="Gün">Salı–Cuma</td><td data-label="Vardiya">Gece vardiyası (8 sa temel + ops. mesai)</td><td data-label="Kurs">13:30–17:45</td><td data-label="Not">Standart döngü</td></tr>
-          <tr><td data-label="Gün">Cumartesi</td><td data-label="Vardiya">Gece vardiyası (8 sa temel + ops. mesai)</td><td data-label="Kurs">13:30–17:45</td><td data-label="Not">Standart döngü</td></tr>
-          <tr><td data-label="Gün">Pazar</td><td data-label="Vardiya">Gece vardiyası (8 sa temel, %50 prim)</td><td data-label="Kurs">—</td><td data-label="Not">Kurs yok, fazladan uyku</td></tr>
-        </tbody>
-
-      </table>
-    </div>
-    <div class="risk-panel" style="margin-top:14px;">
-      <div class="risk-item">
-        <div class="risk-icon">!</div>
-        <div class="risk-text"><b>Henüz onaylanmadı.</b> Pazartesi'nin sabit haftalık izin günü olması Arbeitszeitgesetz gereği (haftada 24 saat kesintisiz dinlenme hakkı) — bu, sözlü değil iş sözleşmesine yazılı madde olarak geçmeli. İşverenle netleşince bu bölüm güncellenecek.</div>
+  <div class="footer-bottom">
+    <div class="footer-bottom-left">
+      <div class="social-links footer-social">
+        <a href="https://github.com/FatihUzn" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.09.68-.22.68-.49 0-.24-.01-.88-.01-1.72-2.78.62-3.37-1.37-3.37-1.37-.46-1.19-1.11-1.51-1.11-1.51-.91-.64.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.13-4.56-5.02 0-1.11.39-2.02 1.03-2.73-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.71 1.03 1.62 1.03 2.73 0 3.9-2.34 4.76-4.57 5.01.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.59.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z" fill="currentColor"/></svg>
+        </a>
       </div>
+      <span>UZN TECH &amp; SOFTWARE © 2026 · Fatih Uzner</span>
+      <a href="kvkk.html">Gizlilik Politikası (KVKK)</a>
+      <span class="footer-build" aria-hidden="true">BUILD v1.2.0 · SON GÜNCELLEME: 28 Temmuz 2026</span>
     </div>
-    </div>
-  </details>
-
-  <section>
-    <div class="sec-label i18n" data-tr="Dil Yol Haritası: A1 → C1" data-de="Sprach-Roadmap: A1 → C1">Dil Yol Haritası: A1 → C1</div>
-    <div class="roadmap-outer">
-    <div class="roadmap-scroll">
-      <div class="roadmap">
-        <div class="node done" data-date="2026-10-31"><div class="dot"></div><div class="node-card"><div class="node-month">Ekim</div><div class="node-cash" style="font-size:14px;">A1.1→A1.2</div><div class="node-gold">Temel cümle</div></div></div>
-        <div class="node done" data-date="2026-11-30"><div class="dot"></div><div class="node-card"><div class="node-month">Kasım</div><div class="node-cash" style="font-size:14px;">A2.1</div><div class="node-gold">Perfekt</div><div class="node-flag">📝 A1</div></div></div>
-        <div class="node done" data-date="2026-12-31"><div class="dot"></div><div class="node-card"><div class="node-month">Aralık</div><div class="node-cash" style="font-size:14px;">A2.2</div><div class="node-gold">Bağlaçlar</div></div></div>
-        <div class="node done" data-date="2027-01-31"><div class="dot"></div><div class="node-card"><div class="node-month">Ocak</div><div class="node-cash" style="font-size:14px;">A2 tamam</div><div class="node-gold">Tekrar</div><div class="node-flag">📝 A2</div></div></div>
-        <div class="node done" data-date="2027-02-28"><div class="dot"></div><div class="node-card"><div class="node-month">Şubat</div><div class="node-cash" style="font-size:14px;">B1.1</div><div class="node-gold">Dativ/Akk.</div></div></div>
-        <div class="node done" data-date="2027-03-31"><div class="dot"></div><div class="node-card"><div class="node-month">Mart</div><div class="node-cash" style="font-size:14px;">B1.2</div><div class="node-gold">Konjunktiv II</div></div></div>
-        <div class="node done" data-date="2027-04-30"><div class="dot"></div><div class="node-card"><div class="node-month">Nisan</div><div class="node-cash" style="font-size:14px;">B1 tamam</div><div class="node-gold">Yoğun tekrar</div><div class="node-flag">📝 B1</div></div></div>
-        <div class="node done" data-date="2027-05-31"><div class="dot"></div><div class="node-card"><div class="node-month">Mayıs</div><div class="node-cash" style="font-size:14px;">B2.1</div><div class="node-gold">Akademik dil</div></div></div>
-        <div class="node done" data-date="2027-06-30"><div class="dot"></div><div class="node-card"><div class="node-month">Haziran</div><div class="node-cash" style="font-size:14px;">B2.2</div><div class="node-gold">Kompozisyon</div></div></div>
-        <div class="node done" data-date="2027-07-31"><div class="dot"></div><div class="node-card"><div class="node-month">Temmuz</div><div class="node-cash" style="font-size:14px;">B2 tamam</div><div class="node-gold">Yoğun tekrar</div><div class="node-flag">📝 B2</div></div></div>
-        <div class="node done" data-date="2027-08-31"><div class="dot"></div><div class="node-card"><div class="node-month">Ağustos</div><div class="node-cash" style="font-size:14px;">C1.1</div><div class="node-gold">Teknik terim</div></div></div>
-        <div class="node now" data-date="2027-09-30"><div class="dot"></div><div class="node-card"><div class="node-month">Eylül</div><div class="node-cash" style="font-size:14px;">C1.2</div><div class="node-gold">Final sınav</div><div class="node-flag">🎓 C1</div></div></div>
-      </div>
-      <div class="dim-row">
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"></div>
-      </div>
-    </div>
-    <div class="scroll-hint" aria-hidden="true"></div>
-    </div>
-
-    <details class="cash-log-full" style="margin-top:16px;">
-      <summary class="cash-log-toggle i18n" data-tr="Kabul edilen belgeler &amp; sınav tarihleri (özet)" data-de="Anerkannte Zertifikate &amp; Prüfungstermine (Kurzfassung)">Kabul edilen belgeler &amp; sınav tarihleri (özet)</summary>
-      <div class="cert-mini-list" style="margin-top:12px;">
-        <div class="cert-mini">
-          <div class="cert-mini-top"><span class="cert-mini-name">telc Deutsch C1 Hochschule</span><span class="badge">DOĞRUDAN KABUL</span></div>
-          <div class="cert-mini-dates"><span class="cert-date-chip">27.07.2026</span><span class="cert-date-chip">03.11.2026</span><span class="cert-date-chip">18.12.2026</span><span class="cert-mini-note">Mannheim Abendakademie</span></div>
-        </div>
-        <div class="cert-mini">
-          <div class="cert-mini-top"><span class="cert-mini-name">TestDaF</span><span class="badge">TDN 4×4 ŞART</span></div>
-          <div class="cert-mini-dates"><span class="cert-date-chip">20.01</span><span class="cert-date-chip">14.04</span><span class="cert-date-chip">08.06</span><span class="cert-date-chip">15.09</span><span class="cert-date-chip">07.10</span><span class="cert-date-chip">11.11.2027</span></div>
-        </div>
-        <div class="cert-mini">
-          <div class="cert-mini-top"><span class="cert-mini-name">DSH-2 / DSH-3</span><span class="badge">DOĞRUDAN KABUL</span></div>
-          <div class="cert-mini-dates"><span class="cert-mini-note">Sabit takvim yok — kuruma sorulmalı</span></div>
-        </div>
-        <div class="cert-mini">
-          <div class="cert-mini-top"><span class="cert-mini-name">Goethe-Zertifikat C2 (GDS)</span><span class="badge" style="background:rgba(168,99,26,0.12); color:var(--amber); border-color:rgba(168,99,26,0.4);">C1 YETMİYOR</span></div>
-        </div>
-      </div>
-    </details>
-  </section>
-
+    <a href="#top" class="footer-top-link">Yukarı çık ↑</a>
   </div>
+</footer>
 
-  <div class="tab-panel" id="tab-finans">
-
-  <section id="kasa-section">
-    <div class="sec-label i18n" data-tr="Ay Ay Kasa Kaydı" data-de="Monatliches Kassenbuch">Ay Ay Kasa Kaydı<span class="rate-updated" id="rateUpdatedAt"></span></div>
-
-    <div class="kasa-rate-strip">
-      <div class="kasa-rate-chip"><span class="kasa-rate-code">USD/TL</span><span class="kasa-rate-val" id="rate-USD-mid">–</span></div>
-      <div class="kasa-rate-chip"><span class="kasa-rate-code">gr altın/TL</span><span class="kasa-rate-val" id="rate-XAU-mid">–</span></div>
-      <span class="rate-hero-code" id="rate-EUR-mid" style="display:none;">–</span>
-      <span class="rate-hero-code" id="rate-GBP-mid" style="display:none;">–</span>
-      <span class="rate-hero-code" id="rate-CHF-mid" style="display:none;">–</span>
-      <span class="rate-hero-code" id="rate-AUD-mid" style="display:none;">–</span>
+<div class="cmdk-overlay" id="cmdkOverlay" aria-hidden="true">
+  <div class="cmdk-panel" role="dialog" aria-modal="true" aria-label="Hızlı gezinme">
+    <div class="cmdk-input-row">
+      <span class="cmdk-prompt">›</span>
+      <input type="text" class="cmdk-input" id="cmdkInput" placeholder="Bölüm ara..." autocomplete="off">
+      <kbd class="cmdk-esc">Esc</kbd>
     </div>
-    <div class="rate-error" id="rateError" style="display:none;">Kur verisi alınamadı — sayfayı yenile ya da birazdan tekrar dene.</div>
-
-    <div class="net-form" style="margin-top:14px;">
-      <div class="net-group-label">Kasandaki Toplam Tutar (EUR)</div>
-      <div class="net-form-row">
-        <input type="number" id="kasaEur" placeholder="Kasa (EUR)" step="0.01" min="0" style="flex:1; min-width:150px;">
-      </div>
-      <div class="net-live-result" id="kasaResult"></div>
-    </div>
-
-    <div class="table-wrap" style="margin-top:16px;">
-      <table>
-        <thead>
-          <tr><th class="i18n" data-tr="Dönem" data-de="Zeitraum">Dönem</th><th class="i18n" data-tr="Kalan/Eklenen" data-de="Verbleibend/Hinzugefügt">Kalan/Eklenen</th><th class="i18n" data-tr="Kümülatif Kasa" data-de="Kumulative Kasse">Kümülatif Kasa</th><th class="i18n" data-tr="Altın (114,08 €/gr)" data-de="Gold (114,08 €/g)">Altın (114,08 €/gr)</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Kasım Başı</td><td>+ 1.200 €</td><td class="cash">1.200 €</td><td class="gold">10,52 gr</td></tr>
-          <tr><td>Kasım Sonu (cihaz alımı)</td><td>− 290 €</td><td class="cash">910 €</td><td class="gold">7,98 gr</td></tr>
-          <tr><td>Aralık Başı</td><td>+ 2.000 €</td><td class="cash">2.910 €</td><td class="gold">25,51 gr</td></tr>
-          <tr><td>Aralık Sonu</td><td>+ 1.710 €</td><td class="cash">4.620 €</td><td class="gold">40,50 gr</td></tr>
-          <tr><td>Ocak Sonu</td><td>+ 1.710 €</td><td class="cash">6.330 €</td><td class="gold">55,49 gr</td></tr>
-          <tr><td>Şubat Sonu</td><td>+ 1.710 €</td><td class="cash">8.040 €</td><td class="gold">70,48 gr</td></tr>
-          <tr><td>Mart Sonu</td><td>+ 1.710 €</td><td class="cash">9.750 €</td><td class="gold">85,47 gr</td></tr>
-          <tr class="milestone"><td>Nisan Sonu (taksit biter)</td><td>+ 1.710 €</td><td class="cash">11.460 €</td><td class="gold">100,46 gr</td></tr>
-          <tr><td>Mayıs Sonu</td><td>+ 2.000 €</td><td class="cash">13.460 €</td><td class="gold">117,99 gr</td></tr>
-          <tr><td>Haziran Sonu</td><td>+ 2.000 €</td><td class="cash">15.460 €</td><td class="gold">135,52 gr</td></tr>
-          <tr><td>Temmuz Sonu</td><td>+ 2.000 €</td><td class="cash">17.460 €</td><td class="gold">153,05 gr</td></tr>
-          <tr><td>Ağustos Sonu</td><td>+ 2.000 €</td><td class="cash">19.460 €</td><td class="gold">170,58 gr</td></tr>
-          <tr class="milestone"><td>Eylül Sonu (sözleşme biter)</td><td>+ 2.000 €</td><td class="cash">21.460 €</td><td class="gold">188,11 gr</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div style="margin-top:10px; font-family:var(--mono); font-size:9.5px; color:var(--text-faint); text-align:right;">
-      *Orta kur Avrupa Merkez Bankası (Frankfurter API, yedek: open.er-api.com) ve goldprice.org anlık verisinden çekilir; belirli bir bankanın kesin fiyatı değildir — birkaç dakika gecikmeli olabilir, yatırım tavsiyesi değildir.
-    </div>
-  </section>
-
-  <section id="gold-actual-tracker">
-    <div class="sec-label">📊 Plan vs. Bugünün Kuruyla Grafiği <span style="color:var(--amber); font-size:10px; margin-left:4px;">OTOMATİK</span></div>
-
-    <div class="gold-chart-card">
-      <canvas id="goldChart"></canvas>
-    </div>
-
-    <div class="hero-progress-sub" style="margin-top:12px; text-align:center;">
-      Aynı aylık kasa hedefleri; kesikli çizgide sabit plan varsayımıyla (114,08 €/gr), düz çizgide bugünün canlı altın kuruyla gösteriliyor. Elle bir şey girmene gerek yok — kur değiştikçe grafik kendiliğinden güncellenir.
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-label i18n" data-tr="Nakit &amp; Altın Rotası" data-de="Bargeld- &amp; Goldroute">Nakit &amp; Altın Rotası</div>
-    <div class="roadmap-outer">
-    <div class="roadmap-scroll">
-      <div class="roadmap">
-        <div class="node done" data-date="2026-11-01"><div class="dot"></div><div class="node-card"><div class="node-month">Kasım Başı</div><div class="node-cash">1.200 €</div><div class="node-gold">10,52 gr</div></div></div>
-        <div class="node done" data-date="2026-11-30"><div class="dot"></div><div class="node-card"><div class="node-month">Kasım Sonu</div><div class="node-cash">910 €</div><div class="node-gold">7,98 gr</div><div class="node-flag">💻</div></div></div>
-        <div class="node done" data-date="2026-12-01"><div class="dot"></div><div class="node-card"><div class="node-month">Aralık Başı</div><div class="node-cash">2.910 €</div><div class="node-gold">25,51 gr</div></div></div>
-        <div class="node done" data-date="2026-12-31"><div class="dot"></div><div class="node-card"><div class="node-month">Aralık Sonu</div><div class="node-cash">4.620 €</div><div class="node-gold">40,50 gr</div></div></div>
-        <div class="node done" data-date="2027-01-31"><div class="dot"></div><div class="node-card"><div class="node-month">Ocak Sonu</div><div class="node-cash">6.330 €</div><div class="node-gold">55,49 gr</div></div></div>
-        <div class="node done" data-date="2027-02-28"><div class="dot"></div><div class="node-card"><div class="node-month">Şubat Sonu</div><div class="node-cash">8.040 €</div><div class="node-gold">70,48 gr</div></div></div>
-        <div class="node done" data-date="2027-03-31"><div class="dot"></div><div class="node-card"><div class="node-month">Mart Sonu</div><div class="node-cash">9.750 €</div><div class="node-gold">85,47 gr</div></div></div>
-        <div class="node done" data-date="2027-04-30"><div class="dot"></div><div class="node-card"><div class="node-month">Nisan Sonu</div><div class="node-cash">11.460 €</div><div class="node-gold">100,46 gr</div><div class="node-flag">✓</div></div></div>
-        <div class="node done" data-date="2027-05-31"><div class="dot"></div><div class="node-card"><div class="node-month">Mayıs Sonu</div><div class="node-cash">13.460 €</div><div class="node-gold">117,99 gr</div></div></div>
-        <div class="node done" data-date="2027-06-30"><div class="dot"></div><div class="node-card"><div class="node-month">Haziran Sonu</div><div class="node-cash">15.460 €</div><div class="node-gold">135,52 gr</div></div></div>
-        <div class="node done" data-date="2027-07-31"><div class="dot"></div><div class="node-card"><div class="node-month">Temmuz Sonu</div><div class="node-cash">17.460 €</div><div class="node-gold">153,05 gr</div></div></div>
-        <div class="node done" data-date="2027-08-31"><div class="dot"></div><div class="node-card"><div class="node-month">Ağustos Sonu</div><div class="node-cash">19.460 €</div><div class="node-gold">170,58 gr</div></div></div>
-        <div class="node now" data-date="2027-09-30"><div class="dot"></div><div class="node-card"><div class="node-month">Eylül Sonu</div><div class="node-cash">21.460 €</div><div class="node-gold">188,11 gr</div><div class="node-flag">🎓</div></div></div>
-      </div>
-      <div class="dim-row">
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"><div class="dim-line"></div><div class="dim-label">↔ ~1 AY</div></div>
-        <div class="dim-seg"></div>
-      </div>
-    </div>
-    <div class="scroll-hint" aria-hidden="true"></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-label i18n" data-tr="Senaryolar" data-de="Szenarien">Senaryolar</div>
-    <div class="stat-grid">
-      <div class="stat">
-        <div class="stat-label i18n" data-tr="1 Yıl Sonu Nakit" data-de="Bargeld nach 1 Jahr">1 Yıl Sonu Nakit</div>
-        <div class="stat-value">21.460 €</div>
-        <div class="stat-sub">Hastalıksız, kesintisiz mesai</div>
-      </div>
-      <div class="stat">
-        <div class="stat-label i18n" data-tr="Altın Karşılığı" data-de="Gold-Gegenwert">Altın Karşılığı</div>
-        <div class="stat-value purple">188,11 gr</div>
-        <div class="stat-sub">114,08 €/gr · 29.07.2026</div>
-      </div>
-      <div class="stat">
-        <div class="stat-label i18n" data-tr="Aylık Tam Kapasite" data-de="Monatliche Vollkapazität">Aylık Tam Kapasite</div>
-        <div class="stat-value green">+2.000 €</div>
-        <div class="stat-sub">Taksitler bittikten sonra</div>
-      </div>
-    </div>
-    <div class="scenario" style="margin-top:14px;">
-      <div class="scen-row">
-        <div class="scen-top">
-          <span class="scen-name">Temkinli Master Plan</span>
-          <span class="scen-nums">21.460 €<span class="g">188,11 gr</span></span>
-        </div>
-        <div class="bar-track"><div class="bar-fill base"></div></div>
-        <div class="scen-prob">GERÇEKLEŞME İHTİMALİ: YÜKSEK — hastalıksız &amp; kesintisiz tam mesaiye bağlı</div>
-      </div>
-      <div class="scen-row">
-        <div class="scen-top">
-          <span class="scen-name">Maksimum Strateji Planı</span>
-          <span class="scen-nums">28.980 €<span class="g">254,03 gr</span></span>
-        </div>
-        <div class="bar-track"><div class="bar-fill max"></div></div>
-        <div class="scen-prob">GERÇEKLEŞME İHTİMALİ: DÜŞÜK/ORTA — vergi iadesi &amp; işveren inisiyatifine koşullu</div>
-      </div>
-      <div class="scen-row">
-        <div class="scen-top">
-          <span class="scen-name">Güvenli Marj (Türkiye İlk 100 Hedefi)</span>
-          <span class="scen-nums">TYT 115/120<span class="g">AYT (Say) 78-80</span></span>
-        </div>
-        <div class="bar-track"><div class="bar-fill max"></div></div>
-        <div class="scen-prob">Mekatronik (TU Berlin) için Türkiye'de ~99. sıraya tekabül eden, tartışmasız bir mükemmellik bandı. Şansa yer bırakmaz.</div>
-      </div>
-    </div>
-  </section>
-
+    <ul class="cmdk-list" id="cmdkList">
+      <li><a href="#top" data-cmdk-item>Başa Dön <span class="cmdk-ref">U0</span></a></li>
+      <li><a href="#hizmetler" data-cmdk-item>Hizmetler <span class="cmdk-ref">U1</span></a></li>
+      <li><a href="#hakkimda" data-cmdk-item>Hakkımda <span class="cmdk-ref">U2</span></a></li>
+      <li><a href="#projeler" data-cmdk-item>Projeler <span class="cmdk-ref">U3</span></a></li>
+      <li><a href="#sss" data-cmdk-item>SSS <span class="cmdk-ref">U4</span></a></li>
+      <li><a href="#iletisim" data-cmdk-item>İletişim <span class="cmdk-ref">U5</span></a></li>
+    </ul>
   </div>
+</div>
 
-  <div class="tab-panel" id="tab-yks">
+<script>
+  (function () {
+    var el = document.getElementById('bootLine');
+    if (!el) return;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  <section>
-    <div class="sec-label">
-      <span>Genel İlerleme</span>
-      <span style="color:var(--amber); font-size:10px;">— TYT + AYT</span>
-    </div>
-    <div class="hero-progress">
-      <div class="hero-progress-top">
-        <span class="hero-progress-label">TYT</span>
-        <span class="hero-progress-pct" id="yksTytPct">%0</span>
-      </div>
-      <div class="hero-progress-track"><div class="hero-progress-fill" id="yksTytFill"></div></div>
-      <div class="hero-progress-sub" id="yksTytSub">0 / 0 konu</div>
-    </div>
-    <div class="hero-progress" style="margin-top:14px;">
-      <div class="hero-progress-top">
-        <span class="hero-progress-label">AYT</span>
-        <span class="hero-progress-pct" id="yksAytPct">%0</span>
-      </div>
-      <div class="hero-progress-track"><div class="hero-progress-fill" id="yksAytFill"></div></div>
-      <div class="hero-progress-sub" id="yksAytSub">0 / 0 konu</div>
-    </div>
-  </section>
+    if (reduceMotion) {
+      el.classList.add('boot-done');
+      return;
+    }
 
-  <section>
-    <div class="sec-label">
-      <span>5 Aylık YKS Takvimi</span>
-      <span style="color:var(--amber); font-size:10px;">— Eylül 2026 → Ocak 2027</span>
-    </div>
-    <div class="roadmap-outer">
-    <div class="roadmap-scroll">
-      <div class="roadmap">
-        <div class="node" data-date="2026-09-30"><div class="dot"></div><div class="node-card"><div class="node-month">Eylül</div><div class="node-cash" style="font-size:14px;">TYT Temel İnşaat</div><div class="node-gold">İşlem hızı + Paragraf rutini</div></div></div>
-        <div class="node" data-date="2026-10-31"><div class="dot"></div><div class="node-card"><div class="node-month">Ekim</div><div class="node-cash" style="font-size:14px;">Fonksiyon + Problem</div><div class="node-gold">Sınavın Kalbi</div></div></div>
-        <div class="node" data-date="2026-11-30"><div class="dot"></div><div class="node-card"><div class="node-month">Kasım</div><div class="node-cash" style="font-size:14px;">AYT Geçiş: Polinom+Newton</div><div class="node-gold">TYT tekrar + Fizyoloji</div></div></div>
-        <div class="node" data-date="2026-12-31"><div class="dot"></div><div class="node-card"><div class="node-month">Aralık</div><div class="node-cash" style="font-size:14px;">Trigonometri + Elektrik</div><div class="node-gold">İleri Düzey AYT</div></div></div>
-        <div class="node" data-date="2027-01-31"><div class="dot"></div><div class="node-card"><div class="node-month">Ocak</div><div class="node-cash" style="font-size:14px;">Limit · Türev · İntegral</div><div class="node-gold">Organik Kimya + Deneme</div><div class="node-flag">🎯 Zirve</div></div></div>
-      </div>
-    </div>
-    </div>
+    var text = 'SYSTEM_BOOT... UZNTECH v1.0 ONLINE';
+    var i = 0;
+    el.textContent = '';
+    var cursor = document.createElement('span');
+    cursor.className = 'boot-cursor';
+    cursor.textContent = '_';
 
-    <details class="acc-section" style="margin-top:12px;">
-      <summary class="sec-label acc-summary"><span>Aylık Detaylı Plan</span><span class="acc-chevron">▾</span></summary>
-      <div class="acc-body">
+    function typeNext() {
+      if (i < text.length) {
+        el.textContent = text.slice(0, i + 1);
+        el.appendChild(cursor);
+        i++;
+        setTimeout(typeNext, 22);
+      } else {
+        setTimeout(function () {
+          el.classList.add('boot-done');
+        }, 350);
+      }
+    }
+    typeNext();
+  })();
+</script>
 
-        <div class="yks-topic-group">
-          <div class="yks-topic-row" style="cursor:default; color:var(--text);"><span class="yks-topic-name"><b>1. Ay — Temel İnşaat</b> · sadece TYT'ye odaklanılır, amaç işlem yeteneği ve YKS'nin dilini kavramak</span></div>
-          <div class="yks-subtopics">
-            <div class="yks-topic-row" style="cursor:default;"><span class="yks-topic-name">Matematik (konu başı 3-4 gün): Temel Kavramlar, Sayı Basamakları, Bölme-Bölünebilme, Rasyonel ve Üslü/Köklü Sayılar</span></div>
-            <div class="yks-topic-row" style="cursor:default;"><span class="yks-topic-name">Türkçe: Ses Bilgisi, Yazım Kuralları, Noktalama — her gün 20 paragraf çözümü başlar</span></div>
-            <div class="yks-topic-row" style="cursor:default;"><span class="yks-topic-name">Fen Bilimleri (konu başı 2-3 gün): Fizik Bilimine Giriş, Madde ve Özellikleri, Kimya Bilimi, Atom, Canlıların Ortak Özellikleri</span></div>
-          </div>
-        </div>
+<!-- Hero light beams — canvas-drawn animated streaks, brand palette (gold / pale blue / white).
+     Respects prefers-reduced-motion by rendering a single static frame. -->
+<script>
+  (function () {
+    var canvas = document.getElementById('heroBeams');
+    if (!canvas || !canvas.getContext) return;
+    var ctx = canvas.getContext('2d');
+    var hero = document.getElementById('hero');
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        <div class="yks-topic-group">
-          <div class="yks-topic-row" style="cursor:default; color:var(--text);"><span class="yks-topic-name"><b>2. Ay — Sınavın Kalbi</b> · Problemler ve Fonksiyonlar başlar, en çok puan getiren ve en çok analitik zorlayan ay</span></div>
-          <div class="yks-subtopics">
-            <div class="yks-topic-row" style="cursor:default;"><span class="yks-topic-name">Matematik: Fonksiyonlar (en az 10 gün), Çarpanlara Ayırma — her gün Problem çözümü rutine eklenir (Hız, İşçi, Kesir, Yaş)</span></div>
-            <div class="yks-topic-row" style="cursor:default;"><span class="yks-topic-name">Türkçe: Sözcükte Türler (İsim, Sıfat, Zamir vb.) bitirilir</span></div>
-            <div class="yks-topic-row" style="cursor:default;"><span class="yks-topic-name">Fen Bilimleri: Hareket ve Kuvvet, Periyodik Sistem, Hücre ve Organelleri</span></div>
-          </div>
-        </div>
+    var colors = ['#5EEAD4', '#2DD4BF', '#38BDF8', '#EAF1FA'];
+    var beams = [];
+    var W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 2);
 
-        <div class="yks-topic-group">
-          <div class="yks-topic-row" style="cursor:default; color:var(--text);"><span class="yks-topic-name"><b>3. Ay — AYT'ye Geçiş ve Mekanik</b> · TYT tekrarları başlarken AYT konuları devreye girer, mühendislik tabanlı derslerin ağırlaşmaya başladığı ay</span></div>
-          <div class="yks-subtopics">
-            <div class="yks-topic-row" style="cursor:default;"><span class="yks-topic-name">AYT Matematik (konu başı 5-6 gün): Polinomlar, 2. Dereceden Denklemler, Eşitsizlikler, Parabol</span></div>
-            <div class="yks-topic-row" style="cursor:default;"><span class="yks-topic-name">AYT Fizik (en az 3 hafta): Vektörler, Bağıl Hareket, Newton'un Hareket Yasaları, Atışlar</span></div>
-            <div class="yks-topic-row" style="cursor:default;"><span class="yks-topic-name">AYT Kimya &amp; Biyoloji: Modern Atom Teorisi, Gazlar — Biyolojide İnsan Fizyolojisi (Sistemler) başlar</span></div>
-          </div>
-        </div>
+    function buildBeams() {
+      var count = W < 700 ? 8 : 14;
+      beams = [];
+      for (var i = 0; i < count; i++) {
+        beams.push({
+          x: Math.random() * W,
+          width: 1.2 + Math.random() * 2.2,
+          speed: 0.15 + Math.random() * 0.35,
+          drift: (Math.random() - 0.5) * 0.25,
+          color: colors[i % colors.length],
+          alpha: 0.18 + Math.random() * 0.3,
+          phase: Math.random() * Math.PI * 2
+        });
+      }
+    }
 
-        <div class="yks-topic-group">
-          <div class="yks-topic-row" style="cursor:default; color:var(--text);"><span class="yks-topic-name"><b>4. Ay — İleri Düzey AYT</b> · konuların yığılmaya başladığı ay, günde 6-8 saat bandına çıkılması gerekir</span></div>
-          <div class="yks-subtopics">
-            <div class="yks-topic-row" style="cursor:default;"><span class="yks-topic-name">AYT Matematik (toplam 3 hafta): Trigonometri (en az 2 hafta), Logaritma, Diziler</span></div>
-            <div class="yks-topic-row" style="cursor:default;"><span class="yks-topic-name">AYT Fizik (toplam 2.5 hafta): Elektrik ve Manyetizma (Devreler, Manyetik Alan, İndükleme)</span></div>
-            <div class="yks-topic-row" style="cursor:default;"><span class="yks-topic-name">AYT Kimya &amp; Biyoloji: Sıvı Çözeltiler, Kimyasal Hız ve Denge — Biyolojide Sistemler bitirilir, Kalıtım'a geçilir</span></div>
-          </div>
-        </div>
+    function resize() {
+      W = hero.clientWidth;
+      H = hero.clientHeight;
+      canvas.width = W * DPR;
+      canvas.height = H * DPR;
+      canvas.style.width = W + 'px';
+      canvas.style.height = H + 'px';
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      buildBeams();
+    }
 
-        <div class="yks-topic-group">
-          <div class="yks-topic-row" style="cursor:default; color:var(--text);"><span class="yks-topic-name"><b>5. Ay — Zirve Konuları ve Denemeler</b> · analizin koptuğu, YKS'nin en zor ayı; tamamen LTİ ve Organik Kimya'ya ayrılır</span></div>
-          <div class="yks-subtopics">
-            <div class="yks-topic-row" style="cursor:default;"><span class="yks-topic-name">AYT Matematik: Limit (4 gün), Türev (10 gün), İntegral (12 gün) — bu üçlü aralıksız fasiküllerden eritilmeli</span></div>
-            <div class="yks-topic-row" style="cursor:default;"><span class="yks-topic-name">AYT Fen: Modern Fizik, Organik Kimya, Bitki Biyolojisi</span></div>
-            <div class="yks-topic-row" style="cursor:default;"><span class="yks-topic-name">Rutin: haftada en az 1 tam TYT, 1 tam AYT denemesi çözülerek eksikler saptanır</span></div>
-          </div>
-        </div>
+    function drawFrame(t) {
+      ctx.clearRect(0, 0, W, H);
+      ctx.globalCompositeOperation = 'lighter';
+      for (var i = 0; i < beams.length; i++) {
+        var b = beams[i];
+        var sway = Math.sin(t * 0.00012 + b.phase) * 40;
+        var x = b.x + sway;
+        var grad = ctx.createLinearGradient(x, 0, x + b.drift * H, H);
+        grad.addColorStop(0, 'transparent');
+        grad.addColorStop(0.5, hexToRgba(b.color, b.alpha));
+        grad.addColorStop(1, 'transparent');
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = b.width;
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x + b.drift * H, H);
+        ctx.stroke();
+      }
+      ctx.globalCompositeOperation = 'source-over';
+    }
 
-      </div>
-    </details>
-  </section>
+    function hexToRgba(hex, alpha) {
+      var r = parseInt(hex.slice(1, 3), 16);
+      var g = parseInt(hex.slice(3, 5), 16);
+      var bl = parseInt(hex.slice(5, 7), 16);
+      return 'rgba(' + r + ',' + g + ',' + bl + ',' + alpha + ')';
+    }
 
-  <section>
-    <div class="sec-label"><span>Konu Başına Soru Kotası</span></div>
-    <div class="table-wrap" style="margin-top:8px;">
-      <table>
-        <thead>
-          <tr><th>Ders / Konu Tipi</th><th>Kavrama (Kolay-Orta)</th><th>Pekiştirme (ÖSYM Tarzı/Zor)</th><th>Toplam Hedef (Konu Başı)</th><th>İstisna Durumlar</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Paragraf &amp; Problemler</td><td>–</td><td>–</td><td class="cash">Her gün 20-30 soru</td><td>Konu bitimi yoktur, sınava kadar her gün çözülür.</td></tr>
-          <tr><td>Matematik &amp; Fizik (Ağır)</td><td>150 soru</td><td>150 soru</td><td class="cash">~300 soru</td><td>Türev, İntegral, Mekanik gibi konularda ekstra fasikül bitirilmelidir (500+ soru).</td></tr>
-          <tr><td>Kimya &amp; Biyoloji</td><td>100 soru</td><td>100 soru</td><td class="cash">~200 soru</td><td>Biyolojide sistemler için bu sayı 300'e çıkabilir.</td></tr>
-          <tr><td>Türkçe Dil Bilgisi</td><td>100 soru</td><td>50 soru</td><td class="cash">~150 soru</td><td>Bittiğinde baştan çözülmez, branş denemesiyle ilerlenir.</td></tr>
-          <tr><td>TYT Sosyal Bilimler</td><td>50 soru</td><td>25 soru</td><td class="cash">~75 soru</td><td>Detaylı konu çalışmak yerine harita bilgisi ve kavramlara odaklanılır.</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+    var rafId = null;
+    function tick(t) {
+      for (var i = 0; i < beams.length; i++) {
+        beams[i].x += beams[i].speed;
+        if (beams[i].x > W + 60) beams[i].x = -60;
+      }
+      drawFrame(t);
+      rafId = requestAnimationFrame(tick);
+    }
 
-  <section>
-    <div class="sec-label"><span>TYT Konu Takibi</span></div>
-    <div id="yksTytContainer"></div>
-  </section>
+    if (!hero) return;
+    resize();
 
-  <section>
-    <div class="sec-label"><span>AYT Konu Takibi</span></div>
-    <div id="yksAytContainer"></div>
-  </section>
+    if (reduceMotion) {
+      drawFrame(0);
+    } else {
+      rafId = requestAnimationFrame(tick);
+    }
 
-  </div>
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        resize();
+        if (reduceMotion) drawFrame(0);
+      }, 150);
+    });
 
-<script src="app.js"></script>
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden && rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      } else if (!document.hidden && !reduceMotion && !rafId) {
+        rafId = requestAnimationFrame(tick);
+      }
+    });
+  })();
+</script>
+
+<script>
+  (function () {
+    var toggle = document.getElementById('menuToggle');
+    var nav = document.getElementById('mobileNav');
+    var backdrop = document.getElementById('mobileNavBackdrop');
+
+    function closeMenu() {
+      toggle.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      nav.classList.remove('is-open');
+      backdrop.classList.remove('is-open');
+      document.body.classList.remove('nav-open');
+    }
+
+    function openMenu() {
+      toggle.classList.add('is-open');
+      toggle.setAttribute('aria-expanded', 'true');
+      nav.classList.add('is-open');
+      backdrop.classList.add('is-open');
+      document.body.classList.add('nav-open');
+    }
+
+    toggle.addEventListener('click', function () {
+      if (nav.classList.contains('is-open')) closeMenu();
+      else openMenu();
+    });
+
+    backdrop.addEventListener('click', closeMenu);
+    nav.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', closeMenu);
+    });
+  })();
+</script>
+
+<script>
+  (function () {
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Groups: items get a small staggered delay based on their position
+    var groupSelectors = [
+      '.card-grid > .card',
+      '.feature-blocks > .feature-block',
+      '.process-steps > .process-step',
+      '.project-list > .project-row',
+      '.testimonial-grid > .testimonial-card',
+      '.skills-row > .skill-badge',
+      '.bento-grid > .bento-cell',
+      '.faq-list > .faq-item',
+      '.timeline > .timeline-row',
+      '.hero-specs > .spec'
+    ];
+
+    // Solo elements: fade in on their own, no stagger
+    var soloSelectors = [
+      '.hero .eyebrow', '.hero h1', '.hero-lede', '.hero-actions', '.hero-specs', '.credentials-strip',
+      '.section > .eyebrow', '.section > h2', '.section-note',
+      '.about-text', '.about-meta',
+      '.contact-lede', '.contact-direct', '.contact-form'
+    ];
+
+    function markReveal(el, delayMs) {
+      el.classList.add('reveal');
+      if (delayMs) el.style.transitionDelay = delayMs + 'ms';
+    }
+
+    groupSelectors.forEach(function (sel) {
+      document.querySelectorAll(sel).forEach(function (el, i) {
+        markReveal(el, Math.min(i, 6) * 70);
+      });
+    });
+
+    soloSelectors.forEach(function (sel) {
+      document.querySelectorAll(sel).forEach(function (el) { markReveal(el); });
+    });
+
+    var revealEls = document.querySelectorAll('.reveal');
+
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      revealEls.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    revealEls.forEach(function (el) { observer.observe(el); });
+
+    // Scan-line: sweep once per section the first time it enters view
+    var scanEls = document.querySelectorAll('.scan-line');
+    if (scanEls.length) {
+      var scanObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-scanning');
+            scanObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0, rootMargin: '0px 0px -60% 0px' });
+      scanEls.forEach(function (el) { scanObserver.observe(el); });
+    }
+  })();
+</script>
+
+<script>
+  (function () {
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var canHover = window.matchMedia('(hover: hover)').matches;
+    if (reduceMotion || !canHover) return;
+
+    // Mouse-tracked spotlight glow
+    var spotlight = document.querySelector('.cursor-spotlight');
+    if (spotlight) {
+      window.addEventListener('mousemove', function (e) {
+        spotlight.style.setProperty('--mx', e.clientX + 'px');
+        spotlight.style.setProperty('--my', e.clientY + 'px');
+      }, { passive: true });
+    }
+
+    // Subtle 3D tilt on cards
+    var tiltEls = document.querySelectorAll('.tilt');
+    tiltEls.forEach(function (el) {
+      el.addEventListener('mousemove', function (e) {
+        var rect = el.getBoundingClientRect();
+        var px = (e.clientX - rect.left) / rect.width - 0.5;
+        var py = (e.clientY - rect.top) / rect.height - 0.5;
+        el.style.setProperty('--ry', (px * 6).toFixed(2) + 'deg');
+        el.style.setProperty('--rx', (py * -6).toFixed(2) + 'deg');
+      }, { passive: true });
+      el.addEventListener('mouseleave', function () {
+        el.style.setProperty('--rx', '0deg');
+        el.style.setProperty('--ry', '0deg');
+      });
+    });
+
+    // Micro-parallax: skill icons inside bento cells shift a bit more than the card
+    document.querySelectorAll('.bento-cell').forEach(function (el) {
+      var icons = el.querySelectorAll('.skill-mono');
+      if (!icons.length) return;
+      el.addEventListener('mousemove', function (e) {
+        var rect = el.getBoundingClientRect();
+        var px = (e.clientX - rect.left) / rect.width - 0.5;
+        var py = (e.clientY - rect.top) / rect.height - 0.5;
+        icons.forEach(function (icon) {
+          icon.style.transform = 'translate(' + (px * 6).toFixed(1) + 'px,' + (py * 6).toFixed(1) + 'px)';
+        });
+      }, { passive: true });
+      el.addEventListener('mouseleave', function () {
+        icons.forEach(function (icon) { icon.style.transform = 'translate(0,0)'; });
+      });
+    });
+
+    // Layered parallax: inner diagram shifts more than its box (feature illustrations)
+    document.querySelectorAll('.parallax-box').forEach(function (box) {
+      var layer = box.querySelector('.parallax-layer');
+      if (!layer) return;
+      box.addEventListener('mousemove', function (e) {
+        var rect = box.getBoundingClientRect();
+        var px = (e.clientX - rect.left) / rect.width - 0.5;
+        var py = (e.clientY - rect.top) / rect.height - 0.5;
+        layer.style.setProperty('--px', (px * 12).toFixed(1) + 'px');
+        layer.style.setProperty('--py', (py * 12).toFixed(1) + 'px');
+      }, { passive: true });
+      box.addEventListener('mouseleave', function () {
+        layer.style.setProperty('--px', '0px');
+        layer.style.setProperty('--py', '0px');
+      });
+    });
+
+    // Magnetic buttons — follow the cursor within their own bounds
+    document.querySelectorAll('.magnetic').forEach(function (btn) {
+      btn.addEventListener('mousemove', function (e) {
+        var rect = btn.getBoundingClientRect();
+        var mx = (e.clientX - rect.left - rect.width / 2) * 0.28;
+        var my = (e.clientY - rect.top - rect.height / 2) * 0.35;
+        btn.style.setProperty('--mbx', mx.toFixed(1) + 'px');
+        btn.style.setProperty('--mby', my.toFixed(1) + 'px');
+      }, { passive: true });
+      btn.addEventListener('mouseleave', function () {
+        btn.style.setProperty('--mbx', '0px');
+        btn.style.setProperty('--mby', '0px');
+      });
+    });
+
+    // Scroll-based parallax on the hero glow — moves slower than the page
+    var heroEl = document.querySelector('.hero');
+    if (heroEl) {
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          var y = Math.min(window.scrollY * 0.15, 60);
+          heroEl.style.setProperty('--scroll-y', y.toFixed(1) + 'px');
+          ticking = false;
+        });
+      }, { passive: true });
+    }
+
+    // PCB trace removed — kept hero parallax above only.
+  })();
+</script>
+
+<script>
+  (function () {
+    var upEl = document.getElementById('telUptime');
+    if (!upEl) return;
+
+    var startTime = Date.now();
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function tickClock() {
+      var elapsed = Math.floor((Date.now() - startTime) / 1000);
+      upEl.textContent = pad(Math.floor(elapsed / 3600)) + ':' + pad(Math.floor((elapsed % 3600) / 60)) + ':' + pad(elapsed % 60);
+    }
+
+    tickClock();
+    setInterval(tickClock, 1000);
+  })();
+</script>
+
+<script>
+  (function () {
+    var trackBtns = document.querySelectorAll('[data-track-btn]');
+    var resetBtn = document.querySelector('[data-track-reset]');
+    var trackedEls = document.querySelectorAll('[data-track]');
+    var interestSelect = document.getElementById('ilgi-alani');
+    var labels = {
+      yazilim: 'Yazılım Geliştirme',
+      mekanik: 'Mekanik & Otomasyon',
+      siber: 'Siber Güvenlik',
+      ikisi: 'Mekatronik (İkisi)'
+    };
+
+    function applyTrack(track) {
+      if (track) {
+        document.body.setAttribute('data-track', track);
+      } else {
+        document.body.removeAttribute('data-track');
+      }
+      trackBtns.forEach(function (btn) {
+        btn.classList.toggle('is-active', btn.getAttribute('data-track-btn') === track);
+      });
+      trackedEls.forEach(function (el) {
+        var elTrack = el.getAttribute('data-track');
+        // 'ikisi' (Mekatronik) hiçbir şeyi gizlemez: hem gerçekten iki alanı birleştiren
+        // içerik eklendiğinde onu göstermek, hem de henüz öyle bir içerik yokken boş
+        // bölüm bırakmamak için "hepsini göster" gibi davranır.
+        var hide = track && track !== 'ikisi' && elTrack !== track && elTrack !== 'ikisi';
+        el.classList.toggle('is-track-hidden', hide);
+      });
+      if (interestSelect && track && labels[track]) {
+        interestSelect.value = labels[track];
+      }
+      var url = new URL(window.location.href);
+      if (track) { url.searchParams.set('track', track); } else { url.searchParams.delete('track'); }
+      window.history.replaceState({}, '', url);
+    }
+
+    trackBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var current = document.body.getAttribute('data-track');
+        var next = btn.getAttribute('data-track-btn');
+        applyTrack(current === next ? null : next);
+      });
+    });
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () { applyTrack(null); });
+    }
+
+    var initial = new URL(window.location.href).searchParams.get('track');
+    if (initial && labels[initial]) { applyTrack(initial); }
+  })();
+</script>
+
+<script>
+  (function () {
+    var cmdEl = document.getElementById('termCmd');
+    var outEl = document.getElementById('termOut');
+    var cursorEl = document.getElementById('termCursor');
+    if (!cmdEl || !outEl) return;
+
+    var screens = [
+      { cmd: 'whoami', out: 'fatih_uzner — mekatronik mühendisi' },
+      { cmd: 'cat skills.txt', out: 'python · c++ · java · go · kali linux · solidworks' },
+      { cmd: './check_status.sh', out: 'SYSTEM: ONLINE — aktif, yeni projelere açık' }
+    ];
+
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) {
+      cmdEl.textContent = screens[0].cmd;
+      outEl.textContent = screens[0].out;
+      if (cursorEl) cursorEl.style.display = 'none';
+      return;
+    }
+
+    var idx = 0;
+
+    function typeText(el, text, speed, done) {
+      var i = 0;
+      el.textContent = '';
+      (function step() {
+        if (i <= text.length) {
+          el.textContent = text.slice(0, i);
+          i++;
+          setTimeout(step, speed);
+        } else if (done) {
+          done();
+        }
+      })();
+    }
+
+    function eraseText(el, speed, done) {
+      (function step() {
+        var text = el.textContent;
+        if (text.length) {
+          el.textContent = text.slice(0, -1);
+          setTimeout(step, speed);
+        } else if (done) {
+          done();
+        }
+      })();
+    }
+
+    function runScreen() {
+      var screen = screens[idx % screens.length];
+      outEl.textContent = '';
+      typeText(cmdEl, screen.cmd, 45, function () {
+        setTimeout(function () {
+          outEl.textContent = screen.out;
+          setTimeout(function () {
+            eraseText(cmdEl, 18, function () {
+              outEl.textContent = '';
+              idx++;
+              setTimeout(runScreen, 400);
+            });
+          }, 2200);
+        }, 300);
+      });
+    }
+
+    runScreen();
+  })();
+</script>
+
+<script>
+  (function () {
+    var overlay = document.getElementById('cmdkOverlay');
+    var input = document.getElementById('cmdkInput');
+    var list = document.getElementById('cmdkList');
+    var trigger = document.getElementById('cmdkTrigger');
+    if (!overlay || !input || !list) return;
+
+    var items = Array.prototype.slice.call(list.querySelectorAll('a[data-cmdk-item]'));
+    var selectedIndex = 0;
+
+    function visibleItems() {
+      return items.filter(function (a) { return !a.parentElement.classList.contains('is-hidden'); });
+    }
+    function updateSelection() {
+      items.forEach(function (a) { a.classList.remove('is-selected'); });
+      var vis = visibleItems();
+      if (vis[selectedIndex]) vis[selectedIndex].classList.add('is-selected');
+    }
+    function openPalette() {
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      input.value = '';
+      items.forEach(function (a) { a.parentElement.classList.remove('is-hidden'); });
+      selectedIndex = 0;
+      updateSelection();
+      setTimeout(function () { input.focus(); }, 10);
+    }
+    function closePalette() {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+    }
+
+    document.addEventListener('keydown', function (e) {
+      var isOpen = overlay.classList.contains('is-open');
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        isOpen ? closePalette() : openPalette();
+      } else if (e.key === 'Escape' && isOpen) {
+        closePalette();
+      }
+    });
+
+    if (trigger) trigger.addEventListener('click', openPalette);
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) closePalette(); });
+
+    input.addEventListener('input', function () {
+      var q = input.value.trim().toLowerCase();
+      items.forEach(function (a) {
+        var match = a.textContent.toLowerCase().indexOf(q) !== -1;
+        a.parentElement.classList.toggle('is-hidden', !match);
+      });
+      selectedIndex = 0;
+      updateSelection();
+    });
+
+    input.addEventListener('keydown', function (e) {
+      var vis = visibleItems();
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        selectedIndex = Math.min(selectedIndex + 1, vis.length - 1);
+        updateSelection();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        selectedIndex = Math.max(selectedIndex - 1, 0);
+        updateSelection();
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        var target = vis[selectedIndex];
+        if (target) {
+          closePalette();
+          window.location.hash = target.getAttribute('href').replace('#', '');
+        }
+      }
+    });
+
+    items.forEach(function (a) {
+      a.addEventListener('click', function () { closePalette(); });
+    });
+  })();
+</script>
+
+<script>
+  (function () {
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    document.querySelectorAll('.btn').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        var rect = btn.getBoundingClientRect();
+        var spark = document.createElement('span');
+        spark.className = 'btn-spark';
+        spark.style.left = (e.clientX - rect.left) + 'px';
+        spark.style.top = (e.clientY - rect.top) + 'px';
+        btn.appendChild(spark);
+        spark.addEventListener('animationend', function () { spark.remove(); });
+      });
+    });
+  })();
+</script>
+
 </body>
-
+</html>
