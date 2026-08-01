@@ -147,14 +147,21 @@
 <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
 
 <div class="telemetry-strip" aria-hidden="true">
-  <div class="telemetry-track" id="telemetryTrack">
-    <span class="telemetry-item"><span class="telemetry-label">SYS</span><span class="telemetry-val" id="telSys">ONLINE</span></span>
+  <div class="telemetry-track">
+    <a href="tel:+905343771414" class="telemetry-item">
+      <svg class="telemetry-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.8 21 3 13.2 3 3.6c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.3 1L6.6 10.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      <span class="telemetry-val">+90 534 377 14 14</span>
+    </a>
     <span class="telemetry-sep">/</span>
-    <span class="telemetry-item"><span class="telemetry-label">LOC</span><span class="telemetry-val">İstanbul, TR</span></span>
+    <a href="mailto:a.fatihuzn@gmail.com" class="telemetry-item">
+      <svg class="telemetry-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="telemetry-val">a.fatihuzn@gmail.com</span>
+    </a>
     <span class="telemetry-sep">/</span>
-    <span class="telemetry-item"><span class="telemetry-label">STACK</span><span class="telemetry-val">Python · C++ · Go</span></span>
-    <span class="telemetry-sep">/</span>
-    <span class="telemetry-item"><span class="telemetry-label">UPTIME</span><span class="telemetry-val" id="telUptime">00:00:00</span></span>
+    <span class="telemetry-item">
+      <svg class="telemetry-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.3" stroke="currentColor" stroke-width="1.6"/></svg>
+      <span class="telemetry-val">Beşiktaş, İstanbul</span>
+    </span>
   </div>
 </div>
 
@@ -192,13 +199,6 @@
         <div class="spec"><span class="spec-label">DURUM</span><span class="spec-val"><span class="pulse-dot" aria-hidden="true"></span>Aktif · Yeni Projelere Açık</span></div>
       </div>
       <p class="credentials-strip">Bahçeşehir Üniversitesi · Denizbank · YetGen · Zirve 23 · Elite Case</p>
-
-      <div class="stat-strip">
-        <div class="stat"><span class="stat-num">4+</span><span class="stat-label">Yıl Mühendislik Eğitimi</span></div>
-        <div class="stat"><span class="stat-num">4</span><span class="stat-label">Programlama Dili</span></div>
-        <div class="stat"><span class="stat-num">3</span><span class="stat-label">Dil</span></div>
-        <div class="stat"><span class="stat-num">6</span><span class="stat-label">Sertifika / Program</span></div>
-      </div>
     </div>
 
     <div class="hero-visual tilt" aria-hidden="true">
@@ -238,6 +238,18 @@
         </g>
       </svg>
     </div>
+  </section>
+
+  <!-- STAT BAND (ADIM 3 — foto-zeminli, koyu soyut devre desenli istatistik şeridi) -->
+  <section class="stat-band" aria-label="Rakamlarla">
+    <div class="stat-band-wave stat-band-wave-top" aria-hidden="true"></div>
+    <div class="stat-band-grid">
+      <div class="stat-band-card"><span class="stat-band-num">4+</span><span class="stat-band-label">Yıl Mühendislik Eğitimi</span></div>
+      <div class="stat-band-card"><span class="stat-band-num">4</span><span class="stat-band-label">Programlama Dili</span></div>
+      <div class="stat-band-card"><span class="stat-band-num">3</span><span class="stat-band-label">Dil</span></div>
+      <div class="stat-band-card"><span class="stat-band-num">6</span><span class="stat-band-label">Sertifika / Program</span></div>
+    </div>
+    <div class="stat-band-wave stat-band-wave-bottom" aria-hidden="true"></div>
   </section>
 
   <!-- SERVICES -->
@@ -419,7 +431,8 @@
   </section>
 
   <!-- ABOUT -->
-  <section class="section" id="hakkimda">
+  <section class="section section-tinted" id="hakkimda">
+    <div class="section-wave section-wave-top" aria-hidden="true"></div>
     <div class="scan-line" aria-hidden="true"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U2 — HAKKIMDA</p>
     <div class="about-intro">
@@ -580,6 +593,7 @@
         </div>
       </div>
     </div>
+    <div class="section-wave section-wave-bottom" aria-hidden="true"></div>
   </section>
 
   <!-- PROJECTS -->
@@ -645,7 +659,8 @@
 
   <!-- TESTIMONIALS -->
   <!--
-  <section class="section" id="referanslar">
+  <section class="section section-tinted" id="referanslar">
+    <div class="section-wave section-wave-top" aria-hidden="true"></div>
     <div class="scan-line" aria-hidden="true"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U4 — REFERANSLAR</p>
     <h2>Referanslar</h2>
@@ -679,6 +694,7 @@
         <span class="testimonial-tag">Yakında</span>
       </article>
     </div>
+    <div class="section-wave section-wave-bottom" aria-hidden="true"></div>
   </section>
   -->
 
@@ -712,7 +728,8 @@
   </section>
 
   <!-- CONTACT -->
-  <section class="section" id="iletisim">
+  <section class="section section-tinted" id="iletisim">
+    <div class="section-wave section-wave-top" aria-hidden="true"></div>
     <div class="scan-line" aria-hidden="true"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U5 — İLETİŞİM</p>
     <h2>Bir Proje mi Var?</h2>
@@ -758,11 +775,13 @@
       <p class="form-consent">Formu göndererek verilerinizin <a href="kvkk.html">Gizlilik Politikası</a> kapsamında işlenmesini kabul etmiş olursunuz.</p>
       <button type="submit" class="btn btn-primary magnetic">Gönder</button>
     </form>
+    <div class="section-wave section-wave-bottom" aria-hidden="true"></div>
   </section>
 
 </main>
 
 <footer class="site-footer">
+  <div class="footer-wave-top" aria-hidden="true"></div>
   <div class="footer-main">
     <div class="footer-brand">
       <a href="#top" class="logo">

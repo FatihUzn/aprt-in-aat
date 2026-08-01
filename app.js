@@ -253,25 +253,6 @@
   })();
 
 
-/* ---- Telemetry uptime sayacı — üst şeritteki UPTIME değeri ---- */
-
-  (function () {
-    var upEl = document.getElementById('telUptime');
-    if (!upEl) return;
-
-    var startTime = Date.now();
-    function pad(n) { return n < 10 ? '0' + n : '' + n; }
-
-    function tickClock() {
-      var elapsed = Math.floor((Date.now() - startTime) / 1000);
-      upEl.textContent = pad(Math.floor(elapsed / 3600)) + ':' + pad(Math.floor((elapsed % 3600) / 60)) + ':' + pad(elapsed % 60);
-    }
-
-    tickClock();
-    setInterval(tickClock, 1000);
-  })();
-
-
 /* ---- Track-select — hero'daki ilgi alanı filtresi (yazılım/mekanik/siber/ikisi) ---- */
 
   (function () {

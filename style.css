@@ -465,7 +465,7 @@ body.nav-open { overflow: hidden; }
   .menu-toggle { display: flex; }
 }
 
-/* Telemetry strip — decorative "system status" readout under the header */
+/* Top contact strip — Buski-style phone/e-posta/konum şeridi (eskiden "SYS/UPTIME" telemetri okuması) */
 .telemetry-strip {
   border-bottom: 1px solid var(--line);
   background: var(--bg-panel);
@@ -484,9 +484,17 @@ body.nav-open { overflow: hidden; }
   font-size: 0.7rem;
 }
 .telemetry-track::-webkit-scrollbar { display: none; }
-.telemetry-item { display: inline-flex; align-items: center; gap: 6px; }
-.telemetry-label { color: var(--text-faint); letter-spacing: 0.06em; }
-.telemetry-val { color: var(--accent); }
+.telemetry-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+a.telemetry-item:hover, a.telemetry-item:focus-visible { color: var(--accent); }
+.telemetry-icon { width: 13px; height: 13px; flex: none; color: var(--accent); }
+.telemetry-val { color: inherit; }
 .telemetry-sep { color: var(--line); }
 @media (max-width: 700px) {
   .telemetry-track { padding: 8px 24px; gap: 14px; }
@@ -503,6 +511,143 @@ main { max-width: 980px; margin: 0 auto; padding: 0 64px; position: relative; }
 
 .section, .hero { position: relative; padding: 96px 0 80px; border-bottom: 1px solid var(--line); }
 .section:last-of-type { border-bottom: none; }
+
+/* ---- ADIM 2 — full-bleed tinted bantlar + dalga (wave) geçişleri ----
+   Buski'deki gibi bazı bölümler açık mavi (--bg-panel-alt) zemine sahip
+   ve üst/alt kenarları dalga şeklinde beyaza karışıyor. main, 980px'de
+   ortalandığı için renk dolgusunun tam ekran genişliğinde görünmesi
+   gerekiyor — ::before ile 100vw genişlikte, viewport'a göre ortalanmış
+   bir katman oluşturulup section'ın arkasına (z-index:-2) yerleştiriliyor.
+   Dalgalar ise section'ın üstüne/altına taşan iki ayrı div (aria-hidden),
+   section'ın kendi renginde bir SVG path taşıyor; böylece komşu (beyaz)
+   bölümün üstüne hafifçe "dalgalanarak" biner. */
+.section-tinted { border-bottom: none; z-index: 0; }
+.section-tinted::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  background: var(--bg-panel-alt);
+  z-index: -2;
+  pointer-events: none;
+}
+.section-wave {
+  position: absolute;
+  left: 50%;
+  width: 100vw;
+  height: 48px;
+  transform: translateX(-50%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+.section-wave-top {
+  top: 0;
+  margin-top: -47px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C220,78 380,4 720,34 C1060,64 1240,10 1440,42 L1440,80 L0,80 Z' fill='%23eaf5fb'/%3E%3C/svg%3E");
+}
+.section-wave-bottom {
+  bottom: 0;
+  margin-bottom: -47px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C220,2 380,76 720,46 C1060,16 1240,70 1440,38 L1440,0 L0,0 Z' fill='%23eaf5fb'/%3E%3C/svg%3E");
+}
+/* NOT: footer henüz koyu re-skin almadı (ADIM 4 — sırada). O adımda footer
+   #123b54 (--signal) dolgu ve kendi üst dalgasını alınca, iletişim
+   bölümünün alt dalgasının footer'a mı yoksa footer'ın kendi dalgasına mı
+   devredileceği tekrar gözden geçirilmeli. */
+
+/* ---- ADIM 3 — "Rakamlarla" istatistik bandı (foto-zeminli stat kartları) ----
+   Gerçek dış fotoğrafa erişim yok (bkz. ADIM 0 karar 4), bu yüzden hero'daki
+   .hero-node-bg ile aynı teknik burada KOYU tonda tekrar kullanılıyor:
+   soyut devre/düğüm deseni + koyu gradient zemin, üzerinde yüzen beyaz
+   kartlar. hero ile hizmetler arasına, kendi full-bleed section'ı olarak
+   yerleştirildi (Buski'nin "Rakamlarla Buski" şeridiyle aynı konumlama).
+   Sayılar hero'daki stat-strip ile birebir aynı — ayrı bir veri kaynağı
+   uydurulmadı, mevcut doğrulanmış içerik tekrar kullanıldı. */
+.stat-band {
+  position: relative;
+  padding: 56px 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.stat-band::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--signal) 0%, #0a2334 100%);
+  z-index: -2;
+}
+.stat-band::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  opacity: 0.16;
+  background-repeat: repeat;
+  background-size: 280px 280px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1'%3E%3Cpath d='M15 50L95 50L130 90L130 170L200 205L200 260'/%3E%3Cpath d='M0 155L60 155L85 120'/%3E%3Cpath d='M225 30L225 90L260 125'/%3E%3C/g%3E%3Cg fill='%234aa8dc'%3E%3Ccircle cx='15' cy='50' r='3'/%3E%3Ccircle cx='95' cy='50' r='3'/%3E%3Ccircle cx='130' cy='90' r='3'/%3E%3Ccircle cx='130' cy='170' r='3'/%3E%3Ccircle cx='200' cy='205' r='3'/%3E%3Ccircle cx='200' cy='260' r='3'/%3E%3Ccircle cx='60' cy='155' r='3'/%3E%3Ccircle cx='225' cy='30' r='3'/%3E%3Ccircle cx='260' cy='125' r='3'/%3E%3C/g%3E%3C/svg%3E");
+  z-index: -1;
+  pointer-events: none;
+}
+.stat-band-wave {
+  position: absolute;
+  left: 50%;
+  width: 100vw;
+  height: 48px;
+  transform: translateX(-50%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+.stat-band-wave-top {
+  top: 0;
+  margin-top: -47px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C220,78 380,4 720,34 C1060,64 1240,10 1440,42 L1440,80 L0,80 Z' fill='%23123b54'/%3E%3C/svg%3E");
+}
+.stat-band-wave-bottom {
+  bottom: 0;
+  margin-bottom: -47px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C220,2 380,76 720,46 C1060,16 1240,70 1440,38 L1440,0 L0,0 Z' fill='%23123b54'/%3E%3C/svg%3E");
+}
+.stat-band-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.stat-band-card {
+  background: var(--bg-panel);
+  border-radius: 14px;
+  padding: 24px 18px;
+  text-align: center;
+  box-shadow: 0 16px 34px rgba(8, 26, 42, 0.35);
+}
+.stat-band-num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+.stat-band-label {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+@media (max-width: 700px) {
+  .stat-band-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .stat-band { padding: 44px 0; }
+}
 
 /* Boot sequence — a brief terminal-style line that types itself out once on
    page load, then collapses away. Never retriggers. */
@@ -1359,11 +1504,39 @@ body[data-track] .track-reset { display: inline; }
 .form-consent a { color: var(--text-dim); }
 .form-consent a:hover { color: var(--accent-bright); }
 
-/* Footer */
+/* Footer — ADIM 4: koyu re-skin. Footer, main'in dışında (sibling) olduğu
+   için zaten tam genişlikte; 100vw hilesine gerek yok. Metin/çizgi
+   renkleri için --text/--text-dim/--text-faint/--line/--line-soft/--signal
+   burada LOKAL olarak açık tona override ediliyor — böylece aşağıdaki tüm
+   footer alt kuralları (zaten var() kullandığı için) tek satırda otomatik
+   uyum sağlıyor, her kuralı tek tek değiştirmeye gerek kalmadı. --signal
+   özellikle önemli: logo SVG'sindeki ikinci nokta/çizgi var(--signal)
+   kullanıyor, override edilmezse koyu zeminde koyu renk görünmez olurdu. */
 .site-footer {
-  border-top: 1px solid var(--line);
+  --text: #eaf1fa;
+  --text-dim: #a9bed2;
+  --text-faint: #7e97b0;
+  --signal: #eaf1fa;
+  --line: rgba(234, 241, 250, 0.16);
+  --line-soft: rgba(234, 241, 250, 0.1);
+  position: relative;
+  background: #123b54;
+  border-top: none;
   padding: 64px 64px 0;
   font-family: var(--font-body);
+}
+.footer-wave-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 48px;
+  margin-top: -47px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C220,78 380,4 720,34 C1060,64 1240,10 1440,42 L1440,80 L0,80 Z' fill='%23123b54'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: -1;
 }
 @media (max-width: 700px) { .site-footer { padding: 56px 24px 0; } }
 

@@ -86,16 +86,163 @@ yapılan Buski uyarlamasından AYRI ve FARKLI bir projedir — ayrı repo, ayrı
     → style.css, app.js, index.html, kvkk.html, 404.html outputs'a
       teslim edildi (hepsi güncel).
 
-[ ] ADIM 2 — FULL-BLEED + DALGALI GEÇİŞLER: HENÜZ BAŞLANMADI (sırada bu var)
+[x] ADIM 2 — FULL-BLEED + DALGALI GEÇİŞLER TAMAMLANDI:
+    style.css'e yeni bir blok eklendi (.section base kuralının hemen
+    altına):
+      - .section-tinted: ::before ile 100vw genişlikte (viewport'a göre
+        ortalanmış, main'in 980px sınırını görmezden gelen), z-index:-2
+        katmanda var(--bg-panel-alt) (#eaf5fb) dolgu. main zaten
+        max-width:980px + margin:0 auto olduğu için bu teknik zorunluydu
+        (section'ın kendi arka planı sadece 980px'de kalırdı, full-bleed
+        için ayrı bir 100vw katman gerekti).
+      - .section-wave / .section-wave-top / .section-wave-bottom: section'ın
+        üstüne/altına taşan (margin-top:-47px / margin-bottom:-47px), yine
+        100vw genişliğinde, data-URI SVG dalga path'i taşıyan iki div.
+        Renk hardcoded #eaf5fb (data-URI içinde CSS var() çalışmadığı için
+        --bg-panel-alt ile senkron tutulmalı — ileride palet değişirse bu
+        iki path'in fill değeri elle güncellenmeli, NOT DÜŞÜLDÜ).
+    index.html'de alternans uygulandı (kullanıcı "Buski'ye en yakın olanı
+    sen uygula" dedi, sıralı alternatif + kullanılabilirlik dengesi için
+    şu düzen seçildi):
+      hizmetler → beyaz (değişmedi)
+      hakkımda  → section-tinted + üst&alt dalga
+      projeler  → beyaz (değişmedi)
+      referanslar → section-tinted + üst&alt dalga (bölüm hâlâ HTML
+        yorumu içinde/pasif — içerik gelene kadar sitede görünmüyor,
+        ama uncomment edildiğinde tinted+dalga hazır olsun diye şimdiden
+        işaretlendi)
+      sss       → beyaz (değişmedi)
+      iletisim  → section-tinted + üst&alt dalga
+
+    AÇIK NOT (ADIM 4'te tekrar gözden geçirilecek): iletişim'in alt dalgası
+    şu an açık tona (#eaf5fb → sayfa --bg'sine yakın) geçiyor çünkü footer
+    henüz koyu re-skin almadı (ADIM 4 hâlâ başlamadı, .site-footer arka
+    planı hâlâ sayfa --bg'si, kendi dalgası yok). ADIM 4 yapıldığında
+    footer #123b54 (--signal) dolgu + kendi üst dalgasını alacak; o noktada
+    iletişim'in alt dalgasının kalıp kalmayacağı (ya da footer'ın kendi
+    dalgasına devretmesi mi gerektiği) tekrar değerlendirilmeli.
+
+    → style.css, index.html outputs'a teslim edildi (app.js, kvkk.html,
+      404.html değişmedi ama tutarlılık için yine de outputs'a kopyalandı).
+
     Not: ADIM 0 karar 2'deki telemetry-strip dönüşümü (SYS/LOC/STACK/UPTIME
     → Buski tarzı telefon/e-posta şeridi) yapısal bir değişiklik olduğu
-    için rengi değil İÇERİĞİ/HTML yapısını ilgilendiriyor — bilerek ADIM 1'e
-    değil ADIM 2'ye bırakıldı. telemetry-strip şu an hâlâ eski SYS/LOC/
-    STACK/UPTIME içeriğiyle duruyor, sadece rengi (CSS değişkenleri
-    üzerinden) açık temaya geçti.
-[ ] ADIM 3 — FOTO-ZEMİNLİ STAT KARTLARI: başlanmadı
-[ ] ADIM 4 — FOOTER RE-SKIN: başlanmadı (renk otomatik geçti ama dalga
-    geçişi / yapısal kontrol henüz yapılmadı)
+    için rengi değil İÇERİĞİ/HTML yapısını ilgilendiriyor — henüz
+    YAPILMADI, ADIM 2'ye dahil edilmedi (full-bleed/dalga işiyle karışık
+    bir konu değil, ayrıca ele alınmalı — bkz. ADIM 0 karar 2, hâlâ açık).
+    telemetry-strip şu an hâlâ eski SYS/LOC/STACK/UPTIME içeriğiyle duruyor,
+    sadece rengi (CSS değişkenleri üzerinden) açık temaya geçti.
+
+[x] ADIM 3 — FOTO-ZEMİNLİ STAT KARTLARI TAMAMLANDI (kullanıcı kararı: dış
+    fotoğraf yok, hero'daki .hero-node-bg tekniği KOYU tonda tekrar
+    kullanıldı, gerçek foto entegre edilmedi):
+      - style.css'e yeni .stat-band bileşeni eklendi: full-bleed (100vw)
+        koyu gradient zemin (var(--signal) → #0a2334) + üstüne bindirilmiş,
+        beyaz/açık renkte çizilmiş aynı devre/düğüm SVG deseni (opacity
+        0.16) + üst/alt dalga geçişleri (.stat-band-wave-top/bottom, fill
+        #123b54) + 4 sütunlu, yüzen beyaz kartlar (.stat-band-card, koyu
+        gölge ile "kartın zeminden yükseldiği" hissi).
+      - index.html: hero ile hizmetler arasına kendi full-bleed section'ı
+        olarak eklendi (<section class="stat-band">), Buski'nin "Rakamlarla
+        Buski" şeridiyle aynı konumlama.
+      - ÖNEMLİ: sayılar UYDURULMADI — hero'da zaten var olan stat-strip
+        (4+ Yıl Mühendislik Eğitimi / 4 Programlama Dili / 3 Dil / 6
+        Sertifika-Program) buraya TAŞINDI (kopyalanmadı — aynı veri iki
+        yerde tekrar etmesin diye hero'daki eski .stat-strip bloğu
+        kaldırıldı). hero'da sadece hero-specs (DİSİPLİN/ODAK/DURUM) ve
+        credentials-strip kaldı.
+      - "projeler" bölümü için ayrıca düşünülen "proje galerisi şeridi"
+        (Almanya'daki journey-strip benzeri) UYGULANMADI — projeler
+        bölümü hâlâ çoğunlukla placeholder/yorum içinde gerçek proje
+        yok, gerçek içerik gelmeden galeri şeridi kurmak anlamsız olurdu.
+        Gerçek projeler eklendiğinde ayrı bir görev olarak ele alınmalı.
+      - Not: eski .stat-strip/.stat/.stat-num/.stat-label CSS kuralları
+        style.css'te hâlâ duruyor ama artık HTML'de kullanılmıyor (dead
+        code) — ileride başka bir yerde tekrar kullanılabilir diye
+        bilerek silinmedi, temizlik istenirse ayrı bir adımda kaldırılabilir.
+    → style.css, index.html outputs'a teslim edildi.
+
+[x] ADIM 4 — FOOTER RE-SKIN TAMAMLANDI:
+      - .site-footer main'in DIŞINDA (sibling) olduğu için zaten tam
+        genişlikte — full-bleed için 100vw hilesi gerekmedi.
+      - style.css'te .site-footer içine --text/--text-dim/--text-faint/
+        --signal/--line/--line-soft LOKAL olarak açık tona override
+        edildi (footer sadece bu scope içinde kalıyor, sayfanın geri
+        kalanını etkilemiyor). Bu sayede footer'daki tüm alt kurallar
+        (zaten var() kullandığı için) tek satırda otomatik uyum sağladı,
+        tek tek yeniden yazmaya gerek kalmadı.
+      - background: #123b54 (--signal'ın orijinal/koyu değeri) — border-top
+        kaldırıldı, yerine .footer-wave-top (light→dark dalga geçişi,
+        fill #123b54, footer'ın üstüne -47px margin ile taşan) eklendi.
+        index.html, 404.html, kvkk.html — üçünde de <footer> açılış
+        etiketinden hemen sonra bu div eklendi.
+      - ÖNEMLİ (ADIM 2'deki açık nottan): iletişim'in kendi alt dalgası
+        (tinted #eaf5fb → sayfa --bg'si) OLDUĞU GİBİ bırakıldı — footer'ın
+        kendi üst dalgası ayrı bir katman olarak devraldı (beyaz/page-bg
+        aralığından koyu footer'a geçiş). İki dalga üst üste binmiyor,
+        sırayla zincirleniyor: tinted→beyaz (iletişim) → beyaz→koyu
+        (footer). Görsel olarak kontrol edilmeli, çok dar görünürse
+        aradaki boşluk ADIM sonrası ince ayar gerektirebilir.
+      - Logo görünürlüğü kontrol edildi: footer logosundaki ikinci nokta/
+        çizgi var(--signal) kullanıyordu, override olmasaydı koyu zeminde
+        kaybolurdu — --signal footer scope'unda açık renge çevrildiği için
+        sorun yok.
+      - Bir düzeltme yapıldı: ilk taslakta .site-footer'a yanlışlıkla
+        z-index:0 eklenmişti, bu global ".site-header, main, .site-footer
+        { z-index:2 }" kuralıyla çakışıp footer'ı yanlış stacking
+        sırasına düşürüyordu — kaldırıldı (position:relative zaten global
+        kuraldan geliyor, ayrıca eklemeye de gerek yoktu ama zararsız).
+    → style.css, index.html, 404.html, kvkk.html outputs'a teslim edildi.
+
+[x] ADIM 5 — kvkk.html VE 404.html SAYFA-ÖZEL İÇERİK KONTROLÜ TAMAMLANDI:
+      - .legal-table ve .error-code::after (glow efekti) dahil, bu iki
+        sayfaya özgü TÜM CSS kuralları tek tek tarandı — hiçbiri hardcoded
+        koyu-tema rengi kullanmıyor, hepsi var() üzerinden geliyor (ADIM 1
+        taraması gerçekten kapsamlıymış, burada ekstra düzeltme çıkmadı).
+      - .error-code::after glow efekti (var(--accent)'ten transparent'a
+        gradient + background-clip:text) açık temada da mantıklı çalışıyor:
+        taban rengi var(--line) (#d7e3ee) üzerine soluk bir "404" bırakıyor,
+        soldan gelen mavi glow ile kontrast oluşuyor — kavramsal olarak
+        koyu temadaki "neon glow" hissinin açık temaya uyarlanmış hali.
+      - GERÇEK BULUNAN HATA (içerik, tasarım değil): 404.html ve kvkk.html
+        içinde 5 yerde "UZN TECH &amp;&amp;&nbsp;SOFTWARE" gibi ÇİFT
+        kaçışlanmış "&amp;&amp;" vardı — sayfada literal "UZN TECH &&
+        SOFTWARE" olarak görünüyordu. index.html'de doğruydu (tek
+        &amp;), sadece bu iki dosyaya bir noktada kopyalanırken
+        tekrarlanmış. sed ile toplu düzeltildi (title, footer, kvkk
+        içindeki 3 metin yeri dahil) → artık üç dosyada da tutarlı
+        "UZN TECH & SOFTWARE".
+    → 404.html, kvkk.html outputs'a teslim edildi (style.css bu adımda
+      değişmedi, yeniden teslim edilmedi).
+
+================================================================
+TÜM 6 ADIM (0-5) TAMAMLANDI — BUSKİ DÖNÜŞÜMÜ TASARIM/YAPI OLARAK BİTTİ
+================================================================
+[x] telemetry-strip İÇERİĞİ DÖNÜŞTÜRÜLDÜ (bu oturumda, ADIM 0 karar 2'nin
+    uygulanması): SYS/LOC/STACK/UPTIME cyberpunk okuması kaldırıldı,
+    yerine Buski tarzı üst iletişim şeridi geldi — tel: linkli telefon
+    (+90 534 377 14 14), mailto: linkli e-posta (a.fatihuzn@gmail.com),
+    statik konum (Beşiktaş, İstanbul), her biri küçük inline SVG ikonla
+    (telefon/zarf/pin). index.html/kvkk.html/404.html üçünde de aynı
+    blok. style.css: .telemetry-label kuralı kaldırıldı (artık yok),
+    .telemetry-item artık <a> olabildiği için renk/hover geçişi eklendi,
+    yeni .telemetry-icon kuralı (13x13, var(--accent) rengi) eklendi.
+    app.js: artık var olmayan #telUptime'ı hedefleyen saat sayacı IIFE'si
+    (dead code) tamamen silindi — id="telemetryTrack" ve id="telSys" da
+    JS tarafından hiç kullanılmadığı görülüp HTML'den kaldırıldı.
+    → style.css, app.js, index.html, kvkk.html, 404.html outputs'a
+      teslim edildi.
+
+Kalan açık uçlar (yeni bir "ADIM" değil, ayrı görevler):
+  - Harvard/pexels yanlış-repo görselleri hâlâ kullanıcının silmesi
+    gerekiyor (bu oturumda tekrar kontrol edilmedi).
+  - style.css'te artık HTML'de kullanılmayan eski .stat-strip/.stat/
+    .stat-num/.stat-label kuralları duruyor (dead code, ADIM 3 notu).
+  - "projeler" bölümü hâlâ placeholder — gerçek proje eklendiğinde
+    galeri şeridi fikri (ADIM 3'te ertelendi) tekrar değerlendirilebilir.
+  - UZN TECH sitesine ait yeni, teması uygun görseller hâlâ gerekiyor
+    (hero şu an CSS/SVG soyut desenle çözüldü, ama kullanıcı isterse
+    gerçek fotoğraf ekleyebilir — bkz. ADIM 0 karar 4 notu).
 [ ] ADIM 5 — kvkk.html VE 404.html sayfa-özel içerik kontrolü (legal-table,
     error-code glow efekti): başlanmadı
 
