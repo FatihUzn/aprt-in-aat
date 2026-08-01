@@ -11,7 +11,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/icon-512.png">
-<meta name="theme-color" content="#0A0E17">
+<meta name="theme-color" content="#1e88c7">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -204,38 +204,8 @@
   </div>
 </footer>
 
-<script>
-  (function () {
-    var upEl = document.getElementById('telUptime');
-    if (!upEl) return;
-    var startTime = Date.now();
-    function pad(n) { return n < 10 ? '0' + n : '' + n; }
-    function tickUptime() {
-      var elapsed = Math.floor((Date.now() - startTime) / 1000);
-      upEl.textContent = pad(Math.floor(elapsed / 3600)) + ':' + pad(Math.floor((elapsed % 3600) / 60)) + ':' + pad(elapsed % 60);
-    }
-    tickUptime();
-    setInterval(tickUptime, 1000);
-  })();
-</script>
+<script src="app.js"></script>
 
-<script>
-  (function () {
-    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var scanEls = document.querySelectorAll('.scan-line');
-    if (!reduceMotion && scanEls.length && 'IntersectionObserver' in window) {
-      var scanObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-scanning');
-            scanObserver.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0, rootMargin: '0px 0px -60% 0px' });
-      scanEls.forEach(function (el) { scanObserver.observe(el); });
-    }
-  })();
-</script>
 
 </body>
 </html>

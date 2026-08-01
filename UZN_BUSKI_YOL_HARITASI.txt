@@ -1,0 +1,237 @@
+BAĞLAM: "UZN TECH & SOFTWARE" (fatihuzn.github.io/consulting) — Fatih Uzner'in
+şirket/danışmanlık web sitesi — TAMAMEN Buski (buski.gov.tr) açık/mavi tasarım
+diline çevrilecek. Bu iş, daha önce "ALMANYA→TU BERLIN" kişisel dashboard'unda
+yapılan Buski uyarlamasından AYRI ve FARKLI bir projedir — ayrı repo, ayrı site.
+
+================================================================
+İLERLEME KAYDI (YENİ OTURUMLARDA BURAYI ÖNCE OKU)
+================================================================
+[x] app.js DÜZELTİLDİ (bu yol haritasından önceki bir sorun, ADIM 0'dan
+    bağımsız): Yüklenen app.js dosyası yanlış projeye (Almanya→TU Berlin
+    YKS dashboard) aitti. Ayrıca index.html/kvkk.html/404.html'in HİÇBİRİ
+    app.js'i çağırmıyordu — tüm JS inline <script> olarak sayfaların
+    içindeydi. Çözüm: index.html'deki 10 inline script bloğu tek app.js
+    dosyasında toplandı (her biri kendi IIFE'si, elemanı olmayan sayfada
+    güvenle no-op olacak şekilde null-check'lerle), index.html/kvkk.html/
+    404.html artık <script src="app.js"></script> kullanıyor. Bu arada
+    mobil-menü scriptinde null-check eksikliği (kvkk/404'te menuToggle
+    yok) fark edilip düzeltildi. → app.js, index.html, kvkk.html, 404.html
+    outputs'a teslim edildi.
+
+[x] ADIM 0 — KARAR TURU TAMAMLANDI (önceki oturumda, ekran görüntülerinden):
+      1) circuit-bg / film-grain → açık temaya uyarlanmış, çok düşük
+         opaklıkta KORUNACAK (kaldırılmayacak)
+      2) telemetry-strip → Buski tarzı üst iletişim şeridine dönüştürülecek
+         (SYS/LOC/UPTIME yerine telefon/e-posta gibi)
+      3) cmdk (Ctrl+K) → işlevsel olarak KORUNACAK, sadece açık temaya
+         görsel uyarlama yapılacak
+      4) hero-beams (canvas) → KALDIRILACAK. Yerine: dış stok foto
+         erişimi yok, bu yüzden CSS/SVG ile üretilmiş soyut bir
+         "devre/ağ düğümü" hero zemini kullanılacak (gradient + ince
+         node/hat deseni). Kullanıcı isterse sonra background-image
+         satırını değiştirip gerçek foto ekleyebilir.
+      5) mini-terminal / scan-line → sadeleştirilmiş halde KORUNACAK
+      6) Logo/marka motifi → mevcut devre ikonlu SVG logo turkuaz/mavi
+         renklerle KORUNACAK (Buski'nin sade diline çekilmeyecek)
+
+[x] ADIM 1 — RENK SİSTEMİ DEĞİŞİMİ TAMAMLANDI:
+      :root paleti tamamen Buski'ye çevrildi (style.css):
+        --bg:            #0A0E17 → #f4f6f9
+        --bg-panel:      #121A28 → #ffffff
+        --bg-panel-alt:  #1A2436 → #eaf5fb
+        --line:          #26344A → #d7e3ee
+        --line-soft:     #1D2A3C → #e7eef5
+        --accent:        #2DD4BF → #1e88c7   (Buski mavisi)
+        --accent-bright: #5EEAD4 → #4aa8dc
+        --accent-2:      #38BDF8 → #0f6fa8
+        --accent-2-dim:  #38BDF833 → #0f6fa833
+        --signal:        #EAF1FA → #123b54   (artık --text'ten AYRI,
+                          eskiden ikisi de aynıydı)
+        --text:          #EAF1FA → #0f172a
+        --text-dim:      #A7B7CC → #46586e
+        --text-faint:    #61748C → #8598ad
+      1539 satırlık CSS'te hardcoded (var()'a bağlı olmayan) renkler TEK
+      TEK tarandı ve düzeltildi:
+        - Tüm rgba(45,212,191,*) [eski accent] → rgba(30,136,199,*)
+        - rgba(56,189,248,*) [eski accent-2] → rgba(15,111,168,*)
+        - .circuit-bg SVG deseni içindeki %232DD4BF → %231e88c7
+        - Custom cursor SVG'deki %235EEAD4 → %234aa8dc
+        - .btn-primary metin rengi #0F0E14 (koyu tema turkuaz buton
+          üstü koyu metin) → #ffffff (mavi buton artık beyaz metin ister)
+        - .btn-primary .btn-spark kıvılcım rengi aynı sebeple beyaza çevrildi
+        - Genel kart gölgesi (.card/.feature-visual/.skill-badge/…):
+          ağır siyah gölge (rgba(0,0,0,0.55)) → yumuşak mavi-gri gölge
+          (rgba(15,40,74,0.12)), beyaz inset highlight → ince koyu-mavi inset
+        - cmdk-panel modal gölgesi ve about-photo gölgesi de aynı şekilde
+          mavi-tonlu yumuşak gölgeye çevrildi
+        - theme-color meta etiketi (3 HTML dosyasında) #0A0E17 → #1e88c7
+      BİLİNÇLİ OLARAK DEĞİŞTİRİLMEYEN (koyu kalması istenen "cihaz ekranı"
+      hissi veren) öğeler: .mobile-nav-backdrop, .mini-terminal arka planı,
+      .cmdk-overlay dim katmanı, .feature-visual iç "ekran" paneli — bunlar
+      açık sayfa üzerinde bilinçli koyu vurgu elemanları olarak kaldı
+      (VS Code / terminal pencereleri gibi, açık temalı sitelerde de
+      yaygın bir tasarım deseni).
+
+    ADIM 0 karar 4 (hero-beams canvas → statik desen) bu adımda birlikte
+    yapıldı, çünkü doğrudan renk sistemine bağlıydı:
+      - style.css: .hero-beams (canvas, animasyonlu ışın demetleri) silindi,
+        yerine .hero-node-bg (statik SVG devre/düğüm deseni, radial-gradient
+        mask ile kenarlarda soluklaşan) eklendi — artık canvas/JS gerekmiyor.
+      - index.html: <canvas id="heroBeams"> → <div class="hero-node-bg">
+      - app.js: "Hero light beams" IIFE'si (canvas çizim mantığı) tamamen
+        kaldırıldı (artık 9 IIFE var, 10 değil).
+      - hero::before / hero::after glow blob'ları zaten var()'a bağlıydı,
+        otomatik olarak yeni mavi tona geçti, ayrı işlem gerekmedi.
+
+    → style.css, app.js, index.html, kvkk.html, 404.html outputs'a
+      teslim edildi (hepsi güncel).
+
+[ ] ADIM 2 — FULL-BLEED + DALGALI GEÇİŞLER: HENÜZ BAŞLANMADI (sırada bu var)
+    Not: ADIM 0 karar 2'deki telemetry-strip dönüşümü (SYS/LOC/STACK/UPTIME
+    → Buski tarzı telefon/e-posta şeridi) yapısal bir değişiklik olduğu
+    için rengi değil İÇERİĞİ/HTML yapısını ilgilendiriyor — bilerek ADIM 1'e
+    değil ADIM 2'ye bırakıldı. telemetry-strip şu an hâlâ eski SYS/LOC/
+    STACK/UPTIME içeriğiyle duruyor, sadece rengi (CSS değişkenleri
+    üzerinden) açık temaya geçti.
+[ ] ADIM 3 — FOTO-ZEMİNLİ STAT KARTLARI: başlanmadı
+[ ] ADIM 4 — FOOTER RE-SKIN: başlanmadı (renk otomatik geçti ama dalga
+    geçişi / yapısal kontrol henüz yapılmadı)
+[ ] ADIM 5 — kvkk.html VE 404.html sayfa-özel içerik kontrolü (legal-table,
+    error-code glow efekti): başlanmadı
+
+NOT: Harvard/pexels yanlış-repo görsel sorunu bu oturumda TEKRAR KONTROL
+EDİLDİ, sorun yok (dosyalar arasında yok) — hatırlatmaya gerek kalmadı.
+
+ÖNEMLİ NOT — DOSYA KARIŞIKLIĞI:
+Kullanıcı Almanya dashboard'unun foto dosyalarını (harvard*.jpg, pexels-*.jpg)
+yanlışlıkla bu UZN TECH reposuna yükledi. Bu görseller UZN TECH'in temasına
+(yazılım/otomasyon danışmanlığı) uymuyor — SİSİ ORMAN/ŞELALE/HARVARD KAMPÜSÜ
+fotoğrafları bir yazılım şirketi sitesinde anlamsız kalır. Yeni oturumda:
+1) Kullanıcıya bu görselleri UZN TECH reposundan silmesini hatırlat (Almanya
+   dashboard reposunda kalmalı, sadece orada).
+2) UZN TECH için YENİ, teması uygun görseller gerekecek (öneriler aşağıda).
+
+================================================================
+MEVCUT DURUM — UZN TECH SİTESİ (DÖNÜŞÜMDEN ÖNCE)
+================================================================
+Dosyalar: index.html (1423 satır), style.css (1539 satır), app.js (577 satır),
+kvkk.html, 404.html, sitemap.xml, robots.txt.
+
+Tema: KOYU "cyberpunk/devre kartı" teknoloji estetiği.
+  --bg:#0A0E17, --bg-panel:#121A28, --accent:#2DD4BF (turkuaz),
+  --accent-2:#38BDF8 (mavi), --text:#EAF1FA, font: Sora/Inter/IBM Plex Mono.
+
+Özel bileşenler (KOYU TEMAYA ÖZGÜ, Buski'de karşılığı YOK):
+  - .circuit-bg — sayfa arkasında SVG devre deseni (opacity 0.035)
+  - body::after film-grain dokusu (SVG noise, opacity 0.05)
+  - .telemetry-strip — üstte "SYS: ONLINE / LOC / UPTIME" şeridi
+  - .cmdk-* — Ctrl/Cmd+K ile açılan komut paleti (hızlı gezinme)
+  - .hero-beams (canvas) — hero'da animasyonlu ışın efekti
+  - .mini-terminal — "hakkımda" bölümünde yazan terminal animasyonu
+  - .scan-line — bölümlere girişte "tarama" animasyonu
+  - .reveal — scroll'da fade-in/slide-up animasyonu
+
+Site bölümleri (index.html): hero, hizmetler, hakkımda, projeler,
+referanslar, sss, iletişim. Ayrıca kvkk.html ve 404.html aynı header/footer
+kalıbını paylaşıyor.
+
+Footer ZATEN Buski'ye yakın bir iskelete sahip: .footer-main > .footer-brand +
+2x .footer-col + .footer-bottom (site haritası + iletişim sütunları, alt
+telif çubuğu). Bu kısım muhtemelen SADECE renk/tema değişimi ister, yapısal
+olarak yeniden kurulması gerekmez.
+
+================================================================
+KULLANICI KARARI (bu oturumda alındı)
+================================================================
+"Siteyi TAMAMEN açık/mavi Buski paletine çevir" — yani koyu tema tamamen
+terk edilecek, --bg beyaz/açık gri, vurgu rengi Buski mavisi (#1e88c7 civarı)
+olacak. Bu, Almanya dashboard'undaki --purple:#1e88c7 / --panel-blue:#eaf5fb
+değişkenleriyle tutarlı olmalı (aynı "Buski dili" iki farklı sitede aynı
+görünmeli).
+
+================================================================
+ÇÖZÜLMESİ GEREKEN GERİLİM / AÇIK SORULAR
+================================================================
+Koyu temaya özgü bileşenler (circuit-bg, telemetry-strip, cmdk, hero-beams,
+mini-terminal, scan-line) Buski'nin sakin/kurumsal diliyle ÇELİŞİYOR. Bir
+belediye sitesinde "komut paleti" veya "devre deseni" olmaz. Yeni oturumda
+kullanıcıyla netleştirilmesi gereken sorular:
+  1) circuit-bg ve film-grain doku TAMAMEN kaldırılsın mı? (Öneri: evet,
+     Buski'de böyle bir doku yok, açık zeminde de tuhaf durur.)
+  2) telemetry-strip (SYS/LOC/UPTIME) kalsın mı, yoksa Buski'nin üst
+     "Alo 185 / e-posta" iletişim şeridine mi dönüştürülsün? (Öneri: UZN
+     TECH'in telefon/e-posta bilgisiyle Buski'nin üst şeridine benzet.)
+  3) cmdk (Ctrl+K) — bu işlevsel ve tema-bağımsız bir özellik, korunabilir
+     ama görsel olarak açık temaya uyarlanmalı (şu an koyu popup).
+  4) hero-beams (canvas animasyonu) — Buski'de hero bir FOTOĞRAF (dağ/göl).
+     Öneri: canvas efekti kaldırılıp Almanya dashboard'undaki header
+     tekniğiyle aynı full-bleed foto+gradient hero'ya çevrilsin. Foto
+     olarak ne kullanılacak? (Ofis/ekip fotoğrafı? Soyut teknoloji görseli?
+     Kullanıcıdan görsel istenmeli.)
+  5) mini-terminal / scan-line gibi "hacker" hissi veren detaylar — açık
+     temada tamamen çıkarılması mı, yoksa çok sadeleştirilmiş halde (örn.
+     ince bir alıntı/quote kutusu) mı kalması önerilir? Kullanıcıya
+     sorulmalı.
+  6) Logo/marka motifi (devre ikonlu SVG logo) — Buski'nin sade kurumsal
+     logo diline mi çekilsin, yoksa turkuaz/mavi renklerle korunsun mu?
+
+================================================================
+ÖNERİLEN ADIM PLANI (Almanya projesindeki 4 adımlık yapıyla paralel)
+================================================================
+[ ] ADIM 0 — KARAR TURU (yukarıdaki 6 açık soru netleştirilecek, kodlamadan
+    önce). Ayrıca: hangi görseller kullanılacak (UZN TECH temalı — laptop/
+    kod ekranı/ofis/soyut teknoloji fotoğrafları) kullanıcıdan istenecek.
+
+[ ] ADIM 1 — RENK SİSTEMİ DEĞİŞİMİ
+    :root değişkenleri Buski paletine çevrilecek:
+      --bg: #0A0E17 → #f4f6f9 (Almanya dashboard'undaki --void ile aynı)
+      --bg-panel: #121A28 → #ffffff
+      --accent/--accent-2: #2DD4BF/#38BDF8 → #1e88c7/#4aa8dc (Buski mavisi)
+      --text: #EAF1FA → #0f172a (koyu lacivert-siyah)
+    1539 satırlık CSS'te bu değişkenlere bağlı olmayan (hardcoded renk
+    kullanan) yerler TEK TEK taranıp düzeltilmeli — büyük olasılıkla birçok
+    yerde rgba(...) koyu-tema-özel gölge/glow efekti hardcoded olacak.
+    circuit-bg, film-grain, glow efektleri bu adımda ya kaldırılır ya da
+    açık temaya uyarlanır (ADIM 0'daki karara göre).
+
+[ ] ADIM 2 — FULL-BLEED + DALGALI GEÇİŞLER
+    Almanya dashboard'unda kanıtlanmış teknik: her .section'a ::before
+    pseudo-katman (100vw, translateX(-50%), z-index:-1) + data-uri SVG
+    dalga şeritleri (üst/alt) + panel-blue dolgu. Aynı teknik burada da
+    section'lara (hizmetler, hakkımda, projeler, referanslar, sss,
+    iletişim) uygulanacak. hero bölümü, Almanya'daki header tekniğiyle
+    (foto zemin + koyu gradient overlay + açık metin) full-bleed yapılacak
+    — ama hero-beams canvas'ının yerini foto alacak (ADIM 0 kararına bağlı).
+
+[ ] ADIM 3 — FOTO-ZEMİNLİ STAT KARTLARI / FOTO ŞERİTLERİ
+    "hizmetler" ve "projeler" bölümleri için Buski'nin "Rakamlarla Buski"
+    tarzı (foto zemin + yüzen beyaz stat kartları) uygulanabilir — örn.
+    "Kaç proje tamamlandı / kaç yıl tecrübe / hangi teknolojiler" gibi
+    sayısal veriler varsa oraya oturur. "projeler" bölümünde ayrıca
+    Almanya'daki journey-strip tekniğine benzer bir "proje galerisi
+    şeridi" düşünülebilir.
+
+[ ] ADIM 4 — FOOTER RE-SKIN
+    Yapı zaten Buski'ye yakın (.footer-main/.footer-col/.footer-bottom),
+    sadece koyu→açık renk geçişi ve üstte dalga geçişi eklenmesi yeterli
+    olabilir — Almanya dashboard'undaki .site-footer::before tekniği
+    doğrudan taşınabilir (fill rengi Buski koyu mavisi #123b54 zaten
+    footer'a uygun, aynen kullanılabilir).
+
+[ ] ADIM 5 — kvkk.html VE 404.html
+    Bu iki sayfa aynı header/footer'ı paylaştığı için ADIM 1-4 tamamlanınca
+    otomatik olarak güncellenmiş görünecekler (ortak style.css sayesinde),
+    ama sayfa-özel içerik (legal-table, error-code glow efekti gibi)
+    ayrıca kontrol edilmeli.
+
+================================================================
+YENİ OTURUMDA İLK YAPILACAK
+================================================================
+1) Bu dosyayı + güncel index.html/style.css/app.js/kvkk.html/404.html
+   dosyalarını yükle, "UZN_BUSKI_YOL_HARITASI'na göre devam et" de.
+2) ADIM 0'daki 6 soruyu yanıtla (özellikle circuit-bg/telemetry/cmdk/
+   hero-beams/mini-terminal'in kaderi ve hero için hangi görsellerin
+   kullanılacağı — UZN TECH temalı yeni görseller gerekiyor, Almanya'nın
+   orman/kampüs fotoları BURAYA UYMAZ).
+3) Harvard/pexels jpg dosyalarının bu repodan silinmesi gerektiğini
+   unutma (yanlış repoya yüklenmişlerdi).
