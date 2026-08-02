@@ -244,6 +244,12 @@
         requestAnimationFrame(function () {
           var y = Math.min(window.scrollY * 0.15, 60);
           heroEl.style.setProperty('--scroll-y', y.toFixed(1) + 'px');
+          // EK-5: sayfa geneli arka plan katmanları (circuit-bg, grid-overlay,
+          // body::before yörünge halkası) için çok hafif bir parallax kayması.
+          // Kaldırmak için sadece bu satırı sil (style.css'teki EK-5 bloğu
+          // kalsa da zararsızdır, sadece hareket durur).
+          var bgY = Math.min(window.scrollY * 0.04, 40);
+          document.documentElement.style.setProperty('--bg-scroll-y', bgY.toFixed(1) + 'px');
           ticking = false;
         });
       }, { passive: true });

@@ -2027,3 +2027,94 @@ body[data-track] .track-reset { display: inline; }
   color: var(--text-faint);
   background: var(--bg-panel);
 }
+
+/* ============================================================
+   EK — Sayfa geneli HUD dekorasyonu.
+   Her blok BAĞIMSIZ olarak kaldırılabilir. Bir eklemeyi geri
+   almak istersen: aşağıdaki ilgili "EK-N" başlıklı CSS bloğunu
+   sil, ve (belirtiliyorsa) HTML'deki karşılık gelen <div> ile
+   app.js'teki ilgili satırları da sil. Sırayla dener/beğenmezsen
+   tek tek kaldırabilirsin, birbirlerine bağımlı değiller.
+   ============================================================ */
+
+/* ---- EK-1: Köşe bracket çerçeveleri (viewfinder hissi) ----
+   KALDIRMAK İÇİN: bu bloğu sil + index.html/404.html/kvkk.html
+   içindeki <div class="hud-brackets" ...>...</div> bloğunu sil. */
+.hud-brackets { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+.hud-corner {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border: 1.4px solid var(--accent);
+  opacity: 0.32;
+}
+.hud-corner-tl { top: 18px; left: 18px; border-right: none; border-bottom: none; }
+.hud-corner-tr { top: 18px; right: 18px; border-left: none; border-bottom: none; }
+.hud-corner-bl { bottom: 18px; left: 18px; border-right: none; border-top: none; }
+.hud-corner-br { bottom: 18px; right: 18px; border-left: none; border-top: none; }
+@media (max-width: 700px) { .hud-brackets { display: none; } }
+
+/* ---- EK-2: Merkezi dev yörünge halkası (sayfa geneli, sabit) ----
+   KALDIRMAK İÇİN: sadece bu bloğu sil. HTML'de karşılığı yok
+   (body::before kullanıyor), başka dosyaya dokunmana gerek yok. */
+body::before {
+  content: '';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 1300px;
+  height: 1300px;
+  transform: translate(-50%, -50%) translateY(var(--bg-scroll-y, 0px));
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, transparent 0 38.9%, var(--accent) 39% 39.15%, transparent 39.3%),
+    radial-gradient(circle, transparent 0 54.9%, var(--accent-2) 55% 55.1%, transparent 55.3%),
+    radial-gradient(circle, transparent 0 69.9%, var(--line) 70% 70.1%, transparent 70.3%);
+}
+@media (max-width: 700px) { body::before { width: 900px; height: 900px; opacity: 0.07; } }
+
+/* ---- EK-3: Telemetri etiketleri (dekoratif, anlamsız kod/koordinat) ----
+   KALDIRMAK İÇİN: bu bloğu sil + HTML'lerdeki
+   <div class="hud-telemetry" ...>...</div> bloğunu sil. */
+.hud-telemetry { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+.hud-label {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  opacity: 0.28;
+}
+@media (max-width: 900px) { .hud-telemetry { display: none; } }
+
+/* ---- EK-4: Ambient nabız düğümleri (yavaşça parlayıp sönen noktalar) ----
+   KALDIRMAK İÇİN: bu bloğu sil + HTML'lerdeki
+   <div class="hud-ambient" ...>...</div> bloğunu sil. */
+.hud-ambient { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+.hud-node {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent-bright);
+  opacity: 0.5;
+  animation: hud-node-pulse 3.4s ease-in-out infinite;
+}
+@keyframes hud-node-pulse {
+  0%, 100% { opacity: 0.15; box-shadow: 0 0 0 0 rgba(78,203,255,0); }
+  50% { opacity: 0.75; box-shadow: 0 0 8px 2px rgba(78,203,255,0.35); }
+}
+@media (prefers-reduced-motion: reduce) { .hud-node { animation: none; opacity: 0.4; } }
+@media (max-width: 700px) { .hud-ambient { display: none; } }
+
+/* ---- EK-5: Scroll parallax (arka plan katmanları hafifçe kayar) ----
+   KALDIRMAK İÇİN: bu bloğu sil + app.js içindeki "EK-5" yorumlu
+   satırları sil (--bg-scroll-y'yi set eden kısım). Sadece bu CSS
+   bloğunu silip app.js'e dokunmazsan da zararı olmaz, sadece
+   parallax durur (kullanılmayan bir custom property kalır). */
+.circuit-bg, .grid-overlay {
+  transform: translateY(var(--bg-scroll-y, 0px));
+}
