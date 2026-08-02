@@ -26,12 +26,18 @@ her faz bir öncekinin üzerine güvenle inşa edilir. Tamamlanan maddeyi `[x]` 
 
 ## FAZ 3 — Derinlik ve Mikro-etkileşim (mevcut sistemleri zenginleştirme)
 
-- [ ] **Z-Derinlik Parallaks** — var olan `parallax-box` / scroll parallax'ı derinlik katmanlarıyla
-      zenginleştir (Kademeli Parallaks fikri)
-- [ ] **Sensör Tetikleyicileri (Proximity Fade)** — var olan `cursor-spotlight`'ı, fareye yakın
-      metinlerin opaklığını artıracak şekilde genişlet
-- [ ] **Görünmez Mıknatıs Noktaları** — scroll sırasında serbest metin blokları `hud-ambient`
-      düğümlerine hafifçe "oturur" gibi hizalansın
+- [x] **Z-Derinlik Parallaks** — tek hızlı `--bg-scroll-y` yerine üç kademeli hız:
+      `--depth-y-near` (hud-ambient düğümleri, en hızlı), `--depth-y-mid` (circuit-bg),
+      `--depth-y-far` (grid-overlay + merkezi yörünge halkası, en yavaş). `prefers-reduced-motion`
+      ve `hover:none` durumlarında JS zaten çalışmıyor, katmanlar hareketsiz kalıyor.
+- [x] **Sensör Tetikleyicileri (Proximity Fade)** — `cursor-spotlight`'ın imleç konumu artık
+      `documentElement` üzerinde de yayınlanıyor; yeni `.sensor-fade` sınıfı sadece ikincil/dekoratif
+      metinlere (hud-telemetry etiketleri, nav `.ref` kodları) uygulandı — ana içerik metinlerine
+      dokunulmadı. İmleç yaklaştıkça `--proximity` (0-1) ile opaklık artıyor.
+- [x] **Görünmez Mıknatıs Noktaları** — Faz 1'de kutusu kaldırılan serbest bloklar (`duyuru-card`,
+      `service-tile`, `update-card`) artık `.magnet-settle` taşıyor; ekrana girerken en yakın
+      `hud-node`'a doğru 2-5px'lik küçük bir çekimle "oturuyor". JS çalışmazsa (`.magnet-armed`
+      hiç eklenmediği için) içerik normal, tam opak görünür — no-JS fallback güvenli.
 
 ## FAZ 4 — İsteğe Bağlı Süslemeler (bütçe kalırsa, dikkatli/az dozda)
 
@@ -62,4 +68,4 @@ Ziyaretçi 5-10 saniyede "ne yapıyor, nasıl ulaşırım" sorusuna cevap bulama
 _Bu dosyayı güncelleyerek hangi fazda olduğumuzu takip edebiliriz. Her faz bitince kısa bir
 "öncesi/sonrası" ekran görüntüsü alıp burada referans olarak tutmak faydalı olur._
 
-Son güncelleme: 02 Ağustos 2026
+Son güncelleme: 02 Ağustos 2026 (Faz 3 tamamlandı)

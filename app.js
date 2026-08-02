@@ -136,6 +136,56 @@
 
     revealEls.forEach(function (el) { observer.observe(el); });
 
+    // FAZ 3 / Görünmez Mıknatıs Noktaları — Faz 1'de kutusu kaldırılan
+    // serbest metin blokları (duyuru-card, service-tile, update-card)
+    // ekrana girerken, en yakın hud-ambient düğümüne doğru birkaç
+    // piksellik bir çekimle "oturuyor" — sanki sayfanın görünmez ağına
+    // hafifçe mıknatıslanıyorlar. Düğüm bulunamazsa (ör. mobilde
+    // hud-ambient gizli) sadece düz bir fade/rise-in olur, zararsız
+    // şekilde geri düşer.
+    var magnetEls = document.querySelectorAll('.magnet-settle');
+    if (magnetEls.length) {
+      // JS aktif olduğu için gizleme/animasyon etkisini şimdi "silahlandırıyoruz";
+      // JS hiç çalışmazsa bu class hiç eklenmez, içerik normal görünür kalır.
+      magnetEls.forEach(function (el) { el.classList.add('magnet-armed'); });
+      var nodeEls = document.querySelectorAll('.hud-node');
+
+      var applyMagnetOffset = function (el) {
+        if (!nodeEls.length) return;
+        var r = el.getBoundingClientRect();
+        var ecx = r.left + r.width / 2;
+        var ecy = r.top + r.height / 2;
+        var best = null, bestDist = Infinity;
+        nodeEls.forEach(function (node) {
+          var nr = node.getBoundingClientRect();
+          var d = Math.hypot(nr.left - ecx, nr.top - ecy);
+          if (d < bestDist) { bestDist = d; best = nr; }
+        });
+        if (!best) return;
+        var dx = best.left - ecx;
+        var dy = best.top - ecy;
+        var mag = Math.hypot(dx, dy) || 1;
+        var clampPx = 5; // görünmez mıknatıs — çok küçük, dikkat çekmeyen bir kayma
+        el.style.setProperty('--magnet-x', ((dx / mag) * clampPx).toFixed(1) + 'px');
+        el.style.setProperty('--magnet-y', ((dy / mag) * clampPx).toFixed(1) + 'px');
+      };
+
+      if (reduceMotion || !('IntersectionObserver' in window)) {
+        magnetEls.forEach(function (el) { el.classList.add('is-settled'); });
+      } else {
+        var magnetObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry, i) {
+            if (entry.isIntersecting) {
+              applyMagnetOffset(entry.target);
+              entry.target.classList.add('is-settled');
+              magnetObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
+        magnetEls.forEach(function (el) { magnetObserver.observe(el); });
+      }
+    }
+
     // Scan-line: sweep once per section the first time it enters view
     var scanEls = document.querySelectorAll('.scan-line');
     if (scanEls.length) {
@@ -159,14 +209,19 @@
     var canHover = window.matchMedia('(hover: hover)').matches;
     if (reduceMotion || !canHover) return;
 
-    // Mouse-tracked spotlight glow
+    // Mouse-tracked spotlight glow — --mx/--my documentElement üzerinde de
+    // set ediliyor ki aşağıdaki "Sensör Tetikleyicileri" gibi başka
+    // proximity efektleri de aynı imleç konumunu okuyabilsin.
     var spotlight = document.querySelector('.cursor-spotlight');
-    if (spotlight) {
-      window.addEventListener('mousemove', function (e) {
+    var docEl = document.documentElement;
+    window.addEventListener('mousemove', function (e) {
+      if (spotlight) {
         spotlight.style.setProperty('--mx', e.clientX + 'px');
         spotlight.style.setProperty('--my', e.clientY + 'px');
-      }, { passive: true });
-    }
+      }
+      docEl.style.setProperty('--cursor-x', e.clientX + 'px');
+      docEl.style.setProperty('--cursor-y', e.clientY + 'px');
+    }, { passive: true });
 
     // Subtle 3D tilt on cards
     var tiltEls = document.querySelectorAll('.tilt');
@@ -233,6 +288,48 @@
       });
     });
 
+    // FAZ 3 / Sensör Tetikleyicileri (Proximity Fade) — cursor-spotlight'ın
+    // genişletilmiş hali: dekoratif/ikincil etiketler (telemetri kodları,
+    // nav referans numaraları) varsayılan olarak soluk durur, imleç
+    // yaklaştıkça HUD bir "sensör" gibi onları fark edip parlatır. Sadece
+    // ikincil/dekoratif metinlere uygulanıyor — okunabilirlik riski olan
+    // ana içerik metinlerine (paragraf, başlık) DOKUNULMUYOR.
+    var sensorEls = Array.prototype.slice.call(document.querySelectorAll('.sensor-fade'));
+    if (sensorEls.length) {
+      var sensorRects = [];
+      var measureSensorRects = function () {
+        sensorRects = sensorEls.map(function (el) { return el.getBoundingClientRect(); });
+      };
+      measureSensorRects();
+      window.addEventListener('resize', measureSensorRects, { passive: true });
+
+      var sensorRadius = 220; // px — bu yarıçapın dışında etki sıfır
+      var sensorTicking = false;
+      window.addEventListener('mousemove', function (e) {
+        if (sensorTicking) return;
+        sensorTicking = true;
+        requestAnimationFrame(function () {
+          for (var i = 0; i < sensorEls.length; i++) {
+            var r = sensorRects[i];
+            var cx = Math.max(r.left, Math.min(e.clientX, r.right));
+            var cy = Math.max(r.top, Math.min(e.clientY, r.bottom));
+            var dist = Math.hypot(e.clientX - cx, e.clientY - cy);
+            var proximity = Math.max(0, 1 - dist / sensorRadius);
+            sensorEls[i].style.setProperty('--proximity', proximity.toFixed(2));
+          }
+          sensorTicking = false;
+        });
+      }, { passive: true });
+
+      // Scroll de rect'leri kaydırır — throttle'lı yeniden ölçüm.
+      var sensorScrollTicking = false;
+      window.addEventListener('scroll', function () {
+        if (sensorScrollTicking) return;
+        sensorScrollTicking = true;
+        requestAnimationFrame(function () { measureSensorRects(); sensorScrollTicking = false; });
+      }, { passive: true });
+    }
+
     // Scroll-based parallax on the hero glow — moves slower than the page
     var heroEl = document.querySelector('.hero');
     if (heroEl) {
@@ -243,12 +340,17 @@
         requestAnimationFrame(function () {
           var y = Math.min(window.scrollY * 0.15, 60);
           heroEl.style.setProperty('--scroll-y', y.toFixed(1) + 'px');
-          // EK-5: sayfa geneli arka plan katmanları (circuit-bg, grid-overlay,
-          // body::before yörünge halkası) için çok hafif bir parallax kayması.
-          // Kaldırmak için sadece bu satırı sil (style.css'teki EK-5 bloğu
-          // kalsa da zararsızdır, sadece hareket durur).
-          var bgY = Math.min(window.scrollY * 0.04, 40);
-          document.documentElement.style.setProperty('--bg-scroll-y', bgY.toFixed(1) + 'px');
+          // EK-5 / FAZ 3 — Z-Derinlik Parallaks: tek hızlı kaymak yerine
+          // üç kademeli hız, katmanları gerçekten "uzaklıklarına" göre
+          // ayırıyor. Yakın katman (hud-ambient düğümleri) daha hızlı,
+          // uzak katman (grid + yörünge halkası) daha yavaş kayar.
+          // Kaldırmak için bu üç satırı silip eski tek satırlı --bg-scroll-y
+          // halini geri koyman yeterli (style.css'teki EK-5 bloğu da geri
+          // alınmalı, yoksa katmanlar hareketsiz kalır — zararsız).
+          var root = document.documentElement;
+          root.style.setProperty('--depth-y-near', Math.min(window.scrollY * 0.09, 90).toFixed(1) + 'px');
+          root.style.setProperty('--depth-y-mid', Math.min(window.scrollY * 0.04, 40).toFixed(1) + 'px');
+          root.style.setProperty('--depth-y-far', Math.min(window.scrollY * 0.018, 18).toFixed(1) + 'px');
           ticking = false;
         });
       }, { passive: true });

@@ -2236,7 +2236,7 @@ body::before {
   left: 50%;
   width: 1300px;
   height: 1300px;
-  transform: translate(-50%, -50%) translateY(var(--bg-scroll-y, 0px));
+  transform: translate(-50%, -50%) translateY(var(--depth-y-far, 0px));
   z-index: -1;
   pointer-events: none;
   opacity: 0.1;
@@ -2286,7 +2286,71 @@ body::before {
    KALDIRMAK İÇİN: bu bloğu sil + app.js içindeki "EK-5" yorumlu
    satırları sil (--bg-scroll-y'yi set eden kısım). Sadece bu CSS
    bloğunu silip app.js'e dokunmazsan da zararı olmaz, sadece
-   parallax durur (kullanılmayan bir custom property kalır). */
-.circuit-bg, .grid-overlay {
-  transform: translateY(var(--bg-scroll-y, 0px));
+   parallax durur (kullanılmayan bir custom property kalır).
+
+   FAZ 3 / Z-Derinlik Parallaks: tek bir --bg-scroll-y yerine üç ayrı
+   hız kademesi var artık — her katman "gerçek" uzaklığına göre farklı
+   hızda kayıyor, göz gerçek bir derinlik hissi alıyor:
+     --depth-y-near  (en yakın katman, en hızlı)  → hud-ambient düğümleri
+     --depth-y-mid   (orta katman)                 → circuit-bg (PCB deseni)
+     --depth-y-far   (en uzak katman, en yavaş)     → grid-overlay + yörünge halkası
+   KALDIRMAK İÇİN: bu üç transform satırını silip yukarıdaki tek satırlı
+   halini geri koyman yeterli (app.js'te tek --bg-scroll-y set etmeye
+   devam etsen bile zararsız, sadece kullanılmaz kalır). */
+.grid-overlay {
+  transform: translateY(var(--depth-y-far, 0px));
+}
+.circuit-bg {
+  transform: translateY(var(--depth-y-mid, 0px));
+}
+.hud-node {
+  transform: translateY(var(--depth-y-near, 0px));
+}
+@media (prefers-reduced-motion: reduce) {
+  .grid-overlay, .circuit-bg, .hud-node { transform: none; }
+}
+
+/* ---- FAZ 3 / Sensör Tetikleyicileri (Proximity Fade) ----
+   app.js --proximity (0-1) değerini imleç yaklaştıkça set ediyor.
+   Sadece dekoratif/ikincil metinlere uygulanıyor (hud-label, nav .ref);
+   ana içerik metinleri bu davranıştan etkilenmiyor. KALDIRMAK İÇİN:
+   bu bloğu sil + app.js'teki "sensorEls" bloğunu sil + HTML'lerdeki
+   ilgili elemanlardan sensor-fade class'ını kaldır. */
+.sensor-fade { transition: opacity 0.15s ease-out; }
+.hud-label.sensor-fade { opacity: calc(0.28 + var(--proximity, 0) * 0.6); }
+.site-nav .ref.sensor-fade,
+.mobile-nav nav .ref.sensor-fade { opacity: calc(0.65 + var(--proximity, 0) * 0.35); }
+@media (prefers-reduced-motion: reduce), (hover: none) {
+  .hud-label.sensor-fade { opacity: 0.28; }
+  .site-nav .ref.sensor-fade,
+  .mobile-nav nav .ref.sensor-fade { opacity: 1; }
+}
+
+/* ---- FAZ 3 / Görünmez Mıknatıs Noktaları ----
+   app.js, elemana en yakın hud-node'a göre --magnet-x/--magnet-y set
+   ediyor; eleman ekrana girmeden hemen önce o düğümün olduğu yönde
+   küçük bir ofsette bekliyor, .is-settled eklenince "mıknatıslanarak"
+   yerine oturuyor. Düğüm yoksa (mobil) ofset 0 kalır, düz bir
+   fade/rise-in olur. KALDIRMAK İÇİN: bu bloğu sil + app.js'teki
+   "magnetEls" bloğunu sil + HTML'lerdeki magnet-settle class'larını
+   kaldır. */
+/* magnet-settle: HTML'de her zaman duruyor ama görsel etkisi yalnızca
+   JS, --magnet-armed ile "silahlandırdığında" başlıyor (bkz. app.js) —
+   JS çalışmazsa içerik hiç gizlenmeden normal göründüğü hâliyle kalır. */
+.magnet-settle {
+  --magnet-x: 0px;
+  --magnet-y: 0px;
+}
+.magnet-settle.magnet-armed {
+  opacity: 0;
+  transform: translate(calc(var(--magnet-x) * -1), calc(var(--magnet-y) * -1 + 10px));
+  transition: transform 0.7s cubic-bezier(0.34, 1.2, 0.4, 1), opacity 0.55s ease;
+  will-change: transform, opacity;
+}
+.magnet-settle.magnet-armed.is-settled {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .magnet-settle.magnet-armed { opacity: 1; transform: none; transition: none; }
 }
