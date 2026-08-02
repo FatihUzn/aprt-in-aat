@@ -85,7 +85,6 @@
     // Groups: items get a small staggered delay based on their position
     var groupSelectors = [
       '.card-grid > .card',
-      '.feature-blocks > .feature-block',
       '.process-steps > .process-step',
       '.project-list > .project-row',
       '.testimonial-grid > .testimonial-card',
@@ -311,6 +310,25 @@
 
     var initial = new URL(window.location.href).searchParams.get('track');
     if (initial && labels[initial]) { applyTrack(initial); }
+  })();
+
+
+/* ---- Ağ topolojisi haritası — bir düğüm açılınca diğerleri kapanır
+   (native <details> davranışı JS'siz de çalışır; bu sadece harita
+   üzerinde aynı anda birden fazla panel açık kalmasını önleyen bir
+   iyileştirme, FAZ 2). ---- */
+
+  (function () {
+    var nodes = document.querySelectorAll('.topology-node');
+    if (!nodes.length) return;
+    nodes.forEach(function (node) {
+      node.addEventListener('toggle', function () {
+        if (!node.open) return;
+        nodes.forEach(function (other) {
+          if (other !== node) other.open = false;
+        });
+      });
+    });
   })();
 
 

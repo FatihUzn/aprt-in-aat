@@ -1530,79 +1530,192 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
 }
 .skill-name { font-size: 0.9rem; color: var(--text); white-space: nowrap; }
 
-/* Feature blocks — Superhuman-style large benefit sections */
-.feature-blocks { display: flex; flex-direction: column; gap: 72px; }
-
-.feature-block {
-  display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  gap: 48px;
-  align-items: center;
-}
-.feature-block.reverse { direction: rtl; }
-.feature-block.reverse .feature-text,
-.feature-block.reverse .feature-visual { direction: ltr; }
-
-.feature-label {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.06em;
-  color: var(--accent);
-  margin-bottom: 14px;
-}
-.feature-text h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 14px;
-  max-width: 20ch;
-}
-.feature-text p { color: var(--text-dim); font-size: 0.95rem; max-width: 44ch; margin: 0 0 22px; }
-
-.feature-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
-.feature-list li {
-  font-size: 0.88rem;
-  color: var(--text);
-  padding-left: 20px;
+/* ============================================================
+   FAZ 2 — Şematik Bağlantılar + Ağ Topolojisi Haritası
+   "Yetkinlik Alanları" artık kutulu feature-block değil: merkezde
+   "Mekatronik" hub düğümü, üç yetkinlik alanı çevresinde, ince
+   şematik hatlarla hub'a bağlı. Düğümler native <details>/<summary>
+   — JS'siz de açılır/kapanır. Panel, düğümün üstüne modal bir kutu
+   olarak değil, düğümün olduğu yerden büyüyerek açılıyor.
+   Konumlandırma: .topology-map sabit bir aspect-ratio (1000/620)
+   taşıyor, düğümler --nx/--ny custom property'leriyle yüzde bazlı
+   konumlanıyor, bağlantı SVG'si aynı viewBox oranını kullanıyor —
+   böylece container her genişlikte, JS'siz, hatlar düğümlerle
+   piksel hassasiyetinde hizalı kalıyor. */
+.topology-map {
   position: relative;
+  aspect-ratio: 1000 / 620;
+  margin-top: 12px;
+  z-index: 3;
 }
-.feature-list li::before {
+.topology-links { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.topology-link-base-path {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1.4;
+}
+.topology-link-signal-path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.4;
+  stroke-dasharray: 4 11;
+  opacity: 0.6;
+  animation: topology-flow 3.4s linear infinite;
+}
+@keyframes topology-flow { to { stroke-dashoffset: -150; } }
+
+.topology-node {
+  position: absolute;
+  left: var(--nx);
+  top: var(--ny);
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.topology-node[open] { z-index: 6; }
+.topology-node summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  width: max-content;
+}
+.topology-node summary::-webkit-details-marker,
+.topology-node summary::marker { display: none; content: ""; }
+.node-dot {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  border: 1.4px solid var(--accent);
+  background: var(--bg);
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+.topology-node:hover .node-dot,
+.topology-node[open] .node-dot {
+  border-color: var(--accent-bright);
+  color: var(--text);
+  box-shadow: 0 0 0 6px rgba(30,136,199,0.14);
+  transform: scale(1.06);
+}
+.topology-hub .node-dot { width: 80px; height: 80px; border-width: 1.6px; background: var(--bg-panel); }
+.node-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  white-space: nowrap;
+  text-align: center;
+  transition: color 0.2s ease;
+}
+.topology-node[open] .node-label,
+.topology-node:hover .node-label { color: var(--text); }
+
+.node-panel {
+  position: absolute;
+  top: calc(100% + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(320px, 72vw);
+  padding: 20px 22px 24px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  box-shadow: 0 20px 44px -20px rgba(0,0,0,0.6);
+  animation: node-panel-in 0.26s cubic-bezier(0.22,1,0.36,1);
+}
+.node-panel::before {
+  content: "";
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  width: 1px;
+  height: 16px;
+  background: var(--accent);
+  opacity: 0.5;
+}
+@keyframes node-panel-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(-6px) scale(0.96); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+}
+.node-panel .feature-label { display: inline-block; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 10px; }
+.node-panel h3 { font-size: 1.1rem; font-weight: 700; margin: 0 0 10px; }
+.node-panel p { color: var(--text-dim); font-size: 0.88rem; margin: 0 0 16px; }
+.node-panel .feature-list { list-style: none; margin: 0 0 4px; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+.node-panel .feature-list li { font-size: 0.86rem; color: var(--text); padding-left: 18px; position: relative; }
+.node-panel .feature-list li::before {
   content: '';
   position: absolute;
   left: 0;
-  top: 7px;
+  top: 6px;
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: var(--accent);
 }
+.node-diagram { margin-top: 16px; }
+.node-diagram svg { width: 100%; height: auto; display: block; }
 
-.feature-visual {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background:
-    radial-gradient(ellipse at 30% 20%, rgba(30,136,199,0.12), transparent 60%),
-    rgba(27, 26, 33, 0.45);
-  backdrop-filter: blur(16px) saturate(120%);
-  -webkit-backdrop-filter: blur(16px) saturate(120%);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.05) inset, 0 14px 32px -20px rgba(0,0,0,0.55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Hub paneli merkezde kalır. Sol/sağ uç düğümlerde panel container
+   dışına taşmasın diye kenara hizalanır (stem çizgisi de o köşeye
+   kayar); alt düğümde ("Siber Güvenlik") panel aşağı değil yukarı
+   açılır ki bir sonraki bölümün üstüne binmesin. */
+.topology-node--anchor-left .node-panel { left: 0; transform: translateX(0); }
+.topology-node--anchor-left .node-panel::before { left: 30px; }
+.topology-node--anchor-right .node-panel { left: auto; right: 0; transform: translateX(0); }
+.topology-node--anchor-right .node-panel::before { left: auto; right: 30px; }
+.topology-node--up .node-panel {
+  top: auto;
+  bottom: calc(100% + 16px);
 }
-.feature-visual-tag {
-  font-family: var(--font-display);
-  font-size: 4rem;
-  font-weight: 800;
-  color: var(--line);
+.topology-node--up .node-panel::before { top: auto; bottom: -16px; }
+@keyframes node-panel-in-up {
+  from { opacity: 0; transform: translateX(-50%) translateY(6px) scale(0.96); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
 }
-.feature-diagram { width: 78%; height: auto; max-height: 78%; }
+.topology-node--up .node-panel { animation-name: node-panel-in-up; }
 
-@media (max-width: 800px) {
-  .feature-block, .feature-block.reverse { grid-template-columns: 1fr; direction: ltr; }
-  .feature-visual { order: -1; aspect-ratio: 16/9; }
+@media (prefers-reduced-motion: reduce) {
+  .topology-link-signal-path { animation: none; }
+}
+
+/* Mobilde (≤700px) harita yerine dikey, üst-çizgili bir liste —
+   Faz 1'deki duyuru/service/update ile aynı "görünmez kapsayıcı"
+   dili. Konumlandırma/hat karmaşıklığı riske değmiyor; okunabilirlik
+   öncelikli. */
+@media (max-width: 700px) {
+  .topology-map { aspect-ratio: auto; z-index: auto; }
+  .topology-links { display: none; }
+  .topology-node {
+    position: relative;
+    left: auto; top: auto; transform: none;
+    border-top: 1px solid var(--line-soft);
+    padding: 16px 0;
+  }
+  .topology-node:first-of-type { border-top: none; }
+  .topology-node summary { flex-direction: row; align-items: center; gap: 14px; width: auto; }
+  .node-dot { width: 44px; height: 44px; flex-shrink: 0; }
+  .topology-hub .node-dot { width: 50px; height: 50px; }
+  .node-label { text-align: left; }
+  .node-panel,
+  .topology-node--anchor-left .node-panel,
+  .topology-node--anchor-right .node-panel,
+  .topology-node--up .node-panel {
+    position: static;
+    width: auto;
+    transform: none !important;
+    top: auto; left: auto; right: auto; bottom: auto;
+    margin-top: 14px;
+    padding: 0 0 0 58px;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+  }
+  .node-panel::before { display: none; }
 }
 
 /* Process steps ("Nasıl Çalışıyorum") */

@@ -423,16 +423,68 @@
     </div>
   </section>
 
-  <!-- SERVICES -->
+  <!-- SERVICES — FAZ 2: Şematik Bağlantılar + Ağ Topolojisi Haritası.
+       Kutulu feature-block düzeni yerine, sayfanın diğer yerlerindeki
+       hud-ambient düğümleriyle aynı dilde konuşan bir ağ topolojisi:
+       merkezde "Mekatronik" hub düğümü, çevresinde üç yetkinlik alanı
+       düğümü, ince şematik hatlarla hub'a bağlı. Her düğüm native
+       <details>/<summary> — JS olmadan da açılır/kapanır, klavye ve
+       ekran okuyucuyla tam erişilebilir. Tıklanınca içerik ayrı bir
+       kutu açmıyor, düğümün olduğu yerden büyüyor. Hatlar üzerindeki
+       kesikli çizgi + akış animasyonu "sinyal" hissi veriyor. Track
+       filtresiyle (hero'daki Yazılım/Mekanik/Siber butonları)
+       uyumlu çalışması için her uç düğüm ve ona bağlı hat aynı
+       data-track değerini taşıyor. Mobilde (≤700px) harita yerine
+       dikey, üst-çizgili bir listeye düşer (bkz. style.css sonundaki
+       media query — Faz 1'deki duyuru/service/update ile aynı dil). -->
   <section class="section" id="hizmetler">
     <div class="scan-line" aria-hidden="true"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U1 — HİZMETLER</p>
     <h2>Yetkinlik Alanları</h2>
+    <p class="section-note">Bir düğüme dokun, bağlantıyı takip et.</p>
 
-    <div class="feature-blocks">
+    <div class="topology-map">
+      <svg class="topology-links" viewBox="0 0 1000 620" preserveAspectRatio="none" aria-hidden="true">
+        <g data-track="mekanik">
+          <path class="topology-link-base-path" d="M500,310 L180,150"/>
+          <path class="topology-link-signal-path" d="M500,310 L180,150"/>
+        </g>
+        <g data-track="yazilim">
+          <path class="topology-link-base-path" d="M500,310 L820,150"/>
+          <path class="topology-link-signal-path" d="M500,310 L820,150"/>
+        </g>
+        <g data-track="siber">
+          <path class="topology-link-base-path" d="M500,310 L500,540"/>
+          <path class="topology-link-signal-path" d="M500,310 L500,540"/>
+        </g>
+      </svg>
 
-      <article class="feature-block" data-track="mekanik">
-        <div class="feature-text">
+      <details class="topology-node topology-hub" style="--nx:50%;--ny:50%;" data-track="ikisi">
+        <summary>
+          <span class="node-dot">
+            <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+              <circle cx="4" cy="11" r="2.2" fill="var(--accent)"/>
+              <line x1="6.2" y1="11" x2="15.8" y2="11" stroke="var(--signal)" stroke-width="1.4"/>
+              <circle cx="18" cy="11" r="2.2" fill="var(--signal)"/>
+            </svg>
+          </span>
+          <span class="node-label">Mekatronik</span>
+        </summary>
+        <div class="node-panel">
+          <span class="feature-label">Kesişim Noktası</span>
+          <h3>İki dünyanın birleştiği yer.</h3>
+          <p>Mekanik/otomasyon ve yazılım/siber güvenlik hattı burada birleşiyor — projelerin çoğu tek bir alanda değil, tam bu kesişimde yaşıyor.</p>
+        </div>
+      </details>
+
+      <details class="topology-node topology-node--anchor-left" style="--nx:18%;--ny:24%;" data-track="mekanik">
+        <summary>
+          <span class="node-dot">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3.4" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v2.4M12 18.6V21M21 12h-2.4M5.4 12H3M18.4 5.6l-1.7 1.7M7.3 16.7l-1.7 1.7M18.4 18.4l-1.7-1.7M7.3 7.3 5.6 5.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </span>
+          <span class="node-label">Mekanik &amp; Otomasyon</span>
+        </summary>
+        <div class="node-panel">
           <span class="feature-label">Mühendislik &amp; Otomasyon</span>
           <h3>Fikirden çalışan prototipe, tek elden.</h3>
           <p>Mekanik tasarımdan kontrol sistemine kadar bir mekanizmanın tüm yaşam döngüsünde çalışıyorum.</p>
@@ -441,48 +493,40 @@
             <li>PLC / mikrodenetleyici tabanlı kontrol sistemleri</li>
             <li>Sensör–aktüatör entegrasyonu</li>
           </ul>
+          <div class="node-diagram">
+            <svg viewBox="0 0 220 165" fill="none" aria-hidden="true">
+              <circle cx="70" cy="82" r="30" stroke="var(--line)" stroke-width="1.4"/>
+              <g stroke="var(--accent-2)" stroke-width="3" stroke-linecap="round">
+                <line x1="70" y1="46" x2="70" y2="56"/>
+                <line x1="70" y1="108" x2="70" y2="118"/>
+                <line x1="34" y1="82" x2="44" y2="82"/>
+                <line x1="96" y1="82" x2="106" y2="82"/>
+                <line x1="45.6" y1="57.6" x2="52.3" y2="64.3"/>
+                <line x1="87.7" y1="99.7" x2="94.4" y2="106.4"/>
+                <line x1="94.4" y1="57.6" x2="87.7" y2="64.3"/>
+                <line x1="52.3" y1="99.7" x2="45.6" y2="106.4"/>
+              </g>
+              <circle cx="70" cy="82" r="13" fill="var(--bg)" stroke="var(--accent-2)" stroke-width="1.6"/>
+              <circle cx="70" cy="82" r="4" fill="var(--accent-2)"/>
+              <path d="M106 82H150" stroke="var(--line)" stroke-width="1.4"/>
+              <rect x="150" y="64" width="46" height="36" rx="4" stroke="var(--signal)" stroke-width="1.4"/>
+              <path d="M160 82H186M173 71V93" stroke="var(--accent-bright)" stroke-width="1.4"/>
+              <path d="M70 118V138" stroke="var(--line)" stroke-width="1.4"/>
+              <circle cx="70" cy="138" r="4" fill="var(--signal)"/>
+              <path d="M173 100V138H70" stroke="var(--line)" stroke-width="1.4" stroke-dasharray="3 4"/>
+            </svg>
+          </div>
         </div>
-        <div class="feature-visual parallax-box tilt" aria-hidden="true">
-          <svg class="feature-diagram parallax-layer" viewBox="0 0 220 165" fill="none">
-            <circle cx="70" cy="82" r="30" stroke="var(--line)" stroke-width="1.4"/>
-            <g stroke="var(--accent-2)" stroke-width="3" stroke-linecap="round">
-              <line x1="70" y1="46" x2="70" y2="56"/>
-              <line x1="70" y1="108" x2="70" y2="118"/>
-              <line x1="34" y1="82" x2="44" y2="82"/>
-              <line x1="96" y1="82" x2="106" y2="82"/>
-              <line x1="45.6" y1="57.6" x2="52.3" y2="64.3"/>
-              <line x1="87.7" y1="99.7" x2="94.4" y2="106.4"/>
-              <line x1="94.4" y1="57.6" x2="87.7" y2="64.3"/>
-              <line x1="52.3" y1="99.7" x2="45.6" y2="106.4"/>
-            </g>
-            <circle cx="70" cy="82" r="13" fill="var(--bg)" stroke="var(--accent-2)" stroke-width="1.6"/>
-            <circle cx="70" cy="82" r="4" fill="var(--accent-2)"/>
-            <path d="M106 82H150" stroke="var(--line)" stroke-width="1.4"/>
-            <rect x="150" y="64" width="46" height="36" rx="4" stroke="var(--signal)" stroke-width="1.4"/>
-            <path d="M160 82H186M173 71V93" stroke="var(--accent-bright)" stroke-width="1.4"/>
-            <path d="M70 118V138" stroke="var(--line)" stroke-width="1.4"/>
-            <circle cx="70" cy="138" r="4" fill="var(--signal)"/>
-            <path d="M173 100V138H70" stroke="var(--line)" stroke-width="1.4" stroke-dasharray="3 4"/>
-          </svg>
-          <svg class="dim-overlay" viewBox="0 0 220 165" preserveAspectRatio="none" aria-hidden="true">
-            <path class="dim-bracket" d="M8,20 L8,8 L20,8"/>
-            <path class="dim-bracket" d="M200,8 L212,8 L212,20"/>
-            <path class="dim-bracket" d="M212,145 L212,157 L200,157"/>
-            <path class="dim-bracket" d="M20,157 L8,157 L8,145"/>
-            <line class="dim-line" x1="22" y1="151" x2="198" y2="151"/>
-            <path class="dim-arrow" d="M22,151 L30,147 M22,151 L30,155"/>
-            <path class="dim-arrow" d="M198,151 L190,147 M198,151 L190,155"/>
-            <text class="dim-text" x="110" y="146" text-anchor="middle" font-size="7">142.0</text>
-            <line class="dim-line" x1="205" y1="22" x2="205" y2="143"/>
-            <path class="dim-arrow" d="M205,22 L201,30 M205,22 L209,30"/>
-            <path class="dim-arrow" d="M205,143 L201,135 M205,143 L209,135"/>
-            <text class="dim-text" x="209" y="85" font-size="7">96.5</text>
-          </svg>
-        </div>
-      </article>
+      </details>
 
-      <article class="feature-block reverse" data-track="yazilim">
-        <div class="feature-text">
+      <details class="topology-node topology-node--anchor-right" style="--nx:82%;--ny:24%;" data-track="yazilim">
+        <summary>
+          <span class="node-dot">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 8-5 4 5 4M15 8l5 4-5 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="node-label">Yazılım Geliştirme</span>
+        </summary>
+        <div class="node-panel">
           <span class="feature-label">Yazılım Geliştirme</span>
           <h3>Donanımın konuştuğu dilden yazılıma.</h3>
           <p>Python, C++, Java ve Go ile hem otomasyon araçları hem de sistem düzeyinde yazılımlar geliştiriyorum.</p>
@@ -491,49 +535,41 @@
             <li>Backend ve sistem yazılımları</li>
             <li>Mikrodenetleyici firmware'i</li>
           </ul>
+          <div class="node-diagram">
+            <svg viewBox="0 0 220 165" fill="none" aria-hidden="true">
+              <rect x="24" y="40" width="172" height="86" rx="6" stroke="var(--signal)" stroke-width="1.4"/>
+              <line x1="24" y1="58" x2="196" y2="58" stroke="var(--line)" stroke-width="1.2"/>
+              <circle cx="38" cy="49" r="2.6" fill="var(--text-faint)"/>
+              <circle cx="48" cy="49" r="2.6" fill="var(--text-faint)"/>
+              <circle cx="58" cy="49" r="2.6" fill="var(--text-faint)"/>
+              <g stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round">
+                <path d="M46 78 34 90 46 102"/>
+                <path d="M78 78 90 90 78 102"/>
+              </g>
+              <line x1="66" y1="104" x2="60" y2="76" stroke="var(--accent-bright)" stroke-width="2.2" stroke-linecap="round"/>
+              <g stroke="var(--line)" stroke-width="1.4">
+                <line x1="108" y1="76" x2="180" y2="76"/>
+                <line x1="108" y1="90" x2="164" y2="90"/>
+                <line x1="108" y1="104" x2="172" y2="104"/>
+              </g>
+              <circle cx="180" cy="76" r="3" fill="var(--accent)"/>
+              <circle cx="164" cy="90" r="3" fill="var(--text-dim)"/>
+              <circle cx="172" cy="104" r="3" fill="var(--text-dim)"/>
+              <path d="M110 126V140" stroke="var(--line)" stroke-width="1.4" stroke-dasharray="3 4"/>
+              <circle cx="110" cy="146" r="4" fill="var(--signal)"/>
+            </svg>
+          </div>
         </div>
-        <div class="feature-visual parallax-box tilt" aria-hidden="true">
-          <svg class="feature-diagram parallax-layer" viewBox="0 0 220 165" fill="none">
-            <rect x="24" y="40" width="172" height="86" rx="6" stroke="var(--signal)" stroke-width="1.4"/>
-            <line x1="24" y1="58" x2="196" y2="58" stroke="var(--line)" stroke-width="1.2"/>
-            <circle cx="38" cy="49" r="2.6" fill="var(--text-faint)"/>
-            <circle cx="48" cy="49" r="2.6" fill="var(--text-faint)"/>
-            <circle cx="58" cy="49" r="2.6" fill="var(--text-faint)"/>
-            <g stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round">
-              <path d="M46 78 34 90 46 102"/>
-              <path d="M78 78 90 90 78 102"/>
-            </g>
-            <line x1="66" y1="104" x2="60" y2="76" stroke="var(--accent-bright)" stroke-width="2.2" stroke-linecap="round"/>
-            <g stroke="var(--line)" stroke-width="1.4">
-              <line x1="108" y1="76" x2="180" y2="76"/>
-              <line x1="108" y1="90" x2="164" y2="90"/>
-              <line x1="108" y1="104" x2="172" y2="104"/>
-            </g>
-            <circle cx="180" cy="76" r="3" fill="var(--accent)"/>
-            <circle cx="164" cy="90" r="3" fill="var(--text-dim)"/>
-            <circle cx="172" cy="104" r="3" fill="var(--text-dim)"/>
-            <path d="M110 126V140" stroke="var(--line)" stroke-width="1.4" stroke-dasharray="3 4"/>
-            <circle cx="110" cy="146" r="4" fill="var(--signal)"/>
-          </svg>
-          <svg class="dim-overlay" viewBox="0 0 220 165" preserveAspectRatio="none" aria-hidden="true">
-            <path class="dim-bracket" d="M8,20 L8,8 L20,8"/>
-            <path class="dim-bracket" d="M200,8 L212,8 L212,20"/>
-            <path class="dim-bracket" d="M212,145 L212,157 L200,157"/>
-            <path class="dim-bracket" d="M20,157 L8,157 L8,145"/>
-            <line class="dim-line" x1="22" y1="151" x2="198" y2="151"/>
-            <path class="dim-arrow" d="M22,151 L30,147 M22,151 L30,155"/>
-            <path class="dim-arrow" d="M198,151 L190,147 M198,151 L190,155"/>
-            <text class="dim-text" x="110" y="146" text-anchor="middle" font-size="7">168.4</text>
-            <line class="dim-line" x1="205" y1="22" x2="205" y2="143"/>
-            <path class="dim-arrow" d="M205,22 L201,30 M205,22 L209,30"/>
-            <path class="dim-arrow" d="M205,143 L201,135 M205,143 L209,135"/>
-            <text class="dim-text" x="209" y="85" font-size="7">82.0</text>
-          </svg>
-        </div>
-      </article>
+      </details>
 
-      <article class="feature-block" data-track="siber">
-        <div class="feature-text">
+      <details class="topology-node topology-node--up" style="--nx:50%;--ny:87%;" data-track="siber">
+        <summary>
+          <span class="node-dot">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 4 7v6c0 4.4 3.4 7.5 8 8 4.6-.5 8-3.6 8-8V7l-8-4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m8.5 12.6 2.4 2.4L15.5 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="node-label">Siber Güvenlik</span>
+        </summary>
+        <div class="node-panel">
           <span class="feature-label">Siber Güvenlik</span>
           <h3>Güvenlik, sonradan eklenen bir özellik değil.</h3>
           <p>Kali Linux üzerinde sızma testi ve sistem sertleştirme pratikleriyle geliştirdiğim her sistemi baştan güvenli kuruyorum.</p>
@@ -542,43 +578,27 @@
             <li>Ağ analizi</li>
             <li>Sistem sertleştirme</li>
           </ul>
+          <div class="node-diagram">
+            <svg viewBox="0 0 220 165" fill="none" aria-hidden="true">
+              <path d="M98 32 132 44V78C132 104 116 118 98 128 80 118 64 104 64 78V44L98 32Z" stroke="var(--signal)" stroke-width="1.6"/>
+              <path d="M82 82 93 93 116 68" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <g stroke="var(--line)" stroke-width="1.2">
+                <circle cx="98" cy="80" r="46"/>
+                <circle cx="98" cy="80" r="62"/>
+              </g>
+              <g fill="var(--text-faint)">
+                <circle cx="44" cy="52" r="2.4"/>
+                <circle cx="34" cy="96" r="2.4"/>
+                <circle cx="152" cy="48" r="2.4"/>
+                <circle cx="162" cy="100" r="2.4"/>
+                <circle cx="58" cy="132" r="2.4"/>
+                <circle cx="140" cy="130" r="2.4"/>
+              </g>
+              <path d="M98 18V32M98 128V142" stroke="var(--accent-bright)" stroke-width="1.4" stroke-dasharray="2 4"/>
+            </svg>
+          </div>
         </div>
-        <div class="feature-visual parallax-box tilt" aria-hidden="true">
-          <svg class="feature-diagram parallax-layer" viewBox="0 0 220 165" fill="none">
-            <path d="M78 34 118 34 118 40 78 40Z" fill="none"/>
-            <path d="M98 32 132 44V78C132 104 116 118 98 128 80 118 64 104 64 78V44L98 32Z" stroke="var(--signal)" stroke-width="1.6"/>
-            <path d="M82 82 93 93 116 68" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            <g stroke="var(--line)" stroke-width="1.2">
-              <circle cx="98" cy="80" r="46"/>
-              <circle cx="98" cy="80" r="62"/>
-            </g>
-            <g fill="var(--text-faint)">
-              <circle cx="44" cy="52" r="2.4"/>
-              <circle cx="34" cy="96" r="2.4"/>
-              <circle cx="152" cy="48" r="2.4"/>
-              <circle cx="162" cy="100" r="2.4"/>
-              <circle cx="58" cy="132" r="2.4"/>
-              <circle cx="140" cy="130" r="2.4"/>
-            </g>
-            <path d="M98 18V32M98 128V142" stroke="var(--accent-bright)" stroke-width="1.4" stroke-dasharray="2 4"/>
-          </svg>
-          <svg class="dim-overlay" viewBox="0 0 220 165" preserveAspectRatio="none" aria-hidden="true">
-            <path class="dim-bracket" d="M8,20 L8,8 L20,8"/>
-            <path class="dim-bracket" d="M200,8 L212,8 L212,20"/>
-            <path class="dim-bracket" d="M212,145 L212,157 L200,157"/>
-            <path class="dim-bracket" d="M20,157 L8,157 L8,145"/>
-            <line class="dim-line" x1="22" y1="151" x2="198" y2="151"/>
-            <path class="dim-arrow" d="M22,151 L30,147 M22,151 L30,155"/>
-            <path class="dim-arrow" d="M198,151 L190,147 M198,151 L190,155"/>
-            <text class="dim-text" x="110" y="146" text-anchor="middle" font-size="7">Ø124.0</text>
-            <line class="dim-line" x1="205" y1="22" x2="205" y2="143"/>
-            <path class="dim-arrow" d="M205,22 L201,30 M205,22 L209,30"/>
-            <path class="dim-arrow" d="M205,143 L201,135 M205,143 L209,135"/>
-            <text class="dim-text" x="209" y="85" font-size="7">62.0</text>
-          </svg>
-        </div>
-      </article>
-
+      </details>
     </div>
 
     <h2 class="subsection-heading">Nasıl Çalışıyorum</h2>

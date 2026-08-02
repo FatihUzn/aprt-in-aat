@@ -19,7 +19,7 @@ her faz bir öncekinin üzerine güvenle inşa edilir. Tamamlanan maddeyi `[x]` 
 
 ## FAZ 2 — İmza Değişiklik: Ağ Topolojisi (en yüksek etki, en büyük efor)
 
-- [ ] **Şematik Bağlantılar + Ağ Topolojisi Haritası** — "Yetkinlik Alanları" bölümünü kutulardan
+- [x] **Şematik Bağlantılar + Ağ Topolojisi Haritası** — "Yetkinlik Alanları" bölümünü kutulardan
       çıkarıp `hud-ambient` düğümleriyle bütünleşen, birbirine ince çizgilerle bağlı düğüm haritasına
       çevir. Bir düğüme tıklayınca kutu açılmadan, düğüm genişleyerek içeriği göstersin.
       *(Bu, 40 fikir içindeki en güçlü ve en ayırt edici değişiklik — tek başına bir faz.)*
