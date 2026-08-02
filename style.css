@@ -623,7 +623,7 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
 .stat-band-grid {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 .stat-band-card {
@@ -633,8 +633,8 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
      koyuya çeviriyoruz ki etiket metni açık kart üzerinde okunsun. */
   --text-dim: #46586e;
   background: #f4f8fb;
-  border-radius: 14px;
-  padding: 24px 18px;
+  border-radius: 16px;
+  padding: 26px 18px;
   text-align: center;
   box-shadow: 0 16px 34px rgba(8, 26, 42, 0.35);
 }
@@ -652,8 +652,10 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   font-size: 0.78rem;
   color: var(--text-dim);
 }
-@media (max-width: 700px) {
+@media (max-width: 900px) {
   .stat-band-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+}
+@media (max-width: 700px) {
   .stat-band { padding: 44px 0; }
 }
 
@@ -773,19 +775,22 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
 .link-pill:hover { border-color: var(--accent); color: var(--accent); }
 
 /* Updates / "Haberler" style 3-card row */
-.update-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.update-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
 .update-card {
   background: var(--bg-panel);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
   text-decoration: none;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 .update-card:hover { box-shadow: 0 16px 34px -18px rgba(0,0,0,0.5); transform: translateY(-2px); }
 .update-thumb {
   height: 150px;
+  flex-shrink: 0;
   background: var(--bg-panel-alt);
   position: relative;
   display: flex;
@@ -793,9 +798,9 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   justify-content: center;
   color: var(--accent-2);
 }
-.update-body { padding: 18px 20px 22px; }
-.update-body h3 { font-size: 1.02rem; margin: 0 0 10px; line-height: 1.35; }
-.update-meta { display: flex; align-items: center; justify-content: space-between; color: var(--text-faint); font-size: 0.8rem; }
+.update-body { padding: 18px 20px 22px; display: flex; flex-direction: column; flex: 1; }
+.update-body h3 { font-size: 1rem; margin: 0 0 10px; line-height: 1.4; }
+.update-meta { display: flex; align-items: center; justify-content: space-between; color: var(--text-faint); font-size: 0.8rem; margin-top: auto; padding-top: 10px; }
 @media (max-width: 820px) { .update-grid { grid-template-columns: 1fr; } }
 
 /* Single big stat circle band, mirrors "Barajlarımızın Doluluk Oranları" */
@@ -819,7 +824,8 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   align-items: center;
   gap: 28px;
   background: var(--bg-panel);
-  border-radius: 18px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
   padding: 28px 34px;
   box-shadow: 0 16px 36px -20px rgba(0,0,0,0.5);
 }
@@ -839,7 +845,7 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
 }
 
 /* Service tile band, mirrors İhaleler / Abone Hizmetleri / Çocuk Su tiles */
-.service-tile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.service-tile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
 /* No real project/office photos yet (see roadmap notes) — tiles use a
    soft gradient placeholder background; swap in a background-image here
    once photos are available. */
@@ -856,19 +862,20 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   background: linear-gradient(135deg, var(--bg-panel-alt), var(--bg-panel));
   border: 1px solid var(--line);
 }
-.service-tile-title { font-size: 1.05rem; font-weight: 700; color: var(--text); }
+.service-tile-title { font-size: 1rem; font-weight: 700; color: var(--text); }
 @media (max-width: 820px) { .service-tile-grid { grid-template-columns: 1fr; } }
 
 /* Duyurular — numbered announcement row */
-.duyuru-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.duyuru-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
 .duyuru-card {
   background: var(--bg-panel);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 16px;
   padding: 24px 22px;
   display: flex;
   flex-direction: column;
   gap: 14px;
+  height: 100%;
 }
 .duyuru-num {
   width: 34px;
@@ -881,9 +888,10 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 .duyuru-card h3 { font-size: 1rem; margin: 0; line-height: 1.4; }
-.duyuru-card p { margin: 0; color: var(--text-dim); font-size: 0.86rem; }
+.duyuru-card p { margin: 0; color: var(--text-dim); font-size: 0.86rem; line-height: 1.55; }
 @media (max-width: 820px) { .duyuru-grid { grid-template-columns: 1fr; } }
 
 /* Icon grid, mirrors "Su Tasarrufu İçin Neler Yapabiliriz?" */
