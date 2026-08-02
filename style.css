@@ -52,7 +52,13 @@ body {
 
 /* Sayfa-geneli devre/kafes dokusu — koyu temada çok düşük opasiteyle,
    "mühendislik" hissini geri getiriyor. Sabit (fixed) katman, scroll'da
-   yerinde kalır; z-index -1 ile içerik her zaman üstte. */
+   yerinde kalır; z-index -1 ile içerik her zaman üstte.
+   FAZ 1 / Milimetrik Blueprint Grid: önceden sadece hero'da görünen
+   grid, artık iki kademeli (ince milimetrik + kalın 5'li ana çizgiler,
+   teknik çizim paftası hissi) ve sayfanın tamamında, çok düşük opasitede
+   sürekli — artık kutuları kaldırılan bölümlerde (duyuru/service/update)
+   hizalamayı görsel olarak destekliyor. Üstte/altta hafif vinyet dışında
+   artık hero'dan sonra kesilmiyor. */
 .grid-overlay {
   position: fixed;
   inset: 0;
@@ -60,11 +66,13 @@ body {
   pointer-events: none;
   opacity: 0.5;
   background-image:
-    linear-gradient(rgba(234,241,250,0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(234,241,250,0.035) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black 0%, transparent 85%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black 0%, transparent 85%);
+    linear-gradient(rgba(234,241,250,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(234,241,250,0.05) 1px, transparent 1px),
+    linear-gradient(rgba(234,241,250,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(234,241,250,0.02) 1px, transparent 1px);
+  background-size: 280px 280px, 280px 280px, 28px 28px, 28px 28px;
+  mask-image: linear-gradient(180deg, transparent 0, black 4%, black 96%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, black 4%, black 96%, transparent 100%);
 }
 
 body::after { content: none; }
@@ -548,15 +556,19 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   z-index: -1;
   pointer-events: none;
 }
+/* FAZ 1 / Osiloskop Dalga Geçişleri: yumuşak S-eğrisi yerine, kare
+   adımlı bir dijital sinyal / osiloskop izi. Dolgu şekli aynı önceki
+   S-eğrisiyle aynı görevi görüyor (bölüm geçişi), üstüne ince, düşük
+   opasiteli accent renkli bir "iz" çizgisi eklendi. */
 .section-wave-top {
   top: 0;
   margin-top: -47px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C220,78 380,4 720,34 C1060,64 1240,10 1440,42 L1440,80 L0,80 Z' fill='%23101e2c'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,50 L100,50 L100,18 L220,18 L220,58 L340,58 L340,26 L460,26 L460,50 L580,50 L580,12 L700,12 L700,54 L820,54 L820,22 L940,22 L940,48 L1060,48 L1060,34 L1180,34 L1180,56 L1300,56 L1300,20 L1440,20 L1440,80 L0,80 Z' fill='%23101e2c'/%3E%3Cpath d='M0,50 L100,50 L100,18 L220,18 L220,58 L340,58 L340,26 L460,26 L460,50 L580,50 L580,12 L700,12 L700,54 L820,54 L820,22 L940,22 L940,48 L1060,48 L1060,34 L1180,34 L1180,56 L1300,56 L1300,20 L1440,20' fill='none' stroke='%231e88c7' stroke-width='1.6' stroke-opacity='0.5'/%3E%3C/svg%3E");
 }
 .section-wave-bottom {
   bottom: 0;
   margin-bottom: -47px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C220,2 380,76 720,46 C1060,16 1240,70 1440,38 L1440,0 L0,0 Z' fill='%23101e2c'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,30 L100,30 L100,62 L220,62 L220,22 L340,22 L340,54 L460,54 L460,30 L580,30 L580,68 L700,68 L700,26 L820,26 L820,58 L940,58 L940,32 L1060,32 L1060,46 L1180,46 L1180,24 L1300,24 L1300,60 L1440,60 L1440,0 L0,0 Z' fill='%23101e2c'/%3E%3Cpath d='M0,30 L100,30 L100,62 L220,62 L220,22 L340,22 L340,54 L460,54 L460,30 L580,30 L580,68 L700,68 L700,26 L820,26 L820,58 L940,58 L940,32 L1060,32 L1060,46 L1180,46 L1180,24 L1300,24 L1300,60 L1440,60' fill='none' stroke='%231e88c7' stroke-width='1.6' stroke-opacity='0.5'/%3E%3C/svg%3E");
 }
 /* NOT: footer henüz koyu re-skin almadı (ADIM 4 — sırada). O adımda footer
    #123b54 (--signal) dolgu ve kendi üst dalgasını alınca, iletişim
@@ -609,15 +621,18 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   z-index: -1;
   pointer-events: none;
 }
+/* FAZ 1 / Osiloskop Dalga Geçişleri (stat-band varyantı) — aynı kare
+   sinyal tekniği, stat-band'in koyu-mavi dolgusu ve devre deseninde
+   kullanılan %234aa8dc iz rengiyle. */
 .stat-band-wave-top {
   top: 0;
   margin-top: -47px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C220,78 380,4 720,34 C1060,64 1240,10 1440,42 L1440,80 L0,80 Z' fill='%23123b54'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,50 L100,50 L100,18 L220,18 L220,58 L340,58 L340,26 L460,26 L460,50 L580,50 L580,12 L700,12 L700,54 L820,54 L820,22 L940,22 L940,48 L1060,48 L1060,34 L1180,34 L1180,56 L1300,56 L1300,20 L1440,20 L1440,80 L0,80 Z' fill='%23123b54'/%3E%3Cpath d='M0,50 L100,50 L100,18 L220,18 L220,58 L340,58 L340,26 L460,26 L460,50 L580,50 L580,12 L700,12 L700,54 L820,54 L820,22 L940,22 L940,48 L1060,48 L1060,34 L1180,34 L1180,56 L1300,56 L1300,20 L1440,20' fill='none' stroke='%234aa8dc' stroke-width='1.6' stroke-opacity='0.55'/%3E%3C/svg%3E");
 }
 .stat-band-wave-bottom {
   bottom: 0;
   margin-bottom: -47px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C220,2 380,76 720,46 C1060,16 1240,70 1440,38 L1440,0 L0,0 Z' fill='%23123b54'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,30 L100,30 L100,62 L220,62 L220,22 L340,22 L340,54 L460,54 L460,30 L580,30 L580,68 L700,68 L700,26 L820,26 L820,58 L940,58 L940,32 L1060,32 L1060,46 L1180,46 L1180,24 L1300,24 L1300,60 L1440,60 L1440,0 L0,0 Z' fill='%23123b54'/%3E%3Cpath d='M0,30 L100,30 L100,62 L220,62 L220,22 L340,22 L340,54 L460,54 L460,30 L580,30 L580,68 L700,68 L700,26 L820,26 L820,58 L940,58 L940,32 L1060,32 L1060,46 L1180,46 L1180,24 L1300,24 L1300,60 L1440,60' fill='none' stroke='%234aa8dc' stroke-width='1.6' stroke-opacity='0.55'/%3E%3C/svg%3E");
 }
 .stat-band-grid {
   position: relative;
@@ -773,31 +788,32 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
 }
 .link-pill:hover { border-color: var(--accent); color: var(--accent); }
 
-/* Updates / "Haberler" style 3-card row */
+/* Updates / "Haberler" style 3-card row.
+   FAZ 1 / Görünmez Kapsayıcılar: panel arka planı, border ve dolgu thumb
+   bloğu kaldırıldı — duyuru-card ile aynı üst-çizgi mantığına geçti,
+   ikon artık küçük satır-içi bir işaret, tam yükseklikte bir kutu değil. */
 .update-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
 .update-card {
-  background: var(--bg-panel);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  overflow: hidden;
+  padding: 20px 4px 0;
+  border-top: 1px solid var(--line-soft);
   text-decoration: none;
   display: flex;
   flex-direction: column;
+  gap: 12px;
   height: 100%;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
-.update-card:hover { box-shadow: 0 16px 34px -18px rgba(0,0,0,0.5); transform: translateY(-2px); }
+.update-card:hover { opacity: 0.82; transform: translateY(-2px); }
 .update-thumb {
-  height: 150px;
   flex-shrink: 0;
-  background: var(--bg-panel-alt);
-  position: relative;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--accent-2);
 }
-.update-body { padding: 18px 20px 22px; display: flex; flex-direction: column; flex: 1; }
+.update-body { display: flex; flex-direction: column; flex: 1; }
 .update-body h3 { font-size: 1rem; margin: 0 0 10px; line-height: 1.4; }
 .update-meta { display: flex; align-items: center; justify-content: space-between; color: var(--text-faint); font-size: 0.8rem; margin-top: auto; padding-top: 10px; }
 @media (max-width: 820px) { .update-grid { grid-template-columns: 1fr; } }
@@ -843,52 +859,59 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   padding: 3px 10px;
 }
 
-/* Service tile band, mirrors İhaleler / Abone Hizmetleri / Çocuk Su tiles */
+/* Service tile band, mirrors İhaleler / Abone Hizmetleri / Çocuk Su tiles.
+   FAZ 1 / Görünmez Kapsayıcılar: gradient panel + border kaldırıldı.
+   Yerine sayfanın diğer yerlerindeki .hud-corner tekniğiyle aynı mantıkta
+   ince köşe bracket'ları (viewfinder hissi) kondu — kutu değil, sadece
+   dört köşede hizalama işareti. */
 .service-tile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
-/* No real project/office photos yet (see roadmap notes) — tiles use a
-   soft gradient placeholder background; swap in a background-image here
-   once photos are available. */
 .service-tile {
   position: relative;
-  border-radius: 16px;
-  overflow: hidden;
-  min-height: 200px;
-  padding: 26px;
+  min-height: 180px;
+  padding: 22px 6px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   gap: 14px;
-  background: linear-gradient(135deg, var(--bg-panel-alt), var(--bg-panel));
-  border: 1px solid var(--line);
 }
+.service-tile::before,
+.service-tile::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 1.4px solid var(--accent);
+  opacity: 0.4;
+  pointer-events: none;
+}
+.service-tile::before { top: 0; left: 0; border-right: none; border-bottom: none; }
+.service-tile::after { bottom: 0; right: 0; border-left: none; border-top: none; }
 .service-tile-title { font-size: 1rem; font-weight: 700; color: var(--text); }
 @media (max-width: 820px) { .service-tile-grid { grid-template-columns: 1fr; } }
 
-/* Duyurular — numbered announcement row */
+/* Duyurular — numbered announcement row.
+   FAZ 1 / Görünmez Kapsayıcılar (pilot): kart arka planı ve border'ı
+   kaldırıldı, kartlar artık sadece grid hizalamasıyla birbirinden
+   ayrışıyor. Ayrım için ince bir üst çizgi (spec-sheet satırı hissi) ve
+   dairesel rozet yerine mono "N.0X" index etiketi kullanılıyor. */
 .duyuru-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
 .duyuru-card {
-  background: var(--bg-panel);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 24px 22px;
+  padding: 20px 4px 0;
+  border-top: 1px solid var(--line-soft);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   height: 100%;
 }
 .duyuru-num {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: var(--bg-panel-alt);
-  color: var(--accent-2);
-  font-weight: 700;
-  font-size: 0.85rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--accent-bright);
   flex-shrink: 0;
 }
+.duyuru-num::before { content: "N."; color: var(--text-faint); }
 .duyuru-card h3 { font-size: 1rem; margin: 0; line-height: 1.4; }
 .duyuru-card p { margin: 0; color: var(--text-dim); font-size: 0.86rem; line-height: 1.55; }
 @media (max-width: 820px) { .duyuru-grid { grid-template-columns: 1fr; } }
@@ -1092,12 +1115,41 @@ h2::after {
 .spec-val { font-size: 0.88rem; color: var(--text); }
 @media (max-width: 640px) { .hero-specs { grid-template-columns: 1fr; } }
 
+/* FAZ 1 / Sürekli Bant: statik metin yerine yavaş, sonsuz kayan bir
+   şerit. İçerik app.js'te değil doğrudan HTML'de iki kez tekrarlanıyor
+   (.credentials-set x2) — %50 kaydırıldığında ikinci kopya birincinin
+   yerini alıyor, dikişsiz döngü. Kenarlarda mask-image ile yumuşak
+   solma var. Mouse üzerine gelince duruyor; prefers-reduced-motion
+   global kuralla zaten otomatik devre dışı kalıyor. */
 .credentials-strip {
   margin-top: 32px;
+  overflow: hidden;
+  position: relative;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, black 32px, black calc(100% - 32px), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, black 32px, black calc(100% - 32px), transparent 100%);
+}
+.credentials-track {
+  display: flex;
+  width: max-content;
+  animation: credentials-scroll 28s linear infinite;
+}
+.credentials-strip:hover .credentials-track { animation-play-state: paused; }
+.credentials-set {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.06em;
   color: var(--text-faint);
+  white-space: nowrap;
+}
+.credentials-set span { padding: 0 10px; }
+.credentials-set span:first-child { padding-left: 0; }
+.credentials-dot { color: var(--line); }
+@keyframes credentials-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 .stat-strip {
