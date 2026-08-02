@@ -457,7 +457,7 @@ a.telemetry-item:hover, a.telemetry-item:focus-visible { color: var(--accent); }
 }
 
 /* Layout */
-main { max-width: 980px; margin: 0 auto; padding: 0 64px; position: relative; }
+main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
 @media (max-width: 700px) { main { padding: 0 24px; } }
 
 /* PCB trace — a vertical circuit line down the left margin that "fills in"
@@ -469,7 +469,7 @@ main { max-width: 980px; margin: 0 auto; padding: 0 64px; position: relative; }
 
 /* ---- ADIM 2 — full-bleed tinted bantlar + dalga (wave) geçişleri ----
    Buski'deki gibi bazı bölümler açık mavi (--bg-panel-alt) zemine sahip
-   ve üst/alt kenarları dalga şeklinde beyaza karışıyor. main, 980px'de
+   ve üst/alt kenarları dalga şeklinde beyaza karışıyor. main, 1240px'de
    ortalandığı için renk dolgusunun tam ekran genişliğinde görünmesi
    gerekiyor — ::before ile 100vw genişlikte, viewport'a göre ortalanmış
    bir katman oluşturulup section'ın arkasına (z-index:-2) yerleştiriliyor.
@@ -642,7 +642,7 @@ main { max-width: 980px; margin: 0 auto; padding: 0 64px; position: relative; }
 .quick-tiles {
   position: relative;
   z-index: 2;
-  max-width: 980px;
+  max-width: 1240px;
   margin: -38px auto 40px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -871,7 +871,7 @@ main { max-width: 980px; margin: 0 auto; padding: 0 64px; position: relative; }
 
 /* Footer action row, mirrors Alo 185 / e-BUSKİ / Talep ve Öneri tri-tile */
 .footer-actions {
-  max-width: 980px;
+  max-width: 1240px;
   margin: 8px auto 40px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1791,7 +1791,7 @@ body[data-track] .track-reset { display: inline; }
 @media (max-width: 700px) { .site-footer { padding: 56px 24px 0; } }
 
 .footer-main {
-  max-width: 980px;
+  max-width: 1240px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1.3fr 1fr 1fr 1fr;
@@ -1828,7 +1828,7 @@ body[data-track] .track-reset { display: inline; }
 .footer-col a:hover { color: var(--accent-bright); }
 
 .footer-bottom {
-  max-width: 980px;
+  max-width: 1240px;
   margin: 0 auto;
   display: flex;
   align-items: center;
