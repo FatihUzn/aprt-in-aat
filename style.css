@@ -1,17 +1,17 @@
 :root {
-  --bg: #f4f6f9;
-  --bg-panel: #ffffff;
-  --bg-panel-alt: #eaf5fb;
-  --line: #d7e3ee;
-  --line-soft: #e7eef5;
+  --bg: #070d14;
+  --bg-panel: #0e1824;
+  --bg-panel-alt: #101e2c;
+  --line: rgba(234, 241, 250, 0.12);
+  --line-soft: rgba(234, 241, 250, 0.07);
   --accent: #1e88c7;
-  --accent-bright: #4aa8dc;
+  --accent-bright: #4ecbff;
   --accent-2: #0f6fa8;
   --accent-2-dim: #0f6fa833;
-  --signal: #123b54;
-  --text: #0f172a;
-  --text-dim: #46586e;
-  --text-faint: #8598ad;
+  --signal: #eaf1fa;
+  --text: #eaf1fa;
+  --text-dim: #a9bed2;
+  --text-faint: #7e97b0;
 
   --font-display: 'Sora', 'Inter', sans-serif;
   --font-body: 'Inter', sans-serif;
@@ -50,17 +50,43 @@ body {
   overflow-x: hidden;
 }
 
-/* Backdrop removed for a calmer, static look */
-.grid-overlay { display: none; }
+/* Sayfa-geneli devre/kafes dokusu — koyu temada çok düşük opasiteyle,
+   "mühendislik" hissini geri getiriyor. Sabit (fixed) katman, scroll'da
+   yerinde kalır; z-index -1 ile içerik her zaman üstte. */
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    linear-gradient(rgba(234,241,250,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(234,241,250,0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black 0%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black 0%, transparent 85%);
+}
 
-/* Film-grain and circuit-trace textures removed — Buski's look is a clean,
-   flat, airy background with no engineering/noise texture behind it. */
 body::after { content: none; }
-.circuit-bg { display: none; }
+.circuit-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.55;
+  background-repeat: repeat;
+  background-size: 320px 320px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cg fill='none' stroke='%231e88c7' stroke-width='1'%3E%3Cpath d='M20 60L110 60L150 110L150 200L230 240L230 300'/%3E%3Cpath d='M0 180L70 180L100 140'/%3E%3Cpath d='M260 40L260 110L300 150'/%3E%3C/g%3E%3Cg fill='%231e88c7'%3E%3Ccircle cx='20' cy='60' r='3.2'/%3E%3Ccircle cx='110' cy='60' r='3.2'/%3E%3Ccircle cx='150' cy='110' r='3.2'/%3E%3Ccircle cx='150' cy='200' r='3.2'/%3E%3Ccircle cx='230' cy='240' r='3.2'/%3E%3Ccircle cx='230' cy='300' r='3.2'/%3E%3Ccircle cx='70' cy='180' r='3.2'/%3E%3Ccircle cx='260' cy='40' r='3.2'/%3E%3Ccircle cx='300' cy='150' r='3.2'/%3E%3C/g%3E%3C/svg%3E");
+  mask-image: radial-gradient(ellipse 90% 100% at 50% 50%, black 30%, transparent 95%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 100% at 50% 50%, black 30%, transparent 95%);
+}
+@media (max-width: 780px) {
+  .grid-overlay, .circuit-bg { opacity: 0.32; }
+}
 
 /* Depth: soft elevation on panel surfaces */
 .card, .feature-visual, .skill-badge, .testimonial-card, .contact-form input, .contact-form textarea {
-  box-shadow: 0 1px 0 rgba(15,40,74,0.04) inset, 0 14px 32px -20px rgba(15,40,74,0.12);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 14px 32px -20px rgba(0,0,0,0.55);
 }
 
 /* HUD-style layered motion: slow-rotating rings + a softly pulsing core.
@@ -205,11 +231,33 @@ body::after { content: none; }
   .badge-wave .wave-path { animation: none; }
 }
 
-/* Scroll scan-line — a thin line sweeps top-to-bottom the first time a
-   section enters view, like a document being scanned. */
-/* Scan-line sweep retired for a calmer, Buski-style page: sections should
-   feel like they simply appear, not "boot up". */
-.scan-line { display: none; }
+/* Scroll scan-line — a thin accent line sweeps top-to-bottom once, the
+   first time a section enters view (JS adds .is-scanning via
+   IntersectionObserver, see app.js). Reads like the section "booting up". */
+.scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-bright), transparent);
+  box-shadow: 0 0 12px 1px rgba(78,203,255,0.6);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+.scan-line.is-scanning {
+  animation: scan-sweep 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes scan-sweep {
+  0% { top: 0; opacity: 0; }
+  8% { opacity: 1; }
+  92% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scan-line.is-scanning { animation: none; }
+}
 
 /* Magnetic buttons — JS sets --mbx/--mby within bounds */
 .magnetic {
@@ -503,12 +551,12 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
 .section-wave-top {
   top: 0;
   margin-top: -47px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C220,78 380,4 720,34 C1060,64 1240,10 1440,42 L1440,80 L0,80 Z' fill='%23eaf5fb'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C220,78 380,4 720,34 C1060,64 1240,10 1440,42 L1440,80 L0,80 Z' fill='%23101e2c'/%3E%3C/svg%3E");
 }
 .section-wave-bottom {
   bottom: 0;
   margin-bottom: -47px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C220,2 380,76 720,46 C1060,16 1240,70 1440,38 L1440,0 L0,0 Z' fill='%23eaf5fb'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C220,2 380,76 720,46 C1060,16 1240,70 1440,38 L1440,0 L0,0 Z' fill='%23101e2c'/%3E%3C/svg%3E");
 }
 /* NOT: footer henüz koyu re-skin almadı (ADIM 4 — sırada). O adımda footer
    #123b54 (--signal) dolgu ve kendi üst dalgasını alınca, iletişim
@@ -535,7 +583,7 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   top: 0; bottom: 0; left: 50%;
   width: 100vw;
   transform: translateX(-50%);
-  background: linear-gradient(135deg, var(--signal) 0%, #0a2334 100%);
+  background: linear-gradient(135deg, #123b54 0%, #0a2334 100%);
   z-index: -2;
 }
 .stat-band::after {
@@ -579,7 +627,12 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   gap: 20px;
 }
 .stat-band-card {
-  background: var(--bg-panel);
+  /* Bu kartlar hep koyu gradient zemin üzerinde yüzecek şekilde
+     tasarlandı (bkz. yukarıdaki not) — bu yüzden arka planı genel
+     temadan bağımsız, sabit açık tutuyoruz; --text-dim'i de yerelde
+     koyuya çeviriyoruz ki etiket metni açık kart üzerinde okunsun. */
+  --text-dim: #46586e;
+  background: #f4f8fb;
   border-radius: 14px;
   padding: 24px 18px;
   text-align: center;
@@ -624,7 +677,7 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   padding: 16px 22px;
   margin: 32px 0 0;
   max-width: 480px;
-  box-shadow: 0 14px 32px -20px rgba(15,40,74,0.18);
+  box-shadow: 0 14px 32px -20px rgba(0,0,0,0.5);
 }
 .hero-search svg { flex-shrink: 0; color: var(--text-faint); }
 .hero-search input {
@@ -650,7 +703,7 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   background: var(--line);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 20px 44px -18px rgba(15,40,74,0.28);
+  box-shadow: 0 20px 44px -18px rgba(0,0,0,0.55);
 }
 .quick-tile {
   background: var(--bg-panel);
@@ -730,7 +783,7 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   display: block;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
-.update-card:hover { box-shadow: 0 16px 34px -18px rgba(15,40,74,0.25); transform: translateY(-2px); }
+.update-card:hover { box-shadow: 0 16px 34px -18px rgba(0,0,0,0.5); transform: translateY(-2px); }
 .update-thumb {
   height: 150px;
   background: var(--bg-panel-alt);
@@ -768,7 +821,7 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   background: var(--bg-panel);
   border-radius: 18px;
   padding: 28px 34px;
-  box-shadow: 0 16px 36px -20px rgba(15,40,74,0.2);
+  box-shadow: 0 16px 36px -20px rgba(0,0,0,0.5);
 }
 .stat-circle-ring { flex-shrink: 0; }
 .stat-circle-label h3 { margin: 0 0 4px; font-size: 1.15rem; }
@@ -995,7 +1048,7 @@ h2::after {
 .btn-primary { background: var(--accent); color: #ffffff; box-shadow: 0 10px 24px -10px rgba(30,136,199,0.55); }
 .btn-primary:hover { background: var(--accent-bright); transform: translateY(-1px); box-shadow: 0 14px 28px -10px rgba(30,136,199,0.6); }
 .btn-primary.magnetic:hover { transform: translate(var(--mbx), var(--mby)); }
-.btn-ghost { color: var(--text); border: 1px solid var(--line); background: #fff; }
+.btn-ghost { color: var(--text); border: 1px solid var(--line); background: var(--bg-panel); }
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent-bright); }
 
 /* Button click spark — a brief flash at the click point, like a physical
@@ -1080,8 +1133,12 @@ h2::after {
   100% { box-shadow: 0 0 0 0 rgba(111,207,151,0); }
 }
 
-/* Custom crosshair cursor removed — plain pointer reads friendlier and
-   matches Buski's ordinary, unadorned interface language. */
+/* Custom crosshair cursor — yalnızca HUD/teknik görsellerin (hero
+   illüstrasyonu, hizmet diyagramları, proje satırları) üzerinde; site
+   genelinde değil, aksi halde okuma/tıklama deneyimini bozar. */
+.hero-visual, .feature-visual, .project-row {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cg fill='none' stroke='%234ecbff' stroke-width='1.4'%3E%3Ccircle cx='14' cy='14' r='7'/%3E%3Cpath d='M14 1v6M14 21v6M1 14h6M21 14h6'/%3E%3C/g%3E%3Ccircle cx='14' cy='14' r='1.4' fill='%234ecbff'/%3E%3C/svg%3E") 14 14, crosshair;
+}
 
 /* Mini terminal widget — small looping "typed command" panel (About section) */
 .mini-terminal {
@@ -1198,7 +1255,7 @@ h2::after {
   background: var(--bg-panel);
   border: 1px solid var(--line);
   border-radius: 10px;
-  box-shadow: 0 24px 60px -20px rgba(15,40,74,0.22);
+  box-shadow: 0 24px 60px -20px rgba(0,0,0,0.55);
   overflow: hidden;
 }
 .cmdk-input-row {
@@ -1285,7 +1342,7 @@ h2::after {
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--line);
-  box-shadow: 0 0 0 5px rgba(30,136,199,0.08), 0 12px 30px -14px rgba(15,40,74,0.18);
+  box-shadow: 0 0 0 5px rgba(30,136,199,0.12), 0 12px 30px -14px rgba(0,0,0,0.5);
   flex-shrink: 0;
 }
 .about-role {
