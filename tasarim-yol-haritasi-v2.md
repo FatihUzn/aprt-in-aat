@@ -22,7 +22,12 @@ bozmayan, mevcut sistemlerin doğal uzantısı olan maddeler önce; yenilikler s
       - `--accent-bright: #6a94f0` (hover/parlak durum)
       - `--accent-2: #2a4fb0` (koyu mavi, glow/gradient tabanı)
       - `--signal` / `--text: #e7eaf1` (soğuk kırık beyaz)
-      - Buton metni: beyaz (`#ffffff`) — accent üzerinde ~4.6:1 kontrast, AA sınırını geçiyor
+      - Buton metni: **beyazdan siyaha çevrildi** — `.btn-primary` artık `color: #000000`
+        kullanıyor. Not: önce sitenin zemin tonu `var(--bg)` (`#06070a`) denendi, ama
+        accent (`#3d6fe0`) üzerinde kontrastı yalnızca ~4.36:1 çıkıyor ve AA sınırının
+        (4.5:1) altında kalıyor — bu yüzden saf siyaha (`#000000`) geçildi, oran ~4.55:1
+        ve AA sınırını (dar farkla) geçiyor. `.btn-spark` tıklama efekti (yazı değil,
+        dekoratif nokta) beyaz bırakıldı, kapsam dışı.
 - [x] **Tarama ve tam geçiş** — `:root` değişkenlerinin yanı sıra, SVG data-URI'lerine
       gömülü hex değerler (`%23...`) ve `rgba()` olarak yazılmış glow/gölge renkleri
       tarandı ve çevrildi. Bu taramada ayrıca bir önceki (bakır→şampanya) geçişinde
@@ -47,19 +52,38 @@ bozmayan, mevcut sistemlerin doğal uzantısı olan maddeler önce; yenilikler s
       kendine çeker. Mevcut `.magnet-settle` mantığının etkileşimli genişlemesi.
 - [ ] **Mekanik Akordeon** — proje detayına tıklanınca yeni sayfaya gitmek yerine,
       içerik satır arasında milimetrik bir hareketle aşağı açılır.
-- [ ] **Ağ Düğümü Ayırıcılar** — bölüm ayırıcı düz çizgiler yerine, üzerinde
+- [x] **Ağ Düğümü Ayırıcılar** — bölüm ayırıcı düz çizgiler yerine, üzerinde
       1-2 parlak nokta olan, `hud-ambient` diliyle uyumlu ince kılavuzlar.
-- [ ] **Şevli Köşeler** — buton/etiket/form gibi kalan az sayıdaki kapalı yüzeyde,
+      Uygulandı: `.timeline-row`, `.faq-item` ve mobil `.topology-node`
+      ayırıcılarına, `hud-node-pulse` animasyonunu paylaşan küçük bir nokta
+      (`::before`/`::after`) eklendi. Saf CSS, HTML değişikliği yok.
+- [x] **Şevli Köşeler** — buton/etiket/form gibi kalan az sayıdaki kapalı yüzeyde,
       yuvarlak köşe yerine 45°'lik keskin kesim.
+      Uygulandı: `.btn` artık `border-radius:0` + `clip-path` ile 45° kesik
+      köşeli. Kapsam şimdilik yalnızca butonlarla sınırlı; etiket/form
+      alanları (varsa) ayrı bir adımda ele alınacak. **Doğrulanmadı:** bazı
+      tarayıcılarda `box-shadow`'un `clip-path` ile birlikte nasıl
+      render edildiği tarayıcıda görsel olarak kontrol edilmeli (aşağıdaki
+      FAZ 5.0 piksel doğrulama maddesiyle birleşti).
 - [ ] **Kademeli Tipografi** — büyük başlıkların sol üstüne bitişik, monospace
       referans kodları (nav'daki `.ref` deseninin başlıklara genişlemesi).
 - [ ] **Zarif Şifreleme** — hero'daki decrypt efektinin, proje görselleri ilk
       ekrana girdiğinde de (çok kısa, 0.5sn) tetiklenmesi.
-- [ ] **Hedefleme Braketi** — klavyeyle gezinirken (`:focus-visible`), mevcut
+- [x] **Hedefleme Braketi** — klavyeyle gezinirken (`:focus-visible`), mevcut
       `hud-brackets` köşe motifinin küçültülmüş hali odaklanan elemanın etrafında
       belirir. Yeni görsel dil icat etmiyor, saf erişilebilirlik + marka tutarlılığı.
-- [ ] **Sinyal LED'i** — side-rail'deki aktif bölüm noktası, zaten tanımlı
+      Uygulandı: `a, button, input, textarea, select, summary` için ortak
+      `:focus-visible` kuralı, 4 köşede küçük braket çizen `background`
+      gradyanlarıyla (gerçek `<svg>` köşelerin CSS-only taklidi). `.btn`'in
+      `overflow:hidden`'ı odaklanınca `visible`'a alındı ki braketler
+      kesilmesin. **Doğrulanmadı:** gerçek klavye gezintisiyle görsel kontrol
+      gerekiyor.
+- [x] **Sinyal LED'i** — side-rail'deki aktif bölüm noktası, zaten tanımlı
       `hud-node` pulse animasyonuyla küçük bir "yanan LED" gibi gösterilir.
+      Uygulandı: `.side-rail a.is-active .side-rail-dot` için ayrı, box-shadow
+      yoğunluğunu nefes aldıran bir `side-rail-led-pulse` animasyonu eklendi
+      (mevcut `hud-node-pulse` doğrudan kullanılmadı çünkü onun opacity 0.15'e
+      düşen kısmı, zaten dolu/aktif noktanın solid rengini bozardı).
 
 ---
 

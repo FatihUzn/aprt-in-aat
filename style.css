@@ -562,6 +562,20 @@ body::after { content: none; }
   box-shadow: 0 0 10px rgba(61,111,224,0.55);
 }
 .side-rail a.is-active .side-rail-label { color: var(--text); }
+/* ---- FAZ 5 / Sinyal LED'i ----
+   Aktif bölüm noktası artık statik durmuyor, hud-node-pulse ile aynı
+   nefes alan ritimde küçük bir "yanan LED" gibi parlıyor. Yeni bir
+   animasyon icat etmiyor, mevcut nabız dilini ödünç alıyor. */
+.side-rail a.is-active .side-rail-dot {
+  animation: side-rail-led-pulse 2.6s ease-in-out infinite;
+}
+@keyframes side-rail-led-pulse {
+  0%, 100% { box-shadow: 0 0 6px 1px rgba(61,111,224,0.35); }
+  50% { box-shadow: 0 0 13px 3px rgba(106,148,240,0.75); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .side-rail a.is-active .side-rail-dot { animation: none; }
+}
 @media (max-width: 980px) {
   .side-rail { display: none; }
 }
@@ -1205,12 +1219,16 @@ h2::after {
   font-weight: 600;
   font-size: 0.94rem;
   padding: 15px 30px;
-  border-radius: 999px;
+  /* FAZ 5 / Şevli Köşeler: yuvarlak pill yerine 45°'lik keskin kesim.
+     border-radius de bırakıldı çünkü bazı tarayıcılarda clip-path'in
+     kestiği köşelerde altta kalan dikdörtgen köşe sızabiliyor. */
+  border-radius: 0;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
   text-decoration: none;
   display: inline-block;
   transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.btn-primary { background: var(--accent); color: #ffffff; box-shadow: 0 10px 24px -10px rgba(61,111,224,0.55); }
+.btn-primary { background: var(--accent); color: #000000; box-shadow: 0 10px 24px -10px rgba(61,111,224,0.55); }
 .btn-primary:hover { background: var(--accent-bright); transform: translateY(-1px); box-shadow: 0 14px 28px -10px rgba(61,111,224,0.6); }
 .btn-primary.magnetic:hover { transform: translate(var(--mbx), var(--mby)); }
 .btn-ghost { color: var(--text); border: 1px solid var(--line); background: var(--bg-panel); }
@@ -1535,11 +1553,34 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
 
 .timeline { margin-top: 28px; display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--line-soft); }
 .timeline-row {
+  position: relative;
   display: flex;
   gap: 20px;
   padding: 14px 0;
   border-bottom: 1px solid var(--line-soft);
   font-size: 0.88rem;
+}
+/* ---- FAZ 5 / Ağ Düğümü Ayırıcılar ----
+   Düz sınır çizgileri artık üzerinde küçük bir düğüm noktası taşıyor —
+   hud-ambient'teki nabız düğümleriyle aynı dil, sadece liste ayırıcılarına
+   taşınmış hali. Saf dekoratif, aria-hidden gerektirmez (pseudo-element). */
+.timeline-row::after,
+.faq-item::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-bright);
+  opacity: 0.7;
+  box-shadow: 0 0 6px 1px rgba(106,148,240,0.4);
+  animation: hud-node-pulse 3.4s ease-in-out infinite;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .timeline-row::after, .faq-item::after, .topology-node::before { animation: none; opacity: 0.4; }
 }
 .timeline-year {
   font-family: var(--font-mono);
@@ -1810,6 +1851,21 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
     padding: 16px 0;
   }
   .topology-node:first-of-type { border-top: none; }
+  .topology-node::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -1px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent-bright);
+    opacity: 0.7;
+    box-shadow: 0 0 6px 1px rgba(106,148,240,0.4);
+    animation: hud-node-pulse 3.4s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .topology-node:first-of-type::before { display: none; }
   .topology-node summary { flex-direction: row; align-items: center; gap: 14px; width: auto; }
   .node-dot { width: 44px; height: 44px; flex-shrink: 0; }
   .topology-hub .node-dot { width: 50px; height: 50px; }
@@ -1920,6 +1976,7 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
 /* FAQ accordion */
 .faq-list { display: flex; flex-direction: column; border-top: 1px solid var(--line-soft); }
 .faq-item {
+  position: relative;
   border-bottom: 1px solid var(--line-soft);
 }
 .faq-item summary {
@@ -2304,6 +2361,35 @@ body[data-track] .track-reset { display: inline; }
 .hud-corner-bl { bottom: 18px; left: 18px; border-right: none; border-top: none; }
 .hud-corner-br { bottom: 18px; right: 18px; border-left: none; border-top: none; }
 @media (max-width: 700px) { .hud-brackets { display: none; } }
+
+/* ---- FAZ 5 / Hedefleme Braketi ----
+   hud-brackets köşe motifinin, klavyeyle gezinirken odaklanan elemanın
+   etrafında beliren küçültülmüş hali. Yeni bir görsel dil icat etmiyor —
+   saf erişilebilirlik + marka tutarlılığı. Fare/dokunma odağında değil,
+   yalnızca :focus-visible'da (klavye gezintisi) görünür. */
+:is(a, button, input, textarea, select, summary):focus-visible {
+  outline: none;
+  position: relative;
+  z-index: 1;
+}
+:is(a, button, input, textarea, select, summary):focus-visible::before {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 3px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--accent-bright), var(--accent-bright)) top left / 8px 2px no-repeat,
+    linear-gradient(var(--accent-bright), var(--accent-bright)) top left / 2px 8px no-repeat,
+    linear-gradient(var(--accent-bright), var(--accent-bright)) top right / 8px 2px no-repeat,
+    linear-gradient(var(--accent-bright), var(--accent-bright)) top right / 2px 8px no-repeat,
+    linear-gradient(var(--accent-bright), var(--accent-bright)) bottom left / 8px 2px no-repeat,
+    linear-gradient(var(--accent-bright), var(--accent-bright)) bottom left / 2px 8px no-repeat,
+    linear-gradient(var(--accent-bright), var(--accent-bright)) bottom right / 8px 2px no-repeat,
+    linear-gradient(var(--accent-bright), var(--accent-bright)) bottom right / 2px 8px no-repeat;
+}
+/* .btn overflow:hidden (btn-spark için) braketleri keserdi; odaklanınca aç. */
+.btn:focus-visible { overflow: visible; }
 
 /* ---- EK-2: Merkezi dev yörünge halkası (sayfa geneli, sabit) ----
    KALDIRMAK İÇİN: sadece bu bloğu sil. HTML'de karşılığı yok
