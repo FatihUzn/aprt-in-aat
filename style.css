@@ -8,14 +8,34 @@
   --accent-bright: #6a94f0;
   --accent-2: #2a4fb0;
   --accent-2-dim: #2a4fb033;
-  --signal: #000000;
-  --text: #000000;
-  --text-dim: #000000;
-  --text-faint: #000000;
+  --signal: #e7eaf1;
+  --text: #e7eaf1;
+  --text-dim: #a9b4c9;
+  --text-faint: #7684a0;
 
   --font-display: 'Sora', 'Inter', sans-serif;
   --font-body: 'Inter', sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
+}
+
+/* ---- FAZ 5.x / B — Scroll Atmosfer Kayması ----
+   --accent, --accent-bright, --accent-2, --accent-2-dim tarayıcı destekliyorsa
+   @property ile "animatable color" olarak kayıt ediliyor, böylece JS bu
+   değişkenleri section'a göre değiştirdiğinde CSS motoru aradaki tonları
+   kendisi interpolate edip yumuşak bir geçiş üretiyor (ekstra keyframe/JS
+   animasyon döngüsü gerekmiyor). Destekleyen tarayıcıda yumuşak geçiş,
+   desteklemeyende (ör. eski Firefox) anında renk değişimi — kırılmıyor,
+   sadece geçiş kayboluyor. */
+@property --accent { syntax: '<color>'; inherits: true; initial-value: #3d6fe0; }
+@property --accent-bright { syntax: '<color>'; inherits: true; initial-value: #6a94f0; }
+@property --accent-2 { syntax: '<color>'; inherits: true; initial-value: #2a4fb0; }
+@property --accent-2-dim { syntax: '<color>'; inherits: true; initial-value: #2a4fb033; }
+
+:root {
+  transition: --accent 0.9s ease, --accent-bright 0.9s ease, --accent-2 0.9s ease, --accent-2-dim 0.9s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root { transition: none; }
 }
 
 * { box-sizing: border-box; }
@@ -1080,9 +1100,9 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
 }
 .footer-action:last-child { border-right: none; }
 .footer-action:hover { background: rgba(236,231,224,0.06); }
-.footer-action-icon { flex-shrink: 0; color: #000000; }
-.footer-action-title { display: block; font-weight: 700; color: #000000; font-size: 0.92rem; }
-.footer-action-sub { display: block; color: #000000; font-size: 0.78rem; margin-top: 2px; }
+.footer-action-icon { flex-shrink: 0; color: #e7eaf1; }
+.footer-action-title { display: block; font-weight: 700; color: #e7eaf1; font-size: 0.92rem; }
+.footer-action-sub { display: block; color: #a9b4c9; font-size: 0.78rem; margin-top: 2px; }
 @media (max-width: 700px) {
   .footer-actions { grid-template-columns: 1fr; }
   .footer-action { border-right: none; border-bottom: 1px solid rgba(236,231,224,0.16); }
@@ -2128,10 +2148,10 @@ body[data-track] .track-reset { display: inline; }
    özellikle önemli: logo SVG'sindeki ikinci nokta/çizgi var(--signal)
    kullanıyor, override edilmezse koyu zeminde koyu renk görünmez olurdu. */
 .site-footer {
-  --text: #000000;
-  --text-dim: #000000;
-  --text-faint: #000000;
-  --signal: #000000;
+  --text: #e7eaf1;
+  --text-dim: #a9b4c9;
+  --text-faint: #7684a0;
+  --signal: #e7eaf1;
   --line: rgba(231, 234, 241, 0.16);
   --line-soft: rgba(231, 234, 241, 0.1);
   position: relative;
