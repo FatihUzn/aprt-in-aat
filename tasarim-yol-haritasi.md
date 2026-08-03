@@ -78,9 +78,21 @@ Ziyaretçi 5-10 saniyede "ne yapıyor, nasıl ulaşırım" sorusuna cevap bulama
 _Bu dosyayı güncelleyerek hangi fazda olduğumuzu takip edebiliriz. Her faz bitince kısa bir
 "öncesi/sonrası" ekran görüntüsü alıp burada referans olarak tutmak faydalı olur._
 
-Son güncelleme: 02 Ağustos 2026 (Faz 4 tamamlandı — tüm fazlar bitti)
+Son güncelleme: 02 Ağustos 2026 (Faz 4 + faz sonrası iyileştirmeler + kod temizliği tamamlandı)
 
 ## Faz sonrası küçük iyileştirmeler (kullanıcı geri bildirimi üzerine)
+
+- [x] **Renk teması — grafit + bakır** — mevcut mavi paletten "grafit zemin +
+      bakır/bronz accent" temasına geçildi (4 palet önerisi arasından seçildi).
+      `:root` değişkenleri güncellendi; ayrıca sitede 77 yerde doğrudan gömülü
+      eski mavi hex/rgba değeri vardı (SVG data-URI'ler, stat-band gradient'i,
+      gölgeler) — hepsi bulunup çevrildi. Bilinçli olarak dokunulmayanlar:
+      terminal-pencere trafik ışığı noktaları ve "çevrimiçi" durum yeşili
+      (semantik anlamları var, marka rengiyle ilgisiz). Ana buton metni beyazdan
+      koyu bronza çevrildi (kontrast: ~3.9:1 → ~4.5:1). Piksel örneklemesiyle
+      tarayıcıda doğrulandı.
+
+## Diğer iyileştirmeler (kullanıcı geri bildirimi üzerine)
 
 - [x] **Duyurular → "Daha Fazla" linki düzeltildi** — gerçek bir hedefi olmadığı için
       `#iletisim`'e rastgele yönlendiriyordu (geri bildirimdeki "bir yere tıklayınca
@@ -98,3 +110,19 @@ Son güncelleme: 02 Ağustos 2026 (Faz 4 tamamlandı — tüm fazlar bitti)
       test edildi: hero decrypt efekti doğru metinle sonuçlanıyor, kinetik başlıklar
       mobilde satır kırılmasında sorun çıkarmıyor, no-JS'te tüm içerik normal ve doğru
       görünüyor, side-rail/back-to-top beklenen breakpoint'lerde açılıp kapanıyor.
+- [x] **Kod temizliği** — proje boyunca birikmiş ölü kod tarandı ve kaldırıldı:
+      - `style.css`'de HTML'de hiç kullanılmayan 8 class tamamen silindi: eski
+        `.card-grid`/`.card`/`.card-ref`/`.card-list` (yorumda "legacy, kept
+        for reference" yazan ama hiç referans edilmeyen kart grid'i),
+        `.footer-address`, ve `.stat-strip`/`.stat-num`/`.stat-label`
+        (Faz 1 öncesi basit istatistik şeridi — yerini `.stat-band` full-bleed
+        versiyonu aldı, eskisi silinmeden kalmıştı). ~60 satır CSS azaldı.
+      - Kullanılmayan `.feature-visual` referansı 3 ayrı grouped selector'dan
+        çıkarıldı (o class'a sahip hiçbir eleman kalmamış, muhtemelen erken
+        bir tasarım fikrinin izi).
+      - style.css'in en başındaki güncelliğini yitirmiş "footer henüz koyu
+        re-skin almadı, ADIM 4 sırada" notu silindi — Footer ADIM 4 zaten
+        tamamlanmıştı, not kafa karıştırıyordu.
+      - Kontrol: her iki dosyada da (`style.css`, `app.js`) kalan tüm
+        class/id referansları HTML'de karşılık buluyor, tarayıcıda JS hatası
+        yok, sayfa uçtan uca sorunsuz render ediyor.
