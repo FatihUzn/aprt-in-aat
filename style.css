@@ -8,10 +8,10 @@
   --accent-bright: #6a94f0;
   --accent-2: #2a4fb0;
   --accent-2-dim: #2a4fb033;
-  --signal: #e7eaf1;
-  --text: #e7eaf1;
-  --text-dim: #a9b4c9;
-  --text-faint: #7684a0;
+  --signal: #000000;
+  --text: #000000;
+  --text-dim: #000000;
+  --text-faint: #000000;
 
   --font-display: 'Sora', 'Inter', sans-serif;
   --font-body: 'Inter', sans-serif;
@@ -1080,9 +1080,9 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
 }
 .footer-action:last-child { border-right: none; }
 .footer-action:hover { background: rgba(236,231,224,0.06); }
-.footer-action-icon { flex-shrink: 0; color: #e7eaf1; }
-.footer-action-title { display: block; font-weight: 700; color: #e7eaf1; font-size: 0.92rem; }
-.footer-action-sub { display: block; color: #a9b4c9; font-size: 0.78rem; margin-top: 2px; }
+.footer-action-icon { flex-shrink: 0; color: #000000; }
+.footer-action-title { display: block; font-weight: 700; color: #000000; font-size: 0.92rem; }
+.footer-action-sub { display: block; color: #000000; font-size: 0.78rem; margin-top: 2px; }
 @media (max-width: 700px) {
   .footer-actions { grid-template-columns: 1fr; }
   .footer-action { border-right: none; border-bottom: 1px solid rgba(236,231,224,0.16); }
@@ -2128,10 +2128,10 @@ body[data-track] .track-reset { display: inline; }
    özellikle önemli: logo SVG'sindeki ikinci nokta/çizgi var(--signal)
    kullanıyor, override edilmezse koyu zeminde koyu renk görünmez olurdu. */
 .site-footer {
-  --text: #e7eaf1;
-  --text-dim: #a9b4c9;
-  --text-faint: #7684a0;
-  --signal: #e7eaf1;
+  --text: #000000;
+  --text-dim: #000000;
+  --text-faint: #000000;
+  --signal: #000000;
   --line: rgba(231, 234, 241, 0.16);
   --line-soft: rgba(231, 234, 241, 0.1);
   position: relative;
