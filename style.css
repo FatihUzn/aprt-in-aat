@@ -326,7 +326,61 @@ body::after { content: none; }
   .scan-line.is-scanning { animation: none; }
 }
 
-/* Magnetic buttons — JS sets --mbx/--mby within bounds */
+/* ---- FAZ 5.x / A — Açılış (boot-up) Sekansı ----
+   İlk ziyarette (sessionStorage ile bir kez), tüm sayfayı kısa süreliğine
+   kaplayan bir "sistem başlatılıyor" katmanı. JS tarafından dinamik olarak
+   eklenip kaldırılıyor (bkz. app.js) — JS çalışmazsa hiç oluşmaz, sayfa
+   doğrudan normal görünür (progressive enhancement, no-JS güvenli). */
+.boot-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #06070a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.boot-overlay.is-active { opacity: 1; }
+.boot-overlay.is-leaving { opacity: 0; }
+.boot-overlay-corner {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  border: 1.4px solid var(--accent-bright);
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.boot-overlay.is-active .boot-overlay-corner { opacity: 0.6; }
+.boot-overlay-corner-tl { top: 22px; left: 22px; border-right: none; border-bottom: none; transform: translate(-10px, -10px); }
+.boot-overlay-corner-tr { top: 22px; right: 22px; border-left: none; border-bottom: none; transform: translate(10px, -10px); }
+.boot-overlay-corner-bl { bottom: 22px; left: 22px; border-right: none; border-top: none; transform: translate(-10px, 10px); }
+.boot-overlay-corner-br { bottom: 22px; right: 22px; border-left: none; border-top: none; transform: translate(10px, 10px); }
+.boot-overlay.is-active .boot-overlay-corner-tl,
+.boot-overlay.is-active .boot-overlay-corner-tr,
+.boot-overlay.is-active .boot-overlay-corner-bl,
+.boot-overlay.is-active .boot-overlay-corner-br { transform: translate(0, 0); }
+.boot-overlay-lines {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--accent-bright);
+  text-align: center;
+  min-height: 3.6em;
+}
+.boot-overlay-lines p {
+  margin: 0 0 6px;
+  opacity: 0;
+  animation: boot-line-in 0.25s ease forwards;
+}
+@keyframes boot-line-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .boot-overlay { display: none; }
+}
 .magnetic {
   --mbx: 0px;
   --mby: 0px;

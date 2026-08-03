@@ -31,25 +31,27 @@ katmanından (aşağıdaki FAZ 5.x) verilecek.
 - [ ] **Zarif Şifreleme** — hero'daki decrypt efektinin proje görsellerinde de
       (~0.5sn) tetiklenmesi.
 
-## FAZ 5.x — JARVIS / HUD Efektleri (yeni yön)
+## FAZ 5.x — JARVIS / HUD Efektleri
 
-Sıralama önemli: B, C'nin ve gelecekteki renk geçişlerinin altyapısını
-(`IntersectionObserver`) paylaşıyor — önce B, sonra C, en son A önerilir
-(A en gösterişli ama iş mantığına en az bağlı, bu yüzden en güvenle sona bırakılır).
-
-- [ ] **B — Scroll'a göre atmosfer kayması**: `IntersectionObserver` ile aktif
-      bölüm (Hakkımda/Hizmetler/Projeler/İletişim) tespit edilir; `--accent`
-      ve glow tonları bölümden bölüme yumuşak transition ile kayar. Ana metin
-      rengi (`--text` vb.) sabit kalır — sadece vurgu/HUD katmanı değişir.
-- [ ] **C — Kademeli (stagger) içerik belirmesi**: mevcut `.reveal` sistemine
-      gecikme eklenir; bir bölüm görünür olduğunda içindeki elemanlar sırayla
-      (~70-100ms arayla) belirir. Uzun paragraflarda kelime değil, blok/satır
-      bazında gecikme (okumayı yormamak için).
-- [ ] **A — Açılış (boot-up) sekansı**: ilk ziyarette ~1-1.5sn'lik "sistem
-      başlatılıyor" sekansı (mono-font sistem satırları + `hud-brackets`
-      köşelerin oturması + tarama çizgisi), ardından içerik açığa çıkar.
-      `sessionStorage` ile tekrar oynatılmaz; `prefers-reduced-motion`'da
-      tamamen atlanır.
+- [x] **B — Scroll'a göre atmosfer kayması**: `main > section[id]` bazlı
+      `IntersectionObserver`, aktif bölüme göre `body[data-phase]` set ediyor
+      (dark/navy/light). Tüm zemin/çizgi/metin/vurgu renkleri `@property` ile
+      animatable color kaydedildi, geçiş JS'siz, tarayıcı interpolasyonuyla
+      yumuşak. Perdeler: hero+güncellemeler=siyah, hizmetler/hakkımda/
+      projeler=lacivert, referanslar/sss/iletişim=beyaz (metin de otomatik
+      koyuya dönüyor, `.stat-band-card`'daki mantığın aynısı). Footer'a
+      dokunulmadı, o zaten sabit koyu lacivert bant.
+- [x] **C — Kademeli (stagger) içerik belirmesi**: mevcut grup stagger'ının
+      (kart/liste) yanına, section başına düşen solo elemanlar (eyebrow/
+      başlık/not) için de DOM sırasına göre ~90ms aralıklı gecikme eklendi.
+- [x] **A — Açılış (boot-up) sekansı**: ilk ziyarette (`sessionStorage`,
+      sekme kapanınca sıfırlanır) ~1.4sn'lik tam sayfa katman — 4 köşe
+      braketi + 3 mono sistem satırı + mevcut `scan-line` sweep'i, sonra
+      kayboluyor. `prefers-reduced-motion`'da hiç çalışmıyor. **Bilinen sınır:**
+      overlay tamamen JS ile ekleniyor (HTML'e gömülü değil), bu yüzden çok
+      yavaş cihazda gerçek içeriğin bir kare için görünüp sonra kararması
+      ihtimali var — tamamen önlemek için overlay markup'ının 3 HTML dosyasına
+      da inline olarak eklenmesi gerekir (henüz yapılmadı).
 
 ---
 

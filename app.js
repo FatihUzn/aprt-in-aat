@@ -6,6 +6,62 @@
  */
 
 
+/* ---- FAZ 5.x / A — Açılış (boot-up) Sekansı ----
+   Sadece ilk ziyarette (sessionStorage — sekme kapanınca sıfırlanır) ve
+   prefers-reduced-motion kapalıyken çalışır. Overlay tamamen JS ile
+   oluşturulup DOM'a ekleniyor; script bu satıra gelene kadar sayfa zaten
+   normal render olmuş olabileceğinden çok kısa bir kare (frame) için gerçek
+   içerik görünebilir — bunu tamamen ortadan kaldırmak için overlay'in HTML'e
+   baştan (inline) eklenmesi gerekir, bu ilk sürümde kapsam dışı bırakıldı. */
+
+  (function () {
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+    var already;
+    try { already = sessionStorage.getItem('uznBootSeen'); } catch (e) { already = '1'; }
+    if (already) return;
+    try { sessionStorage.setItem('uznBootSeen', '1'); } catch (e) {}
+
+    var overlay = document.createElement('div');
+    overlay.className = 'boot-overlay';
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.innerHTML =
+      '<span class="boot-overlay-corner boot-overlay-corner-tl"></span>' +
+      '<span class="boot-overlay-corner boot-overlay-corner-tr"></span>' +
+      '<span class="boot-overlay-corner boot-overlay-corner-bl"></span>' +
+      '<span class="boot-overlay-corner boot-overlay-corner-br"></span>' +
+      '<div class="boot-overlay-lines"></div>' +
+      '<div class="scan-line"></div>';
+    document.body.appendChild(overlay);
+
+    var linesEl = overlay.querySelector('.boot-overlay-lines');
+    var scanEl = overlay.querySelector('.scan-line');
+    var steps = ['BAĞLANTI KURULUYOR...', 'GÜVENLİK DUVARI: OK', 'ARAYÜZ YÜKLENİYOR...'];
+    var i = 0;
+
+    function nextStep() {
+      if (i < steps.length) {
+        var p = document.createElement('p');
+        p.textContent = steps[i];
+        linesEl.appendChild(p);
+        i++;
+        setTimeout(nextStep, 260);
+      } else {
+        setTimeout(function () {
+          overlay.classList.add('is-leaving');
+          setTimeout(function () { overlay.remove(); }, 420);
+        }, 220);
+      }
+    }
+
+    requestAnimationFrame(function () {
+      overlay.classList.add('is-active');
+      scanEl.classList.add('is-scanning');
+      nextStep();
+    });
+  })();
+
+
 /* ---- Boot-line — hero'daki 'SYSTEM_BOOT...' daktilo efekti ---- */
 
   (function () {
@@ -179,6 +235,20 @@
 
     soloSelectors.forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el) { markReveal(el); });
+    });
+
+    // FAZ 5.x / C — Kademeli içerik belirmesi: solo elemanlar artık kendi
+    // section'ları içinde DOM sırasına göre küçük bir gecikmeyle beliriyor
+    // (başlık önce, alt metin/not birkaç onlarca ms sonra). Grupların
+    // (kart/liste) kendi iç stagger'ı zaten yukarıda var, burada eklenen
+    // sadece section başına düşen "eyebrow → başlık → not" sırası.
+    var soloEls = Array.prototype.slice.call(document.querySelectorAll(soloSelectors.join(',')));
+    var soloCounters = new Map();
+    soloEls.forEach(function (el) {
+      var container = el.closest('.hero, .section') || document.body;
+      var count = soloCounters.get(container) || 0;
+      if (count > 0) el.style.transitionDelay = Math.min(count, 4) * 90 + 'ms';
+      soloCounters.set(container, count + 1);
     });
 
     var revealEls = document.querySelectorAll('.reveal');
