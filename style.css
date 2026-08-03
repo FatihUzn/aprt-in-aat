@@ -18,24 +18,64 @@
   --font-mono: 'IBM Plex Mono', monospace;
 }
 
-/* ---- FAZ 5.x / B — Scroll Atmosfer Kayması ----
-   --accent, --accent-bright, --accent-2, --accent-2-dim tarayıcı destekliyorsa
-   @property ile "animatable color" olarak kayıt ediliyor, böylece JS bu
-   değişkenleri section'a göre değiştirdiğinde CSS motoru aradaki tonları
-   kendisi interpolate edip yumuşak bir geçiş üretiyor (ekstra keyframe/JS
-   animasyon döngüsü gerekmiyor). Destekleyen tarayıcıda yumuşak geçiş,
-   desteklemeyende (ör. eski Firefox) anında renk değişimi — kırılmıyor,
-   sadece geçiş kayboluyor. */
+/* ---- FAZ 5.x / B — Scroll Atmosfer Kayması (v2: siyah → lacivert → beyaz) ----
+   Sayfa üç "perde"ye ayrılıyor: hero+güncellemeler = siyah, hizmetler/
+   hakkımda/projeler = lacivert, referanslar/sss/iletişim = beyaz. Perde
+   değişince body[data-phase] değişiyor, aşağıdaki override blokları devreye
+   giriyor. Tüm renk değişkenleri @property ile "animatable color" kaydedildi,
+   böylece geçiş JS'siz, tarayıcının kendi interpolasyonuyla yumuşak oluyor. */
 @property --accent { syntax: '<color>'; inherits: true; initial-value: #3d6fe0; }
 @property --accent-bright { syntax: '<color>'; inherits: true; initial-value: #6a94f0; }
 @property --accent-2 { syntax: '<color>'; inherits: true; initial-value: #2a4fb0; }
 @property --accent-2-dim { syntax: '<color>'; inherits: true; initial-value: #2a4fb033; }
+@property --bg { syntax: '<color>'; inherits: true; initial-value: #06070a; }
+@property --bg-panel { syntax: '<color>'; inherits: true; initial-value: #0e1117; }
+@property --bg-panel-alt { syntax: '<color>'; inherits: true; initial-value: #121620; }
+@property --line { syntax: '<color>'; inherits: true; initial-value: rgba(231, 234, 241, 0.12); }
+@property --line-soft { syntax: '<color>'; inherits: true; initial-value: rgba(231, 234, 241, 0.07); }
+@property --text { syntax: '<color>'; inherits: true; initial-value: #e7eaf1; }
+@property --text-dim { syntax: '<color>'; inherits: true; initial-value: #a9b4c9; }
+@property --text-faint { syntax: '<color>'; inherits: true; initial-value: #7684a0; }
+@property --signal { syntax: '<color>'; inherits: true; initial-value: #e7eaf1; }
 
 :root {
-  transition: --accent 0.9s ease, --accent-bright 0.9s ease, --accent-2 0.9s ease, --accent-2-dim 0.9s ease;
+  transition: --accent 0.9s ease, --accent-bright 0.9s ease, --accent-2 0.9s ease,
+    --accent-2-dim 0.9s ease, --bg 0.9s ease, --bg-panel 0.9s ease, --bg-panel-alt 0.9s ease,
+    --line 0.9s ease, --line-soft 0.9s ease, --text 0.9s ease, --text-dim 0.9s ease,
+    --text-faint 0.9s ease, --signal 0.9s ease;
 }
 @media (prefers-reduced-motion: reduce) {
   :root { transition: none; }
+}
+
+/* Lacivert perde */
+body[data-phase="navy"] {
+  --bg: #0a1533;
+  --bg-panel: #101c3d;
+  --bg-panel-alt: #142248;
+  --accent: #4a5fd9;
+  --accent-bright: #7a8bf0;
+  --accent-2: #33409e;
+  --accent-2-dim: #33409e33;
+}
+
+/* Beyaz perde — metin de koyuya dönüyor, .stat-band-card'daki mantığın
+   aynısı (açık zemin → koyu metin). Buton metni zaten sabit siyah olduğu
+   için (renk değişkeni değil) bu perdede de sorunsuz çalışıyor. */
+body[data-phase="light"] {
+  --bg: #f4f6fb;
+  --bg-panel: #ffffff;
+  --bg-panel-alt: #eef1f8;
+  --line: rgba(10, 14, 23, 0.12);
+  --line-soft: rgba(10, 14, 23, 0.07);
+  --text: #0a0e17;
+  --text-dim: #3a4256;
+  --text-faint: #6b7280;
+  --signal: #0a0e17;
+  --accent: #2f5bc7;
+  --accent-bright: #4d7ae0;
+  --accent-2: #1f3f94;
+  --accent-2-dim: #1f3f9422;
 }
 
 * { box-sizing: border-box; }

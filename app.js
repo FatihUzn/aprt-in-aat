@@ -789,46 +789,37 @@
   })();
 
 
-/* ---- FAZ 5.x / B — Scroll Atmosfer Kayması ----
-   Aktif section'a göre --accent / --accent-bright / --accent-2 / --accent-2-dim
-   kök (root) üzerinde değiştiriliyor. Değerlerin kendisi CSS tarafında
-   @property ile "animatable color" kaydedildiği için burada JS animasyon
-   döngüsü yok — sadece hedef rengi set ediyoruz, yumuşak geçişi tarayıcı
-   kendisi üretiyor. Ana metin (--text, --text-dim, --text-faint) hiç
-   dokunulmuyor; sadece vurgu/HUD katmanı kayıyor. ---- */
+/* ---- FAZ 5.x / B — Scroll Atmosfer Kayması (siyah → lacivert → beyaz) ----
+   Section'lar üç gruba ayrılıyor; aktif section hangi gruptaysa body'nin
+   data-phase'i o gruba çekiliyor. Gerçek renk geçişi CSS tarafında
+   (@property + transition ile) oluyor, burada sadece hangi perdede
+   olduğumuzu işaretliyoruz. ---- */
 
   (function () {
-    var root = document.documentElement;
+    var body = document.body;
     var sections = Array.prototype.slice.call(document.querySelectorAll('main > section[id]'));
     if (!sections.length || !('IntersectionObserver' in window)) return;
 
-    /* Her bölüm için ince bir ton farkı — hepsi aynı "elektrik mavisi"
-       ailesinden, birbirine çok yakın ama fark edilir tonlar. Yeni bölüm
-       eklenirse burada bir satır eklemek yeterli; eklenmezse section
-       varsayılan (hero) tonunu kullanır. */
-    var palettes = {
-      hero:          { accent: '#3d6fe0', bright: '#6a94f0', accent2: '#2a4fb0', dim: '#2a4fb033' },
-      guncellemeler: { accent: '#2f7fd6', bright: '#5fa8ea', accent2: '#1f5a94', dim: '#1f5a9433' },
-      hizmetler:     { accent: '#4a5fd9', bright: '#7a8bf0', accent2: '#33409e', dim: '#33409e33' },
-      hakkimda:      { accent: '#2f8fc4', bright: '#5fbde0', accent2: '#1f6690', dim: '#1f669033' },
-      projeler:      { accent: '#3d6fe0', bright: '#6a94f0', accent2: '#2a4fb0', dim: '#2a4fb033' },
-      referanslar:   { accent: '#5a5fd0', bright: '#8a8ff0', accent2: '#3d3f9e', dim: '#3d3f9e33' },
-      sss:           { accent: '#2f7fd6', bright: '#5fa8ea', accent2: '#1f5a94', dim: '#1f5a9433' },
-      iletisim:      { accent: '#4a5fd9', bright: '#7a8bf0', accent2: '#33409e', dim: '#33409e33' }
+    var phaseBySection = {
+      hero: 'dark',
+      guncellemeler: 'dark',
+      hizmetler: 'navy',
+      hakkimda: 'navy',
+      projeler: 'navy',
+      referanslar: 'light',
+      sss: 'light',
+      iletisim: 'light'
     };
-
-    function applyPalette(id) {
-      var p = palettes[id] || palettes.hero;
-      root.style.setProperty('--accent', p.accent);
-      root.style.setProperty('--accent-bright', p.bright);
-      root.style.setProperty('--accent-2', p.accent2);
-      root.style.setProperty('--accent-2-dim', p.dim);
-    }
 
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
-        applyPalette(entry.target.id);
+        var phase = phaseBySection[entry.target.id] || 'dark';
+        if (phase === 'dark') {
+          body.removeAttribute('data-phase');
+        } else {
+          body.setAttribute('data-phase', phase);
+        }
       });
     }, { threshold: 0, rootMargin: '-45% 0px -45% 0px' });
 
