@@ -15,6 +15,7 @@
 
     if (reduceMotion) {
       el.classList.add('boot-done');
+      window.dispatchEvent(new Event('uzn:boot-complete'));
       return;
     }
 
@@ -34,10 +35,72 @@
       } else {
         setTimeout(function () {
           el.classList.add('boot-done');
+          // FAZ 4 — boot satırı bitince hero başlığındaki şifre çözülme
+          // efektini tetikle (bkz. aşağıdaki "Hero decrypt" bloğu).
+          window.dispatchEvent(new Event('uzn:boot-complete'));
         }, 350);
       }
     }
     typeNext();
+  })();
+
+
+/* ---- Hero decrypt — FAZ 4: boot-line'ın genişletilmiş hali. "SYSTEM_BOOT"
+   satırı bittiği anda hero başlığı kısa bir şifre-çözülme (decrypt) efektiyle
+   netleşiyor. Sadece hero'da, sadece ilk açılışta çalışır — tüm sitede DEĞİL.
+   Metin HTML'de baştan doğru halde durur, JS sadece görsel olarak geçici
+   karıştırır; JS çalışmazsa veya prefers-reduced-motion aktifse hiçbir şey
+   olmaz ve başlık zaten doğru görünür (no-JS fallback güvenli). ---- */
+
+  (function () {
+    var lines = document.querySelectorAll('.decrypt-line');
+    if (!lines.length) return;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    var glyphs = '01#%&*+-/<>[]{}=';
+
+    function scramble(el, done) {
+      var text = el.textContent;
+      var chars = text.split('');
+      var start = null;
+      var perCharMs = 26;
+      var lockPad = 260;
+      var totalMs = chars.length * perCharMs + lockPad;
+
+      function frame(ts) {
+        if (start === null) start = ts;
+        var elapsed = ts - start;
+        var out = '';
+        for (var i = 0; i < chars.length; i++) {
+          var c = chars[i];
+          if (c === ' ') { out += ' '; continue; }
+          var lockAt = i * perCharMs + lockPad;
+          out += elapsed >= lockAt ? c : glyphs[(Math.random() * glyphs.length) | 0];
+        }
+        el.textContent = out;
+        if (elapsed < totalMs) {
+          requestAnimationFrame(frame);
+        } else {
+          el.textContent = text;
+          if (done) done();
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function run() {
+      var i = 0;
+      function next() {
+        if (i >= lines.length) return;
+        var el = lines[i];
+        i++;
+        scramble(el, next);
+      }
+      next();
+    }
+
+    window.addEventListener('uzn:boot-complete', run, { once: true });
   })();
 
 
@@ -199,6 +262,63 @@
       }, { threshold: 0, rootMargin: '0px 0px -60% 0px' });
       scanEls.forEach(function (el) { scanObserver.observe(el); });
     }
+  })();
+
+
+/* ---- Kinetik Tipografi İskeleti — FAZ 4: sadece "Yetkinlik Alanları" ve
+   "Seçili Çalışmalar" başlıklarında (.kinetic-heading), büyük harfler
+   yapısal bir ayraç gibi davranıyor. Sayfaya girerken harf harf hafifçe
+   "yerine oturuyor". Ekran okuyucular için orijinal metin .visually-hidden
+   span içinde saklanıyor, harf span'ları aria-hidden. JS çalışmazsa harfler
+   hiç bölünmez — başlık CSS ile büyütülmüş/aralıklı normal metin olarak
+   kalır, no-JS fallback güvenli. ---- */
+
+  (function () {
+    var headings = document.querySelectorAll('.kinetic-heading');
+    if (!headings.length) return;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    headings.forEach(function (h) {
+      var text = h.textContent.trim();
+
+      var srSpan = document.createElement('span');
+      srSpan.className = 'visually-hidden';
+      srSpan.textContent = text;
+
+      var wrap = document.createElement('span');
+      wrap.setAttribute('aria-hidden', 'true');
+
+      Array.from(text).forEach(function (ch, i) {
+        if (ch === ' ') {
+          wrap.appendChild(document.createTextNode(' '));
+          return;
+        }
+        var span = document.createElement('span');
+        span.className = 'kinetic-letter';
+        span.textContent = ch;
+        span.style.transitionDelay = (Math.min(i, 16) * 24) + 'ms';
+        wrap.appendChild(span);
+      });
+
+      h.textContent = '';
+      h.appendChild(srSpan);
+      h.appendChild(wrap);
+
+      if (reduceMotion || !('IntersectionObserver' in window)) {
+        return; // harfler zaten opak/normal — armed class hiç eklenmiyor
+      }
+
+      h.classList.add('kinetic-armed');
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            h.classList.add('is-kinetic-set');
+            obs.unobserve(h);
+          }
+        });
+      }, { threshold: 0.3, rootMargin: '0px 0px -10% 0px' });
+      obs.observe(h);
+    });
   })();
 
 
@@ -605,4 +725,65 @@
         spark.addEventListener('animationend', function () { spark.remove(); });
       });
     });
+  })();
+
+
+/* ---- Yukarı Dön — belli bir kaydırma mesafesinden sonra beliren, tek
+   tıkla başa dönen buton. index.html ve kvkk.html'de var; buton yoksa
+   IIFE hemen çıkar (404.html gibi kısa sayfalarda gerek yok). ---- */
+
+  (function () {
+    var btn = document.getElementById('backToTop');
+    if (!btn) return;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var threshold = 640;
+
+    function toggle() {
+      if (window.scrollY > threshold) btn.classList.add('is-visible');
+      else btn.classList.remove('is-visible');
+    }
+    toggle();
+    window.addEventListener('scroll', toggle, { passive: true });
+
+    btn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+    });
+  })();
+
+
+/* ---- Yandan Hızlı Erişim rayı — sadece geniş ekranlarda görünen (CSS
+   media query), üst nav'a dönmeden bölümler arası atlamayı sağlayan sabit
+   ray. Aktif bölüm, IntersectionObserver ile viewport'un orta bandını
+   kesen section'a göre işaretleniyor. Ray veya IntersectionObserver yoksa
+   sessizce çıkar — sayfa etkilenmez. ---- */
+
+  (function () {
+    var rail = document.getElementById('sideRail');
+    if (!rail) return;
+    var links = Array.prototype.slice.call(rail.querySelectorAll('a[data-target]'));
+    if (!links.length || !('IntersectionObserver' in window)) return;
+
+    var map = {};
+    var sections = [];
+    links.forEach(function (a) {
+      var id = a.getAttribute('data-target');
+      var section = document.getElementById(id);
+      if (section) {
+        map[id] = a;
+        sections.push(section);
+      }
+    });
+    if (!sections.length) return;
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var link = map[entry.target.id];
+        if (!link) return;
+        links.forEach(function (a) { a.classList.remove('is-active'); });
+        link.classList.add('is-active');
+      });
+    }, { threshold: 0, rootMargin: '-45% 0px -45% 0px' });
+
+    sections.forEach(function (s) { observer.observe(s); });
   })();

@@ -469,6 +469,104 @@ body::after { content: none; }
 }
 .mobile-nav-backdrop.is-open { opacity: 1; pointer-events: auto; }
 
+/* FAZ 4 sonrası — Yukarı Dön butonu. Belli bir kaydırma mesafesinden sonra
+   beliriyor (bkz. app.js), tek tıkla başa dönüyor. Mobil menü açıkken
+   .mobile-nav-backdrop (z-index:10) üstüne biner ve onu görsel olarak
+   soluklaştırır — ayrıca gizlemeye gerek yok. */
+.back-to-top {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  color: var(--accent-bright);
+  cursor: pointer;
+  z-index: 8;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.back-to-top.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.back-to-top:hover,
+.back-to-top:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(30,136,199,0.18);
+}
+
+/* Yandan Hızlı Erişim rayı — feedback'teki "yandan sekmeler olsa" isteğine
+   hafif çözüm. Sadece geniş ekranlarda (bkz. media query altta); dar
+   ekranda hamburger menüyle çakışmasın diye görünmez. Etiketler varsayılan
+   gizli, sadece hover/focus'ta beliriyor — sayfa içeriğine göz kırpan
+   dekoratif bir HUD paneli gibi. */
+.side-rail {
+  position: fixed;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.side-rail a {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  text-decoration: none;
+}
+.side-rail-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line);
+  background: var(--bg-panel);
+  flex-shrink: 0;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.side-rail-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  color: var(--text-dim);
+  white-space: nowrap;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 3px 8px;
+  opacity: 0;
+  transform: translateX(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.side-rail a:hover .side-rail-label,
+.side-rail a:focus-visible .side-rail-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+.side-rail a:hover .side-rail-dot,
+.side-rail a:focus-visible .side-rail-dot,
+.side-rail a.is-active .side-rail-dot {
+  border-color: var(--accent);
+  background: var(--accent);
+  transform: scale(1.25);
+  box-shadow: 0 0 10px rgba(30,136,199,0.55);
+}
+.side-rail a.is-active .side-rail-label { color: var(--text); }
+@media (max-width: 980px) {
+  .side-rail { display: none; }
+}
+
 body.nav-open { overflow: hidden; }
 
 @media (max-width: 780px) {
@@ -983,6 +1081,20 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
 }
 .footer-address { color: var(--text-dim); font-size: 0.88rem; line-height: 1.7; margin: 0 0 14px; }
 
+/* Screen-reader-only içerik — görsel olarak gizlenir ama erişilebilirlik
+   ağacında kalır. Faz 4'teki decrypt/kinetik başlık efektlerinde, animasyon
+   sırasında görünen metin yerine ekran okuyuculara okunacak sabit metni
+   tutmak için kullanılır. */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Boot sequence — a brief terminal-style line that types itself out once on
    page load, then collapses away. Never retriggers. */
 .boot-line {
@@ -1036,6 +1148,35 @@ h2::after {
   height: 2px;
   background: var(--accent);
   border-radius: 2px;
+}
+
+/* FAZ 4 — Kinetik Tipografi İskeleti. Sadece 1-2 kısa bölüm başlığında
+   (Yetkinlik Alanları, Seçili Çalışmalar) kullanılır — açıklama metinlerinde
+   ASLA. Büyük, geniş aralıklı harfler yapısal bir ayraç gibi davranır;
+   JS varsa sayfaya girerken harf harf "yerine oturur". CSS kuralları JS'ten
+   bağımsız çalışır, yani no-JS durumunda başlık normal metin olarak, sadece
+   büyütülmüş/aralıklı halde görünür — hiçbir içerik kaybolmaz. */
+.kinetic-heading {
+  font-size: clamp(2.15rem, 5.4vw, 3.7rem);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+.kinetic-letter {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+.kinetic-armed .kinetic-letter {
+  opacity: 0;
+  transform: translateY(0.5em) rotate(4deg);
+  transition: transform 0.55s cubic-bezier(.16,.9,.35,1), opacity 0.4s ease;
+}
+.kinetic-armed .kinetic-letter:nth-child(even) {
+  transform: translateY(0.5em) rotate(-4deg);
+}
+.kinetic-armed.is-kinetic-set .kinetic-letter {
+  opacity: 1;
+  transform: translateY(0) rotate(0deg);
 }
 
 /* Hero */

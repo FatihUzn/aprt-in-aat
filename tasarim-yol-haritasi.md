@@ -41,10 +41,20 @@ her faz bir öncekinin üzerine güvenle inşa edilir. Tamamlanan maddeyi `[x]` 
 
 ## FAZ 4 — İsteğe Bağlı Süslemeler (bütçe kalırsa, dikkatli/az dozda)
 
-- [ ] **Kısmi Şifre Çözülme Efekti** — sadece hero başlığında, var olan `boot-line` efektinin
-      genişletilmiş hali (tüm sitede DEĞİL — sadece ilk açılış anı)
-- [ ] **Kinetik Tipografi İskeleti** — 1-2 bölüm başlığında (ör. "MEKATRONİK") büyük harfleri
-      yapısal ayraç olarak dene, açıklama metinlerinde asla kullanma
+- [x] **Kısmi Şifre Çözülme Efekti** — sadece hero başlığında, var olan `boot-line` efektinin
+      genişletilmiş hali (tüm sitede DEĞİL — sadece ilk açılış anı). `SYSTEM_BOOT` satırı bitince
+      `uzn:boot-complete` event'i tetikleniyor, hero `<h1>` içindeki `.decrypt-line` span'ları
+      (`Mekanik hassasiyet.` / `Yazılım zekâsı.`) sırayla kısa bir karışık-karakter → doğru-metin
+      efektiyle netleşiyor. Metin HTML'de baştan doğru duruyor (JS sadece geçici görsel karıştırma
+      yapıyor), `prefers-reduced-motion` ve no-JS durumunda hiçbir şey değişmiyor. Ekran okuyucular
+      için `.visually-hidden` span'da orijinal metin saklı, animasyonlu kopya `aria-hidden`.
+- [x] **Kinetik Tipografi İskeleti** — "Yetkinlik Alanları" ve "Seçili Çalışmalar" başlıklarında
+      (`.kinetic-heading`), büyük/aralıklı harfler yapısal ayraç gibi kullanıldı; açıklama
+      metinlerine dokunulmadı. Harfler `hud-node` mıknatıs mantığıyla aynı IntersectionObserver
+      desenini kullanarak sayfaya girerken hafifçe "yerine oturuyor". JS'siz veya
+      `prefers-reduced-motion` durumunda harfler bölünse de armed class hiç eklenmiyor, başlık
+      sadece CSS ile büyütülmüş/aralıklı normal metin olarak kalıyor — no-JS fallback güvenli.
+      Erişilebilirlik için orijinal metin `.visually-hidden` span'da, harf span'ları `aria-hidden`.
 
 ---
 
@@ -68,4 +78,23 @@ Ziyaretçi 5-10 saniyede "ne yapıyor, nasıl ulaşırım" sorusuna cevap bulama
 _Bu dosyayı güncelleyerek hangi fazda olduğumuzu takip edebiliriz. Her faz bitince kısa bir
 "öncesi/sonrası" ekran görüntüsü alıp burada referans olarak tutmak faydalı olur._
 
-Son güncelleme: 02 Ağustos 2026 (Faz 3 tamamlandı)
+Son güncelleme: 02 Ağustos 2026 (Faz 4 tamamlandı — tüm fazlar bitti)
+
+## Faz sonrası küçük iyileştirmeler (kullanıcı geri bildirimi üzerine)
+
+- [x] **Duyurular → "Daha Fazla" linki düzeltildi** — gerçek bir hedefi olmadığı için
+      `#iletisim`'e rastgele yönlendiriyordu (geri bildirimdeki "bir yere tıklayınca
+      aşağıya gidiyor" şikâyetinin kaynağıydı). Link kaldırıldı.
+- [x] **Yukarı Dön butonu** — belli bir kaydırma mesafesinden sonra beliren, tek tıkla
+      başa dönen sabit buton (`index.html`, `kvkk.html`). `prefers-reduced-motion`
+      aktifse animasyonsuz anında zıplıyor.
+- [x] **Yandan Hızlı Erişim rayı** — sadece geniş ekranlarda (≥980px) görünen, üst nav'a
+      dönmeden bölümler arası atlamayı sağlayan sabit ray (`#sideRail`). Aktif bölüm
+      IntersectionObserver ile otomatik işaretleniyor, dar ekranda gizleniyor (mobilde
+      zaten hamburger menü var). JS/IntersectionObserver yoksa render edilmez, sayfa
+      etkilenmez.
+- [x] **Gerçek tarayıcıda doğrulama** — Playwright ile masaüstü (1440px) ve mobil
+      (390px) genişliklerde, normal / `prefers-reduced-motion` / JS kapalı senaryolarında
+      test edildi: hero decrypt efekti doğru metinle sonuçlanıyor, kinetik başlıklar
+      mobilde satır kırılmasında sorun çıkarmıyor, no-JS'te tüm içerik normal ve doğru
+      görünüyor, side-rail/back-to-top beklenen breakpoint'lerde açılıp kapanıyor.

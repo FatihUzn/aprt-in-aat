@@ -163,6 +163,28 @@
 </div>
 <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
 
+<!-- YANDAN HIZLI ERİŞİM — geri bildirimdeki "yandan sekmeler olsa" isteğine
+     hafif bir çözüm: sayfayı kaydırırken üstteki nav'a dönmeden bölümler
+     arası atlamayı sağlayan sabit bir ray. Sadece geniş ekranlarda görünür
+     (bkz. style.css media query) — dar ekranda zaten hamburger menü var,
+     üst üste binme olmasın diye. Aktif bölüm IntersectionObserver ile
+     işaretleniyor; JS yoksa ray hiç render edilmez, sayfa etkilenmez. -->
+<nav class="side-rail" id="sideRail" aria-label="Hızlı bölüm erişimi">
+  <a href="#hizmetler" data-target="hizmetler"><span class="side-rail-dot"></span><span class="side-rail-label">U1 Hizmetler</span></a>
+  <a href="#hakkimda" data-target="hakkimda"><span class="side-rail-dot"></span><span class="side-rail-label">U2 Hakkımda</span></a>
+  <a href="#projeler" data-target="projeler"><span class="side-rail-dot"></span><span class="side-rail-label">U3 Projeler</span></a>
+  <a href="#sss" data-target="sss"><span class="side-rail-dot"></span><span class="side-rail-label">U4 SSS</span></a>
+  <a href="#iletisim" data-target="iletisim"><span class="side-rail-dot"></span><span class="side-rail-label">U5 İletişim</span></a>
+</nav>
+
+<!-- YUKARI DÖN — geri bildirimdeki "bir yere tıklayınca aşağı gidiyor,
+     tekrar yukarı kaydırmam gerekiyor" sorununa doğrudan yanıt: belli bir
+     kaydırma mesafesinden sonra beliren, tek tıkla başa dönen sabit buton. -->
+<button type="button" class="back-to-top" id="backToTop" aria-label="Sayfa başına dön">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 19V5M12 5l-6 6M12 5l6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+
 <div class="telemetry-strip" aria-hidden="true">
   <div class="telemetry-track">
     <a href="tel:+905343771414" class="telemetry-item">
@@ -190,7 +212,10 @@
     <div class="hero-text">
       <p class="boot-line" id="bootLine" aria-hidden="true">&nbsp;</p>
       <p class="eyebrow"><span class="node-motif"><span></span></span>U0 — GİRİŞ NOKTASI</p>
-      <h1>Mekanik hassasiyet.<br>Yazılım zekâsı.</h1>
+      <h1 id="heroTitle">
+        <span class="visually-hidden">Mekanik hassasiyet. Yazılım zekâsı.</span>
+        <span aria-hidden="true"><span class="decrypt-line">Mekanik hassasiyet.</span><br><span class="decrypt-line">Yazılım zekâsı.</span></span>
+      </h1>
       <p class="hero-lede">
         UZN TECH &amp; SOFTWARE, mekatronik mühendisi Fatih Uzner tarafından kuruldu.
         Mekanik sistemleri, elektroniği ve yazılımı tek bir devrede birleştiren
@@ -401,7 +426,6 @@
       <div class="section-head-actions">
         <span class="carousel-arrow" aria-hidden="true">‹</span>
         <span class="carousel-arrow" aria-hidden="true">›</span>
-        <a href="#iletisim" class="link-pill">Daha Fazla</a>
       </div>
     </div>
     <div class="duyuru-grid">
@@ -440,7 +464,7 @@
   <section class="section" id="hizmetler">
     <div class="scan-line" aria-hidden="true"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U1 — HİZMETLER</p>
-    <h2>Yetkinlik Alanları</h2>
+    <h2 class="kinetic-heading">Yetkinlik Alanları</h2>
     <p class="section-note">Bir düğüme dokun, bağlantıyı takip et.</p>
 
     <div class="topology-map">
@@ -815,7 +839,7 @@
   <section class="section" id="projeler">
     <div class="scan-line" aria-hidden="true"></div>
     <p class="eyebrow"><span class="node-motif"><span></span></span>U3 — PROJELER</p>
-    <h2>Seçili Çalışmalar</h2>
+    <h2 class="kinetic-heading">Seçili Çalışmalar</h2>
     <!-- Gerçek bir proje eklerken <article class="project-row" data-track="yazilim|mekanik|siber|ikisi"> şeklinde etiketle, track filtresi burada da otomatik çalışır -->
     <div class="project-list">
       <article class="project-row">
