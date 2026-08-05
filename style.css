@@ -16,6 +16,30 @@
   --font-display: 'Sora', 'Inter', sans-serif;
   --font-body: 'Inter', sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
+
+  /* FAZ 6 / Akıllı Tipografik Hiyerarşi — dağınık, sabit rem değerleri yerine
+     tek bir akışkan ölçek. Kural: boyut büyüdükçe tracking sıkılaşır (display
+     seviyesi), boyut küçüldükçe (etiket/mono seviyesi) tracking açılır —
+     zaten hero/heading-ref/eyebrow'da ayrı ayrı var olan sezgi burada tek
+     yerden yönetilen bir token setine bağlandı. Var olan tek tek font-size
+     kuralları kırılmasın diye SADECE genel h1/h2 kuralları ve yeni eklenen
+     kurallar bu token'ları kullanıyor; bileşene özel boyutlar (kart başlıkları
+     vb.) olduğu gibi bırakıldı. */
+  --fs-h2: clamp(1.7rem, 2.6vw, 2.05rem);
+  --ls-display: -0.015em;
+  --ls-label: 0.06em;
+  --ls-micro: 0.09em;
+
+  /* FAZ 6 / İnce İşlenmiş Derinlik — tek düz gölge yerine üç kademeli
+     yükseklik sistemi. 1: dinlenen kart yüzeyleri, 2: yüzen/kayan paneller
+     (quick-tiles, mini terminal), 3: üst katman overlay'ler (komut paleti,
+     mobil menü). Her kademe ince bir üst-kenar highlight (inset) + yönlü
+     bir zemin gölgesinden oluşuyor — "ince işlenmiş" derken kastedilen,
+     tek bir kalın gölge yerine ışığın yüzeye nasıl değdiğini ima eden bu
+     ikili katman. */
+  --elev-1: 0 1px 0 rgba(255,255,255,0.04) inset, 0 10px 22px -16px rgba(0,0,0,0.45);
+  --elev-2: 0 1px 0 rgba(255,255,255,0.05) inset, 0 18px 38px -18px rgba(0,0,0,0.5);
+  --elev-3: 0 1px 0 rgba(255,255,255,0.06) inset, 0 28px 58px -20px rgba(0,0,0,0.6);
 }
 
 /* ---- FAZ 5.x / B — Scroll Atmosfer Kayması (v2: siyah → lacivert → beyaz) ----
@@ -152,9 +176,11 @@ body::after { content: none; }
   .grid-overlay, .circuit-bg { opacity: 0.32; }
 }
 
-/* Depth: soft elevation on panel surfaces */
+/* Depth: soft elevation on panel surfaces — FAZ 6 / İnce İşlenmiş Derinlik
+   token'ı (--elev-1) ile değiştirildi, değer aynı kaldı ki mevcut görünüm
+   kırılmasın; artık diğer kademelerle (--elev-2/3) aynı sistemden. */
 .skill-badge, .testimonial-card, .contact-form input, .contact-form textarea {
-  box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 14px 32px -20px rgba(0,0,0,0.55);
+  box-shadow: var(--elev-1);
 }
 
 /* HUD-style layered motion: slow-rotating rings + a softly pulsing core.
@@ -207,10 +233,37 @@ body::after { content: none; }
   transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(var(--tz)) scale(var(--ts));
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
+  /* FAZ 5 / Z-Ekseni Ayrışması: preserve-3d, .tilt'in kendi transform'undaki
+     perspective(900px)'i çocuklara da miras bırakır, böylece aşağıdaki
+     .bento-label / .skills-row translateZ'leri gerçek bir derinlik farkı
+     olarak render olur (mevcut --depth-y-* scroll-parallaks sisteminin
+     hover karşılığı — orada translateY, burada translateZ). */
+  transform-style: preserve-3d;
 }
 .tilt:hover {
   --tz: 6px;
   --ts: 1.006;
+}
+
+/* Z-Ekseni Ayrışması: kart hover'ında iç katmanlar (etiket = yakın,
+   içerik satırı = uzak) hafifçe birbirinden ayrışıyor. */
+.tilt .bento-label,
+.tilt .skills-row {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.tilt:hover .bento-label { transform: translateZ(16px); }
+.tilt:hover .skills-row { transform: translateZ(5px); }
+.tilt .testimonial-quote,
+.tilt .testimonial-who {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.tilt:hover .testimonial-quote { transform: translateZ(18px); }
+.tilt:hover .testimonial-who { transform: translateZ(6px); }
+@media (prefers-reduced-motion: reduce) {
+  .tilt, .tilt .bento-label, .tilt .skills-row,
+  .tilt .testimonial-quote, .tilt .testimonial-who { transition: none; }
 }
 
 /* Mouse-tracked spotlight glow, fixed to viewport, position set via JS */
@@ -534,6 +587,7 @@ body::after { content: none; }
   height: 100vh;
   background: var(--bg-panel);
   border-left: 1px solid var(--line);
+  box-shadow: var(--elev-3);
   padding: 96px 32px 32px;
   display: flex;
   flex-direction: column;
@@ -727,9 +781,30 @@ body.nav-open { overflow: hidden; }
   gap: 6px;
   color: var(--text-dim);
   text-decoration: none;
-  transition: color 0.15s ease;
 }
-a.telemetry-item:hover, a.telemetry-item:focus-visible { color: var(--accent); }
+a.telemetry-item { transition: color 1.6s ease-out, text-shadow 1.6s ease-out; }
+a.telemetry-item:hover, a.telemetry-item:focus-visible {
+  color: var(--accent);
+  text-shadow: 0 0 12px var(--accent-2-dim), 0 0 2px var(--accent-bright);
+  transition: color 0.12s ease-in, text-shadow 0.12s ease-in;
+}
+
+/* Fosforlu Mürekkep Etkisi — reduced motion'da yavaş sönme kaybolur,
+   anlık renk değişimine düşer, glow (text-shadow) hiç uygulanmaz. */
+@media (prefers-reduced-motion: reduce) {
+  .footer-col a,
+  .footer-top-link,
+  .footer-bottom-left a,
+  a.telemetry-item {
+    transition: color 0.12s ease !important;
+  }
+  .footer-col a:hover, .footer-col a:focus-visible,
+  .footer-top-link:hover, .footer-top-link:focus-visible,
+  .footer-bottom-left a:hover, .footer-bottom-left a:focus-visible,
+  a.telemetry-item:hover, a.telemetry-item:focus-visible {
+    text-shadow: none;
+  }
+}
 .telemetry-icon { width: 13px; height: 13px; flex: none; color: var(--accent); }
 .telemetry-val { color: inherit; }
 .telemetry-sep { color: var(--line); }
@@ -940,7 +1015,7 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   background: var(--line);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 20px 44px -18px rgba(0,0,0,0.55);
+  box-shadow: var(--elev-2);
 }
 .quick-tile {
   background: var(--bg-panel);
@@ -1259,7 +1334,7 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
 }
 .eyebrow .node-motif { display: none; }
 
-h1, h2, h3 { font-family: var(--font-display); color: var(--text); margin: 0; letter-spacing: -0.01em; font-weight: 700; }
+h1, h2, h3 { font-family: var(--font-display); color: var(--text); margin: 0; letter-spacing: var(--ls-display); font-weight: 700; text-wrap: balance; }
 h2 { position: relative; padding-bottom: 18px; }
 h2::after {
   content: '';
@@ -1270,6 +1345,28 @@ h2::after {
   height: 2px;
   background: var(--accent);
   border-radius: 2px;
+}
+
+/* FAZ 5 / Kademeli Tipografi — .ref deseninin (nav'daki mono U# kodları)
+   büyük bölüm başlıklarına genişlemesi. Şema çizimlerindeki referans
+   numaraları gibi, başlığın yanına küçük, dikey ayraçlı bir mono kod
+   asılıyor. Salt dekoratif olduğu için aria-hidden. */
+.heading-ref {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.34em;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--signal);
+  vertical-align: super;
+  margin-left: 0.45em;
+  padding-left: 0.5em;
+  border-left: 1.5px solid var(--line);
+  opacity: 0.72;
+  text-transform: none;
+}
+@media (max-width: 640px) {
+  .heading-ref { display: none; }
 }
 
 /* FAZ 4 — Kinetik Tipografi İskeleti. Sadece 1-2 kısa bölüm başlığında
@@ -1342,7 +1439,11 @@ h2::after {
   display: inline-block;
   transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.btn-primary { background: var(--accent); color: #000000; box-shadow: 0 10px 24px -10px rgba(61,111,224,0.55); }
+/* FAZ 5.0 doğrulama: metin rengi #000000 iken navy/light fazlarında
+   --accent üzerinde WCAG AA (4.5:1) altına düşüyordu (navy 3.93:1,
+   light 3.44:1). Beyaza çevrildi — 3 fazda da (4.62 / 5.34 / 6.1) AA
+   geçiyor; .btn-spark zaten beyazdı, tema tutarlı kaldı. */
+.btn-primary { background: var(--accent); color: #ffffff; box-shadow: 0 10px 24px -10px rgba(61,111,224,0.55); }
 .btn-primary:hover { background: var(--accent-bright); transform: translateY(-1px); box-shadow: 0 14px 28px -10px rgba(61,111,224,0.6); }
 .btn-primary.magnetic:hover { transform: translate(var(--mbx), var(--mby)); }
 .btn-ghost { color: var(--text); border: 1px solid var(--line); background: var(--bg-panel); }
@@ -1446,6 +1547,7 @@ h2::after {
 
 /* Mini terminal widget — small looping "typed command" panel (About section) */
 .mini-terminal {
+  position: relative;
   margin-top: 24px;
   border-radius: 8px;
   overflow: hidden;
@@ -1453,7 +1555,7 @@ h2::after {
   background: rgba(10,8,6,0.5);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 14px 32px -22px rgba(0,0,0,0.65);
+  box-shadow: var(--elev-2);
 }
 .mini-terminal-bar {
   display: flex;
@@ -1555,11 +1657,12 @@ h2::after {
 }
 .cmdk-overlay.is-open { opacity: 1; visibility: visible; }
 .cmdk-panel {
+  position: relative;
   width: min(480px, 90vw);
   background: var(--bg-panel);
   border: 1px solid var(--line);
   border-radius: 10px;
-  box-shadow: 0 24px 60px -20px rgba(0,0,0,0.55);
+  box-shadow: var(--elev-3);
   overflow: hidden;
 }
 .cmdk-input-row {
@@ -1660,7 +1763,7 @@ h2::after {
 }
 
 /* About */
-h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
+h2 { font-size: var(--fs-h2); font-weight: 700; margin-bottom: 40px; }
 .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; }
 .about-text { color: var(--text-dim); max-width: 60ch; }
 .about-text p { margin: 0 0 18px; }
@@ -1730,6 +1833,7 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
   gap: 16px;
   position: relative;
   overflow: hidden;
+  box-shadow: var(--elev-1);
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 .bento-cell:hover {
@@ -2126,17 +2230,44 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
 }
 
 /* Projects */
-.project-list { display: flex; flex-direction: column; }
+.project-list {
+  display: flex;
+  flex-direction: column;
+  /* Z-Ekseni Ayrışması: satır içi katmanların (ref/tag = yakın,
+     başlık+açıklama = uzak) hover'da ayrışması için ortak perspektif. */
+  perspective: 700px;
+}
 .project-row {
   position: relative;
+  border-top: 1px solid var(--line-soft);
+  transform-style: preserve-3d;
+}
+.project-row:last-child { border-bottom: 1px solid var(--line-soft); }
+
+/* FAZ 5 / Mekanik Akordeon: başlık satırı artık bir <button> (display:contents
+   ile grid yerleşimini bozmadan), tıklanınca altındaki detay paneli yeni
+   sayfaya gitmeden, satır arası açılıyor. grid-template-rows: 0fr → 1fr
+   tekniği JS'in yükseklik ölçmesine gerek bırakmadan pürüzsüz, "milimetrik"
+   bir açılma/kapanma sağlıyor. */
+.project-row-head {
+  display: block;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.project-row-grid {
   display: grid;
-  grid-template-columns: 60px 1fr auto;
+  grid-template-columns: 60px 1fr auto 20px;
   align-items: center;
   gap: 20px;
   padding: 22px 0;
-  border-top: 1px solid var(--line-soft);
 }
-.project-row:last-child { border-bottom: 1px solid var(--line-soft); }
 .project-ref { font-family: var(--font-mono); color: var(--signal); font-size: 0.85rem; }
 .project-info h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 4px; }
 .project-info p { color: var(--text-dim); font-size: 0.88rem; margin: 0; }
@@ -2149,7 +2280,67 @@ h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 40px; }
   border-radius: 3px;
   white-space: nowrap;
 }
-@media (max-width: 600px) { .project-row { grid-template-columns: 1fr; gap: 6px; } }
+.project-chevron {
+  color: var(--text-faint);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;
+  justify-self: end;
+}
+.project-row:hover .project-chevron { color: var(--accent-bright); }
+.project-row.is-open .project-chevron { transform: rotate(180deg); color: var(--accent-bright); }
+
+.project-ref,
+.project-info,
+.project-tag,
+.project-chevron {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;
+  will-change: transform;
+}
+.project-row:hover .project-ref,
+.project-row:hover .project-tag { transform: translateZ(14px); }
+.project-row:hover .project-info { transform: translateZ(4px); }
+@media (prefers-reduced-motion: reduce) {
+  .project-ref, .project-info, .project-tag, .project-chevron { transition: none; }
+}
+@media (max-width: 600px) {
+  .project-row-grid {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "ref     chevron"
+      "info    info"
+      "tag     tag";
+    row-gap: 8px;
+  }
+  .project-ref { grid-area: ref; }
+  .project-chevron { grid-area: chevron; }
+  .project-info { grid-area: info; }
+  .project-tag { grid-area: tag; justify-self: start; }
+}
+
+.project-detail-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.project-row.is-open .project-detail-wrap { grid-template-rows: 1fr; }
+.project-detail-inner { overflow: hidden; }
+.project-detail {
+  padding: 0 0 26px 80px;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  max-width: 62ch;
+}
+.project-detail p { margin: 0 0 10px; }
+.project-detail p:last-child { margin-bottom: 0; }
+.project-detail .project-detail-note {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--signal);
+  letter-spacing: 0.02em;
+}
+@media (max-width: 600px) { .project-detail { padding-left: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .project-detail-wrap { transition: none; }
+}
 
 /* Contact */
 .contact-lede { color: var(--text-dim); max-width: 50ch; margin-bottom: 32px; }
@@ -2302,9 +2493,13 @@ body[data-track] .track-reset { display: inline; }
   color: var(--text-dim);
   text-decoration: none;
   font-size: 0.88rem;
-  transition: color 0.2s ease;
 }
-.footer-col a:hover { color: var(--accent-bright); }
+.footer-col a { transition: color 1.6s ease-out, text-shadow 1.6s ease-out; }
+.footer-col a:hover, .footer-col a:focus-visible {
+  color: var(--accent-bright);
+  text-shadow: 0 0 12px var(--accent-2-dim), 0 0 2px var(--accent-bright);
+  transition: color 0.12s ease-in, text-shadow 0.12s ease-in;
+}
 
 .footer-bottom {
   max-width: 1240px;
@@ -2323,17 +2518,25 @@ body[data-track] .track-reset { display: inline; }
 .footer-top-link {
   color: var(--text-faint);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 1.6s ease-out, text-shadow 1.6s ease-out;
 }
-.footer-top-link:hover { color: var(--accent-bright); }
+.footer-top-link:hover, .footer-top-link:focus-visible {
+  color: var(--accent-bright);
+  text-shadow: 0 0 12px var(--accent-2-dim), 0 0 2px var(--accent-bright);
+  transition: color 0.12s ease-in, text-shadow 0.12s ease-in;
+}
 
 .footer-bottom-left { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
 .footer-bottom-left a {
   color: var(--text-faint);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 1.6s ease-out, text-shadow 1.6s ease-out;
 }
-.footer-bottom-left a:hover { color: var(--accent-bright); }
+.footer-bottom-left a:hover, .footer-bottom-left a:focus-visible {
+  color: var(--accent-bright);
+  text-shadow: 0 0 12px var(--accent-2-dim), 0 0 2px var(--accent-bright);
+  transition: color 0.12s ease-in, text-shadow 0.12s ease-in;
+}
 
 /* ===== 404 page ===== */
 .error-page {
@@ -2632,4 +2835,701 @@ body::before {
 }
 @media (prefers-reduced-motion: reduce) {
   .magnet-settle.magnet-armed { opacity: 1; transform: none; transition: none; }
+}
+
+/* ==========================================================================
+   FAZ 6 / Grup B — Tipografi & Grid
+   (v2 elde yok; bu üç madde v3 yol haritasındaki başlıklardan yorumlanarak
+   uygulandı — ayrıntı için tasarim-yol-haritasi-v3.md'deki FAZ 6 notuna bkz.)
+   ========================================================================== */
+
+/* ---- FAZ 6 / Akıllı Tipografik Hiyerarşi (devamı) ----
+   Uzun paragraflarda son satırın tek kelime kalıp "yetim" durmasını ve kısa
+   başlıklarda dengesiz satır kırılmasını önlüyor. Desteklenmeyen tarayıcıda
+   (text-wrap geçersiz değer) kural sessizce yok sayılır, hiçbir layout kırılmaz. */
+p { text-wrap: pretty; }
+.eyebrow { letter-spacing: var(--ls-label); }
+
+/* ---- FAZ 6 / Görünmez Sütunlar ----
+   Sitenin tüm bölümleri aslında main'in gerçek içerik kutusuna (max-width
+   1240px, 64px iç boşluk) hizalanan görünmez bir 12 sütunluk ızgaraya
+   oturuyor — ama bu ızgara normalde HİÇ görünmez, sadece "var". Gizli bir
+   kısayolla (Alt+G) tasarımcı/meraklı ziyaretçi ızgarayı bir teknik çizim
+   paftası gibi açığa çıkarabiliyor. HTML'de karşılığı yok, body::after
+   kullanıyor (body::after'ın önceki sıfırlaması — body::after{content:none} —
+   bu kural dosyada daha sonra geldiği için burada geçersiz kılınıyor, EK-2'nin
+   body::before'da yaptığı gibi). KALDIRMAK İÇİN: bu bloğu sil + app.js'teki
+   "FAZ 6 / Görünmez Sütunlar" yorumlu IIFE'yi sil. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 64px;
+  box-sizing: border-box;
+  opacity: 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--accent-bright) 0,
+    var(--accent-bright) 1px,
+    transparent 1px,
+    transparent calc(100% / 12)
+  );
+  background-origin: content-box;
+  background-clip: content-box;
+  transition: opacity 0.35s ease;
+}
+html.uzn-show-guides body::after { opacity: 0.16; }
+@media (max-width: 700px) {
+  body::after { padding: 0 24px; }
+}
+
+/* Alt+G tetiklendiğinde app.js'in oluşturduğu geçici HUD bildirimi. */
+.guide-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%) translateY(8px);
+  z-index: 60;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: var(--ls-label);
+  color: var(--signal);
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 9px 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.guide-toast.is-shown { opacity: 0.94; transform: translateX(-50%) translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .guide-toast { transition: opacity 0.15s linear; }
+}
+
+/* ---- FAZ 6 / Sessiz Kılavuzlar ----
+   Bölüm sınırları (main > section[id]) normalde çizilmez. Bir bölüm ekrana
+   ilk girdiğinde üst/alt kenarında kısa bir çizgi "yanıp söner" (bir ölçüm
+   aletinin okuma anı gibi), sonra neredeyse tamamen sessizleşip (~%4.5
+   opaklık) kalıcı bir iz olarak kalır — yapıyı sürekli bağırmadan hissettiren
+   bir kılavuz. Sadece ilk girişte tetiklenir (JS unobserve ediyor), tekrar
+   tekrar yanıp sönmez. KALDIRMAK İÇİN: bu bloğu sil + app.js'teki
+   "FAZ 6 / Sessiz Kılavuzlar" yorumlu IIFE'yi sil. */
+main > section[id] { position: relative; }
+main > section[id]::before,
+main > section[id]::after {
+  content: '';
+  position: absolute;
+  left: -64px;
+  right: -64px;
+  height: 1px;
+  background: var(--accent-bright);
+  opacity: 0;
+  pointer-events: none;
+  transform: scaleX(0.2);
+  transform-origin: center;
+}
+main > section[id]::before { top: 0; }
+main > section[id]::after { bottom: 0; }
+main > section[id].guide-pulse::before,
+main > section[id].guide-pulse::after {
+  opacity: 0.4;
+  transform: scaleX(1);
+  transition: opacity 0.5s ease, transform 0.6s cubic-bezier(.16,.9,.35,1);
+}
+main > section[id].guide-settled::before,
+main > section[id].guide-settled::after {
+  opacity: 0.045;
+  transform: scaleX(1);
+  transition: opacity 1.4s ease;
+}
+@media (max-width: 700px) {
+  main > section[id]::before,
+  main > section[id]::after { left: -24px; right: -24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  main > section[id].guide-pulse::before,
+  main > section[id].guide-pulse::after,
+  main > section[id].guide-settled::before,
+  main > section[id].guide-settled::after {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   FAZ 6 / Grup A — Yüzey & Derinlik
+   (v2 elde yok; ayrıntı için tasarim-yol-haritasi-v3.md'deki FAZ 6 notuna bkz.
+   İnce İşlenmiş Derinlik'in --elev-1/2/3 token'ları :root'ta, ilgili
+   bileşenlere doğrudan uygulandı — burada sadece Buzlu Cam, Gölge İskelet
+   ve Keskin Alüminyum Kenarlar var.)
+   ========================================================================== */
+
+/* ---- FAZ 6 / Buzlu Cam ----
+   Site zaten mini-terminal ve cmdk-overlay'de backdrop-filter kullanıyordu;
+   burada aynı dil üç yeni yüzeye taşındı: hero üzerine taşan quick-tiles
+   şeridi, üst bilgi şeridi (telemetry-strip) ve mobil menü paneli — üçü de
+   altındaki içeriğin üstüne "kayan" yüzeyler, buzlu cam mantığıyla en çok
+   örtüşen yerler. @supports ile korumalı: backdrop-filter yoksa eski düz
+   zemin renkleri (opak var(--bg-panel)) hiç bozulmadan kalıyor.
+   KALDIRMAK İÇİN: bu bloğu sil. */
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .quick-tile {
+    background: color-mix(in srgb, var(--bg-panel) 72%, transparent);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+  }
+  .telemetry-strip {
+    background: color-mix(in srgb, var(--bg-panel) 80%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .mobile-nav {
+    background: color-mix(in srgb, var(--bg-panel) 82%, transparent);
+    backdrop-filter: blur(18px) saturate(130%);
+    -webkit-backdrop-filter: blur(18px) saturate(130%);
+  }
+}
+
+/* ---- FAZ 6 / Gölge İskelet ----
+   Genel amaçlı bir yükleme placeholder'ı: `.img-skeleton` sınıfı taşıyan
+   her <img>, gerçek görsel çözülene kadar hafif kayan bir "shadow skeleton"
+   shimmer'ı gösteriyor (app.js `load`/`complete` olayında `.is-loaded`
+   ekleyip kaldırıyor). Şu an sitede tek gerçek <img> (about-photo) var;
+   v3 yol haritasındaki "henüz proje görseli yok" notuna göre ileride
+   eklenecek proje görsellerinin de bu sınıfı taşıması yeterli, ekstra iş
+   gerekmiyor. KALDIRMAK İÇİN: bu bloğu sil + app.js'teki "FAZ 6 / Gölge
+   İskelet" yorumlu IIFE'yi sil + HTML'lerdeki img-skeleton class'larını
+   kaldır (kaldırılmazsa img sonsuza dek shimmer'da kalır çünkü JS onu
+   `is-loaded` ile kapatıyordu). */
+.img-skeleton {
+  background: linear-gradient(100deg, var(--bg-panel-alt) 28%, var(--line-soft) 48%, var(--bg-panel-alt) 68%);
+  background-size: 240% 100%;
+  animation: uzn-skeleton-shimmer 1.6s ease-in-out infinite;
+}
+.img-skeleton.is-loaded {
+  animation: none;
+  background: none;
+}
+@keyframes uzn-skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -140% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .img-skeleton { animation: none; opacity: 0.85; }
+}
+
+/* ---- FAZ 6 / Keskin Alüminyum Kenarlar ----
+   FAZ 5.0'daki "Şevli Köşeler" geometrik bir köşe kesimiydi (clip-path);
+   bu madde geometriden çok malzeme/ışık — yüzen panellerin üst kenarında
+   fırçalanmış alüminyumun ışığı yakaladığı ince (2px), ortadan parlayan bir
+   gradyan çizgi. Varsayılanda soluk, hover/focus'ta netleşiyor — "keskin"
+   olan, bulanık bir parıltı değil net bir kenar çizgisi olması.
+   KALDIRMAK İÇİN: bu bloğu sil. */
+.bento-cell::after,
+.mini-terminal::before,
+.cmdk-panel::before,
+.mobile-nav::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--line) 18%,
+    var(--text-faint) 42%,
+    var(--signal) 50%,
+    var(--text-faint) 58%,
+    var(--line) 82%,
+    transparent 100%);
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+.bento-cell:hover::after,
+.mini-terminal:hover::before,
+.cmdk-panel::before,
+.mobile-nav.is-open::before {
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   FAZ 6 / Grup E — Etkileşim Geri Bildirimi
+   (v2 elde yok; ayrıntı için tasarim-yol-haritasi-v3.md'deki FAZ 6 notuna bkz.)
+   ========================================================================== */
+
+/* ---- FAZ 6 / Mikro-Sismik Geri Bildirim ----
+   Butona/kabuk elemana tıklandığı an, bir sismografın iğnesi gibi çok kısa
+   (350ms) ve çok küçük (±1.5px) çok-eksenli bir titreşim — "tıklama alındı"
+   hissini pixel-hassas bir dokunuşla veriyor, sekmeyen/rahatsız etmeyen bir
+   büyüklükte. JS `click` anında `.uzn-seismic` ekliyor, `animationend`'de
+   kaldırıyor (böylece art arda tıklamalarda da her seferinde yeniden
+   tetiklenir). Form gönderimine/gerçek navigasyona MÜDAHALE ETMİYOR, salt
+   görsel bir katman. KALDIRMAK İÇİN: bu bloğu sil + app.js'teki "FAZ 6 /
+   Mikro-Sismik Geri Bildirim" yorumlu IIFE'yi sil. */
+@keyframes uzn-seismic {
+  0% { transform: translate(0, 0); }
+  15% { transform: translate(-1.5px, 1px); }
+  30% { transform: translate(1.5px, -1px); }
+  45% { transform: translate(-1px, 0.6px); }
+  60% { transform: translate(1px, -0.6px); }
+  75% { transform: translate(-0.4px, 0.3px); }
+  100% { transform: translate(0, 0); }
+}
+.uzn-seismic { animation: uzn-seismic 0.35s ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  .uzn-seismic { animation: none; }
+}
+
+/* ---- FAZ 6 / Keskin Dönüşlü Yollar ----
+   Nav/basit metin linklerinde artık düz bir çizgi kaymıyor — önce yatay bir
+   iz sağa doğru "adım adım" (steps() — kasıtlı olarak eğrisiz, sismik/dijital
+   bir his için) çiziliyor, iz tamamlanınca sağ uçtan aşağı kısa bir dikey
+   çentik iniyor. Sonuç bir devre izinin (PCB trace) L dönüşü gibi — çapraz/
+   eğrisel değil, hep dik açı. KALDIRMAK İÇİN: bu bloğu sil. */
+.site-nav a,
+.error-links a {
+  position: relative;
+  padding-bottom: 4px;
+}
+.site-nav a::before,
+.error-links a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 1.5px;
+  background: var(--accent-bright);
+  transition: width 0.22s steps(4, end);
+}
+.site-nav a::after,
+.error-links a::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 1.5px;
+  height: 0;
+  background: var(--accent-bright);
+  transition: height 0.14s steps(3, end) 0.22s;
+}
+.site-nav a:hover::before, .site-nav a:focus-visible::before,
+.error-links a:hover::before, .error-links a:focus-visible::before { width: 100%; }
+.site-nav a:hover::after, .site-nav a:focus-visible::after,
+.error-links a:hover::after, .error-links a:focus-visible::after { height: 5px; }
+@media (prefers-reduced-motion: reduce) {
+  .site-nav a::before, .site-nav a::after,
+  .error-links a::before, .error-links a::after { transition: none; }
+}
+
+/* ---- FAZ 6 / Ses Dalgaları ----
+   Footer'daki "Hemen Ara" (tel:) linkine dört barlık minik bir eşitleyici
+   eklendi — telefon = ses, en doğrudan okunan eşleşme. Varsayılanda sabit/
+   soluk duruyor ("sessiz"), sadece hover/focus'ta bir çağrı bekliyormuş gibi
+   sırayla zıplıyor. HTML'de yalnızca bu tek linke `<span class="wave-bars">`
+   eklendi (3 sayfada da aynı). KALDIRMAK İÇİN: bu bloğu sil + 3 HTML
+   dosyasındaki `.wave-bars` span'larını kaldır. */
+.wave-bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 16px;
+  margin-left: auto;
+  flex-shrink: 0;
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
+}
+.wave-bars span {
+  width: 2.5px;
+  height: 25%;
+  background: var(--accent-bright);
+  border-radius: 1px;
+  transform-origin: bottom;
+}
+.footer-action:hover .wave-bars,
+.footer-action:focus-visible .wave-bars { opacity: 0.9; }
+.footer-action:hover .wave-bars span,
+.footer-action:focus-visible .wave-bars span {
+  animation: uzn-wave-bounce 0.9s ease-in-out infinite;
+}
+.wave-bars span:nth-child(1) { animation-delay: 0s; }
+.wave-bars span:nth-child(2) { animation-delay: 0.15s; }
+.wave-bars span:nth-child(3) { animation-delay: 0.3s; }
+.wave-bars span:nth-child(4) { animation-delay: 0.45s; }
+@keyframes uzn-wave-bounce {
+  0%, 100% { height: 25%; }
+  50% { height: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer-action:hover .wave-bars span,
+  .footer-action:focus-visible .wave-bars span { animation: none; height: 60%; }
+}
+
+/* ---- EK-6 / FAZ 6 Grup D — Parallax Yıldız Tozu ----
+   Yorumu: sayfa genelinde çok soluk, iki derinlik kademeli bir toz/parçacık
+   dokusu. Yeni bir parçacık motoru kurmadık — EK-5'te zaten var olan
+   --depth-y-near/--depth-y-far scroll parallax değişkenlerine "biniyor"
+   (calc ile ölçeklenmiş), böylece app.js'e dokunmadan iki farklı hızda
+   kayan bir toz katmanı elde ediliyor. Noktalar sabit (rastgele ama
+   elle seçilmiş) radial-gradient konumları, tek nefes alan bir "twinkle"
+   opaklık animasyonu var (tek tek yanıp sönme değil — performans/basitlik
+   tercihi). KALDIRMAK İÇİN: bu bloğu sil + 3 HTML dosyasındaki
+   `<div class="stardust-field" ...></div>` satırını sil. */
+.stardust-field { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.stardust-field::before,
+.stardust-field::after {
+  content: '';
+  position: absolute;
+  inset: -12%;
+  background-image:
+    radial-gradient(1px 1px at 6% 18%, var(--text-faint) 50%, transparent 51%),
+    radial-gradient(1px 1px at 14% 62%, var(--text-faint) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 24% 34%, var(--accent-bright) 50%, transparent 51%),
+    radial-gradient(1px 1px at 33% 80%, var(--text-faint) 50%, transparent 51%),
+    radial-gradient(1px 1px at 42% 12%, var(--text-faint) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 51% 54%, var(--accent-bright) 50%, transparent 51%),
+    radial-gradient(1px 1px at 61% 28%, var(--text-faint) 50%, transparent 51%),
+    radial-gradient(1px 1px at 69% 71%, var(--text-faint) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 78% 8%, var(--accent-bright) 50%, transparent 51%),
+    radial-gradient(1px 1px at 86% 46%, var(--text-faint) 50%, transparent 51%),
+    radial-gradient(1px 1px at 92% 88%, var(--text-faint) 50%, transparent 51%);
+  opacity: 0.32;
+  animation: uzn-dust-twinkle 6s ease-in-out infinite;
+}
+.stardust-field::before {
+  transform: translateY(calc(var(--depth-y-far, 0px) * 0.7));
+}
+.stardust-field::after {
+  background-position: 3% 3%;
+  background-image:
+    radial-gradient(1px 1px at 10% 42%, var(--text-faint) 50%, transparent 51%),
+    radial-gradient(1px 1px at 21% 88%, var(--text-faint) 50%, transparent 51%),
+    radial-gradient(1px 1px at 38% 24%, var(--text-faint) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 47% 66%, var(--accent-bright) 50%, transparent 51%),
+    radial-gradient(1px 1px at 58% 10%, var(--text-faint) 50%, transparent 51%),
+    radial-gradient(1px 1px at 66% 52%, var(--text-faint) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 74% 92%, var(--accent-bright) 50%, transparent 51%),
+    radial-gradient(1px 1px at 83% 30%, var(--text-faint) 50%, transparent 51%),
+    radial-gradient(1px 1px at 95% 64%, var(--text-faint) 50%, transparent 51%);
+  opacity: 0.2;
+  animation-delay: 3s;
+  transform: translateY(calc(var(--depth-y-near, 0px) * 0.5));
+}
+@keyframes uzn-dust-twinkle {
+  0%, 100% { opacity: 0.16; }
+  50% { opacity: 0.36; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stardust-field::before, .stardust-field::after { animation: none; transform: none; }
+}
+@media (max-width: 700px) { .stardust-field { display: none; } }
+
+/* ---- EK-7 / FAZ 6 Grup D — Kesik Çizgili Yörüngeler ----
+   Yorumu: EK-2'deki merkezi (düz çizgili, sabit) yörünge halkasından ve
+   about-photo'daki dönen kesik halkadan farklı olarak — sayfa genelinde,
+   sabit dursa da "veri akıyormuş" hissi veren, kesik çizgileri kayan iki
+   eşmerkezli halka. Rotasyon yerine `stroke-dashoffset` akıtılıyor (bir
+   PCB izinde akan sinyal gibi), bu yüzden halkanın kendisi kıpırdamıyor,
+   sadece üzerindeki kesikler kayıyor — daha "sakin" bir hareket.
+   KALDIRMAK İÇİN: bu bloğu sil + 3 HTML dosyasındaki
+   `<div class="orbit-field" ...>...</div>` bloğunu sil. */
+.orbit-field {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 1100px;
+  height: 1100px;
+  transform: translate(-50%, -50%) translateY(var(--depth-y-far, 0px));
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.16;
+}
+.orbit-field svg { width: 100%; height: 100%; }
+.orbit-field circle {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1;
+}
+.orbit-field .orbit-ring-outer {
+  stroke-dasharray: 2 10;
+  animation: uzn-orbit-flow 26s linear infinite;
+}
+.orbit-field .orbit-ring-inner {
+  stroke: var(--line);
+  stroke-dasharray: 1 6;
+  animation: uzn-orbit-flow-reverse 34s linear infinite;
+}
+@keyframes uzn-orbit-flow { to { stroke-dashoffset: -240; } }
+@keyframes uzn-orbit-flow-reverse { to { stroke-dashoffset: 180; } }
+@media (prefers-reduced-motion: reduce) {
+  .orbit-field circle { animation: none; }
+}
+@media (max-width: 900px) { .orbit-field { width: 720px; height: 720px; opacity: 0.1; } }
+@media (max-width: 700px) { .orbit-field { display: none; } }
+
+/* ---- EK-8 / FAZ 6 Grup D — Ortam Halesi ----
+   Yorumu: imleci takip eden bir hale değil (o zaten .magnetic ve sensor-fade
+   ile kaplı) — sayfanın kendi "nefes alan" ışığı. Bulanık, yavaşça sürüklenen
+   tek bir ışık lekesi; rengi faz değişkenine (`--accent-2-dim`) bağlı olduğu
+   için dark/navy/light geçişlerinde otomatik uyum sağlıyor, ekstra kod
+   gerekmiyor. KALDIRMAK İÇİN: bu bloğu sil + 3 HTML dosyasındaki
+   `<div class="ambient-halo" ...></div>` satırını sil. */
+.ambient-halo { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.ambient-halo::before {
+  content: '';
+  position: absolute;
+  top: 8%;
+  left: 58%;
+  width: 620px;
+  height: 620px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-2-dim) 0%, transparent 68%);
+  filter: blur(70px);
+  opacity: 0.55;
+  animation: uzn-halo-drift 24s ease-in-out infinite alternate;
+}
+@keyframes uzn-halo-drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-70px, 50px) scale(1.18); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ambient-halo::before { animation: none; }
+}
+@media (max-width: 700px) {
+  .ambient-halo::before { width: 380px; height: 380px; filter: blur(50px); }
+}
+
+/* ---- FAZ 6 Grup D — Holografik Projeksiyon ----
+   Yorumu: sitedeki tek gerçek görsel (about-photo) hedef alındı — hover/
+   focus'ta ince tarama çizgileri (`repeating-linear-gradient`) + kısa bir
+   "sinyal kaybı" flicker'ı beliriyor, `mix-blend-mode: screen` ile fotoğrafı
+   boyamadan üstüne biniyor. HTML değişikliği gerekmedi, mevcut
+   `.about-photo-wrap` seçicisine ::after eklendi. KALDIRMAK İÇİN: bu bloğu
+   sil, başka dosyaya dokunmana gerek yok. */
+.about-photo-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 3px,
+    rgba(106, 148, 240, 0.35) 3px,
+    rgba(106, 148, 240, 0.35) 4px
+  );
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.about-photo-wrap:hover::after,
+.about-photo-wrap:focus-within::after {
+  opacity: 1;
+  animation: uzn-holo-flicker 1.4s steps(2, end) infinite;
+}
+@keyframes uzn-holo-flicker {
+  0%, 100% { opacity: 0.85; }
+  45%      { opacity: 0.5; }
+  50%      { opacity: 1; }
+  78%      { opacity: 0.6; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-photo-wrap:hover::after,
+  .about-photo-wrap:focus-within::after { animation: none; opacity: 0.45; }
+}
+
+/* ============================================================
+   FAZ 6 / Grup C — HUD & Veri
+   Aşağıdaki 6 madde de "yeniden yorumlanarak" uygulandı (bkz. md).
+   Her biri bağımsız, birbirine bağımlı değil — istediğini tek başına
+   kaldırabilirsin, ilgili "KALDIRMAK İÇİN" notuna bak.
+   ============================================================ */
+
+/* ---- EK-9 — Şeffaf Veri Katmanları ----
+   Yorumu: sahte ama inandırıcı iki satırlık "sensör okuması" içeren, camsı
+   (buzlu cam token'larıyla tutarlı) küçük paneller. Gerçek veri çekmiyor —
+   iki satır aynı hücrede üst üste durup CSS ile karşılıklı (complementary)
+   fade yapıyor, "veri tazeleniyormuş" hissi JS'siz elde ediliyor.
+   KALDIRMAK İÇİN: bu bloğu sil + 3 HTML dosyasındaki
+   `<div class="data-layers" ...>...</div>` bloğunu sil. */
+.data-layers { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+.data-chip {
+  position: absolute;
+  display: grid;
+  padding: 6px 10px;
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  background: var(--bg-panel);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  color: var(--text-faint);
+  opacity: 0.55;
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .data-chip {
+    background: color-mix(in srgb, var(--bg-panel) 55%, transparent);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+}
+.data-chip-line { grid-area: 1 / 1; white-space: nowrap; }
+.data-chip-line-a { animation: uzn-data-fade-a 9s ease-in-out infinite; }
+.data-chip-line-b { animation: uzn-data-fade-b 9s ease-in-out infinite; }
+@keyframes uzn-data-fade-a { 0%, 46% { opacity: 1; } 54%, 100% { opacity: 0; } }
+@keyframes uzn-data-fade-b { 0%, 46% { opacity: 0; } 54%, 100% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .data-chip-line-a { animation: none; opacity: 1; }
+  .data-chip-line-b { animation: none; opacity: 0; }
+}
+@media (max-width: 900px) { .data-layers { display: none; } }
+
+/* ---- EK-10 — Vektörel Kesişim Düğümleri ----
+   Yorumu: hud-ambient'teki yumuşak, sürekli nabız atan yuvarlak
+   düğümlerden bilinçli olarak farklı — burada ince "+" işaretli, çoğu
+   zaman sönük duran, çok seyrek (uzun döngü, kısa an) "spark" veren
+   köşeli düğümler. Bir devrede rastgele bir kesişim noktasının anlık
+   "algılandığı" hissi. KALDIRMAK İÇİN: bu bloğu sil + 3 HTML dosyasındaki
+   `<div class="vector-nodes" ...>...</div>` bloğunu sil. */
+.vector-nodes { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+.vector-node {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  opacity: 0.3;
+  animation: uzn-vector-spark 9s ease-in-out infinite;
+}
+.vector-node::before, .vector-node::after { content: ''; position: absolute; background: var(--accent); }
+.vector-node::before { top: 50%; left: 0; width: 100%; height: 1px; transform: translateY(-50%); }
+.vector-node::after { left: 50%; top: 0; width: 1px; height: 100%; transform: translateX(-50%); }
+@keyframes uzn-vector-spark {
+  0%, 90%, 100% { opacity: 0.3; }
+  94% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .vector-node { animation: none; opacity: 0.3; } }
+@media (max-width: 700px) { .vector-nodes { display: none; } }
+
+/* ---- Osiloskop Doğrulama ----
+   Yorumu: `.badge-wave` (skill-badge hover dalga formu) ile karıştırılmasın
+   — o zaten var olan ayrı bir efekt (hover'da sinyal dalgası). Bu madde
+   "doğrulama" kelimesini birebir aldı: iletişim formunda bir alan geçerli
+   hale geldiğinde (`:valid`, tarayıcı doğrulaması) altında bir osiloskop
+   izi "çiziliyor" (`stroke-dashoffset`). Saf CSS, JS gerekmedi — `required`
+   alanlar zaten boşken `:invalid`, bu yüzden ekstra bir `:not(:placeholder-
+   shown)` şartına gerek kalmadı. KALDIRMAK İÇİN: bu bloğu sil + contact
+   formundaki `<svg class="osc-wave">...</svg>` elemanlarını sil. */
+.form-row { position: relative; }
+.osc-wave {
+  display: block;
+  height: 12px;
+  width: 100%;
+  margin-top: 2px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.osc-wave-line {
+  fill: none;
+  stroke: var(--accent-bright);
+  stroke-width: 1.4;
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  transition: stroke-dashoffset 0.7s ease;
+}
+.form-row input:valid ~ .osc-wave,
+.form-row textarea:valid ~ .osc-wave {
+  opacity: 0.75;
+}
+.form-row input:valid ~ .osc-wave .osc-wave-line,
+.form-row textarea:valid ~ .osc-wave .osc-wave-line {
+  stroke-dashoffset: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .osc-wave-line { transition: opacity 0.2s ease; }
+}
+
+/* ---- Terminal Onay Geri Bildirimi ----
+   Yorumu: mevcut mini-terminal'in (hakkımda bölümü) yazı dilini iletişim
+   formunun gönderim anına taşıdık. Form submit edilince gerçek gönderim
+   ~900ms ertelenip yerine kısa bir terminal log dizisi "yazılıyor" —
+   ardından gerçek POST (Formspree) native `form.submit()` ile devam
+   ediyor (submit event tekrar tetiklenmediği için sonsuz döngü riski yok).
+   JS çalışmazsa veya prefers-reduced-motion açıksa hiçbir gecikme
+   olmadan normal gönderim akışına düşer (bkz. app.js). KALDIRMAK İÇİN:
+   bu bloğu sil + contact formundaki `.submit-terminal` bloğunu sil +
+   app.js'teki "Terminal Onay Geri Bildirimi" IIFE'sini sil. */
+.submit-terminal {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin-top: -6px;
+}
+.submit-terminal[hidden] { display: none; }
+.submit-terminal .mini-terminal-prompt { color: var(--accent-bright); margin-right: 6px; }
+.submit-terminal-cursor {
+  display: inline-block;
+  width: 7px;
+  height: 1em;
+  background: var(--accent-bright);
+  vertical-align: -2px;
+  margin-left: 2px;
+  animation: uzn-cursor-blink 0.9s steps(1) infinite;
+}
+@keyframes uzn-cursor-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .submit-terminal-cursor { animation: none; } }
+
+/* ---- Bağlantı Ping Testi ----
+   Yorumu: header telemetry şeridindeki (telefon/e-posta/konum) her satıra
+   küçük bir durum noktası eklendi; sürekli açık bir "bağlı" LED'i değil
+   (o zaten .signal-led benzeri başka yerlerde var olabilir) — kısa bir
+   "ping" gönderip yanıt alan, sonra sönen bir döngü, üç öğe farklı
+   gecikmeyle (senkron olmasın diye). KALDIRMAK İÇİN: bu bloğu sil +
+   3 HTML dosyasındaki `.ping-dot` span'larını sil. */
+.ping-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-faint);
+  flex: none;
+  margin-left: 2px;
+  animation: uzn-ping-cycle 6s ease-in-out infinite;
+}
+@keyframes uzn-ping-cycle {
+  0%, 70%, 100% { background: var(--text-faint); box-shadow: none; }
+  78% { background: var(--accent-bright); box-shadow: 0 0 6px 1px var(--accent-2-dim); }
+  86% { background: var(--text-faint); box-shadow: none; }
+}
+@media (prefers-reduced-motion: reduce) { .ping-dot { animation: none; } }
+
+/* ---- Tolerans Etiketi ----
+   Yorumu: "mekanik hassasiyet" markasına gönderme — teknik resimlerdeki
+   tolerans kutucuğu gibi, sadece Mühendislik & CAD bento hücresinin
+   köşesinde duran küçük mono bir damga. Dekoratif, anlamı yok ama
+   doğru formatta (çap + ISO tolerans sınıfı). KALDIRMAK İÇİN: bu bloğu
+   sil + index.html'deki `.tolerance-tag` span'ını sil. */
+.tolerance-tag {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.03em;
+  color: var(--text-faint);
+  border: 1px solid var(--line-soft);
+  border-radius: 3px;
+  padding: 2px 6px;
+  opacity: 0.6;
 }

@@ -5,6 +5,37 @@
  * bu sayede aynı dosya üç sayfada da sorunsuz çalışır.
  */
 
+/* ---- Paylaşılan yardımcı: decrypt/scramble efekti ----
+   Hero başlığındaki decrypt-line'lar ve FAZ 5 / Zarif Şifreleme kapsamında
+   proje detay panelinin ilk açılışında kullanılan ortak fonksiyon. Metin
+   HTML'de baştan doğru halde durur, bu sadece görsel bir geçici karıştırma;
+   çağıran taraf prefers-reduced-motion kontrolünü kendi yapar. */
+function uznScramble(el, totalMs, done) {
+  var text = el.textContent;
+  var chars = text.split('');
+  var glyphs = '01#%&*+-/<>[]{}=';
+  var start = null;
+  function frame(ts) {
+    if (start === null) start = ts;
+    var elapsed = ts - start;
+    var out = '';
+    for (var i = 0; i < chars.length; i++) {
+      var c = chars[i];
+      if (c === ' ') { out += ' '; continue; }
+      var lockAt = (i / chars.length) * totalMs * 0.7;
+      out += elapsed >= lockAt ? c : glyphs[(Math.random() * glyphs.length) | 0];
+    }
+    el.textContent = out;
+    if (elapsed < totalMs) {
+      requestAnimationFrame(frame);
+    } else {
+      el.textContent = text;
+      if (done) done();
+    }
+  }
+  requestAnimationFrame(frame);
+}
+
 
 /* ---- FAZ 5.x / A — Açılış (boot-up) Sekansı ----
    Sadece ilk ziyarette (sessionStorage — sekme kapanınca sıfırlanır) ve
@@ -114,44 +145,14 @@
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) return;
 
-    var glyphs = '01#%&*+-/<>[]{}=';
-
-    function scramble(el, done) {
-      var text = el.textContent;
-      var chars = text.split('');
-      var start = null;
-      var perCharMs = 26;
-      var lockPad = 260;
-      var totalMs = chars.length * perCharMs + lockPad;
-
-      function frame(ts) {
-        if (start === null) start = ts;
-        var elapsed = ts - start;
-        var out = '';
-        for (var i = 0; i < chars.length; i++) {
-          var c = chars[i];
-          if (c === ' ') { out += ' '; continue; }
-          var lockAt = i * perCharMs + lockPad;
-          out += elapsed >= lockAt ? c : glyphs[(Math.random() * glyphs.length) | 0];
-        }
-        el.textContent = out;
-        if (elapsed < totalMs) {
-          requestAnimationFrame(frame);
-        } else {
-          el.textContent = text;
-          if (done) done();
-        }
-      }
-      requestAnimationFrame(frame);
-    }
-
     function run() {
       var i = 0;
       function next() {
         if (i >= lines.length) return;
         var el = lines[i];
         i++;
-        scramble(el, next);
+        var totalMs = el.textContent.length * 26 + 260;
+        uznScramble(el, totalMs, next);
       }
       next();
     }
@@ -192,6 +193,68 @@
     backdrop.addEventListener('click', closeMenu);
     nav.querySelectorAll('a').forEach(function (a) {
       a.addEventListener('click', closeMenu);
+    });
+  })();
+
+
+/* ---- FAZ 5 / Mekanik Akordeon — proje detayı yeni sayfaya gitmeden,
+   satır arası açılıyor. Aynı anda tek satır açık kalır (bir sonraki
+   tıklanınca öncekiler kapanır) — CAD çekmece gibi tek seferde bir
+   göz açık. Detay ilk kez açıldığında içindeki [data-decrypt-target]
+   metni FAZ 5 / Zarif Şifreleme kapsamında ~0.5sn'lik bir decrypt
+   efektiyle beliriyor (hero'daki decrypt'in aynı ortak fonksiyonu,
+   uznScramble). Gerçek proje görselleri eklendiğinde aynı efekt
+   görsellere de taşınabilir; şimdilik görsel olmadığı için metne
+   uygulanıyor. ---- */
+
+  (function () {
+    var rows = document.querySelectorAll('.project-row');
+    if (!rows.length) return;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    rows.forEach(function (row) {
+      var head = row.querySelector('.project-row-head');
+      var wrap = row.querySelector('.project-detail-wrap');
+      if (!head || !wrap) return;
+      var decrypted = false;
+
+      // Başlangıçta ekran okuyucudan gizli; açılınca ortaya çıkıyor.
+      wrap.setAttribute('aria-hidden', 'true');
+
+      function close() {
+        row.classList.remove('is-open');
+        head.setAttribute('aria-expanded', 'false');
+        wrap.setAttribute('aria-hidden', 'true');
+      }
+      function open() {
+        rows.forEach(function (other) {
+          if (other !== row) other.classList.remove('is-open');
+        });
+        rows.forEach(function (other) {
+          var otherHead = other.querySelector('.project-row-head');
+          var otherWrap = other.querySelector('.project-detail-wrap');
+          if (other !== row) {
+            if (otherHead) otherHead.setAttribute('aria-expanded', 'false');
+            if (otherWrap) otherWrap.setAttribute('aria-hidden', 'true');
+          }
+        });
+        row.classList.add('is-open');
+        head.setAttribute('aria-expanded', 'true');
+        wrap.setAttribute('aria-hidden', 'false');
+
+        if (!decrypted) {
+          decrypted = true;
+          var target = wrap.querySelector('[data-decrypt-target]');
+          if (target && !reduceMotion) {
+            uznScramble(target, 500);
+          }
+        }
+      }
+
+      head.addEventListener('click', function () {
+        if (row.classList.contains('is-open')) close();
+        else open();
+      });
     });
   })();
 
@@ -349,6 +412,12 @@
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     headings.forEach(function (h) {
+      // FAZ 5 / Kademeli Tipografi: başlığın içindeki .heading-ref (mono
+      // referans kodu) harf-bölme mantığına dahil edilmemeli — önce ayrı
+      // tutulup en sona, aria-hidden wrap'in dışına geri ekleniyor.
+      var refEl = h.querySelector('.heading-ref');
+      if (refEl) refEl.parentNode.removeChild(refEl);
+
       var text = h.textContent.trim();
 
       var srSpan = document.createElement('span');
@@ -373,6 +442,7 @@
       h.textContent = '';
       h.appendChild(srSpan);
       h.appendChild(wrap);
+      if (refEl) h.appendChild(refEl);
 
       if (reduceMotion || !('IntersectionObserver' in window)) {
         return; // harfler zaten opak/normal — armed class hiç eklenmiyor
@@ -463,20 +533,59 @@
       });
     });
 
-    // Magnetic buttons — follow the cursor within their own bounds
-    document.querySelectorAll('.magnetic').forEach(function (btn) {
-      btn.addEventListener('mousemove', function (e) {
-        var rect = btn.getBoundingClientRect();
-        var mx = (e.clientX - rect.left - rect.width / 2) * 0.28;
-        var my = (e.clientY - rect.top - rect.height / 2) * 0.35;
-        btn.style.setProperty('--mbx', mx.toFixed(1) + 'px');
-        btn.style.setProperty('--mby', my.toFixed(1) + 'px');
+    // Magnetic buttons/links — FAZ 5 / Manyetik İmleç Çekimi: imleç element
+    // sınırlarına GİRMEDEN, bir yakınlık yarıçapı içine yaklaştığında bile
+    // element hafifçe imlece doğru çekilmeye başlıyor (eskiden sadece
+    // element'in kendi mousemove'u tetikleniyordu, yani zaten üzerine
+    // gelmiş olman gerekiyordu — burada document seviyesinde mesafe ölçülüp
+    // yarıçap içindeyken kuvvet mesafeyle ters orantılı azalıyor).
+    var magneticBtns = Array.prototype.slice.call(document.querySelectorAll('.magnetic'));
+    if (magneticBtns.length) {
+      var PROXIMITY_RADIUS = 90; // px, elementin kenarından itibaren
+      var rafPending = false;
+      var lastX = 0, lastY = 0;
+
+      function updateMagnets() {
+        rafPending = false;
+        magneticBtns.forEach(function (btn) {
+          var rect = btn.getBoundingClientRect();
+          var cx = rect.left + rect.width / 2;
+          var cy = rect.top + rect.height / 2;
+          // Elemanın kendi kutusuna en yakın mesafe (içindeyse 0)
+          var dx = Math.max(rect.left - lastX, 0, lastX - rect.right);
+          var dy = Math.max(rect.top - lastY, 0, lastY - rect.bottom);
+          var edgeDist = Math.sqrt(dx * dx + dy * dy);
+          if (edgeDist > PROXIMITY_RADIUS) {
+            btn.style.setProperty('--mbx', '0px');
+            btn.style.setProperty('--mby', '0px');
+            return;
+          }
+          // 0 (uzak) → 1 (üzerinde/çok yakın) arası yakınlık kuvveti
+          var pull = 1 - edgeDist / PROXIMITY_RADIUS;
+          var mx = (lastX - cx) * 0.28 * pull;
+          var my = (lastY - cy) * 0.35 * pull;
+          btn.style.setProperty('--mbx', mx.toFixed(1) + 'px');
+          btn.style.setProperty('--mby', my.toFixed(1) + 'px');
+        });
+      }
+
+      window.addEventListener('mousemove', function (e) {
+        lastX = e.clientX;
+        lastY = e.clientY;
+        if (!rafPending) {
+          rafPending = true;
+          requestAnimationFrame(updateMagnets);
+        }
       }, { passive: true });
-      btn.addEventListener('mouseleave', function () {
-        btn.style.setProperty('--mbx', '0px');
-        btn.style.setProperty('--mby', '0px');
+
+      // Sekme/pencere dışına çıkınca butonları nötrle
+      document.addEventListener('mouseleave', function () {
+        magneticBtns.forEach(function (btn) {
+          btn.style.setProperty('--mbx', '0px');
+          btn.style.setProperty('--mby', '0px');
+        });
       });
-    });
+    }
 
     // FAZ 3 / Sensör Tetikleyicileri (Proximity Fade) — cursor-spotlight'ın
     // genişletilmiş hali: dekoratif/ikincil etiketler (telemetri kodları,
@@ -895,3 +1004,207 @@
 
     sections.forEach(function (s) { observer.observe(s); });
   })();
+
+
+/* ==========================================================================
+   FAZ 6 / Grup B — Tipografi & Grid
+   (v2 elde yok; ayrıntı ve kaldırma talimatları için style.css'teki aynı
+   başlıklı yorum bloklarına ve tasarim-yol-haritasi-v3.md'ye bakın.)
+   ========================================================================== */
+
+/* ---- FAZ 6 / Görünmez Sütunlar ----
+   Alt+G ile <html> üzerinde .uzn-show-guides toggle'lanıyor; asıl görsel
+   karşılığı (12 sütunluk çizgi deseni) tamamen CSS'te (body::after).
+   Burada sadece klavye kısayolu + kısa bir HUD bildirimi var. Form
+   alanlarında yazarken kısayolun tetiklenmemesi için input/textarea
+   odaktaysa yok sayılıyor. */
+(function () {
+  var toastTimer = null;
+
+  function showToast(text) {
+    var existing = document.querySelector('.guide-toast');
+    if (existing) existing.remove();
+    var toast = document.createElement('div');
+    toast.className = 'guide-toast';
+    toast.setAttribute('aria-live', 'polite');
+    toast.textContent = text;
+    document.body.appendChild(toast);
+    requestAnimationFrame(function () { toast.classList.add('is-shown'); });
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toast.classList.remove('is-shown');
+      setTimeout(function () { toast.remove(); }, 300);
+    }, 1600);
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (!e.altKey || e.key.toLowerCase() !== 'g') return;
+    var tag = (document.activeElement && document.activeElement.tagName) || '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    e.preventDefault();
+    var on = document.documentElement.classList.toggle('uzn-show-guides');
+    showToast(on ? 'KOLON IZGARASI — AÇIK · 12 SÜTUN' : 'KOLON IZGARASI — KAPALI');
+  });
+})();
+
+/* ---- FAZ 6 / Sessiz Kılavuzlar ----
+   Her bölüm ilk kez görünür olduğunda kenarlarında kısa bir "ölçüm" yanıp
+   sönmesi tetikleniyor, ~550ms sonra kalıcı-ama-çok-soluk bir ize
+   (.guide-settled) dönüşüyor. threshold 0 + rootMargin yok, yani B'deki
+   (atmosfer) gözlemcinin aksine bölüm ekranın herhangi bir kenarından
+   girer girmez tetiklenir — bu daha çok bir "sınır algılama" hissi verir. */
+(function () {
+  var sections = Array.prototype.slice.call(document.querySelectorAll('main > section[id]'));
+  if (!sections.length) return;
+
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    sections.forEach(function (s) { s.classList.add('guide-settled'); });
+    return;
+  }
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      var el = entry.target;
+      observer.unobserve(el);
+      el.classList.add('guide-pulse');
+      setTimeout(function () {
+        el.classList.remove('guide-pulse');
+        el.classList.add('guide-settled');
+      }, 550);
+    });
+  }, { threshold: 0 });
+
+  sections.forEach(function (s) { observer.observe(s); });
+})();
+
+
+/* ==========================================================================
+   FAZ 6 / Grup A — Yüzey & Derinlik
+   (Buzlu Cam ve Keskin Alüminyum Kenarlar tamamen CSS'te; burada sadece
+   Gölge İskelet'in yükleme durumunu yöneten JS var. Ayrıntı için
+   style.css'teki aynı başlıklı yorum ve tasarim-yol-haritasi-v3.md.)
+   ========================================================================== */
+
+/* ---- FAZ 6 / Gölge İskelet ----
+   .img-skeleton taşıyan her <img> için: zaten yüklenmişse (cache'ten,
+   `complete`) shimmer'ı hemen kapat; değilse `load` (veya hata durumunda
+   `error`, sonsuza dek shimmer'da kalmasın diye) olayını bekle. */
+(function () {
+  var imgs = document.querySelectorAll('img.img-skeleton');
+  if (!imgs.length) return;
+
+  imgs.forEach(function (img) {
+    function settle() { img.classList.add('is-loaded'); }
+    if (img.complete && img.naturalWidth > 0) {
+      settle();
+    } else {
+      img.addEventListener('load', settle, { once: true });
+      img.addEventListener('error', settle, { once: true });
+    }
+  });
+})();
+
+
+/* ==========================================================================
+   FAZ 6 / Grup E — Etkileşim Geri Bildirimi
+   (Keskin Dönüşlü Yollar ve Ses Dalgaları tamamen CSS'te; burada sadece
+   Mikro-Sismik Geri Bildirim'in tetikleyicisi var. Ayrıntı için
+   style.css'teki aynı başlıklı yorumlar ve tasarim-yol-haritasi-v3.md.)
+   ========================================================================== */
+
+/* ---- FAZ 6 / Mikro-Sismik Geri Bildirim ----
+   Tek bir delegated 'click' dinleyici — sayfada kaç tane .btn/.project-row-head/
+   .quick-tile/.footer-action olursa olsun tek listener yeterli. Zaten
+   animasyonluyken tekrar tıklanırsa (animationend beklemeden) class'ı
+   kaldırıp bir sonraki frame'de tekrar ekliyor, böylece hızlı art arda
+   tıklamalarda da her seferinde görünür bir titreşim oluyor. */
+(function () {
+  var SEL = '.btn, .project-row-head, .quick-tile, .footer-action';
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) return;
+
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest ? e.target.closest(SEL) : null;
+    if (!el) return;
+    el.classList.remove('uzn-seismic');
+    // eslint-disable-next-line no-unused-expressions
+    void el.offsetWidth; // reflow — animasyonu class yeniden eklenmeden önce sıfırlar
+    el.classList.add('uzn-seismic');
+    el.addEventListener('animationend', function handler() {
+      el.classList.remove('uzn-seismic');
+      el.removeEventListener('animationend', handler);
+    });
+  });
+})();
+
+
+/* ==========================================================================
+   FAZ 6 / Grup C — HUD & Veri
+   (Şeffaf Veri Katmanları, Vektörel Kesişim Düğümleri, Bağlantı Ping Testi
+   ve Osiloskop Doğrulama tamamen CSS'te; burada sadece Terminal Onay Geri
+   Bildirimi'nin JS'i var. Ayrıntı için style.css'teki aynı başlıklı
+   yorumlar ve tasarim-yol-haritasi-v3.md.)
+   ========================================================================== */
+
+/* ---- Terminal Onay Geri Bildirimi ----
+   İletişim formu submit edilince gerçek gönderimi ~900ms erteleyip yerine
+   mini-terminal'le aynı dilde kısa bir log dizisi "yazıyor" — sonra
+   `form.submit()` (native) ile gerçek POST'u tetikliyor. `form.submit()`
+   `submit` event'ini tekrar ateşlemediği için bu listener'a tekrar
+   girilmiyor, sonsuz döngü riski yok. Bir kez tetiklendikten sonra
+   `dataset.uznSent` ile ikinci tıklamada tekrar beklemeden direkt
+   gönderime izin veriyor (kullanıcı "Gönder"e iki kez basarsa takılmasın
+   diye). `prefers-reduced-motion`'da veya JS bir yerde patlarsa hiç araya
+   girmeden formun kendi native davranışına düşer. KALDIRMAK İÇİN: bu
+   IIFE'yi sil + style.css'teki "Terminal Onay Geri Bildirimi" bloğunu sil
+   + index.html'deki `.submit-terminal` div'ini sil. */
+(function () {
+  var form = document.querySelector('.contact-form');
+  var box = document.getElementById('submitTerminal');
+  var textEl = document.getElementById('submitTerminalText');
+  if (!form || !box || !textEl) return;
+
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) return;
+
+  var lines = [
+    'baglanti kuruluyor…',
+    'veri paketleniyor…',
+    'gonderiliyor — OK'
+  ];
+
+  function typeText(el, text, speed, done) {
+    var i = 0;
+    el.textContent = '';
+    (function step() {
+      if (i <= text.length) {
+        el.textContent = text.slice(0, i);
+        i++;
+        setTimeout(step, speed);
+      } else if (done) {
+        done();
+      }
+    })();
+  }
+
+  function runLines(idx, done) {
+    if (idx >= lines.length) { done(); return; }
+    typeText(textEl, lines[idx], 22, function () {
+      setTimeout(function () { runLines(idx + 1, done); }, 260);
+    });
+  }
+
+  form.addEventListener('submit', function (e) {
+    if (form.dataset.uznSent === '1') return; // ikinci tıklama: bekletme
+    if (!form.checkValidity()) return; // geçersizse tarayıcı kendi uyarısını göstersin
+    e.preventDefault();
+    box.hidden = false;
+    runLines(0, function () {
+      form.dataset.uznSent = '1';
+      form.submit();
+    });
+  });
+})();
