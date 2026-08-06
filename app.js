@@ -804,13 +804,19 @@ function uznScramble(el, totalMs, done) {
   })();
 
 
-/* ---- Command palette (cmdk) — Ctrl/Cmd+K ile hızlı gezinme ---- */
+/* ---- Command palette (cmdk) — Ctrl/Cmd+K ile hızlı gezinme ----
+   Hero'daki arama kutusu (`#heroSearchInput`) daha önce tamamen
+   dekoratifti (JS karşılığı yoktu). Ayrı bir arama motoru kurmak yerine
+   zaten var olan, gerçek çalışan command palette'e bağlandı: hero
+   kutusuna odaklanınca ya da yazmaya başlayınca palette açılıyor ve
+   yazılan metin doğrudan palette'in filtresine aktarılıyor. */
 
   (function () {
     var overlay = document.getElementById('cmdkOverlay');
     var input = document.getElementById('cmdkInput');
     var list = document.getElementById('cmdkList');
     var trigger = document.getElementById('cmdkTrigger');
+    var heroInput = document.getElementById('heroSearchInput');
     if (!overlay || !input || !list) return;
 
     var items = Array.prototype.slice.call(list.querySelectorAll('a[data-cmdk-item]'));
@@ -824,13 +830,20 @@ function uznScramble(el, totalMs, done) {
       var vis = visibleItems();
       if (vis[selectedIndex]) vis[selectedIndex].classList.add('is-selected');
     }
-    function openPalette() {
-      overlay.classList.add('is-open');
-      overlay.setAttribute('aria-hidden', 'false');
-      input.value = '';
-      items.forEach(function (a) { a.parentElement.classList.remove('is-hidden'); });
+    function filterList(q) {
+      q = q.trim().toLowerCase();
+      items.forEach(function (a) {
+        var match = a.textContent.toLowerCase().indexOf(q) !== -1;
+        a.parentElement.classList.toggle('is-hidden', !match);
+      });
       selectedIndex = 0;
       updateSelection();
+    }
+    function openPalette(presetQuery) {
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      input.value = presetQuery || '';
+      filterList(input.value);
       setTimeout(function () { input.focus(); }, 10);
     }
     function closePalette() {
@@ -848,18 +861,10 @@ function uznScramble(el, totalMs, done) {
       }
     });
 
-    if (trigger) trigger.addEventListener('click', openPalette);
+    if (trigger) trigger.addEventListener('click', function () { openPalette(); });
     overlay.addEventListener('click', function (e) { if (e.target === overlay) closePalette(); });
 
-    input.addEventListener('input', function () {
-      var q = input.value.trim().toLowerCase();
-      items.forEach(function (a) {
-        var match = a.textContent.toLowerCase().indexOf(q) !== -1;
-        a.parentElement.classList.toggle('is-hidden', !match);
-      });
-      selectedIndex = 0;
-      updateSelection();
-    });
+    input.addEventListener('input', function () { filterList(input.value); });
 
     input.addEventListener('keydown', function (e) {
       var vis = visibleItems();
@@ -884,6 +889,27 @@ function uznScramble(el, totalMs, done) {
     items.forEach(function (a) {
       a.addEventListener('click', function () { closePalette(); });
     });
+
+    if (heroInput) {
+      heroInput.addEventListener('focus', function () {
+        openPalette(heroInput.value);
+      });
+      heroInput.addEventListener('input', function () {
+        if (!overlay.classList.contains('is-open')) openPalette(heroInput.value);
+        else { input.value = heroInput.value; filterList(input.value); }
+      });
+      heroInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          var vis = visibleItems();
+          if (vis[0]) {
+            closePalette();
+            window.location.hash = vis[0].getAttribute('href').replace('#', '');
+            heroInput.blur();
+          }
+        }
+      });
+    }
   })();
 
 
@@ -1149,31 +1175,37 @@ function uznScramble(el, totalMs, done) {
    yorumlar ve tasarim-yol-haritasi-v3.md.)
    ========================================================================== */
 
-/* ---- Terminal Onay Geri Bildirimi ----
-   İletişim formu submit edilince gerçek gönderimi ~900ms erteleyip yerine
-   mini-terminal'le aynı dilde kısa bir log dizisi "yazıyor" — sonra
-   `form.submit()` (native) ile gerçek POST'u tetikliyor. `form.submit()`
-   `submit` event'ini tekrar ateşlemediği için bu listener'a tekrar
-   girilmiyor, sonsuz döngü riski yok. Bir kez tetiklendikten sonra
-   `dataset.uznSent` ile ikinci tıklamada tekrar beklemeden direkt
-   gönderime izin veriyor (kullanıcı "Gönder"e iki kez basarsa takılmasın
-   diye). `prefers-reduced-motion`'da veya JS bir yerde patlarsa hiç araya
-   girmeden formun kendi native davranışına düşer. KALDIRMAK İÇİN: bu
-   IIFE'yi sil + style.css'teki "Terminal Onay Geri Bildirimi" bloğunu sil
-   + index.html'deki `.submit-terminal` div'ini sil. */
+/* ---- Terminal Onay Geri Bildirimi + Hata Durumu ----
+   İletişim formu artık native `form.submit()` yerine `fetch()` ile
+   gönderiliyor (Accept: application/json), çünkü hatayı (ağ hatası,
+   Formspree'nin döndürdüğü hata kodu, limit aşımı vb.) yakalayabilmek
+   için gerçek sonucu bilmemiz lazım — native submit sayfayı terk edip
+   gider, başarısız olsa da kullanıcı bunu göremezdi.
+   Akış: submit → mini-terminal'de kısa bir log dizisi "yazılıyor" (sadece
+   kozmetik, sonucu beklemeden başlar) → fetch tamamlanınca ya son satır
+   "OK" ile bitip form sıfırlanıyor, ya da terminal gizlenip
+   `#submitError` kutusu (retry butonuyla) gösteriliyor.
+   `prefers-reduced-motion` açıksa yazma animasyonu atlanıyor ama
+   fetch + hata yakalama aynen çalışıyor. JS hiç çalışmazsa (script
+   yüklenemedi vb.) form kendi native `action`'ına düşer, bu da Formspree
+   için hâlâ geçerli bir gönderim yoludur. KALDIRMAK İÇİN: bu IIFE'yi sil
+   + style.css'teki "Terminal Onay Geri Bildirimi" ve "Form Hata Durumu"
+   bloklarını sil + index.html'deki `.submit-terminal` / `#submitError`
+   div'lerini sil. */
 (function () {
   var form = document.querySelector('.contact-form');
   var box = document.getElementById('submitTerminal');
   var textEl = document.getElementById('submitTerminalText');
-  if (!form || !box || !textEl) return;
+  var errorBox = document.getElementById('submitError');
+  var retryBtn = document.getElementById('submitRetry');
+  if (!form || !box || !textEl || !errorBox) return;
 
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduceMotion) return;
 
   var lines = [
     'baglanti kuruluyor…',
     'veri paketleniyor…',
-    'gonderiliyor — OK'
+    'gonderiliyor…'
   ];
 
   function typeText(el, text, speed, done) {
@@ -1197,14 +1229,46 @@ function uznScramble(el, totalMs, done) {
     });
   }
 
+  function doSubmit() {
+    errorBox.hidden = true;
+    box.hidden = false;
+
+    var sendRequest = function () {
+      var data = new FormData(form);
+      fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      }).then(function (res) {
+        if (res.ok) {
+          textEl.textContent = 'gonderiliyor — OK';
+          form.reset();
+        } else {
+          throw new Error('Sunucu hatasi: ' + res.status);
+        }
+      }).catch(function () {
+        box.hidden = true;
+        errorBox.hidden = false;
+      });
+    };
+
+    if (reduceMotion) {
+      textEl.textContent = 'gonderiliyor…';
+      sendRequest();
+    } else {
+      runLines(0, sendRequest);
+    }
+  }
+
   form.addEventListener('submit', function (e) {
-    if (form.dataset.uznSent === '1') return; // ikinci tıklama: bekletme
     if (!form.checkValidity()) return; // geçersizse tarayıcı kendi uyarısını göstersin
     e.preventDefault();
-    box.hidden = false;
-    runLines(0, function () {
-      form.dataset.uznSent = '1';
-      form.submit();
-    });
+    doSubmit();
   });
+
+  if (retryBtn) {
+    retryBtn.addEventListener('click', function () {
+      doSubmit();
+    });
+  }
 })();
