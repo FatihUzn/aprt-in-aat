@@ -189,10 +189,10 @@ Bunlar todo değil, ileride yanlışlıkla bozulmasın diye not düşülüyor:
 
 **Öncelik: Düşük, zaman bulundukça.**
 
-- [x] **404 sayfasında dekoratif katman azaltma** — `data-layers` ve
-      `vector-nodes` katmanları 404.html'den kaldırıldı (9 → 7 katman).
-      Diğerleri (circuit-bg, grid-overlay, hud-brackets, hud-telemetry,
-      hud-ambient, stardust-field, orbit-field, ambient-halo) korundu.
+- [~] **404 sayfasında dekoratif katman azaltma** — `data-layers` ve
+      `vector-nodes` kaldırılmıştı, kullanıcı isteğiyle geri getirildi
+      (bu görsel efektleri seviyor). 9 katman aynen korunuyor, madde
+      kapatıldı.
 - [x] **Google Fonts ağırlık sayısı azaltılsın** — kullanım denetimi
       yapıldı: Inter 500 hiçbir yerde kullanılmıyormuş, kaldırıldı.
       Ayrıca `.faq-item summary::after` (‘+’ işareti) yüklü olmayan Sora
@@ -213,11 +213,14 @@ Bunlar todo değil, ileride yanlışlıkla bozulmasın diye not düşülüyor:
       atarsan `<picture>` + webp/avif kaynaklarını hazırlarım (gerçek
       dosyalar olmadan sadece markup eklemek, tarayıcı webp/avif
       destekliyorsa 404'e düşüp görselin hiç görünmemesine yol açar).
-- [x] **`.circuit-bg` deseni harici dosyaya taşındı** — data-URI SVG
-      `assets/patterns/circuit.svg` dosyasına çıkarıldı, style.css'teki
-      2 kullanım da (`.circuit-bg` + ikinci bir yerde tekrar tanımı)
-      `url("assets/patterns/circuit.svg")`'e çevrildi. Artık tarayıcı
-      cache'inden faydalanıyor, her yüklemede yeniden parse edilmiyor.
+- [~] **`.circuit-bg` deseni harici dosyaya taşınmıştı, geri alındı** —
+      `assets/patterns/circuit.svg`'e çıkarılmıştı, ama kullanıcı dosya
+      yapısını taşırken bu yeni dosya sitede yer almadığı için desen
+      kayboldu ("devremsi" efekti göremedi). Kullanıcı isteğiyle CSS
+      içine gömülü data-URI SVG haline geri döndürüldü — hiçbir ek
+      dosyaya bağımlı olmadan her zaman güvenilir şekilde render
+      ediliyor. Cache avantajından vazgeçildi, güvenilirlik tercih
+      edildi.
 - [x] **`FAQPage` schema.org verisi** — SSS bölümündeki 5 soru-cevap,
       mevcut Person/ProfessionalService JSON-LD bloklarıyla aynı
       `<head>` alanına üçüncü bir `application/ld+json` bloğu olarak
