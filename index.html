@@ -136,7 +136,7 @@
 }
 </script>
 </head>
-<body>
+<body data-hud="off">
 
 <a href="#top" class="skip-link">İçeriğe atla</a>
 
@@ -316,7 +316,7 @@
           <button type="button" class="track-btn" data-track-btn="mekanik">Mekanik &amp; Otomasyon</button>
           <button type="button" class="track-btn" data-track-btn="siber">Siber Güvenlik</button>
           <button type="button" class="track-btn" data-track-btn="ikisi">Mekatronik (İkisi)</button>
-          <button type="button" class="track-reset" data-track-reset>Tümünü göster</button>
+          <button type="button" class="track-reset" data-track-reset aria-label="Filtreyi kaldır, tümünü göster">×</button>
         </div>
       </div>
       <div class="hero-actions">
@@ -576,6 +576,12 @@
           <span class="feature-label">Kesişim Noktası</span>
           <h3>İki dünyanın birleştiği yer.</h3>
           <p>Mekanik/otomasyon ve yazılım/siber güvenlik hattı burada birleşiyor — projelerin çoğu tek bir alanda değil, tam bu kesişimde yaşıyor.</p>
+          <span class="tool-tags-label">Üç Alan</span>
+          <div class="tool-tags">
+            <span class="tool-tag">Mekanik &amp; Otomasyon</span>
+            <span class="tool-tag">Yazılım Geliştirme</span>
+            <span class="tool-tag">Siber Güvenlik</span>
+          </div>
         </div>
       </details>
 
@@ -595,6 +601,13 @@
             <li>PLC / mikrodenetleyici tabanlı kontrol sistemleri</li>
             <li>Sensör–aktüatör entegrasyonu</li>
           </ul>
+          <span class="tool-tags-label">Kullanılan Araçlar</span>
+          <div class="tool-tags">
+            <span class="tool-tag">SolidWorks</span>
+            <span class="tool-tag">PLC</span>
+            <span class="tool-tag">Mikrodenetleyici</span>
+            <span class="tool-tag">Sensör / Aktüatör</span>
+          </div>
           <div class="node-diagram">
             <svg viewBox="0 0 220 165" fill="none" aria-hidden="true">
               <circle cx="70" cy="82" r="30" stroke="var(--line)" stroke-width="1.4"/>
@@ -637,6 +650,13 @@
             <li>Backend ve sistem yazılımları</li>
             <li>Mikrodenetleyici firmware'i</li>
           </ul>
+          <span class="tool-tags-label">Kullanılan Diller</span>
+          <div class="tool-tags">
+            <span class="tool-tag">Python</span>
+            <span class="tool-tag">C++</span>
+            <span class="tool-tag">Java</span>
+            <span class="tool-tag">Go</span>
+          </div>
           <div class="node-diagram">
             <svg viewBox="0 0 220 165" fill="none" aria-hidden="true">
               <rect x="24" y="40" width="172" height="86" rx="6" stroke="var(--signal)" stroke-width="1.4"/>
@@ -680,6 +700,13 @@
             <li>Ağ analizi</li>
             <li>Sistem sertleştirme</li>
           </ul>
+          <span class="tool-tags-label">Kullanılan Araçlar</span>
+          <div class="tool-tags">
+            <span class="tool-tag">Kali Linux</span>
+            <span class="tool-tag">Nmap</span>
+            <span class="tool-tag">Sızma Testi</span>
+            <span class="tool-tag">Ağ Analizi</span>
+          </div>
           <div class="node-diagram">
             <svg viewBox="0 0 220 165" fill="none" aria-hidden="true">
               <path d="M98 32 132 44V78C132 104 116 118 98 128 80 118 64 104 64 78V44L98 32Z" stroke="var(--signal)" stroke-width="1.6"/>
@@ -768,149 +795,12 @@
         <p class="about-role">Kurucu — UZN TECH &amp; SOFTWARE · Mekatronik Mühendisliği Öğrencisi</p>
       </div>
     </div>
-    <div class="about-grid">
-      <div class="about-text">
-        <p>
-          Mekatronik mühendisliği okuyorum; yazılım geliştirme ve siber güvenlik arasında
-          dengeli bir odakla çalışıyorum. Python, C++, Java ve Go ile programlama
-          yapıyor; Kali Linux, sızma testleri ve sistem sertleştirme gibi güvenlik
-          pratikleriyle bunu destekliyorum.
-        </p>
-        <p>
-          Otomasyon araçları geliştirdim, ağları analiz ettim, güvenli uygulamalar
-          tasarladım. Mühendislik disiplinini pratik siber güvenlik bilgisiyle
-          birleştirerek teknoloji ve savunma sektörlerine yenilikçi, güvenli ve
-          verimli çözümler sunmayı hedefliyorum.
-        </p>
-        <div class="timeline">
-          <div class="timeline-row">
-            <span class="timeline-year">2021 — Devam</span>
-            <span class="timeline-what">Bahçeşehir Üniversitesi — Mekatronik Mühendisliği</span>
-          </div>
-          <div class="timeline-row">
-            <span class="timeline-year">2020–2021</span>
-            <span class="timeline-what">Bahçeşehir COOP — Finans, AI, Erasmus (Litvanya)</span>
-          </div>
-          <div class="timeline-row">
-            <span class="timeline-year">2025</span>
-            <span class="timeline-what">Elite Case — Mak. Elek. San. (Ağustos)</span>
-          </div>
-        </div>
-      </div>
-      <div class="about-meta">
-        <div class="meta-row"><span>Eğitim</span><span>Mekatronik Mühendisliği</span></div>
-        <div class="meta-row"><span>Durum</span><span>Mezuniyet aşaması</span></div>
-        <div class="meta-row"><span>Konum</span><span>İstanbul, Türkiye</span></div>
-        <div class="meta-row"><span>Sertifikalar</span><span>YetGen · Zirve 23</span></div>
-        <div class="meta-row"><span>Diller</span><span>Türkçe · İngilizce · Rusça</span></div>
-        <div class="meta-row"><span>Araçlar</span><span>SolidWorks · Kali Linux</span></div>
-
-        <div class="mini-terminal" aria-hidden="true">
-          <div class="mini-terminal-bar">
-            <span class="mini-terminal-dot mini-terminal-dot-red"></span>
-            <span class="mini-terminal-dot mini-terminal-dot-yellow"></span>
-            <span class="mini-terminal-dot mini-terminal-dot-green"></span>
-            <span class="mini-terminal-title">fatih@uzntech:~</span>
-          </div>
-          <div class="mini-terminal-body">
-            <p class="mini-terminal-line"><span class="mini-terminal-prompt">$</span> <span class="mini-terminal-cmd" id="termCmd"></span><span class="mini-terminal-cursor" id="termCursor"></span></p>
-            <p class="mini-terminal-out" id="termOut">&nbsp;</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <h2 class="subsection-heading">Araçlar &amp; Teknolojiler</h2>
-    <div class="bento-grid">
-      <div class="bento-cell bento-lg tilt" data-track="yazilim">
-        <span class="bento-label">Programlama Dilleri</span>
-        <div class="skills-row">
-          <div class="skill-badge">
-            <span class="skill-mono">Py</span>
-            <span class="skill-name">Python</span>
-            <svg class="badge-wave" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
-              <line class="wave-baseline" x1="0" y1="20" x2="200" y2="20"/>
-              <path class="wave-path" pathLength="200" d="M0,20 C12.5,2 37.5,2 50,20 C62.5,38 87.5,38 100,20 C112.5,2 137.5,2 150,20 C162.5,38 187.5,38 200,20"/>
-            </svg>
-          </div>
-          <div class="skill-badge">
-            <span class="skill-mono">C++</span>
-            <span class="skill-name">C++</span>
-            <svg class="badge-wave" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
-              <line class="wave-baseline" x1="0" y1="20" x2="200" y2="20"/>
-              <path class="wave-path" pathLength="200" d="M0,20 H20 V4 H45 V36 H70 V4 H95 V20 H120 V4 H145 V36 H170 V4 H195 V20 H200"/>
-            </svg>
-          </div>
-          <div class="skill-badge">
-            <span class="skill-mono">Jv</span>
-            <span class="skill-name">Java</span>
-            <svg class="badge-wave" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
-              <line class="wave-baseline" x1="0" y1="20" x2="200" y2="20"/>
-              <path class="wave-path" pathLength="200" d="M0,20 C12.5,2 37.5,2 50,20 C62.5,38 87.5,38 100,20 C112.5,2 137.5,2 150,20 C162.5,38 187.5,38 200,20"/>
-            </svg>
-          </div>
-          <div class="skill-badge">
-            <span class="skill-mono">Go</span>
-            <span class="skill-name">Go</span>
-            <svg class="badge-wave" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
-              <line class="wave-baseline" x1="0" y1="20" x2="200" y2="20"/>
-              <path class="wave-path" pathLength="200" d="M0,20 H20 V4 H45 V36 H70 V4 H95 V20 H120 V4 H145 V36 H170 V4 H195 V20 H200"/>
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <div class="bento-cell bento-accent2 tilt" data-track="siber">
-        <span class="bento-label">Siber Güvenlik</span>
-        <div class="skills-row">
-          <div class="skill-badge">
-            <span class="skill-mono">Kx</span>
-            <span class="skill-name">Kali Linux</span>
-            <svg class="badge-wave" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
-              <line class="wave-baseline" x1="0" y1="20" x2="200" y2="20"/>
-              <path class="wave-path" pathLength="200" d="M0,20 H20 V4 H45 V36 H70 V4 H95 V20 H120 V4 H145 V36 H170 V4 H195 V20 H200"/>
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <div class="bento-cell tilt" data-track="mekanik">
-        <span class="bento-label">Mühendislik &amp; CAD</span>
-        <span class="tolerance-tag">⌀12 H7 ±0.018</span>
-        <div class="skills-row">
-          <div class="skill-badge">
-            <span class="skill-mono">SW</span>
-            <span class="skill-name">SolidWorks</span>
-            <svg class="badge-wave" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
-              <line class="wave-baseline" x1="0" y1="20" x2="200" y2="20"/>
-              <path class="wave-path" pathLength="200" d="M0,20 C12.5,2 37.5,2 50,20 C62.5,38 87.5,38 100,20 C112.5,2 137.5,2 150,20 C162.5,38 187.5,38 200,20"/>
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <div class="bento-cell bento-wide tilt">
-        <span class="bento-label">Ofis &amp; Diller</span>
-        <div class="skills-row">
-          <div class="skill-badge">
-            <span class="skill-mono">Of</span>
-            <span class="skill-name">Microsoft Office</span>
-          </div>
-          <div class="skill-badge">
-            <span class="skill-mono">TR</span>
-            <span class="skill-name">Türkçe</span>
-          </div>
-          <div class="skill-badge">
-            <span class="skill-mono">EN</span>
-            <span class="skill-name">İngilizce</span>
-          </div>
-          <div class="skill-badge">
-            <span class="skill-mono">RU</span>
-            <span class="skill-name">Rusça</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <p class="about-teaser">
+      Mekatronik mühendisliği okuyorum; yazılım geliştirme ile siber güvenlik
+      arasında dengeli bir odakla çalışıyor, mühendislik disiplinini pratik
+      güvenlik bilgisiyle birleştiriyorum.
+    </p>
+    <a href="hakkimda.html" class="btn btn-ghost">Devamını Oku →</a>
     <div class="section-wave section-wave-bottom" aria-hidden="true"></div>
   </section>
 
@@ -922,17 +812,24 @@
     <!-- Gerçek bir proje eklerken <article class="project-row" data-track="yazilim|mekanik|siber|ikisi"> şeklinde etiketle, track filtresi burada da otomatik çalışır.
          FAZ 5 / Mekanik Akordeon: her satır artık .project-row-head (button) + .project-detail-wrap ikilisi — yeni proje eklerken bu ikili yapı korunmalı,
          id="proje-detay-NN" / aria-controls eşleşmesi benzersiz kalmalı. Detay metnindeki ilk <p data-decrypt-target> ilk açılışta ~0.5sn'lik decrypt
-         efektiyle beliriyor (bkz. app.js — "Proje detay decrypt"). Gerçek proje görselleri eklendiğinde aynı efekt görsellere de taşınabilir. -->
+         efektiyle beliriyor (bkz. app.js — "Proje detay decrypt"). Gerçek proje görselleri eklendiğinde aynı efekt görsellere de taşınabilir.
+
+         v6 / FAZ 12.3: Aşağıdaki 3 satır GERÇEK PROJE DEĞİL — kullanıcının
+         kendi önizlemesi için (henüz yayına açık değil) gerçekçi doluluk
+         amacıyla eklenmiş ÖRNEK/DEMO içerik. Her biri "is-demo-project"
+         class'ı ve "Demo" etiketiyle (.project-tag-demo) işaretli.
+         YAYINA ALMADAN ÖNCE: bu 3 satır gerçek projelerle değiştirilmeli
+         ya da is-demo-project işaretli satırlar tamamen kaldırılmalı. -->
     <div class="project-list">
-      <article class="project-row">
+      <article class="project-row is-demo-project" data-track="yazilim">
         <button type="button" class="project-row-head" aria-expanded="false" aria-controls="proje-detay-01">
           <div class="project-row-grid">
             <span class="project-ref">P01</span>
             <div class="project-info">
-              <h3>Proje Başlığı Buraya</h3>
-              <p>Kısa açıklama: hangi problemi çözdü, hangi araçlar kullanıldı.</p>
+              <h3>Envanter &amp; Sipariş Takip Paneli</h3>
+              <p>Küçük ölçekli bir atölye için Python/Flask tabanlı stok ve sipariş takip aracı; barkod okuma ve otomatik düşük-stok uyarısı içeriyor.</p>
             </div>
-            <span class="project-tag">Yakında</span>
+            <span class="project-tag-demo">Demo</span>
             <svg class="project-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <svg class="dim-overlay" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">
               <path class="dim-bracket" d="M4,14 L4,4 L14,4"/>
@@ -948,21 +845,21 @@
         <div class="project-detail-wrap" id="proje-detay-01">
           <div class="project-detail-inner">
             <div class="project-detail">
-              <p data-decrypt-target>Bu projenin detay yazısı — kapsam, kullanılan araçlar, çözülen problem ve sonuç — henüz eklenmedi.</p>
-              <p class="project-detail-note">// içerik yakında güncellenecek</p>
+              <p data-decrypt-target>// Bu bir örnek/demo içeriktir, gerçek bir proje değildir. Python (Flask) ve SQLite ile geliştirilmiş, tarayıcı üzerinden çalışan bir stok yönetim paneli senaryosu. Barkod ile ürün girişi, kritik stok seviyesinde e-posta uyarısı ve haftalık özet raporu gibi özellikler örnek kapsamda tasarlandı.</p>
+              <p class="project-detail-note">// örnek/demo içerik — gerçek proje eklendiğinde değiştirilecek</p>
             </div>
           </div>
         </div>
       </article>
-      <article class="project-row">
+      <article class="project-row is-demo-project" data-track="mekanik">
         <button type="button" class="project-row-head" aria-expanded="false" aria-controls="proje-detay-02">
           <div class="project-row-grid">
             <span class="project-ref">P02</span>
             <div class="project-info">
-              <h3>Proje Başlığı Buraya</h3>
-              <p>Kısa açıklama: hangi problemi çözdü, hangi araçlar kullanıldı.</p>
+              <h3>CNC Fikstür &amp; Sabitleme Tasarımı</h3>
+              <p>Seri üretimde tekrarlanan bir parça için SolidWorks'te tasarlanmış, toleransları ⌀12 H7 ±0.018 hassasiyetinde CNC fikstürü.</p>
             </div>
-            <span class="project-tag">Yakında</span>
+            <span class="project-tag-demo">Demo</span>
             <svg class="project-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <svg class="dim-overlay" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">
               <path class="dim-bracket" d="M4,14 L4,4 L14,4"/>
@@ -978,21 +875,21 @@
         <div class="project-detail-wrap" id="proje-detay-02">
           <div class="project-detail-inner">
             <div class="project-detail">
-              <p data-decrypt-target>Bu projenin detay yazısı — kapsam, kullanılan araçlar, çözülen problem ve sonuç — henüz eklenmedi.</p>
-              <p class="project-detail-note">// içerik yakında güncellenecek</p>
+              <p data-decrypt-target>// Bu bir örnek/demo içeriktir, gerçek bir proje değildir. SolidWorks'te modellenmiş, CNC frezede işlenecek bir parçayı tekrar eden üretimde hızlı ve tutarlı biçimde sabitlemek için tasarlanmış özel fikstür senaryosu. Tolerans analizi ve sac/alüminyum gövde seçimi örnek kapsamda ele alındı.</p>
+              <p class="project-detail-note">// örnek/demo içerik — gerçek proje eklendiğinde değiştirilecek</p>
             </div>
           </div>
         </div>
       </article>
-      <article class="project-row">
+      <article class="project-row is-demo-project" data-track="siber">
         <button type="button" class="project-row-head" aria-expanded="false" aria-controls="proje-detay-03">
           <div class="project-row-grid">
             <span class="project-ref">P03</span>
             <div class="project-info">
-              <h3>Proje Başlığı Buraya</h3>
-              <p>Kısa açıklama: hangi problemi çözdü, hangi araçlar kullanıldı.</p>
+              <h3>İç Ağ Güvenlik Denetimi</h3>
+              <p>Kali Linux tabanlı araçlarla küçük bir ofis ağında zafiyet taraması, açık port analizi ve sertleştirme önerileri içeren bir denetim senaryosu.</p>
             </div>
-            <span class="project-tag">Yakında</span>
+            <span class="project-tag-demo">Demo</span>
             <svg class="project-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <svg class="dim-overlay" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">
               <path class="dim-bracket" d="M4,14 L4,4 L14,4"/>
@@ -1008,8 +905,8 @@
         <div class="project-detail-wrap" id="proje-detay-03">
           <div class="project-detail-inner">
             <div class="project-detail">
-              <p data-decrypt-target>Bu projenin detay yazısı — kapsam, kullanılan araçlar, çözülen problem ve sonuç — henüz eklenmedi.</p>
-              <p class="project-detail-note">// içerik yakında güncellenecek</p>
+              <p data-decrypt-target>// Bu bir örnek/demo içeriktir, gerçek bir proje değildir. Nmap ile port/servis taraması, temel zafiyet tespiti ve bulguların önceliklendirilmiş bir sertleştirme (hardening) listesine dönüştürülmesini kapsayan bir iç ağ denetim senaryosu örnek olarak hazırlandı.</p>
+              <p class="project-detail-note">// örnek/demo içerik — gerçek proje eklendiğinde değiştirilecek</p>
             </div>
           </div>
         </div>

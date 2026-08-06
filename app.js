@@ -673,7 +673,8 @@ function uznScramble(el, totalMs, done) {
       ikisi: 'Mekatronik (İkisi)'
     };
 
-    function applyTrack(track) {
+    function applyTrack(track, opts) {
+      opts = opts || {};
       if (track) {
         document.body.setAttribute('data-track', track);
       } else {
@@ -696,13 +697,24 @@ function uznScramble(el, totalMs, done) {
       var url = new URL(window.location.href);
       if (track) { url.searchParams.set('track', track); } else { url.searchParams.delete('track'); }
       window.history.replaceState({}, '', url);
+
+      // v6 / FAZ 12.2: bir track seçilince "Tümünü göster" ayrı tık
+      // istemesin diye elle scroll etmeye gerek kalmıyor — seçim yapılır
+      // yapılmaz otomatik olarak ilgili ilk bölüme (Hizmetler) kayıyoruz.
+      if (track && opts.scroll) {
+        var target = document.getElementById('hizmetler');
+        if (target) {
+          var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+        }
+      }
     }
 
     trackBtns.forEach(function (btn) {
       btn.addEventListener('click', function () {
         var current = document.body.getAttribute('data-track');
         var next = btn.getAttribute('data-track-btn');
-        applyTrack(current === next ? null : next);
+        applyTrack(current === next ? null : next, { scroll: current !== next });
       });
     });
     if (resetBtn) {
@@ -1014,6 +1026,11 @@ function uznScramble(el, totalMs, done) {
    :root transition'ı değişmedi, zararsız kalıyor. ---- */
 
   (function () {
+    // v6 / FAZ 12.1: Scroll'a bağlı renk geçişi kaldırıldı — sayfa artık
+    // tek bir sabit temada (dark) kalıyor. Mekanizma silinmedi, sadece
+    // kapatıldı: geri dönmek istenirse bu erken return kaldırılır.
+    return;
+
     var body = document.body;
     var darkEndEl = document.getElementById('guncellemeler');
     var navyStartEl = document.getElementById('hizmetler');

@@ -1267,6 +1267,15 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
 .footer-action-icon { flex-shrink: 0; color: #e7eaf1; }
 .footer-action-title { display: block; font-weight: 700; color: #e7eaf1; font-size: 0.92rem; }
 .footer-action-sub { display: block; color: #a9b4c9; font-size: 0.78rem; margin-top: 2px; }
+/* v6 / FAZ 12.7: masaüstü (4 sütun, >1024px) ile mobil (1 sütun, ≤700px)
+   arasında ara bir kırılma noktası yoktu; 701–1024px aralığında 4 dar
+   sütun sıkışıp metinler alt alta kayıyordu. Bu ara adım onu düzeltir. */
+@media (min-width: 701px) and (max-width: 1024px) {
+  .footer-actions { grid-template-columns: repeat(2, 1fr); }
+  .footer-action { border-bottom: 1px solid rgba(236,231,224,0.16); }
+  .footer-action:nth-child(2n) { border-right: none; }
+  .footer-action:nth-last-child(-n+2) { border-bottom: none; }
+}
 @media (max-width: 700px) {
   .footer-actions { grid-template-columns: 1fr; }
   .footer-action { border-right: none; border-bottom: 1px solid rgba(236,231,224,0.16); }
@@ -1789,6 +1798,15 @@ h2::after {
   .about-intro { flex-direction: column; align-items: flex-start; }
 }
 
+/* v6 / FAZ 12.5: ana sayfadaki kısaltılmış Hakkımda kartı — tam içerik
+   hakkimda.html'e taşındı, burada sadece kısa bir özet kalıyor. */
+.about-teaser {
+  color: var(--text-dim);
+  max-width: 62ch;
+  margin: 20px 0 22px;
+  line-height: 1.6;
+}
+
 /* About */
 h2 { font-size: var(--fs-h2); font-weight: 700; margin-bottom: 40px; }
 .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; }
@@ -2059,6 +2077,27 @@ h2 { font-size: var(--fs-h2); font-weight: 700; margin-bottom: 40px; }
 .node-diagram { margin-top: 16px; }
 .node-diagram svg { width: 100%; height: auto; display: block; }
 
+/* v6 / FAZ 12.4: Yetkinlik Alanları düğümlerine eklenen araç/teknoloji
+   etiketleri — mevcut 4 düğümün görsel doluluğunu artırmak için. */
+.node-panel .tool-tags-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  margin: 16px 0 8px;
+}
+.node-panel .tool-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 4px; }
+.node-panel .tool-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 3px 8px;
+  white-space: nowrap;
+}
+
 /* Hub paneli merkezde kalır. Sol/sağ uç düğümlerde panel container
    dışına taşmasın diye kenara hizalanır (stem çizgisi de o köşeye
    kayar); alt düğümde ("Siber Güvenlik") panel aşağı değil yukarı
@@ -2307,6 +2346,18 @@ h2 { font-size: var(--fs-h2); font-weight: 700; margin-bottom: 40px; }
   border-radius: 3px;
   white-space: nowrap;
 }
+/* v6 / FAZ 12.3: örnek/demo proje etiketi — gerçek proje etiketinden
+   (.project-tag) kasıtlı olarak ayrışık, gerçek proje sanılmasın diye. */
+.project-tag-demo {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent-bright);
+  border: 1px dashed var(--accent-2);
+  padding: 5px 10px;
+  border-radius: 3px;
+  white-space: nowrap;
+  background: var(--accent-2-dim);
+}
 .project-chevron {
   color: var(--text-faint);
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;
@@ -2437,16 +2488,22 @@ h2 { font-size: var(--fs-h2); font-weight: 700; margin-bottom: 40px; }
 .track-btn.is-active { border-color: var(--accent); color: var(--accent); background: var(--bg-panel-alt); }
 .track-reset {
   background: none;
-  border: none;
+  border: 1px solid var(--line);
   color: var(--text-faint);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  text-decoration: underline;
+  font-size: 0.9rem;
+  line-height: 1;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
   cursor: pointer;
   display: none;
-  padding: 4px 0;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
-body[data-track] .track-reset { display: inline; }
+.track-reset:hover { color: var(--text); border-color: var(--accent-2); }
+body[data-track] .track-reset { display: inline-flex; }
 [data-track].is-track-hidden { display: none; }
 .form-consent a { color: var(--text-dim); }
 .form-consent a:hover { color: var(--accent-bright); }
@@ -3627,4 +3684,23 @@ main > section[id].guide-settled::after {
   h1, h2, h3 { color: #000 !important; }
   .section, .hero { padding: 24px 0 !important; }
   @page { margin: 2cm; }
+}
+
+/* ==========================================================================
+   FAZ 12.8 — HUD / dekoratif katman anahtarı
+   Köşe parantezleri, ızgara noktaları, tarama çizgisi, telemetri etiketleri,
+   parçacık/yörünge/hale efektleri "kale duvarı" hissi verdiği için varsayılan
+   olarak KAPALI. Silinmedi — geri açmak için body üzerindeki
+   data-hud="off" attribute'unu kaldırmak (veya "on" yapmak) yeterli.
+   .circuit-bg bu kapsamın DIŞINDA, ayrıca ele alınacak (bkz. yol haritası).
+   ========================================================================== */
+body[data-hud="off"] .hud-brackets,
+body[data-hud="off"] .hud-telemetry,
+body[data-hud="off"] .hud-ambient,
+body[data-hud="off"] .grid-overlay,
+body[data-hud="off"] .scan-line,
+body[data-hud="off"] .stardust-field,
+body[data-hud="off"] .orbit-field,
+body[data-hud="off"] .ambient-halo {
+  display: none !important;
 }
