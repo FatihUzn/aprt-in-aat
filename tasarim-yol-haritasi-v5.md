@@ -189,28 +189,50 @@ Bunlar todo değil, ileride yanlışlıkla bozulmasın diye not düşülüyor:
 
 **Öncelik: Düşük, zaman bulundukça.**
 
-- [ ] **404 sayfasında dekoratif katman azaltma** — 9 sabit dekoratif katman
-      aynı anda var; 404 gibi ikincil sayfada bir kısmı (`data-layers`,
-      `vector-nodes`) kapatılabilir.
-- [ ] **Google Fonts ağırlık sayısı azaltılsın** — Sora 600/700/800 + Inter
-      400/500/600 + IBM Plex Mono 400/500 = 8 ağırlık; kullanılmayanlar
-      çıkarılabilir. İsteğe bağlı olarak self-hosting de değerlendirilebilir
-      (render-blocking isteği azaltır).
-- [ ] **manifest.json eklensin** — icon setleri hazır, PWA/"ana ekrana ekle"
-      için küçük bir ek iş.
-- [ ] **WebP/AVIF görsel formatı** — tek gerçek görsel (`about-photo.jpg`)
-      hâlâ jpg, `<picture>` ile küçültülebilir.
-- [ ] **`.circuit-bg` deseni harici dosyaya taşınsın** — şu an CSS içine
-      gömülü data-URI SVG, her yüklemede yeniden parse ediliyor; ayrı
-      dosyaya alınırsa tarayıcı cache'inden faydalanır.
-- [ ] **`FAQPage` schema.org verisi** — SSS bölümü var ama yapılandırılmış
-      veri olarak işaretlenmemiş; eklenirse Google'da zengin sonuç çıkma
-      ihtimali var.
-- [ ] **Print stylesheet** — sayfa yazdırılırsa/PDF'e çevrilirse HUD
-      efektleriyle koyu zeminle çıkar, kullanışsız olur.
+- [x] **404 sayfasında dekoratif katman azaltma** — `data-layers` ve
+      `vector-nodes` katmanları 404.html'den kaldırıldı (9 → 7 katman).
+      Diğerleri (circuit-bg, grid-overlay, hud-brackets, hud-telemetry,
+      hud-ambient, stardust-field, orbit-field, ambient-halo) korundu.
+- [x] **Google Fonts ağırlık sayısı azaltılsın** — kullanım denetimi
+      yapıldı: Inter 500 hiçbir yerde kullanılmıyormuş, kaldırıldı.
+      Ayrıca `.faq-item summary::after` (‘+’ işareti) yüklü olmayan Sora
+      400'ü istiyordu, zaten yüklü olan 600'e çekildi — böylece Sora için
+      ekstra ağırlık gerekmedi. Sonuç: 8 ağırlık → 7 (Sora 600/700/800,
+      Inter 400/600, IBM Plex Mono 400/500), `index.html` ve `404.html`
+      güncellendi. Self-hosting değerlendirmesi hâlâ ayrı, opsiyonel bir
+      adım olarak duruyor.
+- [x] **manifest.json eklensin** — oluşturuldu (`name`, `short_name`,
+      `theme_color`, `background_color`, mevcut icon setine referans) ve
+      `index.html` + `404.html` `<head>`'ine `<link rel="manifest">`
+      eklendi. *Not: `purpose: maskable` eklenmedi — mevcut `icon-512.png`
+      maskable için gereken güvenli-alan (safe-zone) payı ile
+      tasarlanmamış olabilir, öyle bir ikon hazırlanırsa eklenebilir.*
+- [ ] **WebP/AVIF görsel formatı** — *uygulanmadı, kaynak dosya gerekli.*
+      Tek gerçek görsel `assets/img/fatih-uzner.jpg` bu oturuma
+      yüklenmedi, elimde dönüştürülecek görsel yok. `.jpg` dosyasını
+      atarsan `<picture>` + webp/avif kaynaklarını hazırlarım (gerçek
+      dosyalar olmadan sadece markup eklemek, tarayıcı webp/avif
+      destekliyorsa 404'e düşüp görselin hiç görünmemesine yol açar).
+- [x] **`.circuit-bg` deseni harici dosyaya taşındı** — data-URI SVG
+      `assets/patterns/circuit.svg` dosyasına çıkarıldı, style.css'teki
+      2 kullanım da (`.circuit-bg` + ikinci bir yerde tekrar tanımı)
+      `url("assets/patterns/circuit.svg")`'e çevrildi. Artık tarayıcı
+      cache'inden faydalanıyor, her yüklemede yeniden parse edilmiyor.
+- [x] **`FAQPage` schema.org verisi** — SSS bölümündeki 5 soru-cevap,
+      mevcut Person/ProfessionalService JSON-LD bloklarıyla aynı
+      `<head>` alanına üçüncü bir `application/ld+json` bloğu olarak
+      eklendi, içerik index.html'deki SSS metinleriyle birebir aynı.
+- [x] **Print stylesheet** — `style.css` sonuna `@media print` bloğu
+      eklendi: tüm HUD/atmosfer katmanları, nav/form/buton/command
+      palette gibi interaktif öğeler gizleniyor; zemin beyaza, metin
+      siyaha dönüyor, linkler URL'leriyle birlikte yazdırılıyor.
 - [ ] **Gizlilik-dostu analitik** (Plausible/Fathom/GoatCounter gibi
-      çerezsiz) — şu an hiç ölçüm yok. KVKK metnine tek cümle eklemek
-      yeterli olur.
+      çerezsiz) — *uygulanmadı, karar + hesap bilgisi kullanıcıdan
+      bekleniyor.* Hangi servis (Plausible/Fathom/GoatCounter), hangi
+      domain/site ID ile kayıt açıldığı gerekiyor — gerçek bir hesap
+      olmadan çalışan bir script embed edilemez. Karar verilince tek
+      satır script eklemek + KVKK metnine tek cümle eklemek yeterli
+      (kvkk.html bu oturuma yüklenmedi, o değişiklik ayrıca yapılmalı).
 
 ---
 
@@ -221,5 +243,7 @@ bulundukça paralel de yapılabilir.
 
 ---
 
-Son güncelleme: 06 Ağustos 2026 — FAZ 10 ve FAZ 7 tamamlandı.
-Toplam açık madde: 0 (Faz 7) + 10 (Faz 8) + 7 (Faz 9) + 0 (Faz 10) + 8 (Faz 11) = 25.
+Son güncelleme: 06 Ağustos 2026 — FAZ 10, FAZ 7 ve FAZ 11 tamamlandı (2 madde
+hariç: WebP/AVIF görsel kaynağı ve analitik servis kararı kullanıcıdan
+bekleniyor).
+Toplam açık madde: 0 (Faz 7) + 10 (Faz 8) + 7 (Faz 9) + 0 (Faz 10) + 2 (Faz 11) = 19.

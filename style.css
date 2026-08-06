@@ -169,7 +169,7 @@ body::after { content: none; }
   opacity: 0.55;
   background-repeat: repeat;
   background-size: 320px 320px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cg fill='none' stroke='%233d6fe0' stroke-width='1'%3E%3Cpath d='M20 60L110 60L150 110L150 200L230 240L230 300'/%3E%3Cpath d='M0 180L70 180L100 140'/%3E%3Cpath d='M260 40L260 110L300 150'/%3E%3C/g%3E%3Cg fill='%233d6fe0'%3E%3Ccircle cx='20' cy='60' r='3.2'/%3E%3Ccircle cx='110' cy='60' r='3.2'/%3E%3Ccircle cx='150' cy='110' r='3.2'/%3E%3Ccircle cx='150' cy='200' r='3.2'/%3E%3Ccircle cx='230' cy='240' r='3.2'/%3E%3Ccircle cx='230' cy='300' r='3.2'/%3E%3Ccircle cx='70' cy='180' r='3.2'/%3E%3Ccircle cx='260' cy='40' r='3.2'/%3E%3Ccircle cx='300' cy='150' r='3.2'/%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("assets/patterns/circuit.svg");
   mask-image: radial-gradient(ellipse 90% 100% at 50% 50%, black 30%, transparent 95%);
   -webkit-mask-image: radial-gradient(ellipse 90% 100% at 50% 50%, black 30%, transparent 95%);
 }
@@ -457,7 +457,7 @@ body::after { content: none; }
   opacity: 0.5;
   background-repeat: repeat;
   background-size: 320px 320px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cg fill='none' stroke='%233d6fe0' stroke-width='1'%3E%3Cpath d='M20 60L110 60L150 110L150 200L230 240L230 300'/%3E%3Cpath d='M0 180L70 180L100 140'/%3E%3Cpath d='M260 40L260 110L300 150'/%3E%3C/g%3E%3Cg fill='%233d6fe0'%3E%3Ccircle cx='20' cy='60' r='3.2'/%3E%3Ccircle cx='110' cy='60' r='3.2'/%3E%3Ccircle cx='150' cy='110' r='3.2'/%3E%3Ccircle cx='150' cy='200' r='3.2'/%3E%3Ccircle cx='230' cy='240' r='3.2'/%3E%3Ccircle cx='230' cy='300' r='3.2'/%3E%3Ccircle cx='70' cy='180' r='3.2'/%3E%3Ccircle cx='260' cy='40' r='3.2'/%3E%3Ccircle cx='300' cy='150' r='3.2'/%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("assets/patterns/circuit.svg");
   mask-image: radial-gradient(ellipse 70% 90% at 50% 30%, black 40%, transparent 90%);
   -webkit-mask-image: radial-gradient(ellipse 70% 90% at 50% 30%, black 40%, transparent 90%);
 }
@@ -2244,7 +2244,7 @@ h2 { font-size: var(--fs-h2); font-weight: 700; margin-bottom: 40px; }
   top: 20px;
   font-family: var(--font-display);
   font-size: 1.4rem;
-  font-weight: 400;
+  font-weight: 600;
   color: var(--accent);
   transition: transform 0.25s ease;
 }
@@ -3586,4 +3586,45 @@ main > section[id].guide-settled::after {
   border-radius: 3px;
   padding: 2px 6px;
   opacity: 0.6;
+}
+
+/* ==========================================================================
+   FAZ 11 / Print Stylesheet
+   Sayfa yazdırılırsa ya da PDF'e çevrilirse HUD efektleri + koyu zeminle
+   çıkmasın diye ayrı, sade bir yazdırma görünümü. Tüm dekoratif/atmosferik
+   katmanlar, interaktif kontroller (nav, buton, form, command palette,
+   scan-line/telemetry) ve yardımcı-teknoloji-dışı öğeler gizleniyor;
+   zemin beyaza, metin siyaha dönüyor, linkler URL'leriyle birlikte
+   yazdırılıyor. Sayfa içeriği (başlıklar, metinler, SSS, iletişim
+   bilgileri) okunabilir kalıyor.
+   KALDIRMAK İÇİN: bu bloğu silmen yeterli, başka hiçbir yere bağımlı değil. */
+@media print {
+  * {
+    animation: none !important;
+    transition: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .circuit-bg, .grid-overlay, .hud-brackets, .hud-telemetry, .hud-ambient,
+  .stardust-field, .orbit-field, .ambient-halo, .data-layers, .vector-nodes,
+  .scan-line, .telemetry-strip, .skip-link, .cmdk-trigger, .command-palette,
+  .site-nav, .mobile-nav, .mobile-nav-toggle, .track-select, .hero-search,
+  .footer-actions, .footer-wave-top, .btn, .link-pill, .social-links,
+  .carousel-arrow, .ping-dot, .toast, .dim-overlay, .boot-overlay {
+    display: none !important;
+  }
+  a { color: #000 !important; text-decoration: underline; }
+  a[href^="http"]::after, a[href^="mailto"]::after, a[href^="tel"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    font-weight: 400;
+  }
+  .site-header, .site-footer { border: none !important; }
+  h1, h2, h3 { color: #000 !important; }
+  .section, .hero { padding: 24px 0 !important; }
+  @page { margin: 2cm; }
 }

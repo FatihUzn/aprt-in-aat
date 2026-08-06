@@ -1,0 +1,29 @@
+{
+  "name": "UZN TECH & SOFTWARE",
+  "short_name": "UZN TECH",
+  "description": "Yazılım geliştirme, mekanik & otomasyon, siber güvenlik danışmanlığı.",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#06070a",
+  "theme_color": "#1e88c7",
+  "lang": "tr",
+  "icons": [
+    {
+      "src": "assets/icons/favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
