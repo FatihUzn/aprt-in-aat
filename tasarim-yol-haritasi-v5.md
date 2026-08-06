@@ -49,14 +49,28 @@ Bunlar todo değil, ileride yanlışlıkla bozulmasın diye not düşülüyor:
 
 ## FAZ 7 — Görsel İnce Ayar
 
-- [ ] **Kart Başlığı Parlaması** — `.update-card h3`: `color:
-      var(--accent-bright)` + `text-shadow: 0 0 10px var(--accent-2-dim)`.
-      Faz-bağımlı token olduğu için 3 fazda da otomatik uyum sağlıyor.
-- [ ] **Atmosfer Sistemi İnce Ayarı**:
-      1. `.grid-overlay` kesişim noktalarına küçük, soluk `--accent` vurgu
-         noktaları (`.circuit-bg`'ye dokunulmuyor).
-      2. `body[data-phase]` geçişini scroll-oranlı interpolasyonla
-         akışkanlaştır (3 fazlı sistem korunur, sıçrama hissi kalkar).
+- [x] **Kart Başlığı Parlaması** — `.update-body h3` (güncelleme kartlarının
+      gerçek başlık elementi; `.update-card` sadece dış kapsayıcı) artık
+      `color: var(--accent-bright)` + `text-shadow: 0 0 10px
+      var(--accent-2-dim)` kullanıyor. Faz-bağımlı token olduğu için 3
+      fazda da (dark/navy/light) otomatik uyum sağlıyor.
+- [x] **Atmosfer Sistemi İnce Ayarı**:
+      1. `.grid-overlay`'e 5. bir `radial-gradient` katmanı eklendi: kalın
+         280px ana ızgaranın kesişim noktalarına `color-mix(in srgb,
+         var(--accent) 55%, transparent)` ile küçük (1.5px), soluk, faz
+         rengiyle uyumlu vurgu noktaları. `.circuit-bg`'ye dokunulmadı.
+      2. `body[data-phase]` artık ayrık (discrete) bir sınıf değişimi
+         değil — app.js'te scroll pozisyonuna oranlı sürekli bir renk
+         interpolasyonuna çevrildi: iki perde sınırı (güncellemeler→
+         hizmetler, projeler→referanslar) etrafında viewport-yüksekliği
+         kadar bir geçiş bandında, her scroll frame'inde tüm faz renkleri
+         (bg/panel/accent/text/line, 13 token) yeniden hesaplanıp body'ye
+         inline yazılıyor. 3 fazlı sistem (dark/navy/light) ve renk
+         değerleri birebir korundu, sadece geçiş mekanizması değişti —
+         sabit süreli animasyon kalktığı için sıçrama hissi gitti.
+         `prefers-reduced-motion` tercihinde eski ayrık
+         IntersectionObserver mekanizmasına otomatik geri dönülüyor
+         (zaten orada animasyon yok, ekstra hesaplama gereksiz).
 
 ---
 
@@ -159,16 +173,15 @@ Bunlar todo değil, ileride yanlışlıkla bozulmasın diye not düşülüyor:
       yüzden işlevsel bir carousel kurmak 3 öğe için gereksiz karmaşıklık
       olurdu; dekoratif ve tıklanamaz oldukları için kaldırmak doğru seçim.
       İlgisiz kalan `.carousel-arrow` CSS kuralı da temizlendi.
-- [ ] **`prefers-color-scheme` desteği** — *uygulanmadı, kullanıcı kararı
-      gerekiyor.* Mevcut "dark/navy/light" sistemi bir açık/koyu mod
-      tercihi DEĞİL, scroll konumuna bağlı kasıtlı bir anlatı geçişi
-      (hero=siyah → hizmetler/hakkımda=lacivert → referanslar/iletişim=
-      beyaz); hero'nun parçacık/HUD efektleri koyu zemine göre tasarlanmış.
-      OS `light` tercihine göre hero'yu da açık başlatmak bu tasarımla
-      çelişip görsel olarak bozuk görünebilir (test edilemedi). Öneri:
-      ya bu maddeyi olduğu gibi kapatın (tasarım kasıtlı), ya da sadece
-      tarayıcı `theme-color` meta etiketine `prefers-color-scheme` medya
-      sorgusu ekleyin (adres çubuğu rengi, sayfa içeriği etkilenmez).
+- [x] **`prefers-color-scheme` desteği** — sayfa içeriğine (scroll-fazlı
+      dark/navy/light anlatı sistemine) dokunulmadı, bu kasıtlı tasarım
+      kararı olarak korundu. Bunun yerine sadece `theme-color` meta
+      etiketi `index.html` ve `404.html`'de medya sorgulu iki satıra
+      bölündü: `light` için mevcut `#1e88c7` (marka rengi) korundu, `dark`
+      için hero'nun zemin rengiyle uyumlu `#06070a` eklendi. Etki sadece
+      mobil tarayıcı adres çubuğu/durum çubuğu rengiyle sınırlı; sayfa
+      görselinde hiçbir değişiklik yok. *Not: `kvkk.html` bu oturuma
+      yüklenmediği için güncellenmedi — orada da aynı satır eklenmeli.*
 
 ---
 
@@ -208,5 +221,5 @@ bulundukça paralel de yapılabilir.
 
 ---
 
-Son güncelleme: 05 Ağustos 2026 — v4 düzeltmeleri + 20 yeni madde eklendi.
-Toplam açık madde: 2 (Faz 7) + 10 (Faz 8) + 7 (Faz 9) + 5 (Faz 10) + 8 (Faz 11) = 32.
+Son güncelleme: 06 Ağustos 2026 — FAZ 10 ve FAZ 7 tamamlandı.
+Toplam açık madde: 0 (Faz 7) + 10 (Faz 8) + 7 (Faz 9) + 0 (Faz 10) + 8 (Faz 11) = 25.

@@ -995,40 +995,150 @@ function uznScramble(el, totalMs, done) {
 
 
 /* ---- FAZ 5.x / B — Scroll Atmosfer Kayması (siyah → lacivert → beyaz) ----
-   Section'lar üç gruba ayrılıyor; aktif section hangi gruptaysa body'nin
-   data-phase'i o gruba çekiliyor. Gerçek renk geçişi CSS tarafında
-   (@property + transition ile) oluyor, burada sadece hangi perdede
-   olduğumuzu işaretliyoruz. ---- */
+   FAZ 7 / Atmosfer Sistemi İnce Ayarı ile güncellendi: eski sürümde bir
+   section viewport ortasından geçtiği anda body[data-phase] TEK SEFERDE
+   değişiyordu; CSS @property transition'ı (0.9s, style.css :root) bunu
+   yumuşatmaya çalışsa da geçiş süresi sabitti, hızlı scroll'da renklerin
+   "sıçradığı" hissediliyordu. Bu sürümde 3 fazlı sistem (dark/navy/light)
+   aynen korunuyor, ama geçiş artık doğrudan scroll pozisyonuna ORANLI:
+   her scroll frame'inde renkler tam olarak scroll'un iki perde sınırına
+   ne kadar yakın olduğuna göre hesaplanıp body üzerine inline custom
+   property olarak yazılıyor. Sabit süreli bir animasyon yok, dolayısıyla
+   sıçrama hissi kalkıyor. `prefers-reduced-motion` tercihinde ekstra iş
+   yapmamak için eski ayrık (discrete) data-phase mekanizmasına dönülüyor
+   (zaten global `* { transition-duration: 0.001ms }` kuralı sayesinde
+   orada da animasyon olmuyor).
+   KALDIRMAK / ESKİ HALE DÖNMEK İÇİN: bu IIFE'yi silip yerine sadece
+   aşağıdaki reduceMotion dalındaki IntersectionObserver bloğunu koşulsuz
+   çalıştırman yeterli; style.css'teki body[data-phase] kuralları ve
+   :root transition'ı değişmedi, zararsız kalıyor. ---- */
 
   (function () {
     var body = document.body;
-    var sections = Array.prototype.slice.call(document.querySelectorAll('main > section[id]'));
-    if (!sections.length || !('IntersectionObserver' in window)) return;
+    var darkEndEl = document.getElementById('guncellemeler');
+    var navyStartEl = document.getElementById('hizmetler');
+    var navyEndEl = document.getElementById('projeler');
+    var lightStartEl = document.getElementById('referanslar');
 
     var phaseBySection = {
-      hero: 'dark',
-      guncellemeler: 'dark',
-      hizmetler: 'navy',
-      hakkimda: 'navy',
-      projeler: 'navy',
-      referanslar: 'light',
-      sss: 'light',
-      iletisim: 'light'
+      hero: 'dark', guncellemeler: 'dark',
+      hizmetler: 'navy', hakkimda: 'navy', projeler: 'navy',
+      referanslar: 'light', sss: 'light', iletisim: 'light'
     };
 
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        var phase = phaseBySection[entry.target.id] || 'dark';
-        if (phase === 'dark') {
-          body.removeAttribute('data-phase');
-        } else {
-          body.setAttribute('data-phase', phase);
-        }
-      });
-    }, { threshold: 0, rootMargin: '-45% 0px -45% 0px' });
+    function runDiscreteFallback() {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('main > section[id]'));
+      if (!sections.length || !('IntersectionObserver' in window)) return;
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var phase = phaseBySection[entry.target.id] || 'dark';
+          if (phase === 'dark') body.removeAttribute('data-phase');
+          else body.setAttribute('data-phase', phase);
+        });
+      }, { threshold: 0, rootMargin: '-45% 0px -45% 0px' });
+      sections.forEach(function (s) { observer.observe(s); });
+    }
 
-    sections.forEach(function (s) { observer.observe(s); });
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion || !darkEndEl || !navyStartEl || !navyEndEl || !lightStartEl) {
+      runDiscreteFallback();
+      return;
+    }
+
+    // dark / navy / light durak renkleri — style.css'teki :root ve
+    // body[data-phase="navy"/"light"] blokları ile birebir aynı olmalı.
+    var STOPS = {
+      '--bg':            ['#06070a', '#0a1533', '#f4f6fb'],
+      '--bg-panel':      ['#0e1117', '#101c3d', '#ffffff'],
+      '--bg-panel-alt':  ['#121620', '#142248', '#eef1f8'],
+      '--accent':        ['#3d6fe0', '#4a5fd9', '#2f5bc7'],
+      '--accent-bright': ['#6a94f0', '#7a8bf0', '#4d7ae0'],
+      '--accent-2':      ['#2a4fb0', '#33409e', '#1f3f94'],
+      '--accent-2-dim':  ['#2a4fb033', '#33409e33', '#1f3f9422'],
+      '--line':          ['rgba(231,234,241,0.12)', 'rgba(231,234,241,0.12)', 'rgba(10,14,23,0.12)'],
+      '--line-soft':     ['rgba(231,234,241,0.07)', 'rgba(231,234,241,0.07)', 'rgba(10,14,23,0.07)'],
+      '--text':          ['#e7eaf1', '#e7eaf1', '#0a0e17'],
+      '--text-dim':      ['#a9b4c9', '#a9b4c9', '#3a4256'],
+      '--text-faint':    ['#7684a0', '#7684a0', '#6b7280'],
+      '--signal':        ['#e7eaf1', '#e7eaf1', '#0a0e17']
+    };
+
+    function parseColor(str) {
+      str = str.trim();
+      if (str[0] === '#') {
+        var hex = str.slice(1);
+        if (hex.length === 3) hex = hex.split('').map(function (c) { return c + c; }).join('');
+        var r = parseInt(hex.slice(0, 2), 16);
+        var g = parseInt(hex.slice(2, 4), 16);
+        var b = parseInt(hex.slice(4, 6), 16);
+        var a = hex.length >= 8 ? parseInt(hex.slice(6, 8), 16) / 255 : 1;
+        return [r, g, b, a];
+      }
+      var m = str.match(/rgba?\(([^)]+)\)/);
+      if (m) {
+        var parts = m[1].split(',').map(function (p) { return parseFloat(p); });
+        return [parts[0], parts[1], parts[2], parts.length > 3 ? parts[3] : 1];
+      }
+      return [0, 0, 0, 1];
+    }
+
+    var PARSED = {};
+    Object.keys(STOPS).forEach(function (key) {
+      PARSED[key] = STOPS[key].map(parseColor);
+    });
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function lerpColor(c1, c2, t) {
+      var r = Math.round(lerp(c1[0], c2[0], t));
+      var g = Math.round(lerp(c1[1], c2[1], t));
+      var b = Math.round(lerp(c1[2], c2[2], t));
+      var a = lerp(c1[3], c2[3], t);
+      return 'rgba(' + r + ',' + g + ',' + b + ',' + (Math.round(a * 1000) / 1000) + ')';
+    }
+
+    function applyPhase(t) {
+      // t: 0 = tam dark, 1 = tam navy, 2 = tam light
+      Object.keys(PARSED).forEach(function (key) {
+        var stops = PARSED[key];
+        var color = t <= 1 ? lerpColor(stops[0], stops[1], t) : lerpColor(stops[1], stops[2], t - 1);
+        body.style.setProperty(key, color);
+      });
+    }
+
+    var boundary1 = 0, boundary2 = 0;
+    function measureBoundaries() {
+      var darkEndY = darkEndEl.getBoundingClientRect().bottom + window.scrollY;
+      var navyStartY = navyStartEl.getBoundingClientRect().top + window.scrollY;
+      var navyEndY = navyEndEl.getBoundingClientRect().bottom + window.scrollY;
+      var lightStartY = lightStartEl.getBoundingClientRect().top + window.scrollY;
+      boundary1 = (darkEndY + navyStartY) / 2;
+      boundary2 = (navyEndY + lightStartY) / 2;
+    }
+
+    var ticking = false;
+    function update() {
+      var span = Math.max(window.innerHeight, 1);
+      var viewportCenter = window.scrollY + window.innerHeight / 2;
+      var t1 = Math.min(1, Math.max(0, (viewportCenter - (boundary1 - span / 2)) / span));
+      var t2 = Math.min(1, Math.max(0, (viewportCenter - (boundary2 - span / 2)) / span));
+      applyPhase(t1 + t2);
+      ticking = false;
+    }
+
+    measureBoundaries();
+    update();
+
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    }, { passive: true });
+
+    window.addEventListener('resize', function () {
+      measureBoundaries();
+      update();
+    });
   })();
 
 
