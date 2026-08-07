@@ -1908,6 +1908,34 @@ h2 { font-size: var(--fs-h2); font-weight: 700; margin-bottom: 40px; }
 .about-text { color: var(--text-dim); max-width: 60ch; }
 .about-text p { margin: 0 0 18px; }
 
+/* v19: "Kurucudan" notu — kurumsal paragraftan görsel olarak ayrışan,
+   ilk ağızdan alıntı bloğu. tool-tags/heading-ref'teki mono/HUD diliyle
+   tutarlı ama bariz biçimde "bu, şirketin değil kişinin sesi" hissi veriyor. */
+.founder-note {
+  margin: 4px 0 22px;
+  padding: 16px 20px;
+  border-left: 2px solid var(--accent);
+  background: var(--bg-panel);
+  border-radius: 0 3px 3px 0;
+}
+.founder-note-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.founder-note p { color: var(--text); font-size: 0.92rem; margin: 0 0 8px; }
+.founder-note cite {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text-faint);
+  font-style: normal;
+}
+
 .timeline { margin-top: 28px; display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--line-soft); }
 .timeline-row {
   position: relative;
