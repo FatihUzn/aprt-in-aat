@@ -673,12 +673,23 @@ function uznScramble(el, totalMs, done) {
   })();
 
 
-/* ---- Track-select — hero'daki ilgi alanı filtresi (yazılım/mekanik/siber/ikisi) ---- */
+/* ---- Track-select — hero'daki ilgi alanı seçici (yazılım/mekanik/siber/ikisi) ----
+   v18 GÜNCELLEMESİ: Bu artık bir FİLTRE DEĞİL. Eskiden butona basınca
+   sayfadaki [data-track] elemanları (topology düğümleri + #projeler
+   satırları) gizlenip gösteriliyordu — ama yazılım projeleri
+   yazilim.html'e taşındıktan sonra "Yazılım" butonu #projeler'i
+   boşaltıyordu (hiçbir şey filtrelenmiyor gibi görünüyordu).
+   Yeni davranış: butona basınca (a) sayfa #hizmetler'deki U1 topology
+   haritasına kayıyor, (b) ilgili düğüm otomatik açılıyor
+   (<details open>), kullanıcı oradaki .node-goto linkiyle ilgili
+   track sayfasına (yazilim.html vb.) geçebiliyor. #projeler
+   listesindeki [data-track] etiketleri (mekanik/siber planlı
+   projeler) bu değişiklikten etkilenmiyor — hiçbir yerde artık
+   gizlenmiyorlar, her zaman görünürler. */
 
   (function () {
     var trackBtns = document.querySelectorAll('[data-track-btn]');
     var resetBtn = document.querySelector('[data-track-reset]');
-    var trackedEls = document.querySelectorAll('[data-track]');
     var interestSelect = document.getElementById('ilgi-alani');
     var labels = {
       yazilim: 'Yazılım Geliştirme',
@@ -686,57 +697,36 @@ function uznScramble(el, totalMs, done) {
       siber: 'Siber Güvenlik',
       ikisi: 'Mekatronik (İkisi)'
     };
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function applyTrack(track, opts) {
-      opts = opts || {};
-      if (track) {
-        document.body.setAttribute('data-track', track);
-      } else {
-        document.body.removeAttribute('data-track');
-      }
+    function goToTrack(track) {
       trackBtns.forEach(function (btn) {
         btn.classList.toggle('is-active', btn.getAttribute('data-track-btn') === track);
       });
-      trackedEls.forEach(function (el) {
-        var elTrack = el.getAttribute('data-track');
-        // 'ikisi' (Mekatronik) hiçbir şeyi gizlemez: hem gerçekten iki alanı birleştiren
-        // içerik eklendiğinde onu göstermek, hem de henüz öyle bir içerik yokken boş
-        // bölüm bırakmamak için "hepsini göster" gibi davranır.
-        var hide = track && track !== 'ikisi' && elTrack !== track && elTrack !== 'ikisi';
-        el.classList.toggle('is-track-hidden', hide);
-      });
-      if (interestSelect && track && labels[track]) {
+      if (interestSelect && labels[track]) {
         interestSelect.value = labels[track];
       }
-      var url = new URL(window.location.href);
-      if (track) { url.searchParams.set('track', track); } else { url.searchParams.delete('track'); }
-      window.history.replaceState({}, '', url);
-
-      // v6 / FAZ 12.2: bir track seçilince "Tümünü göster" ayrı tık
-      // istemesin diye elle scroll etmeye gerek kalmıyor — seçim yapılır
-      // yapılmaz otomatik olarak ilgili ilk bölüme (Hizmetler) kayıyoruz.
-      if (track && opts.scroll) {
-        var target = document.getElementById('hizmetler');
-        if (target) {
-          var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-        }
+      // Topology haritasındaki ilgili düğümü aç — diğerlerini kapatma işini
+      // zaten aşağıdaki "Ağ topolojisi haritası" bloğu (toggle listener) yapıyor.
+      var node = document.querySelector('.topology-node[data-track="' + track + '"]');
+      if (node && 'open' in node) { node.open = true; }
+      var target = document.getElementById('hizmetler');
+      if (target) {
+        target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
       }
     }
 
     trackBtns.forEach(function (btn) {
       btn.addEventListener('click', function () {
-        var current = document.body.getAttribute('data-track');
-        var next = btn.getAttribute('data-track-btn');
-        applyTrack(current === next ? null : next, { scroll: current !== next });
+        goToTrack(btn.getAttribute('data-track-btn'));
       });
     });
     if (resetBtn) {
-      resetBtn.addEventListener('click', function () { applyTrack(null); });
+      resetBtn.addEventListener('click', function () {
+        trackBtns.forEach(function (btn) { btn.classList.remove('is-active'); });
+        document.querySelectorAll('.topology-node[open]').forEach(function (n) { n.open = false; });
+      });
     }
-
-    var initial = new URL(window.location.href).searchParams.get('track');
-    if (initial && labels[initial]) { applyTrack(initial); }
   })();
 
 

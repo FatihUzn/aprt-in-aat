@@ -2,7 +2,7 @@
 
 Bu belge v17'nin yerine geçer.
 
-## v18'de kaydedilen KARAR (henüz UYGULANMADI — sadece plan)
+## v18'de kaydedilen KARAR — UYGULANDI
 
 Açık nokta #5 (U1 topology haritası → track sayfaları bağlantısı)
 kullanıcıyla konuşulup karara bağlandı. Üç ayrı karar var, hepsi
@@ -35,21 +35,59 @@ Quick-tiles'a dokunulmayacak (4 kutu zaten dolu, kalabalıklaşmasın).
 Bunun yerine **footer'a** küçük bir sayfa listesi eklenecek: Yazılım /
 Mekanik & Otomasyon / Siber Güvenlik / Mekatronik.
 
-## Uygulama turunda kontrol edilecekler
-- app.js'te hero track butonlarının mevcut filtre mantığı bulunup
-  kaldırılacak/değiştirilecek; yerine scroll+auto-open davranışı
-  yazılacak.
-- `data-track` attribute'unun projeler listesindeki kullanımı
-  (varsa) hero değişikliğinden bağımsız kalmalı.
-- Yeni node-panel linkleri için style.css'e küçük bir CTA sınıfı
-  eklenecek (mevcut `tool-tags`/`heading-ref` diliyle tutarlı).
-- Footer'daki yeni sayfa listesi mevcut `footer-actions` nav'ıyla
-  çakışmayacak şekilde ayrı bir blok olarak eklenecek.
+## Uygulamada gerçekleşenler
+
+**index.html**
+- 4 `node-panel`in içine (mekatronik/mekanik/yazılım/siber), diyagramın
+  altına, `.node-goto` linki eklendi: sayfa adı + akan-sinyal çizgisi +
+  ok ikonu (`mekatronik.html`, `mekanik-otomasyon.html`, `yazilim.html`,
+  `siber-guvenlik.html`).
+- Hero'daki `.track-select-label` metni filtre dilinden ("içerik ona
+  göre süzülsün") yönlendirme diline ("ilgili yetkinlik alanına atla")
+  güncellendi.
+- Footer'daki "Site Haritası" kolonuna, mevcut 5 linkin altına, ikinci
+  bir mini başlık ("Yetkinlik Sayfaları") + 4 track sayfası linki
+  eklendi. Ayrı bir 5. footer kolonu AÇILMADI (grid'i bozmamak için
+  mevcut kolona eklendi).
+
+**app.js**
+- Track-select IIFE'si baştan yazıldı: eski `applyTrack()` (body'ye
+  `data-track` basıp `[data-track]` elemanlarını `is-track-hidden`
+  ile gizleyen filtre mantığı) tamamen kaldırıldı.
+- Yeni `goToTrack()`: butona basılınca (1) buton `is-active` durumu
+  güncellenir, (2) iletişim formundaki "ilgi alanı" seçimi otomatik
+  doldurulur (eski davranış korundu), (3) ilgili `.topology-node`
+  `open` yapılır, (4) sayfa `#hizmetler`e kaydırılır. Birden fazla
+  düğümün aynı anda açık kalmaması zaten var olan ayrı bir
+  "Ağ topolojisi haritası" listener'ı tarafından hallediliyor,
+  dokunulmadı.
+- URL `?track=` parametresi senkronizasyonu kaldırıldı (filtre
+  kavramıyla birlikte anlamsızlaştı).
+- Reset butonu (×) artık seçimi/açık düğümü temizliyor.
+
+**style.css**
+- `.node-goto` / `.node-goto-line` / `.node-goto-arrow`: mono font,
+  `topology-link-signal-path` ile aynı `@keyframes topology-flow`
+  animasyonunu hover'da tekrar kullanan bir HUD linki.
+- `.track-reset` görünürlüğü artık `body[data-track]` yerine
+  `:has(.track-btn.is-active)` ile kontrol ediliyor.
+- Ölü kural `[data-track].is-track-hidden { display: none; }`
+  kaldırıldı.
+- `.footer-col-title-sub` (küçük üst boşluk) eklendi.
+
+## Dikkat / bilinen sınırlamalar
+- `.track-reset` görünürlüğü için CSS `:has()` selektörü kullanıldı
+  (Chrome 105+, Safari 15.4+, Firefox 121+ destekliyor) — çok eski
+  tarayıcıda reset butonu görünmeyebilir, işlevi etkilemez.
+- `#projeler` listesindeki `data-track` etiketli satırlar (mekanik/
+  siber "Planlanan" projeler) artık hiçbir yerde gizlenmiyor, her
+  zaman görünür durumdalar — bu istenen davranış (filtre kavramı
+  tamamen kaldırıldığı için).
 
 ## Sıradaki adım
-Kullanıcı onayı alınırsa uygulama turu başlayacak: `index.html` +
-`app.js` + `style.css` üzerinde değişiklik yapılacak. Onaydan önce
-kod değişikliği YAPILMAYACAK.
+Değişiklikler kullanıcıya sunuldu, tarayıcıda gözden geçirilmesi
+bekleniyor. Onay sonrası kalıcı hale getirilecek (upload'daki
+dosyaların yerini alacak).
 
 ---
 

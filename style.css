@@ -2172,6 +2172,44 @@ h2 { font-size: var(--fs-h2); font-weight: 700; margin-bottom: 40px; }
 .node-diagram { margin-top: 16px; }
 .node-diagram svg { width: 100%; height: auto; display: block; }
 
+/* v18: node-panel → track sayfasına giden HUD-stilinde bağlantı.
+   .node-goto-line, topology haritasındaki .topology-link-signal-path
+   ile aynı "akan sinyal" dilini konuşuyor (aynı @keyframes topology-flow
+   kullanılıyor) — hover'da çizgi canlanıyor, ok sağa kayıyor. */
+.node-goto {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.node-goto-line {
+  flex: 1 1 auto;
+  height: 1px;
+  min-width: 12px;
+  background-image: repeating-linear-gradient(90deg, currentColor 0 4px, transparent 4px 11px);
+  opacity: 0.55;
+}
+.node-goto-arrow { flex-shrink: 0; transition: transform 0.2s ease; }
+.node-goto:hover, .node-goto:focus-visible {
+  color: var(--signal);
+}
+.node-goto:hover .node-goto-line, .node-goto:focus-visible .node-goto-line {
+  animation: topology-flow 1s linear infinite;
+  opacity: 0.9;
+}
+.node-goto:hover .node-goto-arrow, .node-goto:focus-visible .node-goto-arrow { transform: translateX(3px); }
+@media (prefers-reduced-motion: reduce) {
+  .node-goto:hover .node-goto-line, .node-goto:focus-visible .node-goto-line { animation: none; }
+}
+
 /* v6 / FAZ 12.4: Yetkinlik Alanları düğümlerine eklenen araç/teknoloji
    etiketleri — mevcut 4 düğümün görsel doluluğunu artırmak için. */
 .node-panel .tool-tags-label {
@@ -2567,6 +2605,7 @@ h2 { font-size: var(--fs-h2); font-weight: 700; margin-bottom: 40px; }
 .form-consent { color: var(--text-faint); font-size: 0.78rem; margin: -8px 0 0; }
 
 /* Hero track filter — soft yazılım/mekanik/siber/ikisi switch */
+/* v18: adı aynı kaldı ama artık bir filtre değil — bkz. app.js Track-select yorumu. */
 .track-select {
   background: var(--bg-panel);
   border: 1px solid var(--line);
@@ -2613,8 +2652,9 @@ h2 { font-size: var(--fs-h2); font-weight: 700; margin-bottom: 40px; }
   padding: 0;
 }
 .track-reset:hover { color: var(--text); border-color: var(--accent-2); }
-body[data-track] .track-reset { display: inline-flex; }
-[data-track].is-track-hidden { display: none; }
+/* v18: filtre kaldırıldı (bkz. app.js) — reset artık "seçimi/açık düğümü
+   temizle" işlevi görüyor, herhangi bir track butonu aktifken görünür. */
+.track-switch:has(.track-btn.is-active) .track-reset { display: inline-flex; }
 .form-consent a { color: var(--text-dim); }
 .form-consent a:hover { color: var(--accent-bright); }
 
@@ -2683,6 +2723,8 @@ body[data-track] .track-reset { display: inline-flex; }
   color: var(--text-faint);
   margin-bottom: 4px;
 }
+/* v18: Site Haritası kolonu içinde track sayfaları için ikinci mini başlık */
+.footer-col-title-sub { margin-top: 10px; }
 .footer-col a, .footer-col .footer-static {
   color: var(--text-dim);
   text-decoration: none;
