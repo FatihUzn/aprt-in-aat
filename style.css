@@ -2358,6 +2358,21 @@ h2 { font-size: var(--fs-h2); font-weight: 700; margin-bottom: 40px; }
   white-space: nowrap;
   background: var(--accent-2-dim);
 }
+/* v7 / FAZ 13.5: "Planlanan" etiketi — mezuniyete kadar tamamlanması
+   hedeflenen ama içeriği henüz netleşmemiş proje kartları için.
+   .project-tag-demo ile aynı görsel dil (kesikli çerçeve = henüz gerçek
+   değil), ayrı class çünkü anlamı farklı: demo = uydurma örnek içerik,
+   planned = gerçek ama henüz yapılmamış bir hedef. */
+.project-tag-planned {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--signal);
+  border: 1px dashed var(--text-faint);
+  padding: 5px 10px;
+  border-radius: 3px;
+  white-space: nowrap;
+  background: var(--bg-panel);
+}
 .project-chevron {
   color: var(--text-faint);
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;

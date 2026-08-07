@@ -576,11 +576,33 @@
           <span class="feature-label">Kesişim Noktası</span>
           <h3>İki dünyanın birleştiği yer.</h3>
           <p>Mekanik/otomasyon ve yazılım/siber güvenlik hattı burada birleşiyor — projelerin çoğu tek bir alanda değil, tam bu kesişimde yaşıyor.</p>
+          <ul class="feature-list">
+            <li>Donanım ve yazılım aynı elden, entegrasyon kaybı olmadan</li>
+            <li>Tasarımdan devreye almaya tek sorumlu</li>
+            <li>Güvenlik, sisteme sonradan değil baştan dahil</li>
+          </ul>
           <span class="tool-tags-label">Üç Alan</span>
           <div class="tool-tags">
             <span class="tool-tag">Mekanik &amp; Otomasyon</span>
             <span class="tool-tag">Yazılım Geliştirme</span>
             <span class="tool-tag">Siber Güvenlik</span>
+          </div>
+          <div class="node-diagram">
+            <svg viewBox="0 0 220 165" fill="none" aria-hidden="true">
+              <g stroke="var(--line)" stroke-width="1.4" stroke-dasharray="3 4">
+                <path d="M110 82 40 34"/>
+                <path d="M110 82 180 34"/>
+                <path d="M110 82 110 142"/>
+              </g>
+              <circle cx="40" cy="34" r="12" stroke="var(--accent-2)" stroke-width="1.6" fill="var(--bg)"/>
+              <path d="M34 34h12M40 28v12" stroke="var(--accent-2)" stroke-width="1.6" stroke-linecap="round"/>
+              <circle cx="180" cy="34" r="12" stroke="var(--accent)" stroke-width="1.6" fill="var(--bg)"/>
+              <path d="M175 29 185 39M185 29l-10 10" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/>
+              <circle cx="110" cy="142" r="12" stroke="var(--signal)" stroke-width="1.6" fill="var(--bg)"/>
+              <path d="M104 142 109 147 118 136" stroke="var(--signal)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="110" cy="82" r="20" stroke="var(--accent-bright)" stroke-width="1.8" fill="var(--bg)"/>
+              <circle cx="110" cy="82" r="6" fill="var(--accent-bright)"/>
+            </svg>
           </div>
         </div>
       </details>
@@ -814,22 +836,21 @@
          id="proje-detay-NN" / aria-controls eşleşmesi benzersiz kalmalı. Detay metnindeki ilk <p data-decrypt-target> ilk açılışta ~0.5sn'lik decrypt
          efektiyle beliriyor (bkz. app.js — "Proje detay decrypt"). Gerçek proje görselleri eklendiğinde aynı efekt görsellere de taşınabilir.
 
-         v6 / FAZ 12.3: Aşağıdaki 3 satır GERÇEK PROJE DEĞİL — kullanıcının
-         kendi önizlemesi için (henüz yayına açık değil) gerçekçi doluluk
-         amacıyla eklenmiş ÖRNEK/DEMO içerik. Her biri "is-demo-project"
-         class'ı ve "Demo" etiketiyle (.project-tag-demo) işaretli.
-         YAYINA ALMADAN ÖNCE: bu 3 satır gerçek projelerle değiştirilmeli
-         ya da is-demo-project işaretli satırlar tamamen kaldırılmalı. -->
+         v7 / FAZ 13.5: P01–P03 artık GERÇEK projeler — GitHub'daki genel
+         (public) repolardan (github.com/FatihUzn). P04–P05 (mekanik/siber)
+         henüz gerçek bir proje değil; "Planlanan" etiketiyle işaretli,
+         mezuniyete kadar tamamlanması hedeflenen ama içeriği henüz
+         netleşmemiş yer tutucular. İçerik netleşince .project-tag-planned
+         kaldırılıp gerçek proje detayı yazılmalı. -->
     <div class="project-list">
-      <article class="project-row is-demo-project" data-track="yazilim">
+      <article class="project-row" data-track="yazilim">
         <button type="button" class="project-row-head" aria-expanded="false" aria-controls="proje-detay-01">
           <div class="project-row-grid">
             <span class="project-ref">P01</span>
             <div class="project-info">
-              <h3>Envanter &amp; Sipariş Takip Paneli</h3>
-              <p>Küçük ölçekli bir atölye için Python/Flask tabanlı stok ve sipariş takip aracı; barkod okuma ve otomatik düşük-stok uyarısı içeriyor.</p>
+              <h3>Golden Palace — Emlak &amp; Mimarlık</h3>
+              <p>TR/EN/AR/ZH dört dilli, satılık/kiralık ilan, otel ve restorasyon bölümleri içeren emlak &amp; mimarlık danışmanlığı sitesi.</p>
             </div>
-            <span class="project-tag-demo">Demo</span>
             <svg class="project-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <svg class="dim-overlay" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">
               <path class="dim-bracket" d="M4,14 L4,4 L14,4"/>
@@ -845,21 +866,20 @@
         <div class="project-detail-wrap" id="proje-detay-01">
           <div class="project-detail-inner">
             <div class="project-detail">
-              <p data-decrypt-target>// Bu bir örnek/demo içeriktir, gerçek bir proje değildir. Python (Flask) ve SQLite ile geliştirilmiş, tarayıcı üzerinden çalışan bir stok yönetim paneli senaryosu. Barkod ile ürün girişi, kritik stok seviyesinde e-posta uyarısı ve haftalık özet raporu gibi özellikler örnek kapsamda tasarlandı.</p>
-              <p class="project-detail-note">// örnek/demo içerik — gerçek proje eklendiğinde değiştirilecek</p>
+              <p data-decrypt-target>Çok dilli (Türkçe, İngilizce, Arapça, Çince) bir emlak &amp; mimarlık danışmanlığı için geliştirilmiş kurumsal site. Satılık/kiralık ilan listeleme, otel tanıtımı ve restorasyon projeleri için ayrı bölümler; dil değişiminde tüm içeriğin dinamik olarak güncellendiği bir i18n yapısı içeriyor.</p>
+              <a href="https://github.com/FatihUzn/GoldenStateSite" target="_blank" rel="noopener" class="link-pill">GitHub'da Görüntüle →</a>
             </div>
           </div>
         </div>
       </article>
-      <article class="project-row is-demo-project" data-track="mekanik">
+      <article class="project-row" data-track="yazilim">
         <button type="button" class="project-row-head" aria-expanded="false" aria-controls="proje-detay-02">
           <div class="project-row-grid">
             <span class="project-ref">P02</span>
             <div class="project-info">
-              <h3>CNC Fikstür &amp; Sabitleme Tasarımı</h3>
-              <p>Seri üretimde tekrarlanan bir parça için SolidWorks'te tasarlanmış, toleransları ⌀12 H7 ±0.018 hassasiyetinde CNC fikstürü.</p>
+              <h3>WalkAbout Travel — Tur Acentesi Sitesi</h3>
+              <p>PHP tabanlı, blog ve yönetim paneli dahil uçtan uca bir tur acentesi sitesi — Kapadokya, İstanbul, Efes gibi destinasyonlar için tur paketleri.</p>
             </div>
-            <span class="project-tag-demo">Demo</span>
             <svg class="project-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <svg class="dim-overlay" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">
               <path class="dim-bracket" d="M4,14 L4,4 L14,4"/>
@@ -875,21 +895,20 @@
         <div class="project-detail-wrap" id="proje-detay-02">
           <div class="project-detail-inner">
             <div class="project-detail">
-              <p data-decrypt-target>// Bu bir örnek/demo içeriktir, gerçek bir proje değildir. SolidWorks'te modellenmiş, CNC frezede işlenecek bir parçayı tekrar eden üretimde hızlı ve tutarlı biçimde sabitlemek için tasarlanmış özel fikstür senaryosu. Tolerans analizi ve sac/alüminyum gövde seçimi örnek kapsamda ele alındı.</p>
-              <p class="project-detail-note">// örnek/demo içerik — gerçek proje eklendiğinde değiştirilecek</p>
+              <p data-decrypt-target>PHP ile geliştirilmiş, tur paketi tanıtımı, blog (yazı listeleme + tekil yazı sayfası), yönetim paneli, sitemap ve çok dilli içerik desteği içeren tam kapsamlı bir tur acentesi sitesi. Frontend ve backend'in birlikte tasarlandığı bir proje.</p>
+              <a href="https://github.com/FatihUzn/WalkAbouTravel" target="_blank" rel="noopener" class="link-pill">GitHub'da Görüntüle →</a>
             </div>
           </div>
         </div>
       </article>
-      <article class="project-row is-demo-project" data-track="siber">
+      <article class="project-row" data-track="yazilim">
         <button type="button" class="project-row-head" aria-expanded="false" aria-controls="proje-detay-03">
           <div class="project-row-grid">
             <span class="project-ref">P03</span>
             <div class="project-info">
-              <h3>İç Ağ Güvenlik Denetimi</h3>
-              <p>Kali Linux tabanlı araçlarla küçük bir ofis ağında zafiyet taraması, açık port analizi ve sertleştirme önerileri içeren bir denetim senaryosu.</p>
+              <h3>Lok-Art — Butik Marka Sitesi</h3>
+              <p>Premium bir lokum markası için canvas-partikül efektleri ve scroll animasyonlarıyla zenginleştirilmiş, görsel odaklı tek sayfalık tanıtım sitesi.</p>
             </div>
-            <span class="project-tag-demo">Demo</span>
             <svg class="project-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <svg class="dim-overlay" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">
               <path class="dim-bracket" d="M4,14 L4,4 L14,4"/>
@@ -905,8 +924,68 @@
         <div class="project-detail-wrap" id="proje-detay-03">
           <div class="project-detail-inner">
             <div class="project-detail">
-              <p data-decrypt-target>// Bu bir örnek/demo içeriktir, gerçek bir proje değildir. Nmap ile port/servis taraması, temel zafiyet tespiti ve bulguların önceliklendirilmiş bir sertleştirme (hardening) listesine dönüştürülmesini kapsayan bir iç ağ denetim senaryosu örnek olarak hazırlandı.</p>
-              <p class="project-detail-note">// örnek/demo içerik — gerçek proje eklendiğinde değiştirilecek</p>
+              <p data-decrypt-target>Premium bir Türk lokumu markası için hazırlanmış butik tanıtım sitesi. Scroll ilerlemesine bağlı canvas-partikül animasyonu, reveal-on-scroll geçişleri ve "imza koleksiyon" / "özel seri" gibi ürün vitrinleriyle marka hikayesini görsel olarak öne çıkarıyor.</p>
+              <a href="https://github.com/FatihUzn/Lok-Art" target="_blank" rel="noopener" class="link-pill">GitHub'da Görüntüle →</a>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="project-row is-planned-project" data-track="mekanik">
+        <button type="button" class="project-row-head" aria-expanded="false" aria-controls="proje-detay-04">
+          <div class="project-row-grid">
+            <span class="project-ref">P04</span>
+            <div class="project-info">
+              <h3>İki Eksenli Gimbal Stabilizasyon Sistemi</h3>
+              <p>Mezuniyete kadar tamamlanması hedeflenen bir mekanik/otomasyon projesi — kapsam henüz netleştiriliyor.</p>
+            </div>
+            <span class="project-tag-planned">Planlanan</span>
+            <svg class="project-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg class="dim-overlay" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">
+              <path class="dim-bracket" d="M4,14 L4,4 L14,4"/>
+              <path class="dim-bracket" d="M386,4 L396,4 L396,14"/>
+              <path class="dim-bracket" d="M396,46 L396,56 L386,56"/>
+              <path class="dim-bracket" d="M14,56 L4,56 L4,46"/>
+              <line class="dim-line" x1="18" y1="30" x2="382" y2="30"/>
+              <path class="dim-arrow" d="M18,30 L26,25 M18,30 L26,35"/>
+              <path class="dim-arrow" d="M382,30 L374,25 M382,30 L374,35"/>
+            </svg>
+          </div>
+        </button>
+        <div class="project-detail-wrap" id="proje-detay-04">
+          <div class="project-detail-inner">
+            <div class="project-detail">
+              <p data-decrypt-target>İki eksenli (pan-tilt) bir gimbal için IMU (ivmeölçer + jiroskop) verisiyle gerçek zamanlı stabilizasyon sağlayan bir kontrol sistemi hedefleniyor. Kapsamda; fırçasız motor (BLDC) sürücü tasarımı, PID kontrol döngüsü, 3B baskı/CNC ile mekanik gövde ve titreşim/sarsıntıyı sönümleyen bir algoritma yer alacak. Amaç, kamera veya sensör taşıyan bir platformu dış etkilere karşı sabit tutabilen, uçtan uca (mekanik + elektronik + kontrol yazılımı) çalışan bir prototip ortaya çıkarmak.</p>
+              <p class="project-detail-note">// planlama aşamasında — henüz gerçek bir proje değil, önizleme için yazıldı</p>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="project-row is-planned-project" data-track="siber">
+        <button type="button" class="project-row-head" aria-expanded="false" aria-controls="proje-detay-05">
+          <div class="project-row-grid">
+            <span class="project-ref">P05</span>
+            <div class="project-info">
+              <h3>SQL Injection Tespit Eden Web Uygulama Güvenlik Duvarı (WAF)</h3>
+              <p>Mezuniyete kadar tamamlanması hedeflenen bir siber güvenlik projesi — kapsam henüz netleştiriliyor.</p>
+            </div>
+            <span class="project-tag-planned">Planlanan</span>
+            <svg class="project-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg class="dim-overlay" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">
+              <path class="dim-bracket" d="M4,14 L4,4 L14,4"/>
+              <path class="dim-bracket" d="M386,4 L396,4 L396,14"/>
+              <path class="dim-bracket" d="M396,46 L396,56 L386,56"/>
+              <path class="dim-bracket" d="M14,56 L4,56 L4,46"/>
+              <line class="dim-line" x1="18" y1="30" x2="382" y2="30"/>
+              <path class="dim-arrow" d="M18,30 L26,25 M18,30 L26,35"/>
+              <path class="dim-arrow" d="M382,30 L374,25 M382,30 L374,35"/>
+            </svg>
+          </div>
+        </button>
+        <div class="project-detail-wrap" id="proje-detay-05">
+          <div class="project-detail-inner">
+            <div class="project-detail">
+              <p data-decrypt-target>Bir web uygulamasının önüne konumlanan, gelen HTTP isteklerini gerçek zamanlı analiz eden hafif bir Web Uygulama Güvenlik Duvarı (WAF) hedefleniyor. Kapsamda; SQL Injection ve temel XSS kalıplarını imza/kural tabanlı tespit eden bir motor, şüpheli isteği loglayıp bağlantıyı düşüren bir katman ve tespit edilen saldırıları özetleyen basit bir izleme paneli yer alacak. Python (Flask/FastAPI ara katmanı) ile geliştirilmesi ve gerçek zafiyetli test uygulamaları (ör. DVWA) üzerinde doğrulanması planlanıyor.</p>
+              <p class="project-detail-note">// planlama aşamasında — henüz gerçek bir proje değil, önizleme için yazıldı</p>
             </div>
           </div>
         </div>

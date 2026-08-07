@@ -3,22 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gizlilik Politikası &amp; KVKK Aydınlatma Metni — UZN TECH &amp; SOFTWARE</title>
-<meta name="description" content="UZN TECH & SOFTWARE — KVKK kapsamında kişisel verilerin işlenmesine ilişkin aydınlatma metni ve gizlilik politikası.">
+<title>Gizlilik Politikası (KVKK) — UZN TECH &amp; SOFTWARE</title>
+<meta name="description" content="UZN TECH & SOFTWARE — 6698 sayılı KVKK kapsamında kişisel verilerin işlenmesine ilişkin aydınlatma metni.">
 <meta name="robots" content="noindex">
 
 <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/icon-512.png">
-<meta name="theme-color" content="#1e88c7">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#1e88c7">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#06070a">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="UZN TECH & SOFTWARE">
+<meta property="og:title" content="Gizlilik Politikası (KVKK)">
+<meta property="og:description" content="Kişisel verilerin işlenmesine ilişkin aydınlatma metni.">
+<meta property="og:image" content="assets/icons/og-image.png">
+<meta property="og:url" content="https://fatihuzn.github.io/consulting/kvkk.html">
+<meta property="og:locale" content="tr_TR">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-hud="off">
+
+<a href="#top" class="skip-link">İçeriğe atla</a>
 
 <div class="circuit-bg" aria-hidden="true"></div>
 <div class="hud-brackets" aria-hidden="true">
@@ -46,22 +58,6 @@
   </svg>
 </div>
 <div class="ambient-halo" aria-hidden="true"></div>
-<div class="data-layers" aria-hidden="true">
-  <div class="data-chip" style="top:24%;left:3%;">
-    <span class="data-chip-line data-chip-line-a">SIG.LOAD 0.42</span>
-    <span class="data-chip-line data-chip-line-b">SIG.LOAD 0.61</span>
-  </div>
-  <div class="data-chip" style="bottom:14%;right:4%;">
-    <span class="data-chip-line data-chip-line-a">LAT 04ms</span>
-    <span class="data-chip-line data-chip-line-b">LAT 07ms</span>
-  </div>
-</div>
-<div class="vector-nodes" aria-hidden="true">
-  <span class="vector-node" style="top:38%;left:9%;"></span>
-  <span class="vector-node" style="top:64%;left:93%;animation-delay:2.4s;"></span>
-  <span class="vector-node" style="top:12%;left:52%;animation-delay:5.1s;"></span>
-  <span class="vector-node" style="top:86%;left:38%;animation-delay:7.8s;"></span>
-</div>
 
 <header class="site-header">
   <a href="index.html#top" class="logo">
@@ -75,10 +71,10 @@
 
   <div class="header-right">
     <nav class="site-nav">
-      <a href="index.html#hakkimda"><span class="ref sensor-fade">U1</span> Hakkımda</a>
-      <a href="index.html#hizmetler"><span class="ref sensor-fade">U3</span> Hizmetler</a>
-      <a href="index.html#projeler"><span class="ref sensor-fade">U5</span> Projeler</a>
-      <a href="index.html#iletisim"><span class="ref sensor-fade">U8</span> İletişim</a>
+      <a href="index.html#hizmetler"><span class="ref sensor-fade">U1</span> Hizmetler</a>
+      <a href="hakkimda.html"><span class="ref sensor-fade">U2</span> Hakkımda</a>
+      <a href="index.html#projeler"><span class="ref sensor-fade">U3</span> Projeler</a>
+      <a href="index.html#iletisim"><span class="ref sensor-fade">U5</span> İletişim</a>
     </nav>
     <a href="index.html#top" class="btn btn-ghost btn-cv">Anasayfa</a>
   </div>
@@ -103,105 +99,104 @@
   </div>
 </div>
 
-<main id="top">
+<main id="top" tabindex="-1">
   <section class="legal-page">
-    <div class="scan-line" aria-hidden="true"></div>
-    <p class="eyebrow"><span class="node-motif"><span></span></span>YASAL — KVKK</p>
-    <h1>Gizlilik Politikası &amp; KVKK Aydınlatma Metni</h1>
-    <p class="legal-updated">Son güncelleme: 21 Temmuz 2026</p>
-
-    <p>
-      Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") uyarınca,
-      UZN TECH &amp; SOFTWARE ("veri sorumlusu", "biz") tarafından işletilen bu
-      internet sitesi (fatihuzn.github.io/consulting)
-      üzerinden hangi kişisel verilerin, hangi amaçla, hangi hukuki sebeple işlendiğini
-      ve ilgili kişi olarak haklarınızı açıklamak amacıyla hazırlanmıştır.
-    </p>
+    <p class="eyebrow"><span class="node-motif"><span></span></span>KVKK — AYDINLATMA METNİ</p>
+    <h1>Kişisel Verilerin Korunması Hakkında Aydınlatma Metni</h1>
+    <p class="legal-updated">Son güncelleme: Ağustos 2026</p>
 
     <h2><span class="legal-num">01</span>Veri Sorumlusu</h2>
     <p>
-      Kişisel verileriniz, veri sorumlusu sıfatıyla Fatih Uzner (UZN TECH &amp; SOFTWARE)
-      tarafından, aşağıda açıklanan kapsamda işlenmektedir.
+      6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") uyarınca, bu
+      internet sitesi (fatihuzn.github.io/consulting) üzerinden elde edilen
+      kişisel verileriniz, veri sorumlusu sıfatıyla <strong>Fatih Uzner
+      (UZN TECH &amp; SOFTWARE)</strong> tarafından aşağıda açıklanan
+      kapsamda işlenmektedir.
     </p>
-    <table class="legal-table">
-      <tr><th>Veri Sorumlusu</th><td>Fatih Uzner — UZN TECH &amp; SOFTWARE</td></tr>
-      <tr><th>E-posta</th><td><a href="mailto:a.fatihuzn@gmail.com">a.fatihuzn@gmail.com</a></td></tr>
-      <tr><th>Konum</th><td>Beşiktaş, İstanbul</td></tr>
-    </table>
+    <p>
+      İletişim: <a href="mailto:a.fatihuzn@gmail.com">a.fatihuzn@gmail.com</a>
+      · <a href="tel:+905343771414">+90 534 377 14 14</a> · Beşiktaş, İstanbul
+    </p>
 
     <h2><span class="legal-num">02</span>İşlenen Kişisel Veriler</h2>
-    <p>Site üzerindeki iletişim formunu doldurduğunuzda aşağıdaki veriler tarafımıza ulaşır:</p>
-    <ul>
-      <li><strong>Kimlik verisi:</strong> ad ve soyad</li>
-      <li><strong>İletişim verisi:</strong> e-posta adresi</li>
-      <li><strong>İşlem güvenliği verisi:</strong> form gönderim zamanı ve mesaj içeriği</li>
-    </ul>
+    <p>Site üzerindeki iletişim formunu kullandığınızda aşağıdaki veriler işlenir:</p>
+    <table class="legal-table">
+      <thead>
+        <tr><th>Veri Kategorisi</th><th>Örnek</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Kimlik</td><td>Ad soyad</td></tr>
+        <tr><td>İletişim</td><td>E-posta adresi</td></tr>
+        <tr><td>İşlem güvenliği</td><td>Form gönderim zamanı, spam-önleme (honeypot) alanı</td></tr>
+        <tr><td>Talep içeriği</td><td>İlgi alanı seçimi ve mesaj metni</td></tr>
+      </tbody>
+    </table>
     <p>
-      Site, sunucu düzeyinde standart erişim kayıtları (IP adresi, tarayıcı bilgisi,
-      ziyaret zamanı gibi) tutabilen statik bir barındırma altyapısında (GitHub Pages)
-      yayınlanmaktadır; bu kayıtlar barındırma sağlayıcısı tarafından teknik güvenlik
-      amacıyla otomatik olarak tutulur ve tarafımızca ayrıca işlenmez.
+      Site salt gezinme sırasında ad, e-posta gibi bir veri talep etmez;
+      yukarıdaki veriler yalnızca iletişim formunu doldurup gönderdiğinizde
+      toplanır.
     </p>
 
-    <h2><span class="legal-num">03</span>İşleme Amacı</h2>
+    <h2><span class="legal-num">03</span>İşleme Amaçları</h2>
     <ul>
-      <li>İletişim formu aracılığıyla tarafımıza ulaşan taleplerin değerlendirilmesi ve yanıtlanması</li>
-      <li>Olası proje/iş birliği görüşmelerinin yürütülmesi</li>
-      <li>Hukuki yükümlülüklerin yerine getirilmesi</li>
+      <li>Talebinize / teklif isteğinize dönüş yapabilmek</li>
+      <li>İletişim geçmişinin yönetilmesi</li>
+      <li>Spam ve kötüye kullanımın önlenmesi</li>
     </ul>
 
     <h2><span class="legal-num">04</span>Hukuki Sebep</h2>
     <p>
-      Kişisel verileriniz, KVKK'nın 5. maddesinde yer alan <strong>"ilgili kişinin açık rızasının bulunması"</strong>
-      ve <strong>"bir sözleşmenin kurulması veya ifasıyla doğrudan doğruya ilgili olması"</strong> hukuki
-      sebeplerine dayanılarak, iletişim formunu doldurup göndermeniz suretiyle verdiğiniz açık rıza
-      kapsamında işlenmektedir.
+      Kişisel verileriniz, KVKK m.5/2-(c) ve (f) bentleri kapsamında; bir
+      sözleşmenin kurulması öncesi talebinizin değerlendirilmesi ve meşru
+      menfaat (iletişim talebine yanıt verilmesi) hukuki sebeplerine
+      dayanılarak işlenmektedir.
     </p>
 
     <h2><span class="legal-num">05</span>Veri Aktarımı</h2>
     <p>
-      İletişim formu, statik site altyapısı nedeniyle üçüncü taraf bir form işleme servisi (Formspree)
-      üzerinden tarafımıza iletilmektedir. Form verileriniz bu servis aracılığıyla e-posta adresimize
-      ulaştırılmakta olup, pazarlama amacıyla üçüncü kişilerle paylaşılmamaktadır. Yasal zorunluluk
-      halleri dışında verileriniz başka bir üçüncü kişiyle paylaşılmaz.
+      İletişim formu, form verilerinin iletilmesi için üçüncü taraf bir form
+      işleme servisi (Formspree) üzerinden çalışır; bu kapsamda mesaj
+      içeriğiniz bu servis aracılığıyla e-posta adresime ulaştırılır.
+      Verileriniz, yukarıdaki amaçlar dışında üçüncü kişilerle
+      paylaşılmaz, satılmaz veya pazarlama amacıyla kullanılmaz.
     </p>
 
     <h2><span class="legal-num">06</span>Saklama Süresi</h2>
     <p>
-      Form yoluyla iletilen veriler, ilgili talebin değerlendirilmesi ve gerekli yazışmaların
-      tamamlanması için makul süre boyunca, sonrasında ise ilgili mevzuatta öngörülen zamanaşımı
-      süreleri saklı kalmak kaydıyla saklanır ve süre sonunda silinir.
+      İletişim formu üzerinden gelen talepler, ilgili yazışma sonuçlanana
+      ve makul bir süre (olası takip iletişimi için) geçene kadar
+      saklanır; bu süre sonunda silinir veya anonim hale getirilir.
     </p>
 
-    <h2><span class="legal-num">07</span>Haklarınız (KVKK m. 11)</h2>
-    <p>KVKK'nın 11. maddesi uyarınca bize başvurarak:</p>
+    <h2><span class="legal-num">07</span>İlgili Kişinin Hakları (KVKK m.11)</h2>
+    <p>KVKK'nın 11. maddesi uyarınca aşağıdaki haklara sahipsiniz:</p>
     <ul>
       <li>Kişisel verinizin işlenip işlenmediğini öğrenme</li>
       <li>İşlenmişse buna ilişkin bilgi talep etme</li>
       <li>İşlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme</li>
-      <li>Yurt içinde/dışında aktarıldığı üçüncü kişileri bilme</li>
+      <li>Yurt içinde/yurt dışında aktarıldığı üçüncü kişileri bilme</li>
       <li>Eksik/yanlış işlenmişse düzeltilmesini isteme</li>
-      <li>KVKK'da öngörülen şartlarda silinmesini/yok edilmesini isteme</li>
-      <li>Aleyhinize bir sonucun ortaya çıkmasına itiraz etme</li>
-      <li>Kanuna aykırı işleme nedeniyle uğradığınız zararın giderilmesini talep etme</li>
+      <li>KVKK'da öngörülen şartlar çerçevesinde silinmesini/yok edilmesini isteme</li>
+      <li>Düzeltme/silme işlemlerinin aktarıldığı üçüncü kişilere bildirilmesini isteme</li>
+      <li>Otomatik sistemlerle analiz sonucu aleyhinize bir sonucun ortaya çıkmasına itiraz etme</li>
+      <li>Kanuna aykırı işlenme nedeniyle zarara uğramanız hâlinde zararın giderilmesini talep etme</li>
     </ul>
     <p>
-      haklarına sahipsiniz. Bu haklarınızı kullanmak için
-      <a href="mailto:a.fatihuzn@gmail.com">a.fatihuzn@gmail.com</a> adresine yazılı olarak
-      başvurabilirsiniz.
+      Bu haklarınızı kullanmak için yukarıdaki e-posta adresi üzerinden
+      benimle iletişime geçebilirsiniz.
     </p>
 
     <h2><span class="legal-num">08</span>Çerezler</h2>
     <p>
-      Bu site, oturum takibi veya reklam amaçlı çerez kullanmaz. Yalnızca Google Fonts gibi
-      üçüncü taraf servisler, sayfa yüklenirken kendi teknik altyapıları gereği standart
-      istek kayıtları tutabilir.
+      Site, oturum içi tema/tercih hatırlama gibi temel işlevler dışında
+      izleme veya reklam amaçlı çerez kullanmaz.
     </p>
 
-    <h2><span class="legal-num">09</span>İletişim</h2>
+    <h2><span class="legal-num">09</span>Değişiklikler</h2>
     <p>
-      Bu politikaya ilişkin sorularınız için <a href="mailto:a.fatihuzn@gmail.com">a.fatihuzn@gmail.com</a>
-      adresinden bize ulaşabilirsiniz.
+      Bu aydınlatma metni, yasal gerekliliklere veya site işleyişindeki
+      değişikliklere göre güncellenebilir. Güncel sürüm her zaman bu
+      sayfada yayınlanır.
     </p>
   </section>
 </main>
@@ -220,10 +215,11 @@
       </a>
       <p class="footer-tagline">Mekanik hassasiyet, yazılım zekâsı, güvenli mimari — tek elden.</p>
       <div class="social-links footer-social">
-        <a href="https://github.com/KULLANICI_ADIN" target="_blank" rel="noopener" aria-label="GitHub">
+        <a href="https://github.com/FatihUzn" target="_blank" rel="noopener" aria-label="GitHub">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.09.68-.22.68-.49 0-.24-.01-.88-.01-1.72-2.78.62-3.37-1.37-3.37-1.37-.46-1.19-1.11-1.51-1.11-1.51-.91-.64.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.13-4.56-5.02 0-1.11.39-2.02 1.03-2.73-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.71 1.03 1.62 1.03 2.73 0 3.9-2.34 4.76-4.57 5.01.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.59.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z" fill="currentColor"/></svg>
         </a>
         <a href="https://linkedin.com/in/KULLANICI_ADIN" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <!-- TODO: gerçek LinkedIn kullanıcı adı ile değiştir -->
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6.94 5a1.94 1.94 0 1 1-3.88 0 1.94 1.94 0 0 1 3.88 0ZM3.4 8.75h3.1V21H3.4V8.75Zm6.02 0h2.97v1.68h.04c.41-.78 1.42-1.6 2.93-1.6 3.13 0 3.71 2.06 3.71 4.74V21h-3.1v-5.75c0-1.37-.02-3.13-1.91-3.13-1.91 0-2.2 1.49-2.2 3.03V21h-3.1V8.75Z" fill="currentColor"/></svg>
         </a>
       </div>
@@ -231,7 +227,7 @@
 
     <div class="footer-col">
       <span class="footer-col-title">Site Haritası</span>
-      <a href="index.html#hakkimda">Hakkımda</a>
+      <a href="hakkimda.html">Hakkımda</a>
       <a href="index.html#hizmetler">Hizmetler</a>
       <a href="index.html#projeler">Projeler</a>
       <a href="index.html#sss">SSS</a>
@@ -258,6 +254,10 @@
       <span><span class="footer-action-title">Hemen Ara</span><span class="footer-action-sub">+90 534 377 14 14</span></span>
       <span class="wave-bars" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
     </a>
+    <a href="https://wa.me/905343771414" target="_blank" rel="noopener" class="footer-action magnetic">
+      <span class="footer-action-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.75 13.55L3 21l4.6-1.22A9 9 0 1 0 12 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.6 8.4c.2-.5.5-.5.7-.5h.5c.2 0 .4 0 .6.4.2.5.6 1.5.7 1.6.1.1.1.3 0 .5-.1.2-.2.3-.3.4-.1.1-.3.3-.4.4-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1.2.1 1.5.7 1.8.8.3.1.5.2.5.3.1.2.1.9-.2 1.6-.3.7-1.5 1.4-2.1 1.5-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.6-1.2-3 0-1.4.7-2.1 1-2.4Z" fill="currentColor"/></svg></span>
+      <span><span class="footer-action-title">WhatsApp'tan Yaz</span><span class="footer-action-sub">+90 534 377 14 14</span></span>
+    </a>
     <a href="mailto:a.fatihuzn@gmail.com" class="footer-action magnetic">
       <span class="footer-action-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       <span><span class="footer-action-title">E-posta Gönder</span><span class="footer-action-sub">a.fatihuzn@gmail.com</span></span>
@@ -277,13 +277,7 @@
   </div>
 </footer>
 
-<!-- YUKARI DÖN — uzun KVKK metninde de aynı fayda. -->
-<button type="button" class="back-to-top" id="backToTop" aria-label="Sayfa başına dön">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 19V5M12 5l-6 6M12 5l6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-</button>
-
 <script src="app.js"></script>
-
 
 </body>
 </html>
