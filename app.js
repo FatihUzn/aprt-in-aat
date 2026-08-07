@@ -674,60 +674,14 @@ function uznScramble(el, totalMs, done) {
 
 
 /* ---- Track-select — hero'daki ilgi alanı seçici (yazılım/mekanik/siber/ikisi) ----
-   v18 GÜNCELLEMESİ: Bu artık bir FİLTRE DEĞİL. Eskiden butona basınca
-   sayfadaki [data-track] elemanları (topology düğümleri + #projeler
-   satırları) gizlenip gösteriliyordu — ama yazılım projeleri
-   yazilim.html'e taşındıktan sonra "Yazılım" butonu #projeler'i
-   boşaltıyordu (hiçbir şey filtrelenmiyor gibi görünüyordu).
-   Yeni davranış: butona basınca (a) sayfa #hizmetler'deki U1 topology
-   haritasına kayıyor, (b) ilgili düğüm otomatik açılıyor
-   (<details open>), kullanıcı oradaki .node-goto linkiyle ilgili
-   track sayfasına (yazilim.html vb.) geçebiliyor. #projeler
-   listesindeki [data-track] etiketleri (mekanik/siber planlı
-   projeler) bu değişiklikten etkilenmiyor — hiçbir yerde artık
-   gizlenmiyorlar, her zaman görünürler. */
-
-  (function () {
-    var trackBtns = document.querySelectorAll('[data-track-btn]');
-    var resetBtn = document.querySelector('[data-track-reset]');
-    var interestSelect = document.getElementById('ilgi-alani');
-    var labels = {
-      yazilim: 'Yazılım Geliştirme',
-      mekanik: 'Mekanik & Otomasyon',
-      siber: 'Siber Güvenlik',
-      ikisi: 'Mekatronik (İkisi)'
-    };
-    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    function goToTrack(track) {
-      trackBtns.forEach(function (btn) {
-        btn.classList.toggle('is-active', btn.getAttribute('data-track-btn') === track);
-      });
-      if (interestSelect && labels[track]) {
-        interestSelect.value = labels[track];
-      }
-      // Topology haritasındaki ilgili düğümü aç — diğerlerini kapatma işini
-      // zaten aşağıdaki "Ağ topolojisi haritası" bloğu (toggle listener) yapıyor.
-      var node = document.querySelector('.topology-node[data-track="' + track + '"]');
-      if (node && 'open' in node) { node.open = true; }
-      var target = document.getElementById('hizmetler');
-      if (target) {
-        target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-      }
-    }
-
-    trackBtns.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        goToTrack(btn.getAttribute('data-track-btn'));
-      });
-    });
-    if (resetBtn) {
-      resetBtn.addEventListener('click', function () {
-        trackBtns.forEach(function (btn) { btn.classList.remove('is-active'); });
-        document.querySelectorAll('.topology-node[open]').forEach(function (n) { n.open = false; });
-      });
-    }
-  })();
+   v20 GÜNCELLEMESİ: Artık ne filtre ne de sayfa-içi yönlendirme —
+   4 buton `<a href>` olarak doğrudan ilgili track sayfasına
+   (yazilim.html, mekanik-otomasyon.html, siber-guvenlik.html,
+   mekatronik.html) gidiyor. Eski JS (data-track-btn tıklama,
+   #hizmetler'e kaydırma, topology düğümü otomatik açma, iletişim
+   formundaki "ilgi alanı" alanını otomatik doldurma) tamamen
+   kaldırıldı — bunlara gerek kalmadı, tarayıcı linki normal şekilde
+   izliyor. */
 
 
 /* ---- Ağ topolojisi haritası — bir düğüm açılınca diğerleri kapanır

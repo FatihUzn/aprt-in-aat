@@ -58,8 +58,11 @@ ele alındı, kullanıcı hepsini aynı turda istedi.
   kaldırılmadı. İstenirse ayrı bir turda ele alınabilir.
 
 ## Sıradaki adım
-Değişiklikler kullanıcıya sunuldu. Onay sonrası kalıcı hale
-getirilecek.
+~~Değişiklikler kullanıcıya sunuldu. Onay sonrası kalıcı hale
+getirilecek.~~ **ONAYLANDI ve kalıcı hale getirildi.** v19 artık
+sitenin resmi/kalıcı sürümü — 8 dosya (`index.html`, `kurumsal.html`,
+`yazilim.html`, `mekanik-otomasyon.html`, `siber-guvenlik.html`,
+`mekatronik.html`, `style.css`, `app.js`) bu haliyle son durum.
 
 ---
 
