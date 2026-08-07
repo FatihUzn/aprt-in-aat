@@ -76,12 +76,12 @@ function uznScramble(el, totalMs, done) {
         p.textContent = steps[i];
         linesEl.appendChild(p);
         i++;
-        setTimeout(nextStep, 260);
+        setTimeout(nextStep, 550);
       } else {
         setTimeout(function () {
           overlay.classList.add('is-leaving');
-          setTimeout(function () { overlay.remove(); }, 420);
-        }, 220);
+          setTimeout(function () { overlay.remove(); }, 500);
+        }, 500);
       }
     }
 
