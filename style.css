@@ -1716,6 +1716,17 @@ h2::after {
   border-top: 1px solid var(--line-soft);
 }
 
+/* Placeholder note — FAZ 15 iskelet aşamasında içeriği henüz gelmemiş
+   bölümler (Ekip Üyeleri, Genel Kurul, track sayfaları) için. */
+.section-placeholder-note {
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  padding: 20px 24px;
+}
+
 /* Command palette trigger (header pill) */
 .cmdk-trigger {
   display: inline-flex;
