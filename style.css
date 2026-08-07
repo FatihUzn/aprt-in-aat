@@ -389,7 +389,10 @@ body::after { content: none; }
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: #06070a;
+  background:
+    radial-gradient(ellipse 640px 420px at 50% 46%, rgba(61, 111, 224, 0.14), transparent 70%),
+    radial-gradient(circle, rgba(231, 234, 241, 0.05) 1px, transparent 1px) 0 0 / 26px 26px,
+    #06070a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -398,6 +401,62 @@ body::after { content: none; }
 }
 .boot-overlay.is-active { opacity: 1; }
 .boot-overlay.is-leaving { opacity: 0; }
+.boot-overlay-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.boot-overlay-logo {
+  margin-bottom: 26px;
+  overflow: visible;
+}
+.boot-overlay-logo-dot {
+  opacity: 0;
+  transform-origin: center;
+  transform-box: fill-box;
+  transform: scale(0.3);
+  fill: var(--accent);
+  filter: drop-shadow(0 0 6px rgba(61, 111, 224, 0.7));
+}
+.boot-overlay-logo-dot-b { fill: var(--accent-bright); }
+.boot-overlay.is-active .boot-overlay-logo-dot-a { animation: boot-logo-dot-in 0.4s ease forwards 0.05s; }
+.boot-overlay.is-active .boot-overlay-logo-dot-b { animation: boot-logo-dot-in 0.4s ease forwards 0.95s; }
+.boot-overlay-logo-line {
+  stroke: var(--signal);
+  stroke-width: 1.6;
+  stroke-dasharray: 12;
+  stroke-dashoffset: 12;
+  filter: drop-shadow(0 0 4px rgba(231, 234, 241, 0.5));
+}
+.boot-overlay.is-active .boot-overlay-logo-line { animation: boot-logo-draw 0.9s ease forwards 0.15s; }
+@keyframes boot-logo-dot-in {
+  from { opacity: 0; transform: scale(0.3); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes boot-logo-draw {
+  to { stroke-dashoffset: 0; }
+}
+.boot-overlay-progress {
+  width: 220px;
+  height: 2px;
+  margin-top: 24px;
+  border-radius: 2px;
+  background: rgba(231, 234, 241, 0.08);
+  overflow: hidden;
+}
+.boot-overlay-progress-fill {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-bright));
+  box-shadow: 0 0 10px rgba(61, 111, 224, 0.8);
+}
+.boot-overlay-progress-fill.is-filling {
+  animation: boot-progress-fill 2.15s linear forwards;
+}
+@keyframes boot-progress-fill {
+  to { width: 100%; }
+}
 .boot-overlay-corner {
   position: absolute;
   width: 34px;
@@ -414,7 +473,14 @@ body::after { content: none; }
 .boot-overlay.is-active .boot-overlay-corner-tl,
 .boot-overlay.is-active .boot-overlay-corner-tr,
 .boot-overlay.is-active .boot-overlay-corner-bl,
-.boot-overlay.is-active .boot-overlay-corner-br { transform: translate(0, 0); }
+.boot-overlay.is-active .boot-overlay-corner-br {
+  transform: translate(0, 0);
+  animation: boot-corner-pulse 2.2s ease-in-out 0.6s infinite;
+}
+@keyframes boot-corner-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.95; }
+}
 .boot-overlay-lines {
   font-family: var(--font-mono);
   font-size: 0.8rem;
@@ -422,6 +488,7 @@ body::after { content: none; }
   color: var(--accent-bright);
   text-align: center;
   min-height: 3.6em;
+  text-shadow: 0 0 10px rgba(61, 111, 224, 0.45);
 }
 .boot-overlay-lines p {
   margin: 0 0 6px;

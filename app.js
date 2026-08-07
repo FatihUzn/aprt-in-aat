@@ -61,13 +61,22 @@ function uznScramble(el, totalMs, done) {
       '<span class="boot-overlay-corner boot-overlay-corner-tr"></span>' +
       '<span class="boot-overlay-corner boot-overlay-corner-bl"></span>' +
       '<span class="boot-overlay-corner boot-overlay-corner-br"></span>' +
-      '<div class="boot-overlay-lines"></div>' +
+      '<div class="boot-overlay-content">' +
+        '<svg class="boot-overlay-logo" width="56" height="56" viewBox="0 0 22 22" aria-hidden="true">' +
+          '<circle class="boot-overlay-logo-dot boot-overlay-logo-dot-a" cx="4" cy="11" r="2.2"/>' +
+          '<line class="boot-overlay-logo-line" x1="6.2" y1="11" x2="15.8" y2="11"/>' +
+          '<circle class="boot-overlay-logo-dot boot-overlay-logo-dot-b" cx="18" cy="11" r="2.2"/>' +
+        '</svg>' +
+        '<div class="boot-overlay-lines"></div>' +
+        '<div class="boot-overlay-progress"><span class="boot-overlay-progress-fill"></span></div>' +
+      '</div>' +
       '<div class="scan-line"></div>';
     document.body.appendChild(overlay);
 
     var linesEl = overlay.querySelector('.boot-overlay-lines');
     var scanEl = overlay.querySelector('.scan-line');
-    var steps = ['BAĞLANTI KURULUYOR...', 'GÜVENLİK DUVARI: OK', 'ARAYÜZ YÜKLENİYOR...'];
+    var progressEl = overlay.querySelector('.boot-overlay-progress-fill');
+    var steps = ['BAĞLANTI KURULUYOR...', 'GÜVENLİK DUVARI: AKTİF', 'ARAYÜZ YÜKLENİYOR...'];
     var i = 0;
 
     function nextStep() {
@@ -88,6 +97,11 @@ function uznScramble(el, totalMs, done) {
     requestAnimationFrame(function () {
       overlay.classList.add('is-active');
       scanEl.classList.add('is-scanning');
+      // Işık çubuğu, boot sekansının toplam süresiyle eşleşecek şekilde
+      // ~2.15s'de doluyor (3 adım x 550ms + 500ms bekleme). Adım sayısı ya
+      // da gecikmeler değişirse .boot-overlay-progress-fill animasyon
+      // süresi de (style.css) buna göre güncellenmeli.
+      if (progressEl) progressEl.classList.add('is-filling');
       nextStep();
     });
   })();
