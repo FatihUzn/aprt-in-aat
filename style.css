@@ -1055,39 +1055,21 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   display: flex;
   align-items: center;
   gap: 13px;
-  background:
-    radial-gradient(circle, rgba(231,234,241,0.05) 1px, transparent 1px) 0 0 / 16px 16px,
-    linear-gradient(180deg, var(--bg-panel-alt), var(--bg-panel));
+  background: linear-gradient(180deg, var(--bg-panel-alt), var(--bg-panel));
   border: 1px solid var(--line);
-  border-radius: 0;
+  border-radius: 14px;
   padding: 16px 20px;
   margin: 32px 0 0;
   max-width: 480px;
   box-shadow: var(--elev-1);
   overflow: hidden;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, transform 0.25s ease;
 }
-.hero-search::before,
-.hero-search::after {
-  content: '';
-  position: absolute;
-  width: 9px;
-  height: 9px;
-  border: 1px solid var(--accent);
-  opacity: 0.65;
-  pointer-events: none;
-  z-index: 2;
-  transition: opacity 0.2s ease, border-color 0.2s ease, width 0.2s ease, height 0.2s ease;
-}
-.hero-search::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
-.hero-search::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
-.hero-search:hover { border-color: var(--line-soft); box-shadow: var(--elev-2); }
+.hero-search:hover { border-color: var(--line-soft); box-shadow: var(--elev-2); transform: translateY(-1px); }
 .hero-search:focus-within {
   border-color: var(--accent-2);
   box-shadow: 0 0 0 1px var(--accent-2), 0 0 0 5px var(--accent-2-dim), var(--elev-2);
 }
-.hero-search:focus-within::before,
-.hero-search:focus-within::after { opacity: 1; border-color: var(--accent-bright); width: 12px; height: 12px; }
 /* İç tarayıcı ışını: yalnızca odaklanınca bir kez üstten geçer */
 .hero-search-scan {
   position: absolute;
@@ -1163,16 +1145,14 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   grid-template-columns: repeat(4, 1fr);
   gap: 1px;
   background: var(--line);
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
   box-shadow: var(--elev-2);
 }
 .quick-tile {
   position: relative;
   counter-increment: qtile;
-  background:
-    radial-gradient(circle, rgba(231,234,241,0.045) 1px, transparent 1px) 0 0 / 18px 18px,
-    var(--bg-panel);
+  background: var(--bg-panel);
   padding: 24px 22px 26px;
   display: flex;
   align-items: center;
@@ -1192,33 +1172,18 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   transition: transform 0.3s ease;
   z-index: 2;
 }
-.quick-tile::after {
-  content: counter(qtile, decimal-leading-zero) '/04';
-  position: absolute;
-  top: 10px;
-  right: 14px;
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.06em;
-  color: var(--text-faint);
-  opacity: 0.55;
-  transition: color 0.25s ease, opacity 0.25s ease;
-}
 .quick-tile:hover {
-  background:
-    radial-gradient(circle, rgba(231,234,241,0.045) 1px, transparent 1px) 0 0 / 18px 18px,
-    var(--bg-panel-alt);
+  background: var(--bg-panel-alt);
   transform: translateY(-3px);
   box-shadow: 0 16px 30px -18px rgba(61,111,224,0.45);
   z-index: 1;
 }
 .quick-tile:hover::before { transform: scaleX(1); }
-.quick-tile:hover::after { color: var(--accent-bright); opacity: 0.9; }
 .quick-tile-icon {
   position: relative;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   background: var(--bg-panel-alt);
   border: 1px solid var(--line);
   display: flex;
@@ -1678,16 +1643,16 @@ h2::after {
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 0.94rem;
-  padding: 15px 30px;
-  /* FAZ 5 / Şevli Köşeler: yuvarlak pill yerine 45°'lik keskin kesim.
-     border-radius de bırakıldı çünkü bazı tarayıcılarda clip-path'in
-     kestiği köşelerde altta kalan dikdörtgen köşe sızabiliyor. */
-  border-radius: 0;
-  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  padding: 15px 26px;
+  border-radius: 12px;
   text-decoration: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
+.btn-arrow { flex-shrink: 0; transition: transform 0.25s ease; }
+.btn-primary:hover .btn-arrow { transform: translateX(3px); }
 /* FAZ 5.0 doğrulama: metin rengi #000000 iken navy/light fazlarında
    --accent üzerinde WCAG AA (4.5:1) altına düşüyordu (navy 3.93:1,
    light 3.44:1). Beyaza çevrildi — 3 fazda da (4.62 / 5.34 / 6.1) AA
@@ -1722,22 +1687,7 @@ h2::after {
   background: var(--bg-panel);
   box-shadow: var(--elev-1);
 }
-.btn-ghost::before,
-.btn-ghost::after {
-  content: '';
-  position: absolute;
-  width: 7px;
-  height: 7px;
-  border: 1px solid var(--accent-2);
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  pointer-events: none;
-}
-.btn-ghost::before { top: 4px; left: 4px; border-right: none; border-bottom: none; }
-.btn-ghost::after { bottom: 4px; right: 4px; border-left: none; border-top: none; }
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent-bright); background: var(--bg-panel-alt); transform: translateY(-2px); box-shadow: var(--elev-2); }
-.btn-ghost:hover::before,
-.btn-ghost:hover::after { opacity: 0.85; }
 @media (prefers-reduced-motion: reduce) {
   .btn-primary::after { animation: none; display: none; }
 }
@@ -1765,55 +1715,54 @@ h2::after {
 
 .hero-specs {
   position: relative;
-  counter-reset: spec;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
-  max-width: 620px;
-  box-shadow: var(--elev-1);
+  gap: 10px;
+  max-width: 640px;
 }
 .spec {
   position: relative;
-  counter-increment: spec;
-  background:
-    radial-gradient(circle, rgba(231,234,241,0.045) 1px, transparent 1px) 0 0 / 16px 16px,
-    var(--bg-panel);
-  padding: 16px 18px 17px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px 16px 17px;
   display: flex;
-  flex-direction: column;
-  gap: 7px;
+  align-items: flex-start;
+  gap: 11px;
   overflow: hidden;
-  transition: background 0.25s ease;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
-.spec::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent-2), transparent);
-  opacity: 0.7;
-  transition: opacity 0.25s ease, background 0.25s ease;
+.spec:hover {
+  background: var(--bg-panel-alt);
+  border-color: var(--line-soft);
+  transform: translateY(-2px);
+  box-shadow: var(--elev-2);
 }
-.spec::after {
-  content: counter(spec, decimal-leading-zero) '/03';
-  position: absolute;
-  top: 8px;
-  right: 10px;
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.06em;
-  color: var(--text-faint);
-  opacity: 0.5;
-  transition: color 0.25s ease, opacity 0.25s ease;
+.spec-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-panel-alt);
+  border: 1px solid var(--line);
+  color: var(--accent-2);
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
 }
-.spec:hover { background: radial-gradient(circle, rgba(231,234,241,0.045) 1px, transparent 1px) 0 0 / 16px 16px, var(--bg-panel-alt); }
-.spec:hover::before { opacity: 1; background: linear-gradient(90deg, var(--accent-bright), transparent); }
-.spec:hover::after { color: var(--accent-bright); opacity: 0.9; }
-.spec-label { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-faint); letter-spacing: 0.08em; }
-.spec-val { font-size: 0.88rem; color: var(--text); font-weight: 500; }
-@media (max-width: 640px) { .hero-specs { grid-template-columns: 1fr; } }
+.spec:hover .spec-icon {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border-color: var(--accent-bright);
+  color: #fff;
+  transform: scale(1.06);
+}
+.spec-icon-live { background: var(--bg-panel-alt); }
+.spec-icon-live .pulse-dot { position: static; top: 0; margin-right: 0; width: 9px; height: 9px; }
+.spec-body { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.spec-label { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-faint); letter-spacing: 0.09em; }
+.spec-val { font-size: 0.86rem; color: var(--text); font-weight: 600; line-height: 1.3; }
+@media (max-width: 640px) { .hero-specs { grid-template-columns: 1fr; max-width: 340px; } }
 
 /* FAZ 1 / Sürekli Bant: statik metin yerine yavaş, sonsuz kayan bir
    şerit. İçerik app.js'te değil doğrudan HTML'de iki kez tekrarlanıyor
@@ -1821,20 +1770,32 @@ h2::after {
    yerini alıyor, dikişsiz döngü. Kenarlarda mask-image ile yumuşak
    solma var. Mouse üzerine gelince duruyor; prefers-reduced-motion
    global kuralla zaten otomatik devre dışı kalıyor. */
+.credentials-panel {
+  margin: 26px 0 0;
+  padding: 18px 20px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  max-width: 640px;
+}
 .credentials-strip-label {
-  margin: 32px 0 8px;
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
   font-family: var(--font-mono);
   font-size: 0.65rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-faint);
 }
+.credentials-strip-label svg { color: var(--accent-2); flex-shrink: 0; }
 .credentials-strip {
   margin-top: 0;
   overflow: hidden;
   position: relative;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0, black 32px, black calc(100% - 32px), transparent 100%);
-  mask-image: linear-gradient(90deg, transparent 0, black 32px, black calc(100% - 32px), transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, black 24px, black calc(100% - 24px), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, black 24px, black calc(100% - 24px), transparent 100%);
 }
 .credentials-track {
   display: flex;
@@ -2861,44 +2822,37 @@ h2 { font-size: var(--fs-h2); font-weight: 700; margin-bottom: 40px; }
 /* v18: adı aynı kaldı ama artık bir filtre değil — bkz. app.js Track-select yorumu. */
 .track-select {
   position: relative;
-  counter-reset: tbtn;
   background:
-    radial-gradient(circle, rgba(231,234,241,0.045) 1px, transparent 1px) 0 0 / 20px 20px,
-    linear-gradient(165deg, var(--bg-panel-alt), var(--bg-panel) 55%);
+    radial-gradient(circle at 15% 0%, rgba(106,148,240,0.09), transparent 55%),
+    linear-gradient(165deg, var(--bg-panel-alt), var(--bg-panel) 60%);
   border: 1px solid var(--line);
-  border-top: 2px solid var(--accent-2);
-  border-radius: 0;
-  padding: 18px 20px 20px;
+  border-radius: 18px;
+  padding: 22px 24px 24px;
   margin: 8px 0 40px;
   box-shadow: var(--elev-1);
   overflow: hidden;
-  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
 }
-.track-select:hover { box-shadow: var(--elev-2); }
-.track-select::before,
-.track-select::after {
+.track-select::before {
   content: '';
   position: absolute;
-  width: 10px;
-  height: 10px;
-  border: 1px solid var(--accent);
-  opacity: 0.55;
-  pointer-events: none;
-  animation: boot-corner-pulse 3.2s ease-in-out infinite;
+  top: 0; left: 20px; right: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-2), transparent);
+  opacity: 0.7;
 }
-.track-select::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
-.track-select::after { bottom: -1px; right: -1px; border-left: none; border-top: none; animation-delay: 1.6s; }
+.track-select:hover { box-shadow: var(--elev-2); border-color: var(--line-soft); }
 .track-select-label {
   position: relative;
   display: flex;
   align-items: center;
   gap: 8px;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-faint);
-  margin: 0 0 14px;
+  margin: 0 0 16px;
 }
 .track-select-label::before {
   content: '';
@@ -2906,81 +2860,75 @@ h2 { font-size: var(--fs-h2); font-weight: 700; margin-bottom: 40px; }
   height: 5px;
   border-radius: 50%;
   background: var(--accent-2);
-  box-shadow: 0 0 5px 1px var(--accent-2);
+  box-shadow: 0 0 6px 1px var(--accent-2);
+  flex-shrink: 0;
 }
-.track-switch { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0; }
+.track-switch {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 0;
+}
 .track-btn {
   position: relative;
-  counter-increment: tbtn;
   display: inline-flex;
   align-items: center;
+  gap: 11px;
   background: var(--bg-panel);
   border: 1px solid var(--line);
-  border-radius: 0;
-  clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
+  border-radius: 12px;
   color: var(--text-dim);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.005em;
   text-decoration: none;
-  padding: 10px 40px 10px 28px;
+  padding: 13px 16px;
   cursor: pointer;
   overflow: hidden;
   transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
-.track-btn::before {
-  content: '';
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--text-faint);
-  transition: background 0.2s ease, box-shadow 0.2s ease;
-  z-index: 1;
+.track-btn-icon {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-panel-alt);
+  border: 1px solid var(--line);
+  color: var(--accent-2);
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
-.track-btn::after {
-  content: counter(tbtn, decimal-leading-zero);
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 0.62rem;
-  color: var(--text-faint);
-  opacity: 0.5;
-  transition: color 0.2s ease, opacity 0.2s ease;
-}
+.track-btn-text { position: relative; z-index: 1; }
 .track-btn:hover {
   border-color: var(--accent-2);
   color: var(--text);
   background: var(--bg-panel-alt);
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px -12px rgba(61,111,224,0.55);
+  box-shadow: 0 10px 22px -14px rgba(61,111,224,0.55);
 }
-.track-btn:hover::before { background: var(--accent-2); }
-.track-btn:hover::after { color: var(--accent-bright); opacity: 0.9; }
+.track-btn:hover .track-btn-icon {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border-color: var(--accent-bright);
+  color: #fff;
+  transform: scale(1.06);
+}
 .track-btn.is-active {
   border-color: var(--accent);
   color: var(--accent-bright);
   background: var(--bg-panel-alt);
-  box-shadow: 0 0 0 1px var(--accent-2-dim), 0 0 16px -4px rgba(106,148,240,0.5);
+  box-shadow: 0 0 0 1px var(--accent-2-dim), 0 0 18px -6px rgba(106,148,240,0.5);
 }
-.track-btn.is-active::before {
-  background: var(--accent-bright);
-  box-shadow: 0 0 6px 1px var(--accent-bright);
-  animation: track-dot-pulse 2s ease-out infinite;
+.track-btn.is-active .track-btn-icon {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border-color: var(--accent-bright);
+  color: #fff;
 }
-.track-btn.is-active::after { color: var(--accent-bright); opacity: 0.85; }
-@keyframes track-dot-pulse {
-  0% { box-shadow: 0 0 6px 1px var(--accent-bright), 0 0 0 0 rgba(106,148,240,0.5); }
-  70% { box-shadow: 0 0 6px 1px var(--accent-bright), 0 0 0 6px rgba(106,148,240,0); }
-  100% { box-shadow: 0 0 6px 1px var(--accent-bright), 0 0 0 0 rgba(106,148,240,0); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .track-select::before, .track-select::after, .track-btn.is-active::before { animation: none; }
+@media (max-width: 560px) {
+  .track-switch { grid-template-columns: 1fr; }
 }
 /* v20: .track-reset kaldırıldı — track-btn artık `<a href>` olarak
    doğrudan sayfaya gidiyor, "seçim" kavramı yok, temizlenecek bir
