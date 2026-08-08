@@ -1055,13 +1055,16 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   display: flex;
   align-items: center;
   gap: 13px;
-  background: linear-gradient(180deg, var(--bg-panel-alt), var(--bg-panel));
+  background:
+    radial-gradient(circle, rgba(231,234,241,0.05) 1px, transparent 1px) 0 0 / 16px 16px,
+    linear-gradient(180deg, var(--bg-panel-alt), var(--bg-panel));
   border: 1px solid var(--line);
   border-radius: 0;
   padding: 16px 20px;
   margin: 32px 0 0;
   max-width: 480px;
   box-shadow: var(--elev-1);
+  overflow: hidden;
   transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 .hero-search::before,
@@ -1073,6 +1076,7 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   border: 1px solid var(--accent);
   opacity: 0.65;
   pointer-events: none;
+  z-index: 2;
   transition: opacity 0.2s ease, border-color 0.2s ease, width 0.2s ease, height 0.2s ease;
 }
 .hero-search::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
@@ -1084,9 +1088,35 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
 }
 .hero-search:focus-within::before,
 .hero-search:focus-within::after { opacity: 1; border-color: var(--accent-bright); width: 12px; height: 12px; }
+/* İç tarayıcı ışını: yalnızca odaklanınca bir kez üstten geçer */
+.hero-search-scan {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+.hero-search-scan::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -30%;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(106,148,240,0.16), transparent);
+  transform: skewX(-20deg);
+}
+.hero-search:focus-within .hero-search-scan::before {
+  animation: search-sweep 1s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes search-sweep {
+  to { left: 130%; }
+}
 .hero-search svg {
   flex-shrink: 0;
   color: var(--accent-2);
+  position: relative;
+  z-index: 2;
   transition: color 0.2s ease, transform 0.2s ease;
 }
 .hero-search:focus-within svg { color: var(--accent-bright); transform: scale(1.06); }
@@ -1099,6 +1129,8 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   letter-spacing: 0.01em;
   color: var(--text);
   width: 100%;
+  position: relative;
+  z-index: 2;
 }
 .hero-search input::placeholder { color: var(--text-faint); }
 .hero-search-cursor {
@@ -1107,16 +1139,23 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   height: 15px;
   background: var(--accent-2);
   opacity: 0.5;
+  position: relative;
+  z-index: 2;
   animation: boot-blink 0.9s step-end infinite;
 }
 .hero-search:focus-within .hero-search-cursor { background: var(--accent-bright); opacity: 0.9; }
 @media (prefers-reduced-motion: reduce) {
   .hero-search-cursor { animation: none; }
+  .hero-search:focus-within .hero-search-scan::before { animation: none; }
 }
 
-/* Floating quick-tile row, overlapping the hero/next section boundary */
+/* Floating quick-tile row, overlapping the hero/next section boundary.
+   FAZ 7 / HUD Panel Dili: nokta-grid zemin dokusu + mono index okuması
+   ("01 / 04" vb, aynı REF.0X / U0 etiket dilinde) diğer bileşenlerle
+   (.hero-search, .track-select, .hero-specs) tutarlı hale getirildi. */
 .quick-tiles {
   position: relative;
+  counter-reset: qtile;
   z-index: 2;
   max-width: 1240px;
   margin: -38px auto 40px;
@@ -1130,14 +1169,17 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
 }
 .quick-tile {
   position: relative;
-  background: var(--bg-panel);
-  padding: 22px 22px 24px;
+  counter-increment: qtile;
+  background:
+    radial-gradient(circle, rgba(231,234,241,0.045) 1px, transparent 1px) 0 0 / 18px 18px,
+    var(--bg-panel);
+  padding: 24px 22px 26px;
   display: flex;
   align-items: center;
   gap: 15px;
   text-decoration: none;
   overflow: hidden;
-  transition: background 0.25s ease, transform 0.25s ease;
+  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 .quick-tile::before {
   content: '';
@@ -1148,14 +1190,32 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
+  z-index: 2;
+}
+.quick-tile::after {
+  content: counter(qtile, decimal-leading-zero) '/04';
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  opacity: 0.55;
+  transition: color 0.25s ease, opacity 0.25s ease;
 }
 .quick-tile:hover {
-  background: var(--bg-panel-alt);
+  background:
+    radial-gradient(circle, rgba(231,234,241,0.045) 1px, transparent 1px) 0 0 / 18px 18px,
+    var(--bg-panel-alt);
   transform: translateY(-3px);
+  box-shadow: 0 16px 30px -18px rgba(61,111,224,0.45);
   z-index: 1;
 }
 .quick-tile:hover::before { transform: scaleX(1); }
+.quick-tile:hover::after { color: var(--accent-bright); opacity: 0.9; }
 .quick-tile-icon {
+  position: relative;
   width: 42px;
   height: 42px;
   border-radius: 50%;
@@ -1166,16 +1226,23 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   justify-content: center;
   color: var(--accent);
   flex-shrink: 0;
-  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 .quick-tile:hover .quick-tile-icon {
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
   border-color: var(--accent-bright);
   color: #ffffff;
-  transform: scale(1.08);
+  transform: scale(1.1) rotate(-6deg);
+  box-shadow: 0 0 0 4px var(--accent-2-dim), 0 0 18px -2px rgba(106,148,240,0.7);
 }
-.quick-tile-title { display: block; font-weight: 600; color: var(--text); font-size: 0.92rem; transition: color 0.2s ease; }
-.quick-tile:hover .quick-tile-title { color: var(--accent-bright); }
+.quick-tile-title {
+  display: block;
+  font-weight: 600;
+  color: var(--text);
+  font-size: 0.92rem;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.quick-tile:hover .quick-tile-title { color: var(--accent-bright); transform: translateX(2px); }
 .quick-tile-sub { display: block; color: var(--text-faint); font-size: 0.78rem; margin-top: 2px; }
 @media (max-width: 900px) {
   .quick-tiles { grid-template-columns: repeat(2, 1fr); margin-top: -24px; }
@@ -1630,10 +1697,50 @@ h2::after {
   color: #ffffff;
   box-shadow: 0 10px 26px -10px rgba(61,111,224,0.6);
 }
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform: skewX(-20deg);
+  animation: btn-shimmer 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes btn-shimmer {
+  0% { left: -60%; }
+  35%, 100% { left: 130%; }
+}
 .btn-primary:hover { background: linear-gradient(135deg, var(--accent-bright), var(--accent-2) 90%); transform: translateY(-2px); box-shadow: 0 16px 32px -10px rgba(61,111,224,0.65); }
 .btn-primary.magnetic:hover { transform: translate(var(--mbx), var(--mby)); }
-.btn-ghost { color: var(--text); border: 1px solid var(--line); background: var(--bg-panel); box-shadow: var(--elev-1); }
+.btn-ghost {
+  position: relative;
+  color: var(--text);
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  box-shadow: var(--elev-1);
+}
+.btn-ghost::before,
+.btn-ghost::after {
+  content: '';
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--accent-2);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+.btn-ghost::before { top: 4px; left: 4px; border-right: none; border-bottom: none; }
+.btn-ghost::after { bottom: 4px; right: 4px; border-left: none; border-top: none; }
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent-bright); background: var(--bg-panel-alt); transform: translateY(-2px); box-shadow: var(--elev-2); }
+.btn-ghost:hover::before,
+.btn-ghost:hover::after { opacity: 0.85; }
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary::after { animation: none; display: none; }
+}
 
 /* Button click spark — a brief flash at the click point, like a physical
    contact closing. Purely visual, no persistent state. */
@@ -1657,6 +1764,8 @@ h2::after {
 }
 
 .hero-specs {
+  position: relative;
+  counter-reset: spec;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1px;
@@ -1667,13 +1776,16 @@ h2::after {
 }
 .spec {
   position: relative;
-  background: var(--bg-panel);
+  counter-increment: spec;
+  background:
+    radial-gradient(circle, rgba(231,234,241,0.045) 1px, transparent 1px) 0 0 / 16px 16px,
+    var(--bg-panel);
   padding: 16px 18px 17px;
   display: flex;
   flex-direction: column;
   gap: 7px;
   overflow: hidden;
-  transition: background 0.2s ease;
+  transition: background 0.25s ease;
 }
 .spec::before {
   content: '';
@@ -1682,8 +1794,23 @@ h2::after {
   height: 2px;
   background: linear-gradient(90deg, var(--accent-2), transparent);
   opacity: 0.7;
+  transition: opacity 0.25s ease, background 0.25s ease;
 }
-.spec:hover { background: var(--bg-panel-alt); }
+.spec::after {
+  content: counter(spec, decimal-leading-zero) '/03';
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  opacity: 0.5;
+  transition: color 0.25s ease, opacity 0.25s ease;
+}
+.spec:hover { background: radial-gradient(circle, rgba(231,234,241,0.045) 1px, transparent 1px) 0 0 / 16px 16px, var(--bg-panel-alt); }
+.spec:hover::before { opacity: 1; background: linear-gradient(90deg, var(--accent-bright), transparent); }
+.spec:hover::after { color: var(--accent-bright); opacity: 0.9; }
 .spec-label { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-faint); letter-spacing: 0.08em; }
 .spec-val { font-size: 0.88rem; color: var(--text); font-weight: 500; }
 @media (max-width: 640px) { .hero-specs { grid-template-columns: 1fr; } }
@@ -2734,13 +2861,17 @@ h2 { font-size: var(--fs-h2); font-weight: 700; margin-bottom: 40px; }
 /* v18: adı aynı kaldı ama artık bir filtre değil — bkz. app.js Track-select yorumu. */
 .track-select {
   position: relative;
-  background: linear-gradient(165deg, var(--bg-panel-alt), var(--bg-panel) 55%);
+  counter-reset: tbtn;
+  background:
+    radial-gradient(circle, rgba(231,234,241,0.045) 1px, transparent 1px) 0 0 / 20px 20px,
+    linear-gradient(165deg, var(--bg-panel-alt), var(--bg-panel) 55%);
   border: 1px solid var(--line);
   border-top: 2px solid var(--accent-2);
   border-radius: 0;
   padding: 18px 20px 20px;
   margin: 8px 0 40px;
   box-shadow: var(--elev-1);
+  overflow: hidden;
   transition: box-shadow 0.25s ease, border-color 0.25s ease;
 }
 .track-select:hover { box-shadow: var(--elev-2); }
@@ -2753,10 +2884,15 @@ h2 { font-size: var(--fs-h2); font-weight: 700; margin-bottom: 40px; }
   border: 1px solid var(--accent);
   opacity: 0.55;
   pointer-events: none;
+  animation: boot-corner-pulse 3.2s ease-in-out infinite;
 }
 .track-select::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
-.track-select::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+.track-select::after { bottom: -1px; right: -1px; border-left: none; border-top: none; animation-delay: 1.6s; }
 .track-select-label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.04em;
@@ -2764,9 +2900,18 @@ h2 { font-size: var(--fs-h2); font-weight: 700; margin-bottom: 40px; }
   color: var(--text-faint);
   margin: 0 0 14px;
 }
-.track-switch { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0; }
+.track-select-label::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-2);
+  box-shadow: 0 0 5px 1px var(--accent-2);
+}
+.track-switch { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0; }
 .track-btn {
   position: relative;
+  counter-increment: tbtn;
   display: inline-flex;
   align-items: center;
   background: var(--bg-panel);
@@ -2779,8 +2924,9 @@ h2 { font-size: var(--fs-h2); font-weight: 700; margin-bottom: 40px; }
   letter-spacing: 0.03em;
   text-transform: uppercase;
   text-decoration: none;
-  padding: 10px 18px 10px 28px;
+  padding: 10px 40px 10px 28px;
   cursor: pointer;
+  overflow: hidden;
   transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 .track-btn::before {
@@ -2794,24 +2940,47 @@ h2 { font-size: var(--fs-h2); font-weight: 700; margin-bottom: 40px; }
   border-radius: 50%;
   background: var(--text-faint);
   transition: background 0.2s ease, box-shadow 0.2s ease;
+  z-index: 1;
+}
+.track-btn::after {
+  content: counter(tbtn, decimal-leading-zero);
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.62rem;
+  color: var(--text-faint);
+  opacity: 0.5;
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
 .track-btn:hover {
   border-color: var(--accent-2);
   color: var(--text);
   background: var(--bg-panel-alt);
-  transform: translateY(-1px);
-  box-shadow: 0 8px 18px -12px rgba(61,111,224,0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -12px rgba(61,111,224,0.55);
 }
 .track-btn:hover::before { background: var(--accent-2); }
+.track-btn:hover::after { color: var(--accent-bright); opacity: 0.9; }
 .track-btn.is-active {
   border-color: var(--accent);
   color: var(--accent-bright);
   background: var(--bg-panel-alt);
-  box-shadow: 0 0 0 1px var(--accent-2-dim);
+  box-shadow: 0 0 0 1px var(--accent-2-dim), 0 0 16px -4px rgba(106,148,240,0.5);
 }
 .track-btn.is-active::before {
   background: var(--accent-bright);
   box-shadow: 0 0 6px 1px var(--accent-bright);
+  animation: track-dot-pulse 2s ease-out infinite;
+}
+.track-btn.is-active::after { color: var(--accent-bright); opacity: 0.85; }
+@keyframes track-dot-pulse {
+  0% { box-shadow: 0 0 6px 1px var(--accent-bright), 0 0 0 0 rgba(106,148,240,0.5); }
+  70% { box-shadow: 0 0 6px 1px var(--accent-bright), 0 0 0 6px rgba(106,148,240,0); }
+  100% { box-shadow: 0 0 6px 1px var(--accent-bright), 0 0 0 0 rgba(106,148,240,0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .track-select::before, .track-select::after, .track-btn.is-active::before { animation: none; }
 }
 /* v20: .track-reset kaldırıldı — track-btn artık `<a href>` olarak
    doğrudan sayfaya gidiyor, "seçim" kavramı yok, temizlenecek bir
