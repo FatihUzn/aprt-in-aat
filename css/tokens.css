@@ -1,0 +1,30 @@
+:root {
+  --bg: #06070a;
+  --bg-panel: #0e1117;
+  --bg-panel-alt: #121620;
+  --line: rgba(231, 234, 241, 0.12);
+  --line-soft: rgba(231, 234, 241, 0.07);
+  --accent: #3d6fe0;
+  --accent-bright: #6a94f0;
+  --accent-2: #2a4fb0;
+  --accent-2-dim: #2a4fb033;
+  --signal: #e7eaf1;
+  --text: #e7eaf1;
+  --text-dim: #a9b4c9;
+  --text-faint: #7684a0;
+
+  --font-display: 'Sora', 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  
+  --fs-h2: clamp(1.7rem, 2.6vw, 2.05rem);
+  --ls-display: -0.015em;
+  --ls-label: 0.06em;
+  --ls-micro: 0.09em;
+
+  
+  --elev-1: 0 1px 0 rgba(255,255,255,0.04) inset, 0 10px 22px -16px rgba(0,0,0,0.45);
+  --elev-2: 0 1px 0 rgba(255,255,255,0.05) inset, 0 18px 38px -18px rgba(0,0,0,0.5);
+  --elev-3: 0 1px 0 rgba(255,255,255,0.06) inset, 0 28px 58px -20px rgba(0,0,0,0.6);
+}
