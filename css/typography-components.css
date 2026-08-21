@@ -1,3 +1,13 @@
+/* =============================================================================
+   typography-components.css — YÜKLEME SIRASI 5/8
+   Başlık/metin tipografisi + yeniden kullanılabilir bileşenler (.btn, .cmdk, mini terminal).
+   Not: .hero grid tanımı burada başlar, 4/8'deki kurallarla birlikte okunmalı.
+   Yükleme sırası (her HTML <head>'inde aynı): tokens → effects → header-nav →
+   layout-hero → typography-components → home-sections → content-sections →
+   contact-footer-pages.  Sonra yüklenen dosya, aynı specificity'de kazanır.
+   Kırılma noktaları: 520 / 640 / 700 / 820 / 900 / 1024 px (sadece bu altısı).
+   ============================================================================= */
+
 /* Hero */
 .hero {
   padding-top: 120px;
@@ -121,7 +131,7 @@
   justify-content: center;
   background: transparent;
   border: 1px solid var(--line);
-  color: var(--accent-2);
+  color: var(--accent-text);
   transition: border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
 }
 .spec:hover .spec-icon {
@@ -151,7 +161,7 @@
   text-transform: uppercase;
   color: var(--text-faint);
 }
-.credentials-strip-label svg { color: var(--accent-2); flex-shrink: 0; }
+.credentials-strip-label svg { color: var(--accent-text); flex-shrink: 0; }
 .credentials-strip {
   margin-top: 0;
   overflow: hidden;
@@ -177,7 +187,7 @@
 }
 .credentials-set span { padding: 0 10px; }
 .credentials-set span:first-child { padding-left: 0; }
-.credentials-dot { color: var(--line); }
+.credentials-dot { color: var(--text-faint); opacity: 0.85; }
 @keyframes credentials-scroll {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -243,7 +253,7 @@
   min-height: 58px;
 }
 .mini-terminal-line { margin: 0; }
-.mini-terminal-prompt { color: var(--accent); }
+.mini-terminal-prompt { color: var(--accent-text); }
 .mini-terminal-cmd { color: var(--text); }
 .mini-terminal-out {
   display: block;
@@ -339,7 +349,7 @@
   padding: 12px 14px;
   border-bottom: 1px solid var(--line);
 }
-.cmdk-prompt { color: var(--accent); font-family: var(--font-mono); }
+.cmdk-prompt { color: var(--accent-text); font-family: var(--font-mono); }
 .cmdk-input {
   flex: 1;
   background: none;
@@ -380,7 +390,7 @@
   margin: 14px 0 0;
   font-family: var(--font-mono);
   font-size: 0.68rem;
-  color: var(--text-faint);
+  color: var(--text-dim);
   opacity: 0.7;
 }
 
@@ -398,7 +408,7 @@
   filter: drop-shadow(0 24px 60px rgba(61,111,224,0.16));
 }
 
-@media (max-width: 860px) {
+@media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; }
   .hero-visual { order: -1; max-width: 260px; margin: 0 auto 8px; }
 }

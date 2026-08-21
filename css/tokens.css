@@ -1,3 +1,13 @@
+/* =============================================================================
+   tokens.css — YÜKLEME SIRASI 1/8
+   Tasarım token'ları (renk, tipografi, gölge). Başka hiçbir kural yok.
+   Her şeyden önce yüklenir; aşağıdaki tüm dosyalar bu değişkenleri okur.
+   Yükleme sırası (her HTML <head>'inde aynı): tokens → effects → header-nav →
+   layout-hero → typography-components → home-sections → content-sections →
+   contact-footer-pages.  Sonra yüklenen dosya, aynı specificity'de kazanır.
+   Kırılma noktaları: 520 / 640 / 700 / 820 / 900 / 1024 px (sadece bu altısı).
+   ============================================================================= */
+
 :root {
   --bg: #06070a;
   --bg-panel: #0e1117;
@@ -6,6 +16,12 @@
   --line-soft: rgba(231, 234, 241, 0.07);
   --accent: #3d6fe0;
   --accent-bright: #6a94f0;
+  /* Metin rengi olarak kullanılacak accent. --accent (#3d6fe0) koyu zeminde
+     4.36:1 veriyor, --accent-2 (#2a4fb0) 2.7:1 — ikisi de küçük metin için
+     WCAG AA sınırının (4.5:1) altında. Bu takma ad, accent'in metin olarak
+     geçtiği her yerde kullanılıyor; dolgu/kenarlık/ikon için --accent aynen
+     duruyor (onlar için eşik 3:1 ve zaten geçiyor). */
+  --accent-text: var(--accent-bright);
   --accent-2: #2a4fb0;
   --accent-2-dim: #2a4fb033;
   --signal: #e7eaf1;
@@ -21,7 +37,6 @@
   --fs-h2: clamp(1.7rem, 2.6vw, 2.05rem);
   --ls-display: -0.015em;
   --ls-label: 0.06em;
-  --ls-micro: 0.09em;
 
   
   --elev-1: 0 1px 0 rgba(255,255,255,0.04) inset, 0 10px 22px -16px rgba(0,0,0,0.45);

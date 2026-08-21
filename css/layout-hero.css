@@ -1,3 +1,13 @@
+/* =============================================================================
+   layout-hero.css — YÜKLEME SIRASI 4/8
+   Sayfa iskeleti (main, .section) ve hero/stat bantları.
+   Not: .hero'nun grid tanımı 5/8'de; buradaki kurallar konumlandırma ve dolgu.
+   Yükleme sırası (her HTML <head>'inde aynı): tokens → effects → header-nav →
+   layout-hero → typography-components → home-sections → content-sections →
+   contact-footer-pages.  Sonra yüklenen dosya, aynı specificity'de kazanır.
+   Kırılma noktaları: 520 / 640 / 700 / 820 / 900 / 1024 px (sadece bu altısı).
+   ============================================================================= */
+
 /* Layout */
 main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
 @media (max-width: 700px) { main { padding: 0 24px; } }
@@ -19,28 +29,10 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   z-index: -2;
   pointer-events: none;
 }
-.section-wave {
-  position: absolute;
-  left: 50%;
-  width: 100vw;
-  height: 48px;
-  transform: translateX(-50%);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  z-index: -1;
-  pointer-events: none;
-}
 
-.section-wave-top {
-  top: 0;
-  margin-top: -47px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,50 L100,50 L100,18 L220,18 L220,58 L340,58 L340,26 L460,26 L460,50 L580,50 L580,12 L700,12 L700,54 L820,54 L820,22 L940,22 L940,48 L1060,48 L1060,34 L1180,34 L1180,56 L1300,56 L1300,20 L1440,20 L1440,80 L0,80 Z' fill='%23121620'/%3E%3Cpath d='M0,50 L100,50 L100,18 L220,18 L220,58 L340,58 L340,26 L460,26 L460,50 L580,50 L580,12 L700,12 L700,54 L820,54 L820,22 L940,22 L940,48 L1060,48 L1060,34 L1180,34 L1180,56 L1300,56 L1300,20 L1440,20' fill='none' stroke='%233d6fe0' stroke-width='1.6' stroke-opacity='0.5'/%3E%3C/svg%3E");
-}
-.section-wave-bottom {
-  bottom: 0;
-  margin-bottom: -47px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,30 L100,30 L100,62 L220,62 L220,22 L340,22 L340,54 L460,54 L460,30 L580,30 L580,68 L700,68 L700,26 L820,26 L820,58 L940,58 L940,32 L1060,32 L1060,46 L1180,46 L1180,24 L1300,24 L1300,60 L1440,60 L1440,0 L0,0 Z' fill='%23121620'/%3E%3Cpath d='M0,30 L100,30 L100,62 L220,62 L220,22 L340,22 L340,54 L460,54 L460,30 L580,30 L580,68 L700,68 L700,26 L820,26 L820,58 L940,58 L940,32 L1060,32 L1060,46 L1180,46 L1180,24 L1300,24 L1300,60 L1440,60' fill='none' stroke='%233d6fe0' stroke-width='1.6' stroke-opacity='0.5'/%3E%3C/svg%3E");
-}
+
+
+
 
 .stat-band {
   position: relative;
@@ -100,6 +92,10 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
 .stat-band-card {
   
   --text-dim: #5c4f3f;
+  /* Bu kart AÇIK zeminli — koyu tema için seçilen --accent-text (#6a94f0)
+     burada 2.7:1 veriyor. Token'ı kart içinde koyu varyanta çeviriyoruz;
+     böylece .stat-band-num gibi çocuk kurallar hiç değişmeden 6.7:1'e çıkıyor. */
+  --accent-text: var(--accent-2);
   background: #f8f4ee;
   border-radius: 16px;
   padding: 26px 18px;
@@ -111,7 +107,7 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   font-family: var(--font-display);
   font-size: 2.1rem;
   font-weight: 800;
-  color: var(--accent);
+  color: var(--accent-text);
   line-height: 1;
 }
 .stat-band-label {
@@ -144,7 +140,7 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
 }
 .hero-search:hover { border-color: var(--line-soft); box-shadow: var(--elev-2); transform: translateY(-1px); }
 .hero-search:focus-within {
-  border-color: var(--accent-2);
+  border-color: var(--accent-text);
   box-shadow: 0 0 0 1px var(--accent-2), 0 0 0 5px var(--accent-2-dim), var(--elev-2);
 }
 /* İç tarayıcı ışını: yalnızca odaklanınca bir kez üstten geçer */
@@ -173,7 +169,7 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
 }
 .hero-search svg {
   flex-shrink: 0;
-  color: var(--accent-2);
+  color: var(--accent-text);
   position: relative;
   z-index: 2;
   transition: color 0.2s ease, transform 0.2s ease;
@@ -243,7 +239,7 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent);
+  color: var(--accent-text);
   flex-shrink: 0;
   transition: border-color 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
@@ -266,24 +262,17 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   .quick-tile { flex-basis: 50%; }
   .quick-tile:nth-child(2n) { border-right: none; }
 }
-@media (max-width: 560px) {
+@media (max-width: 640px) {
   .quick-tiles { margin: 16px auto 24px; }
   .quick-tile { flex-basis: 100%; border-right: none; border-bottom: 1px solid var(--line); }
   .quick-tile:last-child { border-bottom: none; }
 }
 
 /* Section head row: title + "Daha Fazla" link, Buski-style */
-.section-head-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-bottom: 32px;
-}
-.section-head-row h2 { margin: 0; padding-bottom: 0; }
-.section-head-row h2::after { display: none; }
-.section-head-actions { display: flex; align-items: center; gap: 10px; }
+
+
+
+
 .link-pill {
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -295,4 +284,4 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 64px; position: relative; }
   background: var(--bg-panel);
   transition: border-color 0.2s ease, color 0.2s ease;
 }
-.link-pill:hover { border-color: var(--accent); color: var(--accent); }
+.link-pill:hover { border-color: var(--accent); color: var(--accent-text); }

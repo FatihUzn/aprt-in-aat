@@ -1,55 +1,32 @@
-@property --accent { syntax: '<color>'; inherits: true; initial-value: #3d6fe0; }
-@property --accent-bright { syntax: '<color>'; inherits: true; initial-value: #6a94f0; }
-@property --accent-2 { syntax: '<color>'; inherits: true; initial-value: #2a4fb0; }
-@property --accent-2-dim { syntax: '<color>'; inherits: true; initial-value: #2a4fb033; }
-@property --bg { syntax: '<color>'; inherits: true; initial-value: #06070a; }
-@property --bg-panel { syntax: '<color>'; inherits: true; initial-value: #0e1117; }
-@property --bg-panel-alt { syntax: '<color>'; inherits: true; initial-value: #121620; }
-@property --line { syntax: '<color>'; inherits: true; initial-value: rgba(231, 234, 241, 0.12); }
-@property --line-soft { syntax: '<color>'; inherits: true; initial-value: rgba(231, 234, 241, 0.07); }
-@property --text { syntax: '<color>'; inherits: true; initial-value: #e7eaf1; }
-@property --text-dim { syntax: '<color>'; inherits: true; initial-value: #a9b4c9; }
-@property --text-faint { syntax: '<color>'; inherits: true; initial-value: #7684a0; }
-@property --signal { syntax: '<color>'; inherits: true; initial-value: #e7eaf1; }
+/* =============================================================================
+   effects.css — YÜKLEME SIRASI 2/8
+   Temel/reset katmanı + arka plan ve hareket efektleri.
+   body/html/a temel kuralları, .reveal, .circuit-bg, .cursor-spotlight, boot-overlay,
+   .magnetic. Element seviyesinde (a, body) kural içeren TEK dosya — bilinçli olarak
+   erken yükleniyor ki bileşen dosyaları bunları ezebilsin.
+   Yükleme sırası (her HTML <head>'inde aynı): tokens → effects → header-nav →
+   layout-hero → typography-components → home-sections → content-sections →
+   contact-footer-pages.  Sonra yüklenen dosya, aynı specificity'de kazanır.
+   Kırılma noktaları: 520 / 640 / 700 / 820 / 900 / 1024 px (sadece bu altısı).
+   ============================================================================= */
 
-:root {
-  transition: --accent 0.9s ease, --accent-bright 0.9s ease, --accent-2 0.9s ease,
-    --accent-2-dim 0.9s ease, --bg 0.9s ease, --bg-panel 0.9s ease, --bg-panel-alt 0.9s ease,
-    --line 0.9s ease, --line-soft 0.9s ease, --text 0.9s ease, --text-dim 0.9s ease,
-    --text-faint 0.9s ease, --signal 0.9s ease;
-}
-@media (prefers-reduced-motion: reduce) {
-  :root { transition: none; }
-}
-
-/* Lacivert perde */
-body[data-phase="navy"] {
-  --bg: #0a1533;
-  --bg-panel: #101c3d;
-  --bg-panel-alt: #142248;
-  --accent: #4a5fd9;
-  --accent-bright: #7a8bf0;
-  --accent-2: #33409e;
-  --accent-2-dim: #33409e33;
-}
-
-body[data-phase="light"] {
-  --bg: #f4f6fb;
-  --bg-panel: #ffffff;
-  --bg-panel-alt: #eef1f8;
-  --line: rgba(10, 14, 23, 0.12);
-  --line-soft: rgba(10, 14, 23, 0.07);
-  --text: #0a0e17;
-  --text-dim: #3a4256;
-  --text-faint: #6b7280;
-  --signal: #0a0e17;
-  --accent: #2f5bc7;
-  --accent-bright: #4d7ae0;
-  --accent-2: #1f3f94;
-  --accent-2-dim: #1f3f9422;
-}
+/* Not: Burada 13 adet @property tanımı, :root üzerinde bir custom-property
+   transition'ı ve body[data-phase="navy"/"light"] renk blokları vardı. Bunları
+   ayakta tutan tek şey app.js'teki "Scroll Atmosfer Kayması" IIFE'siydi; o blok
+   v6/FAZ 12.1'de `return;` ile kapatılmış, yani data-phase özniteliği artık hiç
+   set edilmiyordu. JS tarafı silindiği için CSS karşılığı da kaldırıldı
+   (~2101 bayt). Geri istenirse git geçmişinde. */
 
 * { box-sizing: border-box; }
+
+/* Temel bağlantı rengi. Sitede global bir `a` kuralı yoktu; her bileşen
+   kendi link rengini ayrı ayrı veriyordu. Hiçbirine yakalanmayan bir link
+   (ör. paragraf içindeki metin linki) tarayıcının varsayılan #0000EE
+   mavisine düşüyor ve koyu zeminde 2.1:1 kontrastla okunmaz hale geliyordu
+   — index.html'deki "Yazılım sayfasında" linki tam olarak bu durumdaydı.
+   Specificity 0-0-1 olduğu için mevcut bileşen kuralları bunu eziyor. */
+a { color: var(--accent-text); }
+a:hover { color: var(--accent-bright); }
 
 html { scroll-behavior: smooth; }
 
@@ -79,24 +56,7 @@ body {
   overflow-x: hidden;
 }
 
-.grid-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.5;
-  background-image:
-    radial-gradient(circle at 0 0, color-mix(in srgb, var(--accent) 55%, transparent) 0, color-mix(in srgb, var(--accent) 55%, transparent) 1.5px, transparent 2.4px),
-    linear-gradient(rgba(236,231,224,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(236,231,224,0.05) 1px, transparent 1px),
-    linear-gradient(rgba(236,231,224,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(236,231,224,0.02) 1px, transparent 1px);
-  background-size: 280px 280px, 280px 280px, 280px 280px, 28px 28px, 28px 28px;
-  mask-image: linear-gradient(180deg, transparent 0, black 4%, black 96%, transparent 100%);
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, black 4%, black 96%, transparent 100%);
-}
 
-body::after { content: none; }
 .circuit-bg {
   position: fixed;
   inset: 0;
@@ -109,11 +69,11 @@ body::after { content: none; }
   mask-image: radial-gradient(ellipse 90% 100% at 50% 50%, black 30%, transparent 95%);
   -webkit-mask-image: radial-gradient(ellipse 90% 100% at 50% 50%, black 30%, transparent 95%);
 }
-@media (max-width: 780px) {
-  .grid-overlay, .circuit-bg { opacity: 0.32; }
+@media (max-width: 820px) {
+   .circuit-bg { opacity: 0.32; }
 }
 
-.skill-badge, .testimonial-card, .contact-form input, .contact-form textarea {
+.skill-badge, .contact-form input, .contact-form textarea {
   box-shadow: var(--elev-1);
 }
 
@@ -180,16 +140,10 @@ body::after { content: none; }
 }
 .tilt:hover .bento-label { transform: translateZ(16px); }
 .tilt:hover .skills-row { transform: translateZ(5px); }
-.tilt .testimonial-quote,
-.tilt .testimonial-who {
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
-}
-.tilt:hover .testimonial-quote { transform: translateZ(18px); }
-.tilt:hover .testimonial-who { transform: translateZ(6px); }
+
+
 @media (prefers-reduced-motion: reduce) {
-  .tilt, .tilt .bento-label, .tilt .skills-row,
-  .tilt .testimonial-quote, .tilt .testimonial-who { transition: none; }
+  .tilt, .tilt .bento-label, .tilt .skills-row{ transition: none; }
 }
 
 /* Mouse-tracked spotlight glow, fixed to viewport, position set via JS */
@@ -202,13 +156,6 @@ body::after { content: none; }
 }
 @media (hover: none) { .cursor-spotlight { display: none; } }
 
-/* Layered parallax inside a box — inner layer moves more than the box itself */
-.parallax-box { overflow: hidden; }
-.parallax-layer {
-  transform: translate(var(--px, 0px), var(--py, 0px));
-  transition: transform 0.2s ease-out;
-  will-change: transform;
-}
 
 .dim-overlay {
   position: absolute;
@@ -231,10 +178,7 @@ body::after { content: none; }
   fill: none;
   vector-effect: non-scaling-stroke;
 }
-.dim-overlay .dim-text {
-  fill: var(--accent-bright);
-  font-family: var(--font-mono);
-}
+
 @media (prefers-reduced-motion: reduce) {
   .dim-overlay { transition: none; }
 }
@@ -275,30 +219,6 @@ body::after { content: none; }
   .badge-wave .wave-path { animation: none; }
 }
 
-.scan-line {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent-bright), transparent);
-  box-shadow: 0 0 12px 1px rgba(106,148,240,0.6);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 4;
-}
-.scan-line.is-scanning {
-  animation: scan-sweep 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-@keyframes scan-sweep {
-  0% { top: 0; opacity: 0; }
-  8% { opacity: 1; }
-  92% { opacity: 1; }
-  100% { top: 100%; opacity: 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .scan-line.is-scanning { animation: none; }
-}
 
 .boot-overlay {
   position: fixed;

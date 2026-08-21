@@ -69,12 +69,10 @@ function uznScramble(el, totalMs, done) {
         '</svg>' +
         '<div class="boot-overlay-lines"></div>' +
         '<div class="boot-overlay-progress"><span class="boot-overlay-progress-fill"></span></div>' +
-      '</div>' +
-      '<div class="scan-line"></div>';
+      '</div>';
     document.body.appendChild(overlay);
 
     var linesEl = overlay.querySelector('.boot-overlay-lines');
-    var scanEl = overlay.querySelector('.scan-line');
     var progressEl = overlay.querySelector('.boot-overlay-progress-fill');
     var steps = ['BAĞLANTI KURULUYOR...', 'GÜVENLİK DUVARI: AKTİF', 'ARAYÜZ YÜKLENİYOR...'];
     var i = 0;
@@ -96,7 +94,6 @@ function uznScramble(el, totalMs, done) {
 
     requestAnimationFrame(function () {
       overlay.classList.add('is-active');
-      scanEl.classList.add('is-scanning');
       // Işık çubuğu, boot sekansının toplam süresiyle eşleşecek şekilde
       // ~2.15s'de doluyor (3 adım x 550ms + 500ms bekleme). Adım sayısı ya
       // da gecikmeler değişirse .boot-overlay-progress-fill animasyon
@@ -232,13 +229,24 @@ function uznScramble(el, totalMs, done) {
       if (!head || !wrap) return;
       var decrypted = false;
 
-      // Başlangıçta ekran okuyucudan gizli; açılınca ortaya çıkıyor.
-      wrap.setAttribute('aria-hidden', 'true');
+      // Kapalı detay hem ekran okuyucudan gizlenmeli hem de klavye Tab
+      // sırasından çıkmalı. Eskiden sadece aria-hidden vardı; içindeki
+      // linkler görünmez olduğu halde Tab ile odaklanılabiliyordu
+      // (ekran okuyucu "burada bir şey yok" derken imleç oraya atlıyordu).
+      // `inert` ikisini birden halleder; desteklemeyen tarayıcı için
+      // aria-hidden yedek olarak kalıyor.
+      function setHidden(el, hidden) {
+        el.setAttribute('aria-hidden', hidden ? 'true' : 'false');
+        if (hidden) el.setAttribute('inert', '');
+        else el.removeAttribute('inert');
+      }
+
+      setHidden(wrap, true);
 
       function close() {
         row.classList.remove('is-open');
         head.setAttribute('aria-expanded', 'false');
-        wrap.setAttribute('aria-hidden', 'true');
+        setHidden(wrap, true);
       }
       function open() {
         rows.forEach(function (other) {
@@ -249,12 +257,15 @@ function uznScramble(el, totalMs, done) {
           var otherWrap = other.querySelector('.project-detail-wrap');
           if (other !== row) {
             if (otherHead) otherHead.setAttribute('aria-expanded', 'false');
-            if (otherWrap) otherWrap.setAttribute('aria-hidden', 'true');
+            if (otherWrap) {
+              otherWrap.setAttribute('aria-hidden', 'true');
+              otherWrap.setAttribute('inert', '');
+            }
           }
         });
         row.classList.add('is-open');
         head.setAttribute('aria-expanded', 'true');
-        wrap.setAttribute('aria-hidden', 'false');
+        setHidden(wrap, false);
 
         if (!decrypted) {
           decrypted = true;
@@ -273,7 +284,7 @@ function uznScramble(el, totalMs, done) {
   })();
 
 
-/* ---- Reveal + scan-line — scroll'da fade-in/slide-up ve bölüm tarama animasyonu ---- */
+/* ---- Reveal — scroll'da fade-in/slide-up ---- */
 
   (function () {
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -283,7 +294,6 @@ function uznScramble(el, totalMs, done) {
       '.card-grid > .card',
       '.process-steps > .process-step',
       '.project-list > .project-row',
-      '.testimonial-grid > .testimonial-card',
       '.skills-row > .skill-badge',
       '.bento-grid > .bento-cell',
       '.faq-list > .faq-item',
@@ -346,47 +356,25 @@ function uznScramble(el, totalMs, done) {
 
     revealEls.forEach(function (el) { observer.observe(el); });
 
-    // FAZ 3 / Görünmez Mıknatıs Noktaları — Faz 1'de kutusu kaldırılan
-    // serbest metin blokları (duyuru-card, service-tile, update-card)
-    // ekrana girerken, en yakın hud-ambient düğümüne doğru birkaç
-    // piksellik bir çekimle "oturuyor" — sanki sayfanın görünmez ağına
-    // hafifçe mıknatıslanıyorlar. Düğüm bulunamazsa (ör. mobilde
-    // hud-ambient gizli) sadece düz bir fade/rise-in olur, zararsız
-    // şekilde geri düşer.
+    // Yumuşak yerine oturma (eski adıyla "Görünmez Mıknatıs Noktaları").
+    // NOT: Eskiden her eleman en yakın .hud-node düğümüne doğru birkaç piksel
+    // çekiliyordu. Ama HUD katmanı (data-hud="off") kapatıldığından o düğümler
+    // display:none idi; getBoundingClientRect() hepsi için 0,0 dönüyor,
+    // dolayısıyla "en yakın düğüm" hesabı anlamsızdı ve tüm elemanlar aynı
+    // yöne kayıyordu. Düğüm arama kaldırıldı; görsel sonuç (fade + rise-in)
+    // aynı kaldı, her frame'de yapılan gereksiz rect ölçümü gitti.
     var magnetEls = document.querySelectorAll('.magnet-settle');
     if (magnetEls.length) {
-      // JS aktif olduğu için gizleme/animasyon etkisini şimdi "silahlandırıyoruz";
-      // JS hiç çalışmazsa bu class hiç eklenmez, içerik normal görünür kalır.
+      // JS aktif olduğu için animasyonu "silahlandırıyoruz"; JS hiç çalışmazsa
+      // bu class hiç eklenmez ve içerik normal görünür kalır.
       magnetEls.forEach(function (el) { el.classList.add('magnet-armed'); });
-      var nodeEls = document.querySelectorAll('.hud-node');
-
-      var applyMagnetOffset = function (el) {
-        if (!nodeEls.length) return;
-        var r = el.getBoundingClientRect();
-        var ecx = r.left + r.width / 2;
-        var ecy = r.top + r.height / 2;
-        var best = null, bestDist = Infinity;
-        nodeEls.forEach(function (node) {
-          var nr = node.getBoundingClientRect();
-          var d = Math.hypot(nr.left - ecx, nr.top - ecy);
-          if (d < bestDist) { bestDist = d; best = nr; }
-        });
-        if (!best) return;
-        var dx = best.left - ecx;
-        var dy = best.top - ecy;
-        var mag = Math.hypot(dx, dy) || 1;
-        var clampPx = 5; // görünmez mıknatıs — çok küçük, dikkat çekmeyen bir kayma
-        el.style.setProperty('--magnet-x', ((dx / mag) * clampPx).toFixed(1) + 'px');
-        el.style.setProperty('--magnet-y', ((dy / mag) * clampPx).toFixed(1) + 'px');
-      };
 
       if (reduceMotion || !('IntersectionObserver' in window)) {
         magnetEls.forEach(function (el) { el.classList.add('is-settled'); });
       } else {
         var magnetObserver = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry, i) {
+          entries.forEach(function (entry) {
             if (entry.isIntersecting) {
-              applyMagnetOffset(entry.target);
               entry.target.classList.add('is-settled');
               magnetObserver.unobserve(entry.target);
             }
@@ -396,19 +384,6 @@ function uznScramble(el, totalMs, done) {
       }
     }
 
-    // Scan-line: sweep once per section the first time it enters view
-    var scanEls = document.querySelectorAll('.scan-line');
-    if (scanEls.length) {
-      var scanObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-scanning');
-            scanObserver.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0, rootMargin: '0px 0px -60% 0px' });
-      scanEls.forEach(function (el) { scanObserver.observe(el); });
-    }
   })();
 
 
@@ -483,20 +458,6 @@ function uznScramble(el, totalMs, done) {
     var canHover = window.matchMedia('(hover: hover)').matches;
     if (reduceMotion || !canHover) return;
 
-    // Mouse-tracked spotlight glow — --mx/--my documentElement üzerinde de
-    // set ediliyor ki aşağıdaki "Sensör Tetikleyicileri" gibi başka
-    // proximity efektleri de aynı imleç konumunu okuyabilsin.
-    var spotlight = document.querySelector('.cursor-spotlight');
-    var docEl = document.documentElement;
-    window.addEventListener('mousemove', function (e) {
-      if (spotlight) {
-        spotlight.style.setProperty('--mx', e.clientX + 'px');
-        spotlight.style.setProperty('--my', e.clientY + 'px');
-      }
-      docEl.style.setProperty('--cursor-x', e.clientX + 'px');
-      docEl.style.setProperty('--cursor-y', e.clientY + 'px');
-    }, { passive: true });
-
     // Subtle 3D tilt on cards
     var tiltEls = document.querySelectorAll('.tilt');
     tiltEls.forEach(function (el) {
@@ -530,117 +491,95 @@ function uznScramble(el, totalMs, done) {
       });
     });
 
-    // Layered parallax: inner diagram shifts more than its box (feature illustrations)
-    document.querySelectorAll('.parallax-box').forEach(function (box) {
-      var layer = box.querySelector('.parallax-layer');
-      if (!layer) return;
-      box.addEventListener('mousemove', function (e) {
-        var rect = box.getBoundingClientRect();
-        var px = (e.clientX - rect.left) / rect.width - 0.5;
-        var py = (e.clientY - rect.top) / rect.height - 0.5;
-        layer.style.setProperty('--px', (px * 12).toFixed(1) + 'px');
-        layer.style.setProperty('--py', (py * 12).toFixed(1) + 'px');
-      }, { passive: true });
-      box.addEventListener('mouseleave', function () {
-        layer.style.setProperty('--px', '0px');
-        layer.style.setProperty('--py', '0px');
-      });
-    });
-
-    // Magnetic buttons/links — FAZ 5 / Manyetik İmleç Çekimi: imleç element
-    // sınırlarına GİRMEDEN, bir yakınlık yarıçapı içine yaklaştığında bile
-    // element hafifçe imlece doğru çekilmeye başlıyor (eskiden sadece
-    // element'in kendi mousemove'u tetikleniyordu, yani zaten üzerine
-    // gelmiş olman gerekiyordu — burada document seviyesinde mesafe ölçülüp
-    // yarıçap içindeyken kuvvet mesafeyle ters orantılı azalıyor).
+    // ---- Birleşik imleç efektleri (spotlight + manyetik butonlar + sensör etiketleri) ----
+    // Eskiden bunlar üç ayrı window 'mousemove' dinleyicisiydi ve manyetik olan
+    // HER karede tüm .magnetic elemanlar için getBoundingClientRect() çağırıyordu.
+    // Bu, her karede zorunlu bir layout (reflow) demekti — imleci hızlı
+    // hareket ettirince kare düşmesinin ana sebebi. Artık tek dinleyici + tek
+    // requestAnimationFrame var; ölçümler önbellekte tutuluyor ve yalnızca
+    // scroll/resize sonrası tazeleniyor.
     var magneticBtns = Array.prototype.slice.call(document.querySelectorAll('.magnetic'));
-    if (magneticBtns.length) {
-      var PROXIMITY_RADIUS = 90; // px, elementin kenarından itibaren
-      var rafPending = false;
-      var lastX = 0, lastY = 0;
+    var sensorEls = Array.prototype.slice.call(document.querySelectorAll('.sensor-fade'));
+    var spotlight = document.querySelector('.cursor-spotlight');
 
-      function updateMagnets() {
-        rafPending = false;
-        magneticBtns.forEach(function (btn) {
-          var rect = btn.getBoundingClientRect();
-          var cx = rect.left + rect.width / 2;
-          var cy = rect.top + rect.height / 2;
-          // Elemanın kendi kutusuna en yakın mesafe (içindeyse 0)
-          var dx = Math.max(rect.left - lastX, 0, lastX - rect.right);
-          var dy = Math.max(rect.top - lastY, 0, lastY - rect.bottom);
-          var edgeDist = Math.sqrt(dx * dx + dy * dy);
-          if (edgeDist > PROXIMITY_RADIUS) {
-            btn.style.setProperty('--mbx', '0px');
-            btn.style.setProperty('--mby', '0px');
-            return;
-          }
-          // 0 (uzak) → 1 (üzerinde/çok yakın) arası yakınlık kuvveti
-          var pull = 1 - edgeDist / PROXIMITY_RADIUS;
-          var mx = (lastX - cx) * 0.28 * pull;
-          var my = (lastY - cy) * 0.35 * pull;
-          btn.style.setProperty('--mbx', mx.toFixed(1) + 'px');
-          btn.style.setProperty('--mby', my.toFixed(1) + 'px');
-        });
+    if (spotlight || magneticBtns.length || sensorEls.length) {
+      var PROXIMITY_RADIUS = 90;  // px — .magnetic kenarından itibaren çekim yarıçapı
+      var SENSOR_RADIUS = 220;    // px — .sensor-fade parlama yarıçapı
+      var ptrX = -99999, ptrY = -99999;
+      var framePending = false, rectsDirty = true;
+      var magnetRects = [], sensorRects = [];
+
+      function measureRects() {
+        magnetRects = magneticBtns.map(function (el) { return el.getBoundingClientRect(); });
+        sensorRects = sensorEls.map(function (el) { return el.getBoundingClientRect(); });
+        rectsDirty = false;
       }
 
-      window.addEventListener('mousemove', function (e) {
-        lastX = e.clientX;
-        lastY = e.clientY;
-        if (!rafPending) {
-          rafPending = true;
-          requestAnimationFrame(updateMagnets);
-        }
-      }, { passive: true });
-
-      // Sekme/pencere dışına çıkınca butonları nötrle
-      document.addEventListener('mouseleave', function () {
+      function resetMagnets() {
         magneticBtns.forEach(function (btn) {
           btn.style.setProperty('--mbx', '0px');
           btn.style.setProperty('--mby', '0px');
         });
-      });
-    }
+      }
 
-    // FAZ 3 / Sensör Tetikleyicileri (Proximity Fade) — cursor-spotlight'ın
-    // genişletilmiş hali: dekoratif/ikincil etiketler (telemetri kodları,
-    // nav referans numaraları) varsayılan olarak soluk durur, imleç
-    // yaklaştıkça HUD bir "sensör" gibi onları fark edip parlatır. Sadece
-    // ikincil/dekoratif metinlere uygulanıyor — okunabilirlik riski olan
-    // ana içerik metinlerine (paragraf, başlık) DOKUNULMUYOR.
-    var sensorEls = Array.prototype.slice.call(document.querySelectorAll('.sensor-fade'));
-    if (sensorEls.length) {
-      var sensorRects = [];
-      var measureSensorRects = function () {
-        sensorRects = sensorEls.map(function (el) { return el.getBoundingClientRect(); });
-      };
-      measureSensorRects();
-      window.addEventListener('resize', measureSensorRects, { passive: true });
+      function frame() {
+        framePending = false;
+        if (rectsDirty) measureRects();
 
-      var sensorRadius = 220; // px — bu yarıçapın dışında etki sıfır
-      var sensorTicking = false;
-      window.addEventListener('mousemove', function (e) {
-        if (sensorTicking) return;
-        sensorTicking = true;
-        requestAnimationFrame(function () {
-          for (var i = 0; i < sensorEls.length; i++) {
-            var r = sensorRects[i];
-            var cx = Math.max(r.left, Math.min(e.clientX, r.right));
-            var cy = Math.max(r.top, Math.min(e.clientY, r.bottom));
-            var dist = Math.hypot(e.clientX - cx, e.clientY - cy);
-            var proximity = Math.max(0, 1 - dist / sensorRadius);
-            sensorEls[i].style.setProperty('--proximity', proximity.toFixed(2));
+        if (spotlight) {
+          spotlight.style.setProperty('--mx', ptrX + 'px');
+          spotlight.style.setProperty('--my', ptrY + 'px');
+        }
+
+        for (var i = 0; i < magneticBtns.length; i++) {
+          var r = magnetRects[i];
+          if (!r) continue;
+          // İmlecin elemanın kutusuna en yakın mesafesi (kutunun içindeyse 0)
+          var dx = Math.max(r.left - ptrX, 0, ptrX - r.right);
+          var dy = Math.max(r.top - ptrY, 0, ptrY - r.bottom);
+          var edgeDist = Math.sqrt(dx * dx + dy * dy);
+          if (edgeDist > PROXIMITY_RADIUS) {
+            magneticBtns[i].style.setProperty('--mbx', '0px');
+            magneticBtns[i].style.setProperty('--mby', '0px');
+            continue;
           }
-          sensorTicking = false;
-        });
+          var pull = 1 - edgeDist / PROXIMITY_RADIUS;  // 0 (uzak) → 1 (üzerinde)
+          var cx = r.left + r.width / 2;
+          var cy = r.top + r.height / 2;
+          magneticBtns[i].style.setProperty('--mbx', ((ptrX - cx) * 0.28 * pull).toFixed(1) + 'px');
+          magneticBtns[i].style.setProperty('--mby', ((ptrY - cy) * 0.35 * pull).toFixed(1) + 'px');
+        }
+
+        // Dekoratif/ikincil etiketler (telemetri kodları, nav referans numaraları)
+        // varsayılan olarak soluk durur, imleç yaklaştıkça parlar. Ana içerik
+        // metinlerine (paragraf, başlık) uygulanmıyor — okunabilirlik riski var.
+        for (var j = 0; j < sensorEls.length; j++) {
+          var sr = sensorRects[j];
+          if (!sr) continue;
+          var nx = Math.max(sr.left, Math.min(ptrX, sr.right));
+          var ny = Math.max(sr.top, Math.min(ptrY, sr.bottom));
+          var dist = Math.hypot(ptrX - nx, ptrY - ny);
+          sensorEls[j].style.setProperty('--proximity', Math.max(0, 1 - dist / SENSOR_RADIUS).toFixed(2));
+        }
+      }
+
+      function schedule() {
+        if (framePending) return;
+        framePending = true;
+        requestAnimationFrame(frame);
+      }
+
+      window.addEventListener('mousemove', function (e) {
+        ptrX = e.clientX; ptrY = e.clientY;
+        schedule();
       }, { passive: true });
 
-      // Scroll de rect'leri kaydırır — throttle'lı yeniden ölçüm.
-      var sensorScrollTicking = false;
-      window.addEventListener('scroll', function () {
-        if (sensorScrollTicking) return;
-        sensorScrollTicking = true;
-        requestAnimationFrame(function () { measureSensorRects(); sensorScrollTicking = false; });
-      }, { passive: true });
+      // Scroll ve resize rect'leri kaydırır; bir sonraki karede yeniden ölçülür.
+      window.addEventListener('scroll', function () { rectsDirty = true; schedule(); }, { passive: true });
+      window.addEventListener('resize', function () { rectsDirty = true; schedule(); }, { passive: true });
+
+      // İmleç pencereden çıkınca butonları nötrle.
+      document.addEventListener('mouseleave', resetMagnets);
     }
 
     // Scroll-based parallax on the hero glow — moves slower than the page
@@ -654,14 +593,13 @@ function uznScramble(el, totalMs, done) {
           var y = Math.min(window.scrollY * 0.15, 60);
           heroEl.style.setProperty('--scroll-y', y.toFixed(1) + 'px');
           // EK-5 / FAZ 3 — Z-Derinlik Parallaks: tek hızlı kaymak yerine
-          // üç kademeli hız, katmanları gerçekten "uzaklıklarına" göre
-          // ayırıyor. Yakın katman (hud-ambient düğümleri) daha hızlı,
-          // uzak katman (grid + yörünge halkası) daha yavaş kayar.
+          // iki kademeli hız, katmanları "uzaklıklarına" göre ayırıyor:
+          // orta katman (.circuit-bg) daha hızlı, uzak katman (body::before
+          // halkaları) daha yavaş kayar.
           // Kaldırmak için bu üç satırı silip eski tek satırlı --bg-scroll-y
           // halini geri koyman yeterli (style.css'teki EK-5 bloğu da geri
           // alınmalı, yoksa katmanlar hareketsiz kalır — zararsız).
           var root = document.documentElement;
-          root.style.setProperty('--depth-y-near', Math.min(window.scrollY * 0.09, 90).toFixed(1) + 'px');
           root.style.setProperty('--depth-y-mid', Math.min(window.scrollY * 0.04, 40).toFixed(1) + 'px');
           root.style.setProperty('--depth-y-far', Math.min(window.scrollY * 0.018, 18).toFixed(1) + 'px');
           ticking = false;
@@ -809,6 +747,16 @@ function uznScramble(el, totalMs, done) {
       selectedIndex = 0;
       updateSelection();
     }
+    // Liste öğeleri hem sayfa-içi çapa (#projeler) hem de başka bir sayfa
+    // (kurumsal.html) olabilir. Eskiden koşulsuz `location.hash` set ediliyordu,
+    // bu yüzden "Kurumsal" seçilince URL `#kurumsal.html` olup hiçbir yere
+    // gitmiyordu. Artık href'in türüne göre davranıyor.
+    function goToItem(el) {
+      var href = el.getAttribute('href') || '';
+      if (href.charAt(0) === '#') window.location.hash = href;
+      else if (href) window.location.href = href;
+    }
+
     function openPalette(presetQuery) {
       overlay.classList.add('is-open');
       overlay.setAttribute('aria-hidden', 'false');
@@ -851,7 +799,7 @@ function uznScramble(el, totalMs, done) {
         var target = vis[selectedIndex];
         if (target) {
           closePalette();
-          window.location.hash = target.getAttribute('href').replace('#', '');
+          goToItem(target);
         }
       }
     });
@@ -874,8 +822,8 @@ function uznScramble(el, totalMs, done) {
           var vis = visibleItems();
           if (vis[0]) {
             closePalette();
-            window.location.hash = vis[0].getAttribute('href').replace('#', '');
             heroInput.blur();
+            goToItem(vis[0]);
           }
         }
       });
@@ -964,158 +912,13 @@ function uznScramble(el, totalMs, done) {
   })();
 
 
-/* ---- FAZ 5.x / B — Scroll Atmosfer Kayması (siyah → lacivert → beyaz) ----
-   FAZ 7 / Atmosfer Sistemi İnce Ayarı ile güncellendi: eski sürümde bir
-   section viewport ortasından geçtiği anda body[data-phase] TEK SEFERDE
-   değişiyordu; CSS @property transition'ı (0.9s, style.css :root) bunu
-   yumuşatmaya çalışsa da geçiş süresi sabitti, hızlı scroll'da renklerin
-   "sıçradığı" hissediliyordu. Bu sürümde 3 fazlı sistem (dark/navy/light)
-   aynen korunuyor, ama geçiş artık doğrudan scroll pozisyonuna ORANLI:
-   her scroll frame'inde renkler tam olarak scroll'un iki perde sınırına
-   ne kadar yakın olduğuna göre hesaplanıp body üzerine inline custom
-   property olarak yazılıyor. Sabit süreli bir animasyon yok, dolayısıyla
-   sıçrama hissi kalkıyor. `prefers-reduced-motion` tercihinde ekstra iş
-   yapmamak için eski ayrık (discrete) data-phase mekanizmasına dönülüyor
-   (zaten global `* { transition-duration: 0.001ms }` kuralı sayesinde
-   orada da animasyon olmuyor).
-   KALDIRMAK / ESKİ HALE DÖNMEK İÇİN: bu IIFE'yi silip yerine sadece
-   aşağıdaki reduceMotion dalındaki IntersectionObserver bloğunu koşulsuz
-   çalıştırman yeterli; style.css'teki body[data-phase] kuralları ve
-   :root transition'ı değişmedi, zararsız kalıyor. ---- */
-
-  (function () {
-    // v6 / FAZ 12.1: Scroll'a bağlı renk geçişi kaldırıldı — sayfa artık
-    // tek bir sabit temada (dark) kalıyor. Mekanizma silinmedi, sadece
-    // kapatıldı: geri dönmek istenirse bu erken return kaldırılır.
-    return;
-
-    var body = document.body;
-    var darkEndEl = document.getElementById('guncellemeler');
-    var navyStartEl = document.getElementById('hizmetler');
-    var navyEndEl = document.getElementById('projeler');
-    var lightStartEl = document.getElementById('referanslar');
-
-    var phaseBySection = {
-      hero: 'dark', guncellemeler: 'dark',
-      hizmetler: 'navy', hakkimda: 'navy', projeler: 'navy',
-      referanslar: 'light', sss: 'light', iletisim: 'light'
-    };
-
-    function runDiscreteFallback() {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('main > section[id]'));
-      if (!sections.length || !('IntersectionObserver' in window)) return;
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          var phase = phaseBySection[entry.target.id] || 'dark';
-          if (phase === 'dark') body.removeAttribute('data-phase');
-          else body.setAttribute('data-phase', phase);
-        });
-      }, { threshold: 0, rootMargin: '-45% 0px -45% 0px' });
-      sections.forEach(function (s) { observer.observe(s); });
-    }
-
-    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduceMotion || !darkEndEl || !navyStartEl || !navyEndEl || !lightStartEl) {
-      runDiscreteFallback();
-      return;
-    }
-
-    // dark / navy / light durak renkleri — style.css'teki :root ve
-    // body[data-phase="navy"/"light"] blokları ile birebir aynı olmalı.
-    var STOPS = {
-      '--bg':            ['#06070a', '#0a1533', '#f4f6fb'],
-      '--bg-panel':      ['#0e1117', '#101c3d', '#ffffff'],
-      '--bg-panel-alt':  ['#121620', '#142248', '#eef1f8'],
-      '--accent':        ['#3d6fe0', '#4a5fd9', '#2f5bc7'],
-      '--accent-bright': ['#6a94f0', '#7a8bf0', '#4d7ae0'],
-      '--accent-2':      ['#2a4fb0', '#33409e', '#1f3f94'],
-      '--accent-2-dim':  ['#2a4fb033', '#33409e33', '#1f3f9422'],
-      '--line':          ['rgba(231,234,241,0.12)', 'rgba(231,234,241,0.12)', 'rgba(10,14,23,0.12)'],
-      '--line-soft':     ['rgba(231,234,241,0.07)', 'rgba(231,234,241,0.07)', 'rgba(10,14,23,0.07)'],
-      '--text':          ['#e7eaf1', '#e7eaf1', '#0a0e17'],
-      '--text-dim':      ['#a9b4c9', '#a9b4c9', '#3a4256'],
-      '--text-faint':    ['#7684a0', '#7684a0', '#6b7280'],
-      '--signal':        ['#e7eaf1', '#e7eaf1', '#0a0e17']
-    };
-
-    function parseColor(str) {
-      str = str.trim();
-      if (str[0] === '#') {
-        var hex = str.slice(1);
-        if (hex.length === 3) hex = hex.split('').map(function (c) { return c + c; }).join('');
-        var r = parseInt(hex.slice(0, 2), 16);
-        var g = parseInt(hex.slice(2, 4), 16);
-        var b = parseInt(hex.slice(4, 6), 16);
-        var a = hex.length >= 8 ? parseInt(hex.slice(6, 8), 16) / 255 : 1;
-        return [r, g, b, a];
-      }
-      var m = str.match(/rgba?\(([^)]+)\)/);
-      if (m) {
-        var parts = m[1].split(',').map(function (p) { return parseFloat(p); });
-        return [parts[0], parts[1], parts[2], parts.length > 3 ? parts[3] : 1];
-      }
-      return [0, 0, 0, 1];
-    }
-
-    var PARSED = {};
-    Object.keys(STOPS).forEach(function (key) {
-      PARSED[key] = STOPS[key].map(parseColor);
-    });
-
-    function lerp(a, b, t) { return a + (b - a) * t; }
-    function lerpColor(c1, c2, t) {
-      var r = Math.round(lerp(c1[0], c2[0], t));
-      var g = Math.round(lerp(c1[1], c2[1], t));
-      var b = Math.round(lerp(c1[2], c2[2], t));
-      var a = lerp(c1[3], c2[3], t);
-      return 'rgba(' + r + ',' + g + ',' + b + ',' + (Math.round(a * 1000) / 1000) + ')';
-    }
-
-    function applyPhase(t) {
-      // t: 0 = tam dark, 1 = tam navy, 2 = tam light
-      Object.keys(PARSED).forEach(function (key) {
-        var stops = PARSED[key];
-        var color = t <= 1 ? lerpColor(stops[0], stops[1], t) : lerpColor(stops[1], stops[2], t - 1);
-        body.style.setProperty(key, color);
-      });
-    }
-
-    var boundary1 = 0, boundary2 = 0;
-    function measureBoundaries() {
-      var darkEndY = darkEndEl.getBoundingClientRect().bottom + window.scrollY;
-      var navyStartY = navyStartEl.getBoundingClientRect().top + window.scrollY;
-      var navyEndY = navyEndEl.getBoundingClientRect().bottom + window.scrollY;
-      var lightStartY = lightStartEl.getBoundingClientRect().top + window.scrollY;
-      boundary1 = (darkEndY + navyStartY) / 2;
-      boundary2 = (navyEndY + lightStartY) / 2;
-    }
-
-    var ticking = false;
-    function update() {
-      var span = Math.max(window.innerHeight, 1);
-      var viewportCenter = window.scrollY + window.innerHeight / 2;
-      var t1 = Math.min(1, Math.max(0, (viewportCenter - (boundary1 - span / 2)) / span));
-      var t2 = Math.min(1, Math.max(0, (viewportCenter - (boundary2 - span / 2)) / span));
-      applyPhase(t1 + t2);
-      ticking = false;
-    }
-
-    measureBoundaries();
-    update();
-
-    window.addEventListener('scroll', function () {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(update);
-    }, { passive: true });
-
-    window.addEventListener('resize', function () {
-      measureBoundaries();
-      update();
-    });
-  })();
-
+/* ---- Scroll Atmosfer Kayması — KALDIRILDI (v6 / FAZ 12.1) ----
+   Sayfa tek sabit temada (dark) kaldığına karar verildiği için scroll'a bağlı
+   renk geçişi sistemi tamamen silindi. Eskiden buradaki IIFE'nin ilk satırı
+   `return;` idi, yani ~130 satır ölü kod taşınıyordu. CSS karşılığı da
+   (effects.css içindeki @property blokları, :root transition ve
+   body[data-phase="navy"/"light"] kuralları) aynı temizlikte kaldırıldı.
+   Geri istenirse git geçmişinden alınabilir. ---- */
 
 /* ==========================================================================
    FAZ 6 / Grup B — Tipografi & Grid
@@ -1283,7 +1086,14 @@ function uznScramble(el, totalMs, done) {
   var textEl = document.getElementById('submitTerminalText');
   var errorBox = document.getElementById('submitError');
   var retryBtn = document.getElementById('submitRetry');
+  var errorMsg = document.getElementById('submitErrorMsg');
   if (!form || !box || !textEl || !errorBox) return;
+
+  // Formspree endpoint'i hâlâ yer tutucuysa (action=".../f/XXXXXXX") POST etmenin
+  // anlamı yok: 404 döner, kullanıcı boşuna "gönderiliyor" animasyonu izleyip
+  // genel bir hata görür. Bu durumda hiç istek atmadan doğrudan e-posta yolunu
+  // gösteriyoruz. Gerçek endpoint girilince bu dal kendiliğinden devre dışı kalır.
+  var endpointHazir = (form.getAttribute('action') || '').indexOf('XXXXXXX') === -1;
 
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -1315,6 +1125,17 @@ function uznScramble(el, totalMs, done) {
   }
 
   function doSubmit() {
+    if (!endpointHazir) {
+      box.hidden = true;
+      errorBox.hidden = false;
+      if (errorMsg) {
+        errorMsg.innerHTML = '<span class="mini-terminal-prompt">!</span> ' +
+          'Form altyapısı henüz bağlanmadı — mesajın gönderilemedi.';
+      }
+      if (retryBtn) retryBtn.hidden = true;
+      errorBox.scrollIntoView({ block: 'nearest' });
+      return;
+    }
     errorBox.hidden = true;
     box.hidden = false;
 

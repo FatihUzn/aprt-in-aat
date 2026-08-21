@@ -2,12 +2,13 @@
   "name": "UZN TECH & SOFTWARE",
   "short_name": "UZN TECH",
   "description": "Yazılım geliştirme, mekanik & otomasyon, siber güvenlik danışmanlığı.",
-  "start_url": "index.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#06070a",
-  "theme_color": "#1e88c7",
+  "theme_color": "#3d6fe0",
   "lang": "tr",
+  "dir": "ltr",
   "icons": [
     {
       "src": "favicon-32.png",
@@ -24,6 +25,12 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

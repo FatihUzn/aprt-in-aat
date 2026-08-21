@@ -1,0 +1,15 @@
+# Depodaki dosyalar LF ile saklanır. Windows'ta checkout edildiğinde bazı
+# dosyalar CRLF'e dönüştüğü için `git status` hiç dokunulmamış dosyaları bile
+# "değişmiş" gösteriyordu (robots.txt, hakkimda.html, circuit.svg, favicon.svg).
+# Bu satır o gürültüyü kalıcı olarak bitirir.
+* text=auto eol=lf
+
+# İkili dosyalar dönüştürülmemeli
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff  binary
+*.woff2 binary

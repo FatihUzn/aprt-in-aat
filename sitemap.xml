@@ -1,48 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Sitemap yalnızca gerçek sayfaları listeler. Eskiden burada #hakkimda,
+     #beceriler gibi fragment (çapa) URL'leri vardı; arama motorları
+     fragment'ları ayrı sayfa saymaz, bu yüzden hepsi yok sayılıyordu ve
+     asıl alt sayfalar (yazilim.html, mekatronik.html ...) hiç bildirilmiyordu.
+     kvkk.html ve 404.html noindex olduğu için bilinçli olarak listede yok. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://fatihuzn.github.io/consulting/</loc>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://fatihuzn.github.io/consulting/#hakkimda</loc>
+    <loc>https://fatihuzn.github.io/consulting/kurumsal.html</loc>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://fatihuzn.github.io/consulting/#beceriler</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://fatihuzn.github.io/consulting/#hizmetler</loc>
+    <loc>https://fatihuzn.github.io/consulting/yazilim.html</loc>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://fatihuzn.github.io/consulting/#surec</loc>
+    <loc>https://fatihuzn.github.io/consulting/mekanik-otomasyon.html</loc>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://fatihuzn.github.io/consulting/#projeler</loc>
+    <loc>https://fatihuzn.github.io/consulting/siber-guvenlik.html</loc>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://fatihuzn.github.io/consulting/#referanslar</loc>
+    <loc>https://fatihuzn.github.io/consulting/mekatronik.html</loc>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://fatihuzn.github.io/consulting/#sss</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://fatihuzn.github.io/consulting/#iletisim</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
 </urlset>
